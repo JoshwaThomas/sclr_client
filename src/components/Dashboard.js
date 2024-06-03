@@ -11,6 +11,8 @@ import {
     Legend,
     ArcElement,
 } from 'chart.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers, faGraduationCap, faMoneyCheckAlt, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 
 ChartJS.register(
     CategoryScale,
@@ -41,7 +43,7 @@ const Dashboard = () => {
                 data: [63, 36],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.6)',
-                    'rgba(107, 34, 200, 63)',
+                    'rgba(107, 34, 200, 0.6)',
                 ],
             },
         ],
@@ -50,16 +52,28 @@ const Dashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <div className="grid grid-cols-4 gap-4 mb-8 ">
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">Total Applicants</div>
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">Students Benefitted</div>
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">Scholarship Funds Awarded</div>
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">Generous Donors</div>
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                    <FontAwesomeIcon icon={faUsers} size="2x" />
+                    <div>Total Applicants</div>
+                </div>
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                    <FontAwesomeIcon icon={faGraduationCap} size="2x" />
+                    <div>Students Benefitted</div>
+                </div>
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                    <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
+                    <div>Scholarship Funds Awarded</div>
+                </div>
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                    <FontAwesomeIcon icon={faHandsHelping} size="2x" />
+                    <div>Generous Donors</div>
+                </div>
             </div>
             <div className="grid grid-cols-2 gap-6 h-30">
                 <div className="bg-white p-4 rounded shadow h-1/2">
                     <Bar data={barData} />
                 </div>
-                <div className="bg-white p-4  rounded shadow ">
+                <div className="bg-white p-4 rounded shadow">
                     <Pie data={pieData} />
                 </div>
             </div>
