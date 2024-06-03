@@ -22,6 +22,10 @@ function StudentLayout() {
     path: '/63'
    },
    { icon: 'add-circle', 
+   name: 'Action', 
+   path: '/admin/action'
+  },
+   { icon: 'add-circle', 
     name: 'Reports', 
     path: 'guidelines'
    },

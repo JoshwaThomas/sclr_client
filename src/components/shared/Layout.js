@@ -15,7 +15,7 @@ function StudentLayout() {
    },
     { icon: 'people', 
     name: 'Status', 
-    path: 'guidelines' },
+    path: '/student/status' },
   
   { icon: 'add-circle', 
     name: '-----', 
@@ -23,7 +23,7 @@ function StudentLayout() {
    },
    { icon: 'add-circle', 
     name: 'GuideLines', 
-    path: 'guidelines'
+    path: '/student/guidelines'
    },
    { icon: 'add-circle', 
     name: 'Logout', 

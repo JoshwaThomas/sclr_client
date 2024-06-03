@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const ScholarshipForm = () => {
   const [personalDetails, setPersonalDetails] = useState({
     ugOrPg: '',
-    year: '',
+    semester: '',
     name: '',
     registerNo: '',
     dept: '',
@@ -156,47 +156,82 @@ const ScholarshipForm = () => {
                 </div>
               </div>
               <div>
-                <label className="block mb-1">YEAR:</label>
+                <label className="block mb-1">Semester:</label>
                 <div className="space-x-4 inline-flex">
                   <div>
                     <input
                       type="radio"
-                      id="IYear"
-                      name="year"
-                      value="Iyear"
-                      checked={personalDetails.year === 'Iyear'}
+                      id="ISemester"
+                      name="semester"
+                      value="Isemester"
+                      checked={personalDetails.semester === 'Isemester'}
                       onChange={handleChangePersonal}
                       required
                     />
-                    <label htmlFor="IYear"> I Year</label>
+                    <label htmlFor="ISemester"> I Semester</label>
                   </div>
                   <div>
                     <input
                       type="radio"
-                      id="IIYear"
-                      name="year"
-                      value="IIyear"
-                      checked={personalDetails.year === 'IIyear'}
+                      id="IISemester"
+                      name="semester"
+                      value="IIsemester"
+                      checked={personalDetails.semester === 'IIsemester'}
                       onChange={handleChangePersonal}
                       required
                     />
-                    <label htmlFor="IIYear"> II Year</label>
+                    <label htmlFor="IISemester"> II Semester</label>
                   </div>
                   <div>
                     <input
                       type="radio"
-                      id="IIIYear"
-                      name="year"
-                      value="IIIyear"
-                      checked={personalDetails.year === 'IIIyear'}
+                      id="IIISemester"
+                      name="semester"
+                      value="IIIsemester"
+                      checked={personalDetails.semester === 'IIIsemester'}
                       onChange={handleChangePersonal}
                       required
                     />
-                    <label htmlFor="IIIYear"> III Year</label>
+                    <label htmlFor="IIISemester"> III Semester</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="IVSemester"
+                      name="semester"
+                      value="IVsemester"
+                      checked={personalDetails.semester === 'IVsemester'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="IVSemester"> IV Semester</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="VSemester"
+                      name="semester"
+                      value="Vsemester"
+                      checked={personalDetails.semester === 'Vsemester'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="VSemester"> V Semester</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="VIsemester"
+                      name="semester"
+                      value="VIsemester"
+                      checked={personalDetails.semester === 'VIsemester'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="VISemester"> VI Semester</label>
                   </div>
                 </div>
               </div>
-
               {personalDetails.fresherOrRenewal === 'renewal' && (
                 <div>
                   <label className="block mb-1">Last Time Credited Amount:</label>
