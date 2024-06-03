@@ -95,7 +95,7 @@ const ScholarshipForm = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className=' text-white '>
             <div>
-              <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3">Application</h3>
+              <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-2">Application</h3>
 
               <div className="space-x-4 inline-flex">
                 <div>
@@ -124,7 +124,7 @@ const ScholarshipForm = () => {
                 </div>
               </div>
             </div>
-            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3 mt-7">Personal Details</h3>
+            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-2 mt-7">Personal Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block mb-1">UG or PG:</label>
@@ -243,7 +243,7 @@ const ScholarshipForm = () => {
                   required
                 />
               </div>
-      
+
               <div>
                 <label className="block mb-1">Gender:</label>
                 <div className="space-x-4 inline-flex">
@@ -352,78 +352,77 @@ const ScholarshipForm = () => {
                   required
                 />
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-1">Father's Name:</label>
-              <input
-                type="text"
-                name="fatherName"
-                value={personalDetails.fatherName}
-                onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Father's Contact No.:</label>
-              <input
-                type="text"
-                name="fatherNo"
-                value={personalDetails.fatherNo}
-                onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Father's Occupation:</label>
-              <input
-                type="text"
-                name="fatherOccupation"
-                value={personalDetails.fatherOccupation}
-                onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Annual Income:</label>
-              <input
-                type="text"
-                name="annualIncome"
-                value={personalDetails.annualIncome}
-                onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Current Address:</label>
-              <textarea
-                name="address"
-                value={personalDetails.address}
-                onChange={handleAddressChange}
-                className="w-full p-2 border rounded-md"
-                required
-              ></textarea>
-            </div>
-            <div>
-              
-              {!isPermanentAddressSame && (
-                <div>
-                  <label className="block mb-1">Permanent Address:</label>
-                  <textarea
-                    name="permanentAddress"
-                    value={personalDetails.permanentAddress}
-                    onChange={handleChangePersonal}
-                    className="w-full p-2 border rounded-md"
-                    required
-                  ></textarea>
-                </div>
-              )}
-            </div>
-            <div className="flex items-center">
+
+              <div>
+                <label className="block mb-1">Father's Name:</label>
+                <input
+                  type="text"
+                  name="fatherName"
+                  value={personalDetails.fatherName}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Father's Contact No.:</label>
+                <input
+                  type="text"
+                  name="fatherNo"
+                  value={personalDetails.fatherNo}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Father's Occupation:</label>
+                <input
+                  type="text"
+                  name="fatherOccupation"
+                  value={personalDetails.fatherOccupation}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Annual Income:</label>
+                <input
+                  type="text"
+                  name="annualIncome"
+                  value={personalDetails.annualIncome}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Current Address:</label>
+                <textarea
+                  name="address"
+                  value={personalDetails.address}
+                  onChange={handleAddressChange}
+                  className="w-full p-2 border rounded-md"
+                  required
+                ></textarea>
+              </div>
+              <div>
+
+                {!isPermanentAddressSame && (
+                  <div>
+                    <label className="block mb-1">Permanent Address:</label>
+                    <textarea
+                      name="permanentAddress"
+                      value={personalDetails.permanentAddress}
+                      onChange={handleChangePersonal}
+                      className="w-full p-2 border rounded-md"
+                      required
+                    ></textarea>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   checked={isPermanentAddressSame}
@@ -434,7 +433,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
             {/* Education Details section */}
-            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3 mt-7">Education Details</h3>
+            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-2 mt-7">Education Details</h3>
             <div className="overflow-x-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -561,49 +560,51 @@ const ScholarshipForm = () => {
                 Add Semester
               </button>
             </div>
-            <div>
-              <label className="block mb-1">Class Attendance:</label>
-              <input
-                type="text"
-                name="classAttendance"
-                value={educationDetails.classAttendance}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Deeniyath Education Days:</label>
-              <input
-                type="text"
-                name="deeniyathEducationDays"
-                value={educationDetails.deeniyathEducationDays}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Brothers:</label>
-              <input
-                type="text"
-                name="brothers"
-                value={educationDetails.brothers}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Sisters:</label>
-              <input
-                type="text"
-                name="sisters"
-                value={educationDetails.sisters}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block mb-1">Class Attendance:</label>
+                <input
+                  type="text"
+                  name="classAttendance"
+                  value={educationDetails.classAttendance}
+                  onChange={handleChangeEducation}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Deeniyath Education Days:</label>
+                <input
+                  type="text"
+                  name="deeniyathEducationDays"
+                  value={educationDetails.deeniyathEducationDays}
+                  onChange={handleChangeEducation}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Brothers:</label>
+                <input
+                  type="text"
+                  name="brothers"
+                  value={educationDetails.brothers}
+                  onChange={handleChangeEducation}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Sisters:</label>
+                <input
+                  type="text"
+                  name="sisters"
+                  value={educationDetails.sisters}
+                  onChange={handleChangeEducation}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
             </div>
             <button
               type="submit"
