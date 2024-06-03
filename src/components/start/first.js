@@ -15,7 +15,7 @@ function LandingPage() {
           Student
         </button>
         <button
-          onClick={() => navigate('/admin')}
+          onClick={() => navigate('/login')}
           className="px-4 py-2 bg-green-500 text-white rounded-lg"
         >
           Admin
