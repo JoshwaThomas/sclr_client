@@ -7,7 +7,8 @@ import Guide from './components/students/Guide';
 import Login from './components/login/login';
 import Admin from './/components/shared/adminLay';
 import Status from './components/students/status';
-import Action from './components/admin/action'
+import Action from './components/admin/action';
+import Report from './components/admin/report';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/admin" element={<Admin />} > 
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='/admin/action' element={<Action />} />
+              <Route path='/admin/report' element={<Report />} />
 
             </Route>
         </Routes>

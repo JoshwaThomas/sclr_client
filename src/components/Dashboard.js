@@ -29,7 +29,7 @@ const Dashboard = () => {
         labels: ['First Year/UG', 'Second Year/UG', 'Third Year/UG', 'First Year/PG','Second Year/PG'],
         datasets: [
             {
-                label: 'Applicants',
+                label: 'Applicants ',
                 data: [120, 100, 190, 570, 200],
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
             },
@@ -37,9 +37,10 @@ const Dashboard = () => {
     };
 
     const pieData = {
-        labels: ['UG', 'PG'],
+        labels: ['UG', 'PG', ],
         datasets: [
             {
+                
                 data: [63, 36],
                 backgroundColor: [
                     'rgba(54, 162, 235, 0.6)',

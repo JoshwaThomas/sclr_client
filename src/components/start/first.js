@@ -9,7 +9,7 @@ function LandingPage() {
     <div className="flex justify-center items-center rounded-lg bg-yellow-300 ">
       <div className=' h-56 flex flex-col justify-evenly rounded-lg  mx-40'>
         <button
-          onClick={() => navigate('/student')}
+          onClick={() => navigate('/student/dashboard')}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg"
         >
           Student

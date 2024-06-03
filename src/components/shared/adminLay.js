@@ -27,7 +27,7 @@ function StudentLayout() {
   },
    { icon: 'add-circle', 
     name: 'Reports', 
-    path: 'guidelines'
+    path: '/admin/report'
    },
    { icon: 'add-circle', 
     name: 'GuideLines', 

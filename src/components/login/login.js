@@ -114,7 +114,7 @@ function TextBox() {
                         placeholder="Password"
                         style={{ width: '200px', color: 'black' }}
                     />
-                    <button className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold" onClick={() => navigate('/admin')}>Login</button>
+                    <button className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold" onClick={() => navigate('/admin/dashboard')}>Login</button>
                 </div>
             </div>
         </div>
