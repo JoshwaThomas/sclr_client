@@ -91,474 +91,477 @@ const ScholarshipForm = () => {
 
   return (
     <div>
-    <div className="container mx-auto p-8">
-      <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3">Application</h3>
-           
-            <div className="space-x-4 inline-flex">
-              <div>
-                <input
-                  type="radio"
-                  id="Fresher"
-                  name="fresherOrRenewal"
-                  value="fresher"
-                  checked={personalDetails.fresherOrRenewal === 'fresher'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="Fresher">Fresher</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="Renewal"
-                  name="fresherOrRenewal"
-                  value="renewal"
-                  checked={personalDetails.fresherOrRenewal === 'renewal'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="Renewal">Renewal</label>
-              </div>
-            </div>
-          </div>
-        <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3">Personal Details</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block mb-1">UG or PG:</label>
-            <div className="space-x-4 inline-flex">
-              <div>
-                <input
-                  type="radio"
-                  id="Ug"
-                  name="ugOrPg"
-                  value="ug"
-                  checked={personalDetails.ugOrPg === 'ug'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="Ug"> UG</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="Pg"
-                  name="ugOrPg"
-                  value="pg"
-                  checked={personalDetails.ugOrPg === 'pg'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="Pg"> PG</label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="block mb-1">YEAR:</label>
-            <div className="space-x-4 inline-flex">
-              <div>
-                <input
-                  type="radio"
-                  id="IYear"
-                  name="year"
-                  value="Iyear"
-                  checked={personalDetails.year === 'Iyear'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="IYear"> I Year</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="IIYear"
-                  name="year"
-                  value="IIyear"
-                  checked={personalDetails.year === 'IIyear'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="IIYear"> II Year</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="IIIYear"
-                  name="year"
-                  value="IIIyear"
-                  checked={personalDetails.year === 'IIIyear'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="IIIYear"> III Year</label>
-              </div>
-            </div>
-          </div>
-          
-          {personalDetails.fresherOrRenewal === 'renewal' && (
+      <div className="container mx-auto p-8">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className=' text-white '>
             <div>
-              <label className="block mb-1">Last Time Credited Amount:</label>
+              <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3">Application</h3>
+
+              <div className="space-x-4 inline-flex">
+                <div>
+                  <input
+                    type="radio"
+                    id="Fresher"
+                    name="fresherOrRenewal"
+                    value="fresher"
+                    checked={personalDetails.fresherOrRenewal === 'fresher'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="Fresher">Fresher</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="Renewal"
+                    name="fresherOrRenewal"
+                    value="renewal"
+                    checked={personalDetails.fresherOrRenewal === 'renewal'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="Renewal">Renewal</label>
+                </div>
+              </div>
+            </div>
+            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3 mt-7">Personal Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block mb-1">UG or PG:</label>
+                <div className="space-x-4 inline-flex">
+                  <div>
+                    <input
+                      type="radio"
+                      id="Ug"
+                      name="ugOrPg"
+                      value="ug"
+                      checked={personalDetails.ugOrPg === 'ug'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="Ug"> UG</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="Pg"
+                      name="ugOrPg"
+                      value="pg"
+                      checked={personalDetails.ugOrPg === 'pg'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="Pg"> PG</label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className="block mb-1">YEAR:</label>
+                <div className="space-x-4 inline-flex">
+                  <div>
+                    <input
+                      type="radio"
+                      id="IYear"
+                      name="year"
+                      value="Iyear"
+                      checked={personalDetails.year === 'Iyear'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="IYear"> I Year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="IIYear"
+                      name="year"
+                      value="IIyear"
+                      checked={personalDetails.year === 'IIyear'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="IIYear"> II Year</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="IIIYear"
+                      name="year"
+                      value="IIIyear"
+                      checked={personalDetails.year === 'IIIyear'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="IIIYear"> III Year</label>
+                  </div>
+                </div>
+              </div>
+
+              {personalDetails.fresherOrRenewal === 'renewal' && (
+                <div>
+                  <label className="block mb-1">Last Time Credited Amount:</label>
+                  <input
+                    type="text"
+                    name="lastCreditedAmount"
+                    value={personalDetails.lastCreditedAmount}
+                    onChange={handleChangePersonal}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+              )}
+              <div>
+                <label className="block mb-1">Register No.:</label>
+                <input
+                  type="text"
+                  name="registerNo"
+                  value={personalDetails.registerNo}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Name:</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={personalDetails.name}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Department:</label>
+                <input
+                  type="text"
+                  name="dept"
+                  value={personalDetails.dept}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+      
+              <div>
+                <label className="block mb-1">Gender:</label>
+                <div className="space-x-4 inline-flex">
+                  <div>
+                    <input
+                      type="radio"
+                      id="male"
+                      name="gender"
+                      value="Male"
+                      checked={personalDetails.gender === 'Male'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="male"> Male</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="female"
+                      name="gender"
+                      value="Female"
+                      checked={personalDetails.gender === 'Female'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="female"> Female</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="other"
+                      name="gender"
+                      value="Other"
+                      checked={personalDetails.gender === 'Other'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="other"> Other</label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className="block mb-1">Special Category:</label>
+                <select
+                  name="specialCategory"
+                  value={personalDetails.specialCategory}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                >
+                  <option value="">Select</option>
+                  <option value="muaddin">Mu-addin</option>
+                  <option value="hazrath">Hazrath</option>
+                  <option value="fatherMotherSeparated">Father & Mother Separated</option>
+                  <option value="fatherExpired">Father Expired</option>
+                </select>
+              </div>
+              <div>
+                <label className="block mb-1">Hostel:</label>
+                <div className="space-x-4 inline-flex">
+                  <div>
+                    <input
+                      type="radio"
+                      id="hostelYes"
+                      name="hostel"
+                      value="yes"
+                      checked={personalDetails.hostel === 'yes'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="hostelYes"> Yes</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="hostelNo"
+                      name="hostel"
+                      value="no"
+                      checked={personalDetails.hostel === 'no'}
+                      onChange={handleChangePersonal}
+                      required
+                    />
+                    <label htmlFor="hostelNo"> No</label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label className="block mb-1">Mobile No.:</label>
+                <input
+                  type="text"
+                  name="mobileNo"
+                  value={personalDetails.mobileNo}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Email Id:</label>
+                <input
+                  type="email"
+                  name="emailId"
+                  value={personalDetails.emailId}
+                  onChange={handleChangePersonal}
+                  className="w-full p-2 border rounded-md"
+                  required
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block mb-1">Father's Name:</label>
               <input
                 type="text"
-                name="lastCreditedAmount"
-                value={personalDetails.lastCreditedAmount}
+                name="fatherName"
+                value={personalDetails.fatherName}
                 onChange={handleChangePersonal}
                 className="w-full p-2 border rounded-md"
                 required
               />
             </div>
-          )}
-          <div>
-            <label className="block mb-1">Register No.:</label>
-            <input
-              type="text"
-              name="registerNo"
-              value={personalDetails.registerNo}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1">Department:</label>
-            <input
-              type="text"
-              name="dept"
-              value={personalDetails.dept}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block mb-1">Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={personalDetails.name}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1">Gender:</label>
-            <div className="space-x-4 inline-flex">
-              <div>
-                <input
-                  type="radio"
-                  id="male"
-                  name="gender"
-                  value="Male"
-                  checked={personalDetails.gender === 'Male'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="male"> Male</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="female"
-                  name="gender"
-                  value="Female"
-                  checked={personalDetails.gender === 'Female'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="female"> Female</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="other"
-                  name="gender"
-                  value="Other"
-                  checked={personalDetails.gender === 'Other'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="other"> Other</label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="block mb-1">Special Category:</label>
-            <select
-              name="specialCategory"
-              value={personalDetails.specialCategory}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            >
-              <option value="">Select</option>
-              <option value="muaddin">Mu-addin</option>
-              <option value="hazrath">Hazrath</option>
-              <option value="fatherMotherSeparated">Father & Mother Separated</option>
-              <option value="fatherExpired">Father Expired</option>
-            </select>
-          </div>
-          <div>
-            <label className="block mb-1">Hostel:</label>
-            <div className="space-x-4 inline-flex">
-              <div>
-                <input
-                  type="radio"
-                  id="hostelYes"
-                  name="hostel"
-                  value="yes"
-                  checked={personalDetails.hostel === 'yes'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="hostelYes"> Yes</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="hostelNo"
-                  name="hostel"
-                  value="no"
-                  checked={personalDetails.hostel === 'no'}
-                  onChange={handleChangePersonal}
-                  required
-                />
-                <label htmlFor="hostelNo"> No</label>
-              </div>
-            </div>
-          </div>
-          <div>
-            <label className="block mb-1">Mobile No.:</label>
-            <input
-              type="text"
-              name="mobileNo"
-              value={personalDetails.mobileNo}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1">Email Id:</label>
-            <input
-              type="email"
-              name="emailId"
-              value={personalDetails.emailId}
-              onChange={handleChangePersonal}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block mb-1">Father's Name:</label>
-          <input
-            type="text"
-            name="fatherName"
-            value={personalDetails.fatherName}
-            onChange={handleChangePersonal}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1">Father's Contact No.:</label>
-          <input
-            type="text"
-            name="fatherNo"
-            value={personalDetails.fatherNo}
-            onChange={handleChangePersonal}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1">Father's Occupation:</label>
-          <input
-            type="text"
-            name="fatherOccupation"
-            value={personalDetails.fatherOccupation}
-            onChange={handleChangePersonal}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1">Annual Income:</label>
-          <input
-            type="text"
-            name="annualIncome"
-            value={personalDetails.annualIncome}
-            onChange={handleChangePersonal}
-            className="w-full p-2 border rounded-md"
-            required
-          />
-        </div>
-        <div>
-          <label className="block mb-1">Current Address:</label>
-          <textarea
-            name="address"
-            value={personalDetails.address}
-            onChange={handleAddressChange}
-            className="w-full p-2 border rounded-md"
-            required
-          ></textarea>
-        </div>
-        <div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={isPermanentAddressSame}
-              onChange={togglePermanentAddress}
-              className="mr-2"
-            />
-            <label>Permanent address same as current address</label>
-          </div>
-          {!isPermanentAddressSame && (
             <div>
-              <label className="block mb-1">Permanent Address:</label>
-              <textarea
-                name="permanentAddress"
-                value={personalDetails.permanentAddress}
+              <label className="block mb-1">Father's Contact No.:</label>
+              <input
+                type="text"
+                name="fatherNo"
+                value={personalDetails.fatherNo}
                 onChange={handleChangePersonal}
+                className="w-full p-2 border rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Father's Occupation:</label>
+              <input
+                type="text"
+                name="fatherOccupation"
+                value={personalDetails.fatherOccupation}
+                onChange={handleChangePersonal}
+                className="w-full p-2 border rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Annual Income:</label>
+              <input
+                type="text"
+                name="annualIncome"
+                value={personalDetails.annualIncome}
+                onChange={handleChangePersonal}
+                className="w-full p-2 border rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Current Address:</label>
+              <textarea
+                name="address"
+                value={personalDetails.address}
+                onChange={handleAddressChange}
                 className="w-full p-2 border rounded-md"
                 required
               ></textarea>
             </div>
-          )}
-        </div>
-          {/* Education Details section */}
-          <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3">Education Details</h3>
-        <div className="overflow-x-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block mb-1">Last School Name:</label>
-              <input
-                type="text"
-                name="lastSchoolName"
-                value={educationDetails.lastSchoolName}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
+              
+              {!isPermanentAddressSame && (
+                <div>
+                  <label className="block mb-1">Permanent Address:</label>
+                  <textarea
+                    name="permanentAddress"
+                    value={personalDetails.permanentAddress}
+                    onChange={handleChangePersonal}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  ></textarea>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={isPermanentAddressSame}
+                  onChange={togglePermanentAddress}
+                  className="mr-2"
+                />
+                <label>Permanent address same as current address</label>
+              </div>
+            </div>
+            {/* Education Details section */}
+            <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-3 mt-7">Education Details</h3>
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block mb-1">Last School Name:</label>
+                  <input
+                    type="text"
+                    name="lastSchoolName"
+                    value={educationDetails.lastSchoolName}
+                    onChange={handleChangeEducation}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Year of Passing:</label>
+                  <input
+                    type="text"
+                    name="yearOfPassing"
+                    value={educationDetails.yearOfPassing}
+                    onChange={handleChangeEducation}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Maximum Mark:</label>
+                  <input
+                    type="text"
+                    name="maximumMark"
+                    value={educationDetails.maximumMark}
+                    onChange={handleChangeEducation}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Marks Secured:</label>
+                  <input
+                    type="text"
+                    name="marksSecured"
+                    value={educationDetails.marksSecured}
+                    onChange={handleChangeEducation}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Percentage of Mark:</label>
+                  <input
+                    type="text"
+                    name="percentageOfMark"
+                    value={educationDetails.percentageOfMark}
+                    onChange={handleChangeEducation}
+                    className="w-full p-2 border rounded-md"
+                    required
+                  />
+                </div>
+              </div>
+              <div className='pt-3'>
+                <table className="w-full ">
+                  <thead>
+                    <tr>
+                      <th className="border px-4 py-2">Semester</th>
+                      <th className="border px-4 py-2">Mark</th>
+                      <th className="border px-4 py-2">Maximum Mark</th>
+                      <th className="border px-4 py-2">Percentage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {educationDetails.semesters.map((semester, index) => (
+                      <tr key={index}>
+                        <td className="border px-4 py-2">
+                          <input
+                            type="text"
+                            name="semester"
+                            value={semester.semester}
+                            onChange={(e) => handleChangeEducation(e, index)}
+                            className="w-full border rounded-md p-2"
+                            required
+                          />
+                        </td>
+                        <td className="border px-4 py-2">
+                          <input
+                            type="text"
+                            name="mark"
+                            value={semester.mark}
+                            onChange={(e) => handleChangeEducation(e, index)}
+                            className="w-full border rounded-md p-2"
+                            required
+                          />
+                        </td>
+                        <td className="border px-4 py-2">
+                          <input
+                            type="text"
+                            name="maximumMark"
+                            value={semester.maximumMark}
+                            onChange={(e) => handleChangeEducation(e, index)}
+                            className="w-full border rounded-md p-2"
+                            required
+                          />
+                        </td>
+                        <td className="border px-4 py-2">
+                          <input
+                            type="text"
+                            name="percentage"
+                            value={semester.percentage}
+                            onChange={(e) => handleChangeEducation(e, index)}
+                            className="w-full border rounded-md p-2"
+                            required
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="flex justify-end mt-4">
+              <button
+                type="button"
+                onClick={addSemesterRow}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md"
+              >
+                Add Semester
+              </button>
             </div>
             <div>
-              <label className="block mb-1">Year of Passing:</label>
-              <input
-                type="text"
-                name="yearOfPassing"
-                value={educationDetails.yearOfPassing}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Maximum Mark:</label>
-              <input
-                type="text"
-                name="maximumMark"
-                value={educationDetails.maximumMark}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Marks Secured:</label>
-              <input
-                type="text"
-                name="marksSecured"
-                value={educationDetails.marksSecured}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Percentage of Mark:</label>
-              <input
-                type="text"
-                name="percentageOfMark"
-                value={educationDetails.percentageOfMark}
-                onChange={handleChangeEducation}
-                className="w-full p-2 border rounded-md"
-                required
-              />
-            </div>
-            </div>
-            <div className='pt-3'>
-            <table className="w-full ">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Semester</th>
-                <th className="border px-4 py-2">Mark</th>
-                <th className="border px-4 py-2">Maximum Mark</th>
-                <th className="border px-4 py-2">Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {educationDetails.semesters.map((semester, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">
-                    <input
-                      type="text"
-                      name="semester"
-                      value={semester.semester}
-                      onChange={(e) => handleChangeEducation(e, index)}
-                      className="w-full border rounded-md p-2"
-                      required
-                    />
-                  </td>
-                  <td className="border px-4 py-2">
-                    <input
-                      type="text"
-                      name="mark"
-                      value={semester.mark}
-                      onChange={(e) => handleChangeEducation(e, index)}
-                      className="w-full border rounded-md p-2"
-                      required
-                    />
-                  </td>
-                  <td className="border px-4 py-2">
-                    <input
-                      type="text"
-                      name="maximumMark"
-                      value={semester.maximumMark}
-                      onChange={(e) => handleChangeEducation(e, index)}
-                      className="w-full border rounded-md p-2"
-                      required
-                    />
-                  </td>
-                  <td className="border px-4 py-2">
-                    <input
-                      type="text"
-                      name="percentage"
-                      value={semester.percentage}
-                      onChange={(e) => handleChangeEducation(e, index)}
-                      className="w-full border rounded-md p-2"
-                      required
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          </div>
-        </div>
-        <div className="flex justify-end mt-4">
-          <button
-            type="button"
-            onClick={addSemesterRow}
-            className="bg-blue-500 text-white py-2 px-4 rounded-md"
-          >
-            Add Semester
-          </button>
-        </div>
-        <div>
               <label className="block mb-1">Class Attendance:</label>
               <input
                 type="text"
@@ -602,15 +605,16 @@ const ScholarshipForm = () => {
                 required
               />
             </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
-        >
-          Submit
-        </button>
-      </form>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
   );
 };
 

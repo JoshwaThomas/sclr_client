@@ -14,8 +14,22 @@ function StudentLayout() {
     path: '/student/application'
    },
     { icon: 'people', 
-    name: 'GuideLines', 
+    name: 'Status', 
     path: 'guidelines' },
+  
+  { icon: 'add-circle', 
+    name: '-----', 
+    path: '/63'
+   },
+   { icon: 'add-circle', 
+    name: 'GuideLines', 
+    path: 'guidelines'
+   },
+   { icon: 'add-circle', 
+    name: 'Logout', 
+    path: '/'
+   },
+  
   ];
 
   return (

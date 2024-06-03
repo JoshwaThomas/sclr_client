@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import jmc from '../login/jmclogo.png';
 import scl from '../login/sclr.png';
+import { useNavigate } from 'react-router-dom';
 
 
 function TextBox() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const navigate = useNavigate();
+    
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -112,7 +114,7 @@ function TextBox() {
                         placeholder="Password"
                         style={{ width: '200px', color: 'black' }}
                     />
-                    <button className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold">Login</button>
+                    <button className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold" onClick={() => navigate('/admin')}>Login</button>
                 </div>
             </div>
         </div>
