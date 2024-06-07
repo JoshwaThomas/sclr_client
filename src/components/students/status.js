@@ -36,7 +36,7 @@ function Status() {
                 <form onSubmit={handleSubmit} className="space-y-4 ">
 
                     <div className='  text-white'>
-                        <h3 className="text-xl mb-2 font-bold bg-yellow-300 p-1">Application Status</h3>
+                        <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1">Application Status</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                             <div>
                                 <label className="block mb-1">UG or PG:</label>
@@ -207,7 +207,7 @@ function Status() {
                                     name="registerNo"
                                     value={personalDetails.registerNo}
                                     onChange={handleChangePersonal}
-                                    className="w-full p-2 border rounded-md"
+                                    className="w-70px p-2 border rounded-md"
                                     required
                                 />
                             </div>
@@ -218,7 +218,7 @@ function Status() {
                                     name="dob"
                                     value={personalDetails.dob}
                                     onChange={handleChangePersonal}
-                                    className="w-full p-2 border rounded-md text-slate-600"
+                                    className="w-70px p-2 border rounded-md text-slate-600"
                                     required
                                 />
                             </div>

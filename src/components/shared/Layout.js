@@ -34,7 +34,7 @@ function StudentLayout() {
 
   return (
     <div className="flex flex-row bg-slate-500 h-screen w-screen ">
-      <div className="bg-yellow-300 w-60 p-3 flex flex-col text-black">
+      <div className="bg-green-400 w-60 p-3 flex flex-col text-black">
         {menus.map((item, index) => (
           <NavLink
             key={index}
