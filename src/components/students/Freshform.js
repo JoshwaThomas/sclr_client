@@ -460,10 +460,10 @@ const ScholarshipForm = () => {
                 name="State"
                 value={personalDetails.specialCategory}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-50px p-2 border rounded-md text-slate-950 mt-5"
                 required
               >
-                <option value="">Select</option>
+                <option value="">Select </option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
         <option value="Arunachal Pradesh">Arunachal Pradesh</option>
         <option value="Assam">Assam</option>
@@ -505,7 +505,7 @@ const ScholarshipForm = () => {
                 name="district"
                 value={personalDetails.district}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-70px p-2 border rounded-md text-slate-950 ml-3"
                 required
               >
                 <option value="">Select</option>
@@ -552,7 +552,7 @@ const ScholarshipForm = () => {
                 name="pin"
                 value={personalDetails.pin}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className="w-full p-2 border rounded-md text-slate-950 mt-5"
                 placeholder='Pincode'
                 required
               />
