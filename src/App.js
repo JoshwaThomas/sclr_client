@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './components/shared/Layout';
 import Dashboard from './components/Dashboard';
 import Fresh from './components/students/Freshform';
+import Renewal from './components/students/Renewalform';
 import First from './components/start/first';
 import Guide from './components/students/Guide';
 import Login from './components/login/login';
@@ -24,6 +25,7 @@ function App() {
           <Route path='student' element={<Layout />} >
             <Route path='dashboard' element={<Dashboard />} />
             <Route path="/student/application" element={<Fresh />} />
+            <Route path="/student/renewal" element={<Renewal />} />
             <Route path="/student/guidelines" element={<Guide />} />
             <Route path='/student/status' element={<Status />}/>
           </Route>

@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ScholarshipForm = () => {
+
+  const navigate = useNavigate();
+
   const [personalDetails, setPersonalDetails] = useState({
     ugOrPg: '',
     semester: '',
     name: '',
     registerNo: '',
     dept: '',
-    section:'',
-    gender: '',
+    section: '',
+    religion: '',
+    procategory: '',
+    caste: '',
     address: '',
     specialCategory: '',
+    community: '',
     hostel: '',
     mobileNo: '',
     emailId: '',
@@ -107,6 +114,7 @@ const ScholarshipForm = () => {
                     value="renewal"
                     checked={personalDetails.fresherOrRenewal === 'renewal'}
                     onChange={handleChangePersonal}
+                    onClick={() => navigate('/student/renewal')}
                     required
                   />
                   <label htmlFor="Renewal">Renewal</label>
@@ -222,19 +230,6 @@ const ScholarshipForm = () => {
                 </div>
               </div>
             </div>
-            {personalDetails.fresherOrRenewal === 'renewal' && (
-              <div>
-                <label className="block mb-1">Last Time Credited Amount:</label>
-                <input
-                  type="text"
-                  name="lastCreditedAmount"
-                  value={personalDetails.lastCreditedAmount}
-                  onChange={handleChangePersonal}
-                  className="w-70px p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-            )}
             <div>
               <label className="block mb-1">Register No.:</label>
               <input
@@ -281,43 +276,43 @@ const ScholarshipForm = () => {
             </div>
 
             <div>
-              <label className="block mb-1">Gender:</label>
+              <label className="block mb-1">Programme Category</label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
                     type="radio"
-                    id="male"
-                    name="gender"
-                    value="Male"
-                    checked={personalDetails.gender === 'Male'}
+                    id="aided"
+                    name="procategory"
+                    value="Aided Mens"
+                    checked={personalDetails.procategory === 'Aided Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="male"> Male</label>
+                  <label> Aided Mens</label>
                 </div>
                 <div>
                   <input
                     type="radio"
-                    id="female"
-                    name="gender"
-                    value="Female"
-                    checked={personalDetails.gender === 'Female'}
+                    id="sfmens"
+                    name="procategory"
+                    value="SF Mens"
+                    checked={personalDetails.procategory === 'SF Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="female"> Female</label>
+                  <label > SF Mens</label>
                 </div>
                 <div>
                   <input
                     type="radio"
-                    id="other"
-                    name="gender"
-                    value="Other"
-                    checked={personalDetails.gender === 'Other'}
+                    id="sfwomens"
+                    name="procategory"
+                    value="SF Womens"
+                    checked={personalDetails.procategory === 'SF Womens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="other"> Other</label>
+                  <label htmlFor="SF Womens"> SF Womens </label>
                 </div>
               </div>
             </div>
@@ -336,6 +331,49 @@ const ScholarshipForm = () => {
                 <option value="fatherMotherSeparated">Father & Mother Separated</option>
                 <option value="fatherExpired">Father Expired</option>
               </select>
+            </div>
+            <div>
+              <label className="block mb-1">Religion:</label>
+              <select
+                name="religion"
+                value={personalDetails.religion}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              >
+                <option value="">Select</option>
+                <option value="Muslim">Muslim</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Christian">Christian</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">Community:</label>
+              <select
+                name="community"
+                value={personalDetails.community}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              >
+                <option value="">Select</option>
+                <option value="MBC">MBC</option>
+                <option value="BC">BC</option>
+                <option value="SC/ST">SC / ST</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">Caste:</label>
+              <input
+                type="text"
+                name="caste"
+                value={personalDetails.caste}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              />
             </div>
             <div>
               <label className="block mb-1">Hostel:</label>
@@ -463,43 +501,43 @@ const ScholarshipForm = () => {
                 className="w-50px p-2 border rounded-md text-slate-950 mt-5"
                 required
               >
-                <option value="">Select </option>
+                <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-        <option value="Assam">Assam</option>
-        <option value="Bihar">Bihar</option>
-        <option value="Chhattisgarh">Chhattisgarh</option>
-        <option value="Goa">Goa</option>
-        <option value="Gujarat">Gujarat</option>
-        <option value="Haryana">Haryana</option>
-        <option value="Himachal Pradesh">Himachal Pradesh</option>
-        <option value="Jharkhand">Jharkhand</option>
-        <option value="Karnataka">Karnataka</option>
-        <option value="Kerala">Kerala</option>
-        <option value="Madhya Pradesh">Madhya Pradesh</option>
-        <option value="Maharashtra">Maharashtra</option>
-        <option value="Manipur">Manipur</option>
-        <option value="Meghalaya">Meghalaya</option>
-        <option value="Mizoram">Mizoram</option>
-        <option value="Nagaland">Nagaland</option>
-        <option value="Odisha">Odisha</option>
-        <option value="Punjab">Punjab</option>
-        <option value="Rajasthan">Rajasthan</option>
-        <option value="Sikkim">Sikkim</option>
-        <option value="Tamil Nadu">Tamil Nadu</option>
-        <option value="Telangana">Telangana</option>
-        <option value="Tripura">Tripura</option>
-        <option value="Uttar Pradesh">Uttar Pradesh</option>
-        <option value="Uttarakhand">Uttarakhand</option>
-        <option value="West Bengal">West Bengal</option>
-        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-        <option value="Chandigarh">Chandigarh</option>
-        <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
-        <option value="Delhi">Delhi</option>
-        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-        <option value="Ladakh">Ladakh</option>
-        <option value="Lakshadweep">Lakshadweep</option>
-        <option value="Puducherry">Puducherry</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                <option value="Chandigarh">Chandigarh</option>
+                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                <option value="Ladakh">Ladakh</option>
+                <option value="Lakshadweep">Lakshadweep</option>
+                <option value="Puducherry">Puducherry</option>
               </select>
               <select
                 name="district"
@@ -507,45 +545,46 @@ const ScholarshipForm = () => {
                 onChange={handleChangePersonal}
                 className="w-70px p-2 border rounded-md text-slate-950 ml-3"
                 required
-              >
-                <option value="">Select</option>
+              > 
+                <option value="">Select District</option>
                 <option value="Ariyalur">Ariyalur</option>
-        <option value="Chengalpattu">Chengalpattu</option>
-        <option value="Chennai">Chennai</option>
-        <option value="Coimbatore">Coimbatore</option>
-        <option value="Cuddalore">Cuddalore</option>
-        <option value="Dharmapuri">Dharmapuri</option>
-        <option value="Dindigul">Dindigul</option>
-        <option value="Erode">Erode</option>
-        <option value="Kallakurichi">Kallakurichi</option>
-        <option value="Kanchipuram">Kanchipuram</option>
-        <option value="Kanyakumari">Kanyakumari</option>
-        <option value="Karur">Karur</option>
-        <option value="Krishnagiri">Krishnagiri</option>
-        <option value="Madurai">Madurai</option>
-        <option value="Nagapattinam">Nagapattinam</option>
-        <option value="Namakkal">Namakkal</option>
-        <option value="Nilgiris">Nilgiris</option>
-        <option value="Perambalur">Perambalur</option>
-        <option value="Pudukkottai">Pudukkottai</option>
-        <option value="Ramanathapuram">Ramanathapuram</option>
-        <option value="Ranipet">Ranipet</option>
-        <option value="Salem">Salem</option>
-        <option value="Sivaganga">Sivaganga</option>
-        <option value="Tenkasi">Tenkasi</option>
-        <option value="Thanjavur">Thanjavur</option>
-        <option value="Theni">Theni</option>
-        <option value="Thoothukudi">Thoothukudi</option>
-        <option value="Tiruchirappalli">Tiruchirappalli</option>
-        <option value="Tirunelveli">Tirunelveli</option>
-        <option value="Tirupathur">Tirupathur</option>
-        <option value="Tiruppur">Tiruppur</option>
-        <option value="Tiruvallur">Tiruvallur</option>
-        <option value="Tiruvannamalai">Tiruvannamalai</option>
-        <option value="Tiruvarur">Tiruvarur</option>
-        <option value="Vellore">Vellore</option>
-        <option value="Viluppuram">Viluppuram</option>
-        <option value="Virudhunagar">Virudhunagar</option>
+                <option value="Chengalpattu">Chengalpattu</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Cuddalore">Cuddalore</option>
+                <option value="Dharmapuri">Dharmapuri</option>
+                <option value="Dindigul">Dindigul</option>
+                <option value="Erode">Erode</option>
+                <option value="Kallakurichi">Kallakurichi</option>
+                <option value="Kanchipuram">Kanchipuram</option>
+                <option value="Kanyakumari">Kanyakumari</option>
+                <option value="Karur">Karur</option>
+                <option value="Krishnagiri">Krishnagiri</option>
+                <option value="Madurai">Madurai</option>
+                <option value="Nagapattinam">Nagapattinam</option>
+                <option value="Namakkal">Namakkal</option>
+                <option value="Nilgiris">Nilgiris</option>
+                <option value="Perambalur">Perambalur</option>
+                <option value="Pudukkottai">Pudukkottai</option>
+                <option value="Ramanathapuram">Ramanathapuram</option>
+                <option value="Ranipet">Ranipet</option>
+                <option value="Salem">Salem</option>
+                <option value="Sivaganga">Sivaganga</option>
+                <option value="Tenkasi">Tenkasi</option>
+                <option value="Thanjavur">Thanjavur</option>
+                <option value="Theni">Theni</option>
+                <option value="Thoothukudi">Thoothukudi</option>
+                <option value="Tiruchirappalli">Tiruchirappalli</option>
+                <option value="Tirunelveli">Tirunelveli</option>
+                <option value="Tirupathur">Tirupathur</option>
+                <option value="Tiruppur">Tiruppur</option>
+                <option value="Tiruvallur">Tiruvallur</option>
+                <option value="Tiruvannamalai">Tiruvannamalai</option>
+                <option value="Tiruvarur">Tiruvarur</option>
+                <option value="Vellore">Vellore</option>
+                <option value="Viluppuram">Viluppuram</option>
+                <option value="Virudhunagar">Virudhunagar</option>
+                <option value="Other">Other</option>
               </select>
               <input
                 type="text"
@@ -556,10 +595,12 @@ const ScholarshipForm = () => {
                 placeholder='Pincode'
                 required
               />
-              
+          
             </div>
+          </div>
             {/* Education Details section */}
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7">Education Details</h3>
+            <div>
             <div className="overflow-x-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
