@@ -134,11 +134,12 @@ const ScholarshipForm = () => {
                     id="Ug"
                     name="ugOrPg"
                     value="ug"
+                     className=' scale-200'
                     checked={personalDetails.ugOrPg === 'ug'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="Ug"> UG</label>
+                  <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
                 </div>
                 <div>
                   <input
@@ -146,11 +147,12 @@ const ScholarshipForm = () => {
                     id="Pg"
                     name="ugOrPg"
                     value="pg"
+                     className=' scale-200'
                     checked={personalDetails.ugOrPg === 'pg'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="Pg"> PG</label>
+                  <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
                 </div>
               </div>
             </div>
@@ -163,11 +165,12 @@ const ScholarshipForm = () => {
                     id="aided"
                     name="procategory"
                     value="Aided Mens"
+                     className=' scale-200'
                     checked={personalDetails.procategory === 'Aided Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label> Aided Mens</label>
+                  <label className=' form-radio ml-2 text-lg'> Aided Mens</label>
                 </div>
                 <div>
                   <input
@@ -175,11 +178,12 @@ const ScholarshipForm = () => {
                     id="sfmens"
                     name="procategory"
                     value="SF Mens"
+                     className=' scale-200'
                     checked={personalDetails.procategory === 'SF Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label > SF Mens</label>
+                  <label className=' form-radio ml-2 text-lg' > SF Mens</label>
                 </div>
                 <div>
                   <input
@@ -187,11 +191,12 @@ const ScholarshipForm = () => {
                     id="sfwomens"
                     name="procategory"
                     value="SF Womens"
+                     className=' scale-200'
                     checked={personalDetails.procategory === 'SF Womens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="SF Womens"> SF Womens </label>
+                  <label htmlFor="SF Womens" className=' form-radio ml-2 text-lg'> SF Womens </label>
                 </div>
               </div>
             </div>
@@ -204,11 +209,12 @@ const ScholarshipForm = () => {
                     id="ISemester"
                     name="semester"
                     value="Isemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'Isemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="ISemester"> I Semester</label>
+                  <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
@@ -216,11 +222,12 @@ const ScholarshipForm = () => {
                     id="IISemester"
                     name="semester"
                     value="IIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IISemester"> II Semester</label>
+                  <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
@@ -228,11 +235,12 @@ const ScholarshipForm = () => {
                     id="IIISemester"
                     name="semester"
                     value="IIIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IIIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IIISemester"> III Semester</label>
+                  <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
                 </div>
                 <div>
                   <input
@@ -240,11 +248,12 @@ const ScholarshipForm = () => {
                     id="IVSemester"
                     name="semester"
                     value="IVsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IVsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IVSemester"> IV Semester</label>
+                  <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
                 <div>
                   <input
@@ -252,11 +261,12 @@ const ScholarshipForm = () => {
                     id="VSemester"
                     name="semester"
                     value="Vsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'Vsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="VSemester"> V Semester</label>
+                  <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
                 </div>
                 <div>
                   <input
@@ -264,11 +274,12 @@ const ScholarshipForm = () => {
                     id="VIsemester"
                     name="semester"
                     value="VIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'VIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="VISemester"> VI Semester</label>
+                  <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
                 </div>
               </div>
             </div>
@@ -281,11 +292,12 @@ const ScholarshipForm = () => {
                     id="hostelYes"
                     name="hostel"
                     value="yes"
+                     className=' scale-200'
                     checked={personalDetails.hostel === 'yes'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="hostelYes"> Yes</label>
+                  <label htmlFor="hostelYes" className=' form-radio ml-2 text-lg'> Yes</label>
                 </div>
                 <div>
                   <input
@@ -293,11 +305,12 @@ const ScholarshipForm = () => {
                     id="hostelNo"
                     name="hostel"
                     value="no"
+                     className=' scale-200'
                     checked={personalDetails.hostel === 'no'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="hostelNo"> No</label>
+                  <label htmlFor="hostelNo" className=' form-radio ml-2 text-lg'> No</label>
                 </div>
               </div>
             </div>
