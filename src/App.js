@@ -24,8 +24,8 @@ function App() {
         <Route path="/" element={<First />} />
           <Route path='student' element={<Layout />} >
             <Route path='dashboard' element={<Dashboard />} />
-            <Route path="/student/application" element={<Fresh />} />
-            <Route path="/student/renewal" element={<Renewal />} />
+            <Route path="/student/application/fresh" element={<Fresh />} />
+            <Route path="/student/application/renewal" element={<Renewal />} />
             <Route path="/student/guidelines" element={<Guide />} />
             <Route path='/student/status' element={<Status />}/>
           </Route>

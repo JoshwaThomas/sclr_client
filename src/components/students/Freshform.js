@@ -16,6 +16,8 @@ const ScholarshipForm = () => {
     procategory: '',
     caste: '',
     address: '',
+    state: '',
+    district: '',
     specialCategory: '',
     community: '',
     hostel: '',
@@ -114,7 +116,7 @@ const ScholarshipForm = () => {
                     value="renewal"
                     checked={personalDetails.fresherOrRenewal === 'renewal'}
                     onChange={handleChangePersonal}
-                    onClick={() => navigate('/student/renewal')}
+                    onClick={() => navigate('/student/application/renewal')}
                     required
                   />
                   <label htmlFor="Renewal">Renewal</label>
@@ -326,6 +328,7 @@ const ScholarshipForm = () => {
                 required
               >
                 <option value="">Select</option>
+                <option value="none">None</option>
                 <option value="muaddin">Mu-addin</option>
                 <option value="hazrath">Hazrath</option>
                 <option value="fatherMotherSeparated">Father & Mother Separated</option>
@@ -495,12 +498,12 @@ const ScholarshipForm = () => {
                 required
               />
               <select
-                name="State"
-                value={personalDetails.specialCategory}
+                name="state"
+                value={personalDetails.state}
                 onChange={handleChangePersonal}
-                className="w-50px p-2 border rounded-md text-slate-950 mt-5"
+                className="w-70px p-2 border rounded-md text-slate-950 ml-3 mt-4"
                 required
-              >
+              > 
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -538,6 +541,7 @@ const ScholarshipForm = () => {
                 <option value="Ladakh">Ladakh</option>
                 <option value="Lakshadweep">Lakshadweep</option>
                 <option value="Puducherry">Puducherry</option>
+                <option value="Other">Other</option>
               </select>
               <select
                 name="district"

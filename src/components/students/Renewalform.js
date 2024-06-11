@@ -12,9 +12,12 @@ const ScholarshipForm = () => {
     registerNo: '',
     dept: '',
     section: '',
-    gender: '',
+    religion: '',
+    procategory: '',
+    caste: '',
     address: '',
     specialCategory: '',
+    community: '',
     hostel: '',
     mobileNo: '',
     emailId: '',
@@ -99,7 +102,7 @@ const ScholarshipForm = () => {
                     value="fresher"
                    
                     onChange={handleChangePersonal}
-                    onClick={() => navigate('/student/application')}
+                    onClick={() => navigate('/student/application/fresh')}
                     required
                   />
                   <label htmlFor="Fresher">Fresher</label>
@@ -286,43 +289,43 @@ const ScholarshipForm = () => {
             </div>
 
             <div>
-              <label className="block mb-1">Gender:</label>
+              <label className="block mb-1">Programme Category</label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
                     type="radio"
-                    id="male"
-                    name="gender"
-                    value="Male"
-                    checked={personalDetails.gender === 'Male'}
+                    id="aided"
+                    name="procategory"
+                    value="Aided Mens"
+                    checked={personalDetails.procategory === 'Aided Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="male"> Male</label>
+                  <label> Aided Mens</label>
                 </div>
                 <div>
                   <input
                     type="radio"
-                    id="female"
-                    name="gender"
-                    value="Female"
-                    checked={personalDetails.gender === 'Female'}
+                    id="sfmens"
+                    name="procategory"
+                    value="SF Mens"
+                    checked={personalDetails.procategory === 'SF Mens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="female"> Female</label>
+                  <label > SF Mens</label>
                 </div>
                 <div>
                   <input
                     type="radio"
-                    id="other"
-                    name="gender"
-                    value="Other"
-                    checked={personalDetails.gender === 'Other'}
+                    id="sfwomens"
+                    name="procategory"
+                    value="SF Womens"
+                    checked={personalDetails.procategory === 'SF Womens'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="other"> Other</label>
+                  <label htmlFor="SF Womens"> SF Womens </label>
                 </div>
               </div>
             </div>
@@ -336,11 +339,55 @@ const ScholarshipForm = () => {
                 required
               >
                 <option value="">Select</option>
+                <option value="none">None</option>
                 <option value="muaddin">Mu-addin</option>
                 <option value="hazrath">Hazrath</option>
                 <option value="fatherMotherSeparated">Father & Mother Separated</option>
                 <option value="fatherExpired">Father Expired</option>
               </select>
+            </div>
+            <div>
+              <label className="block mb-1">Religion:</label>
+              <select
+                name="religion"
+                value={personalDetails.religion}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              >
+                <option value="">Select</option>
+                <option value="Muslim">Muslim</option>
+                <option value="Hindu">Hindu</option>
+                <option value="Christian">Christian</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">Community:</label>
+              <select
+                name="community"
+                value={personalDetails.community}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              >
+                <option value="">Select</option>
+                <option value="MBC">MBC</option>
+                <option value="BC">BC</option>
+                <option value="SC/ST">SC / ST</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">Caste:</label>
+              <input
+                type="text"
+                name="caste"
+                value={personalDetails.caste}
+                onChange={handleChangePersonal}
+                className="w-70px p-2 border rounded-md text-slate-950"
+                required
+              />
             </div>
             <div>
               <label className="block mb-1">Hostel:</label>
@@ -462,12 +509,12 @@ const ScholarshipForm = () => {
                 required
               />
               <select
-                name="State"
-                value={personalDetails.specialCategory}
+                name="state"
+                value={personalDetails.state}
                 onChange={handleChangePersonal}
-                className="w-50px p-2 border rounded-md text-slate-950 mt-5"
+                className="w-70px p-2 border rounded-md text-slate-950 ml-3 mt-4"
                 required
-              >
+              > 
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -505,6 +552,7 @@ const ScholarshipForm = () => {
                 <option value="Ladakh">Ladakh</option>
                 <option value="Lakshadweep">Lakshadweep</option>
                 <option value="Puducherry">Puducherry</option>
+                <option value="Other">Other</option>
               </select>
               <select
                 name="district"

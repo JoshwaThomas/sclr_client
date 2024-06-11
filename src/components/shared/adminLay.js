@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-
+import Jmclogo from '../../assets/jmclogo.png'; 
+import Jmc from '../../assets/jmc_logo.png';
 
 
 function StudentLayout() {
@@ -41,7 +42,11 @@ function StudentLayout() {
 
   return (
     <div className="flex flex-row bg-slate-500 h-screen w-screen ">
-      <div className="bg-yellow-300 w-60 p-3 flex flex-col text-black">
+      <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
+        <div className=' flex flex-col mb-10 place-items-center'>
+        <img src={Jmclogo} alt="" className=" w-36 h-40  " />
+        <img src={Jmc} alt="" className=" w-60 " />
+        </div>
         {menus.map((item, index) => (
           <NavLink
             key={index}
