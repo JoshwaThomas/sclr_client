@@ -14,7 +14,7 @@ const ScholarshipForm = () => {
     section: '',
     religion: '',
     procategory: '',
-    caste: '',
+   
     address: '',
     state: '',
     district: '',
@@ -32,16 +32,21 @@ const ScholarshipForm = () => {
     lastCreditedAmount: '',
   });
   const [additionalDetails, setAdditionalDetails] = useState({
-    sisters: '',
-    brothers: '',
+    siblings: '',
+   
     deeniyathEducationDays: '',
     classAttendance: '',
 
   })
   const [educationDetails, setEducationDetails] = useState({
+    lastSchoolName: '',
+    yearOfPassing: '',
+    maximumMarkSchool: '',
+    marksSecuredSchool: '',
+    percentageOfMarkSchool: '',
     semesters: [
       { semester: '', mark: '', maximumMark: '', percentage: '' }
-    ]
+    ],
   });
 
 
@@ -66,6 +71,7 @@ const ScholarshipForm = () => {
     updatedSemesters[index][name] = value;
     setEducationDetails({
       ...educationDetails,
+      
       semesters: updatedSemesters
     });
   };
@@ -81,7 +87,8 @@ const ScholarshipForm = () => {
     e.preventDefault();
     const formData = {
       ...personalDetails,
-      ...educationDetails
+      ...educationDetails,
+      ...additionalDetails
     };
     console.log(formData);
     // Here you can send the formData to the server or perform other actions
@@ -91,22 +98,23 @@ const ScholarshipForm = () => {
     <div>
       <div className="container mx-auto p-8">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className=' text-white '>
+          <div className=' '>
             <div>
-              <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2">Application</h3>
+              <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
 
-              <div className="space-x-4 inline-flex">
+              <div className="space-x-4 inline-flex border p-10 rounded-xl">
                 <div>
                   <input
                     type="radio"
                     id="Fresher"
                     name="fresherOrRenewal"
                     value="fresher"
+                     className=' scale-200'
                     checked={personalDetails.fresherOrRenewal === 'fresher'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="Fresher">Fresher</label>
+                  <label htmlFor="Fresher" className=' form-radio ml-2 text-xl'>Fresher</label>
                 </div>
                 <div>
                   <input
@@ -114,32 +122,36 @@ const ScholarshipForm = () => {
                     id="Renewal"
                     name="fresherOrRenewal"
                     value="renewal"
+                     className=' scale-200'
                     checked={personalDetails.fresherOrRenewal === 'renewal'}
                     onChange={handleChangePersonal}
                     onClick={() => navigate('/student/application/renewal')}
                     required
                   />
-                  <label htmlFor="Renewal">Renewal</label>
+                  <label htmlFor="Renewal" className=' form-radio ml-2 text-xl'>Renewal</label>
                 </div>
               </div>
             </div>
           </div>
-          <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7">Personal Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Personal Details</h3>
+         
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+            
             <div>
               <label className="block mb-1">UG or PG:</label>
-              <div className="space-x-4 inline-flex">
+              <div className=" space-x-7 inline-flex">
                 <div>
                   <input
                     type="radio"
                     id="Ug"
                     name="ugOrPg"
                     value="ug"
+                    className=' scale-200'
                     checked={personalDetails.ugOrPg === 'ug'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="Ug"> UG</label>
+                  <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
                 </div>
                 <div>
                   <input
@@ -147,11 +159,56 @@ const ScholarshipForm = () => {
                     id="Pg"
                     name="ugOrPg"
                     value="pg"
+                     className=' scale-200'
                     checked={personalDetails.ugOrPg === 'pg'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="Pg"> PG</label>
+                  <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="block mb-1">Programme Category</label>
+              <div className="space-x-4 inline-flex">
+                <div>
+                  <input
+                    type="radio"
+                    id="aided"
+                    name="procategory"
+                    value="Aided Mens"
+                     className=' scale-200'
+                    checked={personalDetails.procategory === 'Aided Mens'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="Aided Mens" className=' form-radio ml-2 text-lg'> Aided Mens</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="sfmens"
+                    name="procategory"
+                    value="SF Mens"
+                     className=' scale-200'
+                    checked={personalDetails.procategory === 'SF Mens'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="SF Mens" className=' form-radio ml-2 text-lg'> SF Mens</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="sfwomens"
+                    name="procategory"
+                    value="SF Womens"
+                     className=' scale-200'
+                    checked={personalDetails.procategory === 'SF Womens'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="SF Womens" className=' form-radio ml-2 text-lg'> SF Womens </label>
                 </div>
               </div>
             </div>
@@ -164,11 +221,12 @@ const ScholarshipForm = () => {
                     id="ISemester"
                     name="semester"
                     value="Isemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'Isemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="ISemester"> I Semester</label>
+                  <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
@@ -176,11 +234,12 @@ const ScholarshipForm = () => {
                     id="IISemester"
                     name="semester"
                     value="IIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IISemester"> II Semester</label>
+                  <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
@@ -188,11 +247,12 @@ const ScholarshipForm = () => {
                     id="IIISemester"
                     name="semester"
                     value="IIIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IIIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IIISemester"> III Semester</label>
+                  <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
                 </div>
                 <div>
                   <input
@@ -200,11 +260,12 @@ const ScholarshipForm = () => {
                     id="IVSemester"
                     name="semester"
                     value="IVsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'IVsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="IVSemester"> IV Semester</label>
+                  <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
                 <div>
                   <input
@@ -212,11 +273,12 @@ const ScholarshipForm = () => {
                     id="VSemester"
                     name="semester"
                     value="Vsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'Vsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="VSemester"> V Semester</label>
+                  <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
                 </div>
                 <div>
                   <input
@@ -224,14 +286,48 @@ const ScholarshipForm = () => {
                     id="VIsemester"
                     name="semester"
                     value="VIsemester"
+                     className=' scale-200'
                     checked={personalDetails.semester === 'VIsemester'}
                     onChange={handleChangePersonal}
                     required
                   />
-                  <label htmlFor="VISemester"> VI Semester</label>
+                  <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
                 </div>
               </div>
             </div>
+            <div>
+              <label className="block mb-1">Hostel:</label>
+              <div className="space-x-4 inline-flex">
+                <div>
+                  <input
+                    type="radio"
+                    id="hostelYes"
+                    name="hostel"
+                    value="yes"
+                    className=' scale-200'
+                    checked={personalDetails.hostel === 'yes'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="hostelYes" className=' form-radio ml-2 text-lg'> Yes</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="hostelNo"
+                    name="hostel"
+                    value="no"
+                    className=' scale-200' 
+                    checked={personalDetails.hostel === 'no'}
+                    onChange={handleChangePersonal}
+                    required
+                  />
+                  <label htmlFor="hostelNo" className=' form-radio ml-2 text-lg'> No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10  rounded-xl">
             <div>
               <label className="block mb-1">Register No.:</label>
               <input
@@ -239,7 +335,7 @@ const ScholarshipForm = () => {
                 name="registerNo"
                 value={personalDetails.registerNo}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -250,7 +346,7 @@ const ScholarshipForm = () => {
                 name="name"
                 value={personalDetails.name}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -261,7 +357,7 @@ const ScholarshipForm = () => {
                 name="dept"
                 value={personalDetails.dept}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -272,59 +368,19 @@ const ScholarshipForm = () => {
                 name="section"
                 value={personalDetails.section}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
-
-            <div>
-              <label className="block mb-1">Programme Category</label>
-              <div className="space-x-4 inline-flex">
-                <div>
-                  <input
-                    type="radio"
-                    id="aided"
-                    name="procategory"
-                    value="Aided Mens"
-                    checked={personalDetails.procategory === 'Aided Mens'}
-                    onChange={handleChangePersonal}
-                    required
-                  />
-                  <label> Aided Mens</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="sfmens"
-                    name="procategory"
-                    value="SF Mens"
-                    checked={personalDetails.procategory === 'SF Mens'}
-                    onChange={handleChangePersonal}
-                    required
-                  />
-                  <label > SF Mens</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="sfwomens"
-                    name="procategory"
-                    value="SF Womens"
-                    checked={personalDetails.procategory === 'SF Womens'}
-                    onChange={handleChangePersonal}
-                    required
-                  />
-                  <label htmlFor="SF Womens"> SF Womens </label>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
             <div>
               <label className="block mb-1">Special Category:</label>
               <select
                 name="specialCategory"
                 value={personalDetails.specialCategory}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
                 <option value="">Select</option>
@@ -333,6 +389,8 @@ const ScholarshipForm = () => {
                 <option value="hazrath">Hazrath</option>
                 <option value="fatherMotherSeparated">Father & Mother Separated</option>
                 <option value="fatherExpired">Father Expired</option>
+                <option value="singleparent">Single Parent</option>
+                <option value="Orphan">Orphan</option>
               </select>
             </div>
             <div>
@@ -341,7 +399,7 @@ const ScholarshipForm = () => {
                 name="religion"
                 value={personalDetails.religion}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
                 <option value="">Select</option>
@@ -357,64 +415,27 @@ const ScholarshipForm = () => {
                 name="community"
                 value={personalDetails.community}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
                 <option value="">Select</option>
                 <option value="MBC">MBC</option>
+                <option value="BCM">BCM</option>
                 <option value="BC">BC</option>
                 <option value="SC/ST">SC / ST</option>
                 <option value="Others">Others</option>
               </select>
             </div>
-            <div>
-              <label className="block mb-1">Caste:</label>
-              <input
-                type="text"
-                name="caste"
-                value={personalDetails.caste}
-                onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1">Hostel:</label>
-              <div className="space-x-4 inline-flex">
-                <div>
-                  <input
-                    type="radio"
-                    id="hostelYes"
-                    name="hostel"
-                    value="yes"
-                    checked={personalDetails.hostel === 'yes'}
-                    onChange={handleChangePersonal}
-                    required
-                  />
-                  <label htmlFor="hostelYes"> Yes</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="hostelNo"
-                    name="hostel"
-                    value="no"
-                    checked={personalDetails.hostel === 'no'}
-                    onChange={handleChangePersonal}
-                    required
-                  />
-                  <label htmlFor="hostelNo"> No</label>
-                </div>
-              </div>
-            </div>
+           
             <div>
               <label className="block mb-1">Mobile No.:</label>
               <input
                 type="text"
+                maxlength="10" 
                 name="mobileNo"
                 value={personalDetails.mobileNo}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>
@@ -425,7 +446,7 @@ const ScholarshipForm = () => {
                 name="emailId"
                 value={personalDetails.emailId}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>
@@ -437,11 +458,12 @@ const ScholarshipForm = () => {
                 name="aadhar"
                 value={personalDetails.aadhar}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>
-
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
             <div>
               <label className="block mb-1">Father's Name:</label>
               <input
@@ -449,59 +471,59 @@ const ScholarshipForm = () => {
                 name="fatherName"
                 value={personalDetails.fatherName}
                 onChange={handleChangePersonal}
-                className="w-200px p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-            </div>
-            <div>
+                        
               <label className="block mb-1">Father's Contact No.:</label>
               <input
                 type="text"
                 name="fatherNo"
                 value={personalDetails.fatherNo}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-            </div>
-            <div>
+            
+            
               <label className="block mb-1">Father's Occupation:</label>
               <input
                 type="text"
                 name="fatherOccupation"
                 value={personalDetails.fatherOccupation}
                 onChange={handleChangePersonal}
-                className="w-150px p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-            </div>
-            <div>
+            
+            
               <label className="block mb-1">Annual Income:</label>
               <input
                 type="text"
                 name="annualIncome"
                 value={personalDetails.annualIncome}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
             <div>
-              <label className="block mb-1">Current Address</label>
+              <label className="block mb-1">Permanent Address</label>
               <input
                 type="text"
                 name="address"
                 value={personalDetails.address}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 placeholder='Door No & Street'
                 required
               />
+               <label className="block mb-1">State:</label>
               <select
                 name="state"
                 value={personalDetails.state}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950 ml-3 mt-4"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               > 
                 <option value="">Select State</option>
@@ -543,11 +565,12 @@ const ScholarshipForm = () => {
                 <option value="Puducherry">Puducherry</option>
                 <option value="Other">Other</option>
               </select>
+              <label className="block mb-1">District:</label>
               <select
                 name="district"
                 value={personalDetails.district}
                 onChange={handleChangePersonal}
-                className="w-70px p-2 border rounded-md text-slate-950 ml-3"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 required
               > 
                 <option value="">Select District</option>
@@ -590,12 +613,14 @@ const ScholarshipForm = () => {
                 <option value="Virudhunagar">Virudhunagar</option>
                 <option value="Other">Other</option>
               </select>
+              <label className="block mb-1">Pincode:</label>
               <input
                 type="text"
+                maxlength="6" 
                 name="pin"
                 value={personalDetails.pin}
                 onChange={handleChangePersonal}
-                className="w-full p-2 border rounded-md text-slate-950 mt-5"
+                className="w-96 p-2 border rounded-md text-slate-950"
                 placeholder='Pincode'
                 required
               />
@@ -603,10 +628,10 @@ const ScholarshipForm = () => {
             </div>
           </div>
             {/* Education Details section */}
-            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7">Education Details</h3>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
             <div>
             <div className="overflow-x-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
                 <div>
                   <label className="block mb-1">Last School Name:</label>
                   <input
@@ -614,8 +639,8 @@ const ScholarshipForm = () => {
                     name="lastSchoolName"
                     value={educationDetails.lastSchoolName}
                     onChange={handleChangeEducation}
-                    className="w-full p-2 border rounded-md text-slate-950"
-                    required
+                    className="w-96 p-2 border rounded-md text-slate-950"
+                    
                   />
                 </div>
                 <div>
@@ -625,19 +650,19 @@ const ScholarshipForm = () => {
                     name="yearOfPassing"
                     value={educationDetails.yearOfPassing}
                     onChange={handleChangeEducation}
-                    className="w-50px p-2 border rounded-md text-slate-950"
-                    required
+                    className="w-96 p-2 border rounded-md text-slate-950"
+                   
                   />
                 </div>
                 <div>
                   <label className="block mb-1">Maximum Mark:</label>
                   <input
                     type="text"
-                    name="maximumMark"
-                    value={educationDetails.maximumMark}
+                    name="maximumMarkSchool"
+                    value={educationDetails.maximumMarkSchool}
                     onChange={handleChangeEducation}
-                    className="w-60px p-2 border rounded-md text-slate-950"
-                    required
+                    className="w-96 p-2 border rounded-md text-slate-950"
+                    
                   />
                 </div>
                 <div>
@@ -645,26 +670,26 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="marksSecured"
-                    value={educationDetails.marksSecured}
+                    value={educationDetails.marksSecuredSchool}
                     onChange={handleChangeEducation}
-                    className="w-60px p-2 border rounded-md text-slate-950"
-                    required
+                    className="w-96 p-2 border rounded-md text-slate-950"
+                    
                   />
                 </div>
                 <div>
                   <label className="block mb-1">Percentage of Mark:</label>
                   <input
                     type="text"
-                    name="percentageOfMark"
-                    value={educationDetails.percentageOfMark}
+                    name="percentageOfMarkSchool"
+                    value={educationDetails.percentageOfMarkSchool}
                     onChange={handleChangeEducation}
-                    className="w-60px p-2 border rounded-md text-slate-950"
-                    required
+                    className="w-96 p-2 border rounded-md text-slate-950"
+                    
                   />
                 </div>
               </div>
               <div className='pt-3'>
-                <table className="w-full ">
+                <table className="w-full  ">
                   <thead>
                     <tr>
                       <th className="border px-4 py-2">Semester</th>
@@ -726,12 +751,12 @@ const ScholarshipForm = () => {
               <button
                 type="button"
                 onClick={addSemesterRow}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md "
+                className="bg-blue-500 text-white py-2 px-4 rounded-md mb-7"
               >
                 Add Semester
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
               <div>
                 <label className="block mb-1">Class Attendance:</label>
                 <input
@@ -739,7 +764,7 @@ const ScholarshipForm = () => {
                   name="classAttendance"
                   value={educationDetails.classAttendance}
                   onChange={handleChangeAdditional}
-                  className="w-70px p-2 border rounded-md text-slate-950"
+                  className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
@@ -750,29 +775,19 @@ const ScholarshipForm = () => {
                   name="deeniyathEducationDays"
                   value={educationDetails.deeniyathEducationDays}
                   onChange={handleChangeAdditional}
-                  className="w-70px p-2 border rounded-md text-slate-950"
+                  className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
+              
               <div>
-                <label className="block mb-1">Brothers:</label>
+                <label className="block mb-1">Siblings</label>
                 <input
                   type="text"
-                  name="brothers"
-                  value={educationDetails.brothers}
+                  name="siblings"
+                  value={educationDetails.siblings}
                   onChange={handleChangeAdditional}
-                  className="w-70px p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Sisters:</label>
-                <input
-                  type="text"
-                  name="sisters"
-                  value={educationDetails.sisters}
-                  onChange={handleChangeAdditional}
-                  className="w-70px p-2 border rounded-md text-slate-950"
+                  className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
