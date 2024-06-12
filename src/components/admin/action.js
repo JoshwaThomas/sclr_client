@@ -53,7 +53,7 @@ function action() {
                 </div>
             </div>
             <div className=' mt-6  pl-0'>
-                <div class="grid grid-cols-4 bg-yellow-300 p-4 border border-white gap-1 text-center ">
+                <div class="grid grid-cols-4 bg-amber-200 p-4 border border-white gap-1 text-center ">
                     <div className="font-bold border border-white  text-center  ">Dept</div>
                     <div className="font-bold border border-white  text-center ">Register No.</div>
                     <div className="font-bold border border-white  text-center  ">Name</div>
