@@ -390,6 +390,8 @@ const ScholarshipForm = () => {
                 <option value="hazrath">Hazrath</option>
                 <option value="fatherMotherSeparated">Father & Mother Separated</option>
                 <option value="fatherExpired">Father Expired</option>
+                <option value="singleparent">Single Parent</option>
+                <option value="Orphan">Orphan</option>
               </select>
             </div>
             <div>
@@ -419,6 +421,7 @@ const ScholarshipForm = () => {
               >
                 <option value="">Select</option>
                 <option value="MBC">MBC</option>
+                <option value="BC">BCM</option>
                 <option value="BC">BC</option>
                 <option value="SC/ST">SC / ST</option>
                 <option value="Others">Others</option>
@@ -563,7 +566,7 @@ const ScholarshipForm = () => {
                 <option value="Ladakh">Ladakh</option>
                 <option value="Lakshadweep">Lakshadweep</option>
                 <option value="Puducherry">Puducherry</option>
-                <option value="Other">Other</option>
+                <option value="Other">Others</option>
               </select>
               <label className="block mb-1">District:</label>
               <select
@@ -611,7 +614,7 @@ const ScholarshipForm = () => {
                 <option value="Vellore">Vellore</option>
                 <option value="Viluppuram">Viluppuram</option>
                 <option value="Virudhunagar">Virudhunagar</option>
-                <option value="Other">Other</option>
+                <option value="Other">Others</option>
               </select>
               <label className="block mb-1">Pincode:</label>
               <input
