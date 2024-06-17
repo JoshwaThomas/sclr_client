@@ -421,7 +421,7 @@ const ScholarshipForm = () => {
               >
                 <option value="">Select</option>
                 <option value="MBC">MBC</option>
-                <option value="BC">BCM</option>
+                <option value="BCM">BCM</option>
                 <option value="BC">BC</option>
                 <option value="SC/ST">SC / ST</option>
                 <option value="Others">Others</option>
