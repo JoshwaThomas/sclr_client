@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ScholarshipForm = () => {
 
@@ -30,25 +31,26 @@ const ScholarshipForm = () => {
     annualIncome: '',
     fresherOrRenewal: '',
     lastCreditedAmount: '',
-  });
-  const [additionalDetails, setAdditionalDetails] = useState({
-    siblings: '',
-   
-    deeniyathEducationDays: '',
-    classAttendance: '',
-
-  })
-  const [educationDetails, setEducationDetails] = useState({
     lastSchoolName: '',
     yearOfPassing: '',
     maximumMarkSchool: '',
     marksSecuredSchool: '',
     percentageOfMarkSchool: '',
+    siblings: '',
+    deeniyathEducationDays: '',
+    deeniyathMaxDays: '',
+    deeniyathPer: '',
+    classAttendance: '',
+    classMaxAttendance: '',
+    classAttendancePer: '',
+  });
+  
+  const [educationDetails, setEducationDetails] = useState({
+   
     semesters: [
       { semester: '', mark: '', maximumMark: '', percentage: '' }
     ],
   });
-
 
   const handleChangePersonal = (e) => {
     const { name, value } = e.target;
@@ -57,21 +59,12 @@ const ScholarshipForm = () => {
       [name]: value
     });
   };
-  const handleChangeAdditional = (e) => {
-    const { name, value } = e.target;
-    setAdditionalDetails({
-      ...additionalDetails,
-      [name]: value
-    });
-  };
-
+ 
   const handleChangeEducation = (e, index) => {
-    const { name, value } = e.target;
+   
     const updatedSemesters = [...educationDetails.semesters];
-    updatedSemesters[index][name] = value;
-    setEducationDetails({
-      ...educationDetails,
-      
+   
+    setEducationDetails({ 
       semesters: updatedSemesters
     });
   };
@@ -83,12 +76,15 @@ const ScholarshipForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const Submit = (e) => {
     e.preventDefault();
+    axios.post("http://localhost:3001/fresh",{personalDetails, educationDetails})
+    .then(result => console.log(result))
+    .catch(err => console.log(err))
+
     const formData = {
       ...personalDetails,
-      ...educationDetails,
-      ...additionalDetails
+      ...educationDetails
     };
     console.log(formData);
     // Here you can send the formData to the server or perform other actions
@@ -97,7 +93,7 @@ const ScholarshipForm = () => {
   return (
     <div>
       <div className="container mx-auto p-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={Submit} className="space-y-4">
           <div className=' '>
             <div>
               <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
@@ -637,8 +633,8 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="lastSchoolName"
-                    value={educationDetails.lastSchoolName}
-                    onChange={handleChangeEducation}
+                    value={personalDetails.lastSchoolName}
+                    onChange={handleChangePersonal}
                     className="w-96 p-2 border rounded-md text-slate-950"
                     
                   />
@@ -648,8 +644,8 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="yearOfPassing"
-                    value={educationDetails.yearOfPassing}
-                    onChange={handleChangeEducation}
+                    value={personalDetails.yearOfPassing}
+                    onChange={handleChangePersonal}
                     className="w-96 p-2 border rounded-md text-slate-950"
                    
                   />
@@ -659,8 +655,8 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="maximumMarkSchool"
-                    value={educationDetails.maximumMarkSchool}
-                    onChange={handleChangeEducation}
+                    value={personalDetails.maximumMarkSchool}
+                    onChange={handleChangePersonal}
                     className="w-96 p-2 border rounded-md text-slate-950"
                     
                   />
@@ -669,9 +665,9 @@ const ScholarshipForm = () => {
                   <label className="block mb-1">Marks Secured:</label>
                   <input
                     type="text"
-                    name="marksSecured"
-                    value={educationDetails.marksSecuredSchool}
-                    onChange={handleChangeEducation}
+                    name="marksSecuredSchool"
+                    value={personalDetails.marksSecuredSchool}
+                    onChange={handleChangePersonal}
                     className="w-96 p-2 border rounded-md text-slate-950"
                     
                   />
@@ -681,8 +677,8 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="percentageOfMarkSchool"
-                    value={educationDetails.percentageOfMarkSchool}
-                    onChange={handleChangeEducation}
+                    value={personalDetails.percentageOfMarkSchool}
+                    onChange={handleChangePersonal}
                     className="w-96 p-2 border rounded-md text-slate-950"
                     
                   />
@@ -708,7 +704,7 @@ const ScholarshipForm = () => {
                             value={semester.semester}
                             onChange={(e) => handleChangeEducation(e, index)}
                             className="w-full border rounded-md p-2 text-slate-950"
-                            required
+                            
                           />
                         </td>
                         <td className="border px-4 py-2">
@@ -718,7 +714,7 @@ const ScholarshipForm = () => {
                             value={semester.mark}
                             onChange={(e) => handleChangeEducation(e, index)}
                             className="w-full border rounded-md p-2 text-slate-950"
-                            required
+                            
                           />
                         </td>
                         <td className="border px-4 py-2">
@@ -728,7 +724,7 @@ const ScholarshipForm = () => {
                             value={semester.maximumMark}
                             onChange={(e) => handleChangeEducation(e, index)}
                             className="w-full border rounded-md p-2 text-slate-950"
-                            required
+                            
                           />
                         </td>
                         <td className="border px-4 py-2">
@@ -738,7 +734,7 @@ const ScholarshipForm = () => {
                             value={semester.percentage}
                             onChange={(e) => handleChangeEducation(e, index)}
                             className="w-full border rounded-md p-2 text-slate-950"
-                            required
+                            
                           />
                         </td>
                       </tr>
@@ -756,14 +752,36 @@ const ScholarshipForm = () => {
                 Add Semester
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
               <div>
                 <label className="block mb-1">Class Attendance:</label>
                 <input
                   type="text"
                   name="classAttendance"
-                  value={educationDetails.classAttendance}
-                  onChange={handleChangeAdditional}
+                  value={personalDetails.classAttendance}
+                  onChange={handleChangePersonal}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Class Max Attendance:</label>
+                <input
+                  type="text"
+                  name="classMaxAttendance"
+                  value={personalDetails.classMaxAttendance}
+                  onChange={handleChangePersonal}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Class Attendance Percentage:</label>
+                <input
+                  type="text"
+                  name="classAttendancePer"
+                  value={personalDetails.classAttendancePer}
+                  onChange={handleChangePersonal}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -773,8 +791,30 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="deeniyathEducationDays"
-                  value={educationDetails.deeniyathEducationDays}
-                  onChange={handleChangeAdditional}
+                  value={personalDetails.deeniyathEducationDays}
+                  onChange={handleChangePersonal}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Deeniyath Max Days:</label>
+                <input
+                  type="text"
+                  name="deeniyathMaxDays"
+                  value={personalDetails.deeniyathMaxDays}
+                  onChange={handleChangePersonal}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Deeniyath Percentage:</label>
+                <input
+                  type="text"
+                  name="deeniyathPer"
+                  value={personalDetails.deeniyathPer}
+                  onChange={handleChangePersonal}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -785,8 +825,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="siblings"
-                  value={educationDetails.siblings}
-                  onChange={handleChangeAdditional}
+                  value={personalDetails.siblings}
+                  onChange={handleChangePersonal}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
