@@ -29,7 +29,10 @@ const ScholarshipForm = () => {
   const [fatherNo, setFatherNo] = useState()
   const [fatherOccupation, setFatherOccupation] = useState()
   const [annualIncome, setAnnualIncome] = useState()
-  const [siblings, setSiblings] = useState()
+  const [preSemester, setPreSemester] = useState()
+  const [maxMark, setMaxMark] = useState()
+  const [mark, setMark] = useState()
+  const [semPercentage, setSemPercentage] = useState()
   const [deeniyathEducationDays, setDeeniyathEducationDays] = useState()
   const [deeniyathPer, setDeeniyathPer] = useState()
   const [classAttendance, setClassAttendance] = useState()
@@ -38,28 +41,28 @@ const ScholarshipForm = () => {
   const [deeniyathMaxDays, setDeeniyathMaxDays] = useState()
   const [lastCreditedAmt, setLastCreditedAmt] = useState()
   const [arrear, setArrear] = useState()
-  const [preSemester, setPreSemester] = useState()
-  const [maxMark, setMaxMark] = useState()
-  const [mark, setMark] = useState()
-  const [semPercentage, setSemPercentage] = useState()
+  const [siblings, setSiblings] = useState()
 
- 
+
 
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/renewal", { fresherOrRenewal, ugOrPg,semester, name, registerNo, dept, section, religion,  procategory, address,  state,  district, pin,  specialCategory, 
-      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo,  fatherOccupation, annualIncome, preSemester, siblings, deeniyathEducationDays, 
-        deeniyathPer, classAttendance, classAttendancePer,arrear,lastCreditedAmt    })
-      .then(result => { console.log(result);
+    axios.post("http://localhost:3001/renewal", {
+      fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
+      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, siblings, deeniyathEducationDays,
+      deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt
+    })
+      .then(result => {
+        console.log(result);
         window.alert("Your Application Submitted Successfully");
       })
       .catch(err => {
         console.log(err);
         window.alert("Something Went Wrong");
       });
-      
+
     const formData = {
       ...fresherOrRenewal
     };
@@ -117,7 +120,7 @@ const ScholarshipForm = () => {
                     id="Ug"
                     name="ugOrPg"
                     value="ug"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={ugOrPg === 'ug'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
@@ -130,7 +133,7 @@ const ScholarshipForm = () => {
                     id="Pg"
                     name="ugOrPg"
                     value="pg"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={ugOrPg === 'pg'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
@@ -148,7 +151,7 @@ const ScholarshipForm = () => {
                     id="aided"
                     name="procategory"
                     value="Aided Mens"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={procategory === 'Aided Mens'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
@@ -161,7 +164,7 @@ const ScholarshipForm = () => {
                     id="sfmens"
                     name="procategory"
                     value="SF Mens"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={procategory === 'SF Mens'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
@@ -174,7 +177,7 @@ const ScholarshipForm = () => {
                     id="sfwomens"
                     name="procategory"
                     value="SF Womens"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={procategory === 'SF Womens'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
@@ -192,7 +195,7 @@ const ScholarshipForm = () => {
                     id="ISemester"
                     name="semester"
                     value="Isemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'Isemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -205,7 +208,7 @@ const ScholarshipForm = () => {
                     id="IISemester"
                     name="semester"
                     value="IIsemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'IIsemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -218,7 +221,7 @@ const ScholarshipForm = () => {
                     id="IIISemester"
                     name="semester"
                     value="IIIsemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'IIIsemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -231,7 +234,7 @@ const ScholarshipForm = () => {
                     id="IVSemester"
                     name="semester"
                     value="IVsemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'IVsemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -244,7 +247,7 @@ const ScholarshipForm = () => {
                     id="VSemester"
                     name="semester"
                     value="Vsemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'Vsemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -257,7 +260,7 @@ const ScholarshipForm = () => {
                     id="VIsemester"
                     name="semester"
                     value="VIsemester"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={semester === 'VIsemester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
@@ -275,7 +278,7 @@ const ScholarshipForm = () => {
                     id="hostelYes"
                     name="hostel"
                     value="yes"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={hostel === 'yes'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
@@ -288,7 +291,7 @@ const ScholarshipForm = () => {
                     id="hostelNo"
                     name="hostel"
                     value="no"
-                     className=' scale-200'
+                    className=' scale-200'
                     checked={hostel === 'no'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
@@ -299,7 +302,7 @@ const ScholarshipForm = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-           
+
             <div>
               <label className="block mb-1">Register No.:</label>
               <input
@@ -324,25 +327,76 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">Department:</label>
-              <input
-                type="text"
+              <select
                 name="dept"
                 value={dept}
                 onChange={(e) => setDept(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
-              />
+              >
+                <option value="">Select</option>
+                <option value="UAR">UAR</option>
+                <option value="UBA">UBA</option>
+                <option value="UBO">UBO</option>
+                <option value="UBT">UBT</option>
+                <option value="UCO">UCO</option>
+                <option value="UCH">UCH</option>
+                <option value="UCA">UCA</option>
+                <option value="UCS">UCS</option>
+                <option value="UEC">UEC</option>
+                <option value="UEN">UEN</option>
+                <option value="UFT">UFT</option>
+                <option value="UHS">UHS</option>
+                <option value="UHM">UHM</option>
+                <option value="UIT">UIT</option>
+                <option value="UMA">UMA</option>
+                <option value="UMB">UMB</option>
+                <option value="UND">UND</option>
+                <option value="UPH">UPH</option>
+                <option value="UTA">UTA</option>
+                <option value="UVC">UVC</option>
+                <option value="UZO">UZO</option>
+                <option value="PAR">PAR</option>
+                <option value="PBO">PBO</option>
+                <option value="PBT">PBT</option>
+                <option value="PCO">PCO</option>
+                <option value="PCH">PCH</option>
+                <option value="PCS">PCS</option>
+                <option value="PEC">PEC</option>
+                <option value="PEN">PEN</option>
+                <option value="PFT">PFT</option>
+                <option value="PHS">PHS</option>
+                <option value="PIT">PIT</option>
+                <option value="PMA">PMA</option>
+                <option value="PMB">PMB</option>
+                <option value="PND">PND</option>
+                <option value="PPH">PPH</option>
+                <option value="PTA">PTA</option>
+                <option value="PZO">PZO</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+              </select>
             </div>
             <div>
               <label className="block mb-1">Section</label>
-              <input
-                type="text"
-                name="section"
+              <select
+                name="specialCategory"
                 value={section}
-                onChange={(e) => setSection(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950"
+                onChange={(e) =>  setSection(e.target.value)}
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
-              />
+              >
+                <option value="">Select</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+              </select>
             </div>
             <div>
               <label className="block mb-1">Last Time Credited Amount:</label>
@@ -441,7 +495,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="aadhar"
-                 maxlength="12"
+                maxlength="12"
                 value={aadhar}
                 onChange={(e) => setAadhar(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
@@ -460,7 +514,7 @@ const ScholarshipForm = () => {
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
-                        
+
               <label className="block mb-1">Father's Contact No.:</label>
               <input
                 type="text"
@@ -470,8 +524,8 @@ const ScholarshipForm = () => {
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
-            
-            
+
+
               <label className="block mb-1">Father's Occupation:</label>
               <input
                 type="text"
@@ -481,8 +535,8 @@ const ScholarshipForm = () => {
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
-            
-            
+
+
               <label className="block mb-1">Annual Income:</label>
               <input
                 type="text"
@@ -504,14 +558,14 @@ const ScholarshipForm = () => {
                 placeholder='Door No & Street'
                 required
               />
-               <label className="block mb-1">State:</label>
+              <label className="block mb-1">State:</label>
               <select
                 name="state"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
-              > 
+              >
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -558,7 +612,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setDistrict(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
-              > 
+              >
                 <option value="">Select District</option>
                 <option value="Ariyalur">Ariyalur</option>
                 <option value="Chengalpattu">Chengalpattu</option>
@@ -602,7 +656,7 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Pincode:</label>
               <input
                 type="text"
-                maxlength="6" 
+                maxlength="6"
                 name="pin"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
@@ -610,62 +664,62 @@ const ScholarshipForm = () => {
                 placeholder='Pincode'
                 required
               />
-          
-            </div>  
+
+            </div>
           </div>
           {/* Education Details section */}
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
           <div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
               <div>
-                  <label className="block mb-1">Semester:</label>
-                  <input
-                    type="text"
-                    name="preSemester"
-                    value={preSemester}
-                    onChange={(e) =>  setPreSemester(e.target.value)}
-                    className=" w-52 p-2 border rounded-md text-slate-950"
+                <label className="block mb-1">Semester:</label>
+                <input
+                  type="text"
+                  name="preSemester"
+                  value={preSemester}
+                  onChange={(e) => setPreSemester(e.target.value)}
+                  className=" w-52 p-2 border rounded-md text-slate-950"
 
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1">Mark (PartIII Only):</label>
-                  <input
-                    type="text"
-                    name="mark"
-                    value={mark}
-                    onChange={(e) =>  setMark(e.target.value)}
-                    className="w-52 p-2 border rounded-md text-slate-950"
-
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1">Maximum Mark (PartIII Only):</label>
-                  <input
-                    type="text"
-                    name="maxMark"
-                    value={maxMark}
-                    onChange={(e) =>  setMaxMark(e.target.value)}
-                    className="w-52 p-2 border rounded-md text-slate-950"
-
-                  />
-                </div>
-                <div>
-                  <label className="block mb-1">Percentage of Mark:</label>
-                  <input
-                    type="text"
-                    name="semPercentage"
-                    value={semPercentage}
-                    onChange={(e) =>  setSemPercentage(e.target.value)}
-                    className=" w-52 p-2 border rounded-md text-slate-950"
-
-                  />
-                </div>
+                />
               </div>
-      
-            
+              <div>
+                <label className="block mb-1">Mark (PartIII Only):</label>
+                <input
+                  type="text"
+                  name="mark"
+                  value={mark}
+                  onChange={(e) => setMark(e.target.value)}
+                  className="w-52 p-2 border rounded-md text-slate-950"
+
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Maximum Mark (PartIII Only):</label>
+                <input
+                  type="text"
+                  name="maxMark"
+                  value={maxMark}
+                  onChange={(e) => setMaxMark(e.target.value)}
+                  className="w-52 p-2 border rounded-md text-slate-950"
+
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Percentage of Mark:</label>
+                <input
+                  type="text"
+                  name="semPercentage"
+                  value={semPercentage}
+                  onChange={(e) => setSemPercentage(e.target.value)}
+                  className=" w-52 p-2 border rounded-md text-slate-950"
+
+                />
+              </div>
+            </div>
+
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-              
+
               <div>
                 <label className="block mb-1">Class Attendance:</label>
                 <input
@@ -683,7 +737,7 @@ const ScholarshipForm = () => {
                   type="text"
                   name="classMaxAttendance"
                   value={classMaxAttendance}
-                  onChange={(e) =>  setClassMaxAttendance(e.target.value)}
+                  onChange={(e) => setClassMaxAttendance(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -694,7 +748,7 @@ const ScholarshipForm = () => {
                   type="text"
                   name="classAttendancePer"
                   value={classAttendancePer}
-                  onChange={(e) =>  setClassAttendancePer(e.target.value)}
+                  onChange={(e) => setClassAttendancePer(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -716,7 +770,7 @@ const ScholarshipForm = () => {
                   type="text"
                   name="deeniyathMaxDays"
                   value={deeniyathMaxDays}
-                  onChange={(e) =>  setDeeniyathMaxDays(e.target.value)}
+                  onChange={(e) => setDeeniyathMaxDays(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -727,7 +781,7 @@ const ScholarshipForm = () => {
                   type="text"
                   name="deeniyathPer"
                   value={deeniyathPer}
-                  onChange={(e) =>  setDeeniyathPer(e.target.value)}
+                  onChange={(e) => setDeeniyathPer(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />

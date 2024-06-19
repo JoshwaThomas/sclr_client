@@ -330,14 +330,55 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">Department:</label>
-              <input
-                type="text"
+              <select
                 name="dept"
                 value={dept}
-                onChange={(e) =>  setDept(e.target.value)}
-                className=" w-96 p-2 border rounded-md text-slate-950"
+                onChange={(e) => setDept(e.target.value)}
+                className="w-72 p-2 border rounded-md text-slate-950"
                 required
-              />
+              >
+                <option value="">Select</option>
+                <option value="UAR">UAR</option>
+                <option value="UBA">UBA</option>
+                <option value="UBO">UBO</option>
+                <option value="UBT">UBT</option>
+                <option value="UCO">UCO</option>
+                <option value="UCH">UCH</option>
+                <option value="UCA">UCA</option>
+                <option value="UCS">UCS</option>
+                <option value="UEC">UEC</option>
+                <option value="UEN">UEN</option>
+                <option value="UFT">UFT</option>
+                <option value="UHS">UHS</option>
+                <option value="UHM">UHM</option>
+                <option value="UIT">UIT</option>
+                <option value="UMA">UMA</option>
+                <option value="UMB">UMB</option>
+                <option value="UND">UND</option>
+                <option value="UPH">UPH</option>
+                <option value="UTA">UTA</option>
+                <option value="UVC">UVC</option>
+                <option value="UZO">UZO</option>
+                <option value="PAR">PAR</option>
+                <option value="PBO">PBO</option>
+                <option value="PBT">PBT</option>
+                <option value="PCO">PCO</option>
+                <option value="PCH">PCH</option>
+                <option value="PCS">PCS</option>
+                <option value="PEC">PEC</option>
+                <option value="PEN">PEN</option>
+                <option value="PFT">PFT</option>
+                <option value="PHS">PHS</option>
+                <option value="PIT">PIT</option>
+                <option value="PMA">PMA</option>
+                <option value="PMB">PMB</option>
+                <option value="PND">PND</option>
+                <option value="PPH">PPH</option>
+                <option value="PTA">PTA</option>
+                <option value="PZO">PZO</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+              </select>
             </div>
             <div>
               <label className="block mb-1">Section</label>
