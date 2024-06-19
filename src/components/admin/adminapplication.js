@@ -5,40 +5,35 @@ function Action() {
 
     const [users, setUsers] = useState([]);
 
-    const getAllUsers = async () => {
-        try {
-            const res = await axios.get("http://localhost:3001/fresh");
-            console.log(res.data);
-            setUsers(res.data);
-        } catch (error) {
-            console.error("Error fetching data: ", error);
-        }
-    };
-
     useEffect(() => {
-        getAllUsers();
+        axios.get('http://localhost:3001/fresh')
+            .then(users => setUsers(users.data))
+            .catch(err => console.log(err))
     }, []);
 
     return (
         <div>
             <div className='mt-6 pl-0'>
-                <div className="grid grid-cols-5 bg-amber-200 p-4 border border-white gap-1 text-center">
+                <div className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
+                    <div className="font-bold border border-white text-center">Application</div>
                     <div className="font-bold border border-white text-center">Dept</div>
                     <div className="font-bold border border-white text-center">Register No.</div>
                     <div className="font-bold border border-white text-center">Name</div>
                     <div className="font-bold border border-white text-center">Action</div>
                     <div className="font-bold border border-white text-center">Application View</div>
-                    
-                    {users && users.map((user) => (
-                        <React.Fragment key={user.id}>
-                            <div className="grid grid-cols-5 bg-amber-200 p-4 border border-white gap-1 text-center">
-                                <div>{user.dept}</div>
-                                <div>{user.registerNo}</div>
-                                <div>{user.name}</div>
+                </div>
+                {
+                    users.map((user) => {
+                        return (
+                            <div className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
+                                <div className="font-bold border border-white text-center">{user.fresherOrRenewal}</div>
+                                <div className="font-bold border border-white text-center">{user.dept}</div>
+                                <div className="font-bold border border-white text-center">{user.registerNo}</div>
+                                <div className="font-bold border border-white text-center">{user.name}</div>
                                 <div className="font-bold border border-white text-center">
                                     <button
                                         type="submit"
-                                        className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                                        className="bg-blue-500 text-white py-1 px-3  hover:bg-black rounded-lg mt-1"
                                     >
                                         View
                                     </button>
@@ -56,9 +51,10 @@ function Action() {
                                     </button>
                                 </div>
                             </div>
-                        </React.Fragment>
-                    ))}
-                </div>
+
+                        )
+                    })}
+
             </div>
         </div>
     );
