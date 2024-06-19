@@ -1,85 +1,67 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const ScholarshipForm = () => {
 
   const navigate = useNavigate();
 
-  const [personalDetails, setPersonalDetails] = useState({
-    ugOrPg: '',
-    semester: '',
-    name: '',
-    registerNo: '',
-    dept: '',
-    section: '',
-    religion: '',
-    procategory: '',
-   
-    address: '',
-    specialCategory: '',
-    community: '',
-    hostel: '',
-    mobileNo: '',
-    emailId: '',
-    aadhar: '',
-    fatherName: '',
-    fatherNo: '',
-    fatherOccupation: '',
-    annualIncome: '',
-    fresherOrRenewal: '',
-    lastCreditedAmount: '',
-  });
-  const [additionalDetails, setAdditionalDetails] = useState({
-    arrear: '',
-    siblings: '',
-    deeniyathEducationDays: '',
-    classAttendance: '',
+  const [fresherOrRenewal, setFresherOrRenewal] = useState()
+  const [ugOrPg, setUgOrPg] = useState()
+  const [semester, setSemester] = useState()
+  const [name, setName] = useState()
+  const [registerNo, setRegisterNo] = useState()
+  const [dept, setDept] = useState()
+  const [section, setSection] = useState()
+  const [religion, setReligion] = useState()
+  const [procategory, setProcategory] = useState()
+  const [address, setAddress] = useState()
+  const [state, setState] = useState()
+  const [district, setDistrict] = useState()
+  const [pin, setPin] = useState()
+  const [specialCategory, setSpecialCategory] = useState()
+  const [community, setCommunity] = useState()
+  const [hostel, setHostel] = useState()
+  const [mobileNo, setMobileNo] = useState()
+  const [emailId, setEmailId] = useState()
+  const [aadhar, setAadhar] = useState()
+  const [fatherName, setFatherName] = useState()
+  const [fatherNo, setFatherNo] = useState()
+  const [fatherOccupation, setFatherOccupation] = useState()
+  const [annualIncome, setAnnualIncome] = useState()
+  const [siblings, setSiblings] = useState()
+  const [deeniyathEducationDays, setDeeniyathEducationDays] = useState()
+  const [deeniyathPer, setDeeniyathPer] = useState()
+  const [classAttendance, setClassAttendance] = useState()
+  const [classAttendancePer, setClassAttendancePer] = useState()
+  const [classMaxAttendance, setClassMaxAttendance] = useState()
+  const [deeniyathMaxDays, setDeeniyathMaxDays] = useState()
+  const [lastCreditedAmt, setLastCreditedAmt] = useState()
+  const [arrear, setArrear] = useState()
+  const [preSemester, setPreSemester] = useState()
+  const [maxMark, setMaxMark] = useState()
+  const [mark, setMark] = useState()
+  const [semPercentage, setSemPercentage] = useState()
 
-  })
-  const [educationDetails, setEducationDetails] = useState({
-    semesters: [
-      { semester: '', mark: '', maximumMark: '', percentage: '' }
-    ]
-  });
+ 
 
 
-  const handleChangePersonal = (e) => {
-    const { name, value } = e.target;
-    setPersonalDetails({
-      ...personalDetails,
-      [name]: value
-    });
-  };
-  const handleChangeAdditional = (e) => {
-    const { name, value } = e.target;
-    setAdditionalDetails({
-      ...additionalDetails,
-      [name]: value
-    });
-  };
-
-  const handleChangeEducation = (e, index) => {
-    const { name, value } = e.target;
-    const updatedSemesters = [...educationDetails.semesters];
-    updatedSemesters[index][name] = value;
-    setEducationDetails({
-      ...educationDetails,
-      semesters: updatedSemesters
-    });
-  };
-
-  const addSemesterRow = () => {
-    setEducationDetails({
-      ...educationDetails,
-      semesters: [...educationDetails.semesters, { semester: '', mark: '', maximumMark: '', percentage: '' }]
-    });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    axios.post("http://localhost:3001/renewal", { fresherOrRenewal, ugOrPg,semester, name, registerNo, dept, section, religion,  procategory, address,  state,  district, pin,  specialCategory, 
+      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo,  fatherOccupation, annualIncome, preSemester, siblings, deeniyathEducationDays, 
+        deeniyathPer, classAttendance, classAttendancePer,arrear,lastCreditedAmt    })
+      .then(result => { console.log(result);
+        window.alert("Your Application Submitted Successfully");
+      })
+      .catch(err => {
+        console.log(err);
+        window.alert("Something Went Wrong");
+      });
+      
     const formData = {
-      ...personalDetails,
-      ...educationDetails
+      ...fresherOrRenewal
     };
     console.log(formData);
     // Here you can send the formData to the server or perform other actions
@@ -101,7 +83,8 @@ const ScholarshipForm = () => {
                     name="fresherOrRenewal"
                     value="fresher"
                     className=' scale-200'
-                    onChange={handleChangePersonal}
+                    checked={fresherOrRenewal === 'fresh'}
+                    onChange={(e) => setFresherOrRenewal(e.target.value)}
                     onClick={() => navigate('/student/application/fresh')}
                     required
                   />
@@ -114,8 +97,8 @@ const ScholarshipForm = () => {
                     name="fresherOrRenewal"
                     value="renewal"
                     className=' scale-200'
-                    checked={personalDetails.fresherOrRenewal === 'renewal'}
-                    onChange={handleChangePersonal}
+                    checked={fresherOrRenewal === 'renewal'}
+                    onChange={(e) => setFresherOrRenewal(e.target.value)}
                     required
                   />
                   <label htmlFor="Renewal" className=' form-radio ml-2 text-xl'>Renewal</label>
@@ -135,8 +118,8 @@ const ScholarshipForm = () => {
                     name="ugOrPg"
                     value="ug"
                      className=' scale-200'
-                    checked={personalDetails.ugOrPg === 'ug'}
-                    onChange={handleChangePersonal}
+                    checked={ugOrPg === 'ug'}
+                    onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
                   <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
@@ -148,8 +131,8 @@ const ScholarshipForm = () => {
                     name="ugOrPg"
                     value="pg"
                      className=' scale-200'
-                    checked={personalDetails.ugOrPg === 'pg'}
-                    onChange={handleChangePersonal}
+                    checked={ugOrPg === 'pg'}
+                    onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
                   <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
@@ -166,8 +149,8 @@ const ScholarshipForm = () => {
                     name="procategory"
                     value="Aided Mens"
                      className=' scale-200'
-                    checked={personalDetails.procategory === 'Aided Mens'}
-                    onChange={handleChangePersonal}
+                    checked={procategory === 'Aided Mens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label className=' form-radio ml-2 text-lg'> Aided Mens</label>
@@ -179,8 +162,8 @@ const ScholarshipForm = () => {
                     name="procategory"
                     value="SF Mens"
                      className=' scale-200'
-                    checked={personalDetails.procategory === 'SF Mens'}
-                    onChange={handleChangePersonal}
+                    checked={procategory === 'SF Mens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label className=' form-radio ml-2 text-lg' > SF Mens</label>
@@ -192,8 +175,8 @@ const ScholarshipForm = () => {
                     name="procategory"
                     value="SF Womens"
                      className=' scale-200'
-                    checked={personalDetails.procategory === 'SF Womens'}
-                    onChange={handleChangePersonal}
+                    checked={procategory === 'SF Womens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label htmlFor="SF Womens" className=' form-radio ml-2 text-lg'> SF Womens </label>
@@ -210,8 +193,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="Isemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'Isemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'Isemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
@@ -223,8 +206,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="IIsemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'IIsemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'IIsemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
@@ -236,8 +219,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="IIIsemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'IIIsemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'IIIsemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
@@ -249,8 +232,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="IVsemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'IVsemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'IVsemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
@@ -262,8 +245,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="Vsemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'Vsemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'Vsemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
@@ -275,8 +258,8 @@ const ScholarshipForm = () => {
                     name="semester"
                     value="VIsemester"
                      className=' scale-200'
-                    checked={personalDetails.semester === 'VIsemester'}
-                    onChange={handleChangePersonal}
+                    checked={semester === 'VIsemester'}
+                    onChange={(e) => setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
@@ -293,8 +276,8 @@ const ScholarshipForm = () => {
                     name="hostel"
                     value="yes"
                      className=' scale-200'
-                    checked={personalDetails.hostel === 'yes'}
-                    onChange={handleChangePersonal}
+                    checked={hostel === 'yes'}
+                    onChange={(e) => setHostel(e.target.value)}
                     required
                   />
                   <label htmlFor="hostelYes" className=' form-radio ml-2 text-lg'> Yes</label>
@@ -306,8 +289,8 @@ const ScholarshipForm = () => {
                     name="hostel"
                     value="no"
                      className=' scale-200'
-                    checked={personalDetails.hostel === 'no'}
-                    onChange={handleChangePersonal}
+                    checked={hostel === 'no'}
+                    onChange={(e) => setHostel(e.target.value)}
                     required
                   />
                   <label htmlFor="hostelNo" className=' form-radio ml-2 text-lg'> No</label>
@@ -322,8 +305,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="registerNo"
-                value={personalDetails.registerNo}
-                onChange={handleChangePersonal}
+                value={registerNo}
+                onChange={(e) => setRegisterNo(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -333,8 +316,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="name"
-                value={personalDetails.name}
-                onChange={handleChangePersonal}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -344,8 +327,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="dept"
-                value={personalDetails.dept}
-                onChange={handleChangePersonal}
+                value={dept}
+                onChange={(e) => setDept(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -355,8 +338,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="section"
-                value={personalDetails.section}
-                onChange={handleChangePersonal}
+                value={section}
+                onChange={(e) => setSection(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -366,8 +349,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="lastCreditedAmount"
-                value={personalDetails.lastCreditedAmount}
-                onChange={handleChangePersonal}
+                value={lastCreditedAmt}
+                onChange={(e) => setLastCreditedAmt(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -379,8 +362,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Special Category:</label>
               <select
                 name="specialCategory"
-                value={personalDetails.specialCategory}
-                onChange={handleChangePersonal}
+                value={specialCategory}
+                onChange={(e) => setSpecialCategory(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               >
@@ -398,8 +381,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Religion:</label>
               <select
                 name="religion"
-                value={personalDetails.religion}
-                onChange={handleChangePersonal}
+                value={religion}
+                onChange={(e) => setReligion(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               >
@@ -414,8 +397,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Community:</label>
               <select
                 name="community"
-                value={personalDetails.community}
-                onChange={handleChangePersonal}
+                value={community}
+                onChange={(e) => setCommunity(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               >
@@ -435,8 +418,8 @@ const ScholarshipForm = () => {
                 type="text"
                 maxlength="10"
                 name="mobileNo"
-                value={personalDetails.mobileNo}
-                onChange={handleChangePersonal}
+                value={mobileNo}
+                onChange={(e) => setMobileNo(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -446,8 +429,8 @@ const ScholarshipForm = () => {
               <input
                 type="email"
                 name="emailId"
-                value={personalDetails.emailId}
-                onChange={handleChangePersonal}
+                value={emailId}
+                onChange={(e) => setEmailId(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -459,8 +442,8 @@ const ScholarshipForm = () => {
                 type="text"
                 name="aadhar"
                  maxlength="12"
-                value={personalDetails.aadhar}
-                onChange={handleChangePersonal}
+                value={aadhar}
+                onChange={(e) => setAadhar(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -472,8 +455,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherName"
-                value={personalDetails.fatherName}
-                onChange={handleChangePersonal}
+                value={fatherName}
+                onChange={(e) => setFatherName(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
@@ -482,8 +465,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherNo"
-                value={personalDetails.fatherNo}
-                onChange={handleChangePersonal}
+                value={fatherNo}
+                onChange={(e) => setFatherNo(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
@@ -493,8 +476,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherOccupation"
-                value={personalDetails.fatherOccupation}
-                onChange={handleChangePersonal}
+                value={fatherOccupation}
+                onChange={(e) => setFatherOccupation(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
@@ -504,8 +487,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="annualIncome"
-                value={personalDetails.annualIncome}
-                onChange={handleChangePersonal}
+                value={annualIncome}
+                onChange={(e) => setAnnualIncome(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               />
@@ -515,8 +498,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="address"
-                value={personalDetails.address}
-                onChange={handleChangePersonal}
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 placeholder='Door No & Street'
                 required
@@ -524,8 +507,8 @@ const ScholarshipForm = () => {
                <label className="block mb-1">State:</label>
               <select
                 name="state"
-                value={personalDetails.state}
-                onChange={handleChangePersonal}
+                value={state}
+                onChange={(e) => setState(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               > 
@@ -571,8 +554,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">District:</label>
               <select
                 name="district"
-                value={personalDetails.district}
-                onChange={handleChangePersonal}
+                value={district}
+                onChange={(e) => setDistrict(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
               > 
@@ -621,8 +604,8 @@ const ScholarshipForm = () => {
                 type="text"
                 maxlength="6" 
                 name="pin"
-                value={personalDetails.pin}
-                onChange={handleChangePersonal}
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 placeholder='Pincode'
                 required
@@ -633,83 +616,86 @@ const ScholarshipForm = () => {
           {/* Education Details section */}
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
           <div>
-            <div className='pt-3'>
-              <table className="w-full ">
-                <thead>
-                  <tr>
-                    <th className="border px-4 py-2">Semester</th>
-                    <th className="border px-4 py-2">Mark</th>
-                    <th className="border px-4 py-2">Maximum Mark</th>
-                    <th className="border px-4 py-2">Percentage</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {educationDetails.semesters.map((semester, index) => (
-                    <tr key={index}>
-                      <td className="border px-4 py-2">
-                        <input
-                          type="text"
-                          name="semester"
-                          value={semester.semester}
-                          onChange={(e) => handleChangeEducation(e, index)}
-                          className="w-full border rounded-md p-2 text-slate-950"
-                          required
-                        />
-                      </td>
-                      <td className="border px-4 py-2">
-                        <input
-                          type="text"
-                          name="mark"
-                          value={semester.mark}
-                          onChange={(e) => handleChangeEducation(e, index)}
-                          className="w-full border rounded-md p-2 text-slate-950"
-                          required
-                        />
-                      </td>
-                      <td className="border px-4 py-2">
-                        <input
-                          type="text"
-                          name="maximumMark"
-                          value={semester.maximumMark}
-                          onChange={(e) => handleChangeEducation(e, index)}
-                          className="w-full border rounded-md p-2 text-slate-950"
-                          required
-                        />
-                      </td>
-                      <td className="border px-4 py-2">
-                        <input
-                          type="text"
-                          name="percentage"
-                          value={semester.percentage}
-                          onChange={(e) => handleChangeEducation(e, index)}
-                          className="w-full border rounded-md p-2 text-slate-950"
-                          required
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="flex justify-end mt-4">
-              <button
-                type="button"
-                onClick={addSemesterRow}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md "
-              >
-                Add Semester
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+              <div>
+                  <label className="block mb-1">Semester:</label>
+                  <input
+                    type="text"
+                    name="preSemester"
+                    value={preSemester}
+                    onChange={(e) =>  setPreSemester(e.target.value)}
+                    className=" w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Mark (PartIII Only):</label>
+                  <input
+                    type="text"
+                    name="mark"
+                    value={mark}
+                    onChange={(e) =>  setMark(e.target.value)}
+                    className="w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Maximum Mark (PartIII Only):</label>
+                  <input
+                    type="text"
+                    name="maxMark"
+                    value={maxMark}
+                    onChange={(e) =>  setMaxMark(e.target.value)}
+                    className="w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Percentage of Mark:</label>
+                  <input
+                    type="text"
+                    name="semPercentage"
+                    value={semPercentage}
+                    onChange={(e) =>  setSemPercentage(e.target.value)}
+                    className=" w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+              </div>
+      
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
               
               <div>
                 <label className="block mb-1">Class Attendance:</label>
                 <input
                   type="text"
                   name="classAttendance"
-                  value={educationDetails.classAttendance}
-                  onChange={handleChangeAdditional}
+                  value={classAttendance}
+                  onChange={(e) => setClassAttendance(e.target.value)}
                   className="w-72 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Class Max Attendance:</label>
+                <input
+                  type="text"
+                  name="classMaxAttendance"
+                  value={classMaxAttendance}
+                  onChange={(e) =>  setClassMaxAttendance(e.target.value)}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Class Attendance Percentage:</label>
+                <input
+                  type="text"
+                  name="classAttendancePer"
+                  value={classAttendancePer}
+                  onChange={(e) =>  setClassAttendancePer(e.target.value)}
+                  className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
@@ -718,9 +704,31 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="deeniyathEducationDays"
-                  value={educationDetails.deeniyathEducationDays}
-                  onChange={handleChangeAdditional}
+                  value={deeniyathEducationDays}
+                  onChange={(e) => setDeeniyathEducationDays(e.target.value)}
                   className="w-72 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Deeniyath Max Days:</label>
+                <input
+                  type="text"
+                  name="deeniyathMaxDays"
+                  value={deeniyathMaxDays}
+                  onChange={(e) =>  setDeeniyathMaxDays(e.target.value)}
+                  className="w-92 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Deeniyath Percentage:</label>
+                <input
+                  type="text"
+                  name="deeniyathPer"
+                  value={deeniyathPer}
+                  onChange={(e) =>  setDeeniyathPer(e.target.value)}
+                  className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
@@ -729,8 +737,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="arrear"
-                  value={educationDetails.arrear}
-                  onChange={handleChangeAdditional}
+                  value={arrear}
+                  onChange={(e) => setArrear(e.target.value)}
                   className="w-72  p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -740,8 +748,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="siblings"
-                  value={educationDetails.siblings}
-                  onChange={handleChangeAdditional}
+                  value={siblings}
+                  onChange={(e) => setSiblings(e.target.value)}
                   className="w-72 p-2 border rounded-md text-slate-950"
                   required
                 />

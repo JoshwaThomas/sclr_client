@@ -14,6 +14,7 @@ import Stureport from './components/admin/reports/stureport';
 import Catreport from './components/admin/reports/catreport';
 import Accrej from './components/admin/reports/accrej';
 import Fundreport from './components/admin/reports/fundreport';
+import AdminApplication from './components/admin/adminapplication';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
@@ -32,6 +33,7 @@ function App() {
           <Route path='login' element={<Login />} ></Route>
             <Route path="/admin" element={<Admin />} > 
               <Route path='dashboard' element={<Dashboard />} />
+              <Route path='/admin/application' element={<AdminApplication />} />
               <Route path='/admin/action' element={<Action />} />
               <Route path='/admin/report' element={<Report />} />
               <Route path='/admin/report/stureport' element={<Stureport />} />

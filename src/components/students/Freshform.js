@@ -6,88 +6,70 @@ const ScholarshipForm = () => {
 
   const navigate = useNavigate();
 
-  const [personalDetails, setPersonalDetails] = useState({
-    ugOrPg: '',
-    semester: '',
-    name: '',
-    registerNo: '',
-    dept: '',
-    section: '',
-    religion: '',
-    procategory: '',
-   
-    address: '',
-    state: '',
-    district: '',
-    specialCategory: '',
-    community: '',
-    hostel: '',
-    mobileNo: '',
-    emailId: '',
-    aadhar: '',
-    fatherName: '',
-    fatherNo: '',
-    fatherOccupation: '',
-    annualIncome: '',
-    fresherOrRenewal: '',
-    lastCreditedAmount: '',
-    lastSchoolName: '',
-    yearOfPassing: '',
-    maximumMarkSchool: '',
-    marksSecuredSchool: '',
-    percentageOfMarkSchool: '',
-    siblings: '',
-    deeniyathEducationDays: '',
-    deeniyathMaxDays: '',
-    deeniyathPer: '',
-    classAttendance: '',
-    classMaxAttendance: '',
-    classAttendancePer: '',
-  });
+  const [fresherOrRenewal, setFresherOrRenewal] = useState()
+  const [ugOrPg, setUgOrPg] = useState()
+  const [semester, setSemester] = useState()
+  const [name, setName] = useState()
+  const [registerNo, setRegisterNo] = useState()
+  const [dept, setDept] = useState()
+  const [section, setSection] = useState()
+  const [religion, setReligion] = useState()
+  const [procategory, setProcategory] = useState()
+  const [address, setAddress] = useState()
+  const [state, setState] = useState()
+  const [district, setDistrict] = useState()
+  const [pin, setPin] = useState()
+  const [specialCategory, setSpecialCategory] = useState()
+  const [community, setCommunity] = useState()
+  const [hostel, setHostel] = useState()
+  const [mobileNo, setMobileNo] = useState()
+  const [emailId, setEmailId] = useState()
+  const [aadhar, setAadhar] = useState()
+  const [fatherName, setFatherName] = useState()
+  const [fatherNo, setFatherNo] = useState()
+  const [fatherOccupation, setFatherOccupation] = useState()
+  const [annualIncome, setAnnualIncome] = useState()
+  const [schoolName, setSchoolName] = useState()
+  const [yearOfPassing, setYearOfPassing] = useState()
+  const [marksSecuredSchool, setMarksSecuredSchool] = useState()
+  const [percentageOfMarkSchool, setPercentageOfMarkSchool] = useState()
+  const [siblings, setSiblings] = useState()
+  const [deeniyathEducationDays, setDeeniyathEducationDays] = useState()
+  const [deeniyathPer, setDeeniyathPer] = useState()
+  const [classAttendance, setClassAttendance] = useState()
+  const [classAttendancePer, setClassAttendancePer] = useState()
+  const [maximumMarkSchool, setMaximumMarkSchool] = useState()
+  const [classMaxAttendance, setClassMaxAttendance] = useState()
+  const [deeniyathMaxDays, setDeeniyathMaxDays] = useState()
+  const [preSemester, setPreSemester] = useState()
+  const [maxMark, setMaxMark] = useState()
+  const [mark, setMark] = useState()
+  const [semPercentage, setSemPercentage] = useState()
   
-  const [educationDetails, setEducationDetails] = useState({
-   
-    semesters: [
-      { semester: '', mark: '', maximumMark: '', percentage: '' }
-    ],
-  });
 
-  const handleChangePersonal = (e) => {
-    const { name, value } = e.target;
-    setPersonalDetails({
-      ...personalDetails,
-      [name]: value
-    });
-  };
- 
-  const handleChangeEducation = (e, index) => {
-   
-    const updatedSemesters = [...educationDetails.semesters];
-   
-    setEducationDetails({ 
-      semesters: updatedSemesters
-    });
-  };
-
-  const addSemesterRow = () => {
-    setEducationDetails({
-      ...educationDetails,
-      semesters: [...educationDetails.semesters, { semester: '', mark: '', maximumMark: '', percentage: '' }]
-    });
-  };
 
   const Submit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/fresh",{personalDetails, educationDetails})
-    .then(result => console.log(result))
-    .catch(err => console.log(err))
+    axios.post("http://localhost:3001/fresh", { fresherOrRenewal, ugOrPg,semester, name, registerNo, dept, section, religion,  procategory, address, district,  state,   pin,  specialCategory, 
+      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo,  fatherOccupation, annualIncome, schoolName, 
+        yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer,  classAttendancePer, semPercentage     })
+      .then(result =>{ console.log(result);
+      window.alert("Your Application Submitted Successfully");
+    })
+      .catch(err =>{
+        console.log(err);
+        window.alert("Something Went Wrong");
+      });
 
-    const formData = {
-      ...personalDetails,
-      ...educationDetails
+   /* const formData = {
+      ...fresherOrRenewal,ugOrPg,semester, name, registerNo, dept, section, religion,  procategory, address,  state,  district, pin,  specialCategory, 
+      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo,  fatherOccupation, annualIncome, schoolName, 
+        yearOfPassing, marksSecuredSchool, percentageOfMarkSchool, siblings, deeniyathEducationDays, 
+        deeniyathPer, classAttendance, classAttendancePer
+      
     };
     console.log(formData);
-    // Here you can send the formData to the server or perform other actions
+    // Here you can send the formData to the server or perform other actions*/
   };
 
   return (
@@ -105,9 +87,9 @@ const ScholarshipForm = () => {
                     id="Fresher"
                     name="fresherOrRenewal"
                     value="fresher"
-                     className=' scale-200'
-                    checked={personalDetails.fresherOrRenewal === 'fresher'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={fresherOrRenewal === 'fresher'}
+                    onChange={(e) => setFresherOrRenewal(e.target.value)}
                     required
                   />
                   <label htmlFor="Fresher" className=' form-radio ml-2 text-xl'>Fresher</label>
@@ -118,9 +100,9 @@ const ScholarshipForm = () => {
                     id="Renewal"
                     name="fresherOrRenewal"
                     value="renewal"
-                     className=' scale-200'
-                    checked={personalDetails.fresherOrRenewal === 'renewal'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={fresherOrRenewal === 'renewal'}
+                    onChange={(e) => setFresherOrRenewal(e.target.value)}
                     onClick={() => navigate('/student/application/renewal')}
                     required
                   />
@@ -130,9 +112,9 @@ const ScholarshipForm = () => {
             </div>
           </div>
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Personal Details</h3>
-         
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-            
+
             <div>
               <label className="block mb-1">UG or PG:</label>
               <div className=" space-x-7 inline-flex">
@@ -143,8 +125,8 @@ const ScholarshipForm = () => {
                     name="ugOrPg"
                     value="ug"
                     className=' scale-200'
-                    checked={personalDetails.ugOrPg === 'ug'}
-                    onChange={handleChangePersonal}
+                    checked={ugOrPg === 'ug'}
+                    onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
                   <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
@@ -155,9 +137,9 @@ const ScholarshipForm = () => {
                     id="Pg"
                     name="ugOrPg"
                     value="pg"
-                     className=' scale-200'
-                    checked={personalDetails.ugOrPg === 'pg'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={ugOrPg === 'pg'}
+                    onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
                   <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
@@ -173,9 +155,9 @@ const ScholarshipForm = () => {
                     id="aided"
                     name="procategory"
                     value="Aided Mens"
-                     className=' scale-200'
-                    checked={personalDetails.procategory === 'Aided Mens'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={procategory === 'Aided Mens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label htmlFor="Aided Mens" className=' form-radio ml-2 text-lg'> Aided Mens</label>
@@ -186,9 +168,9 @@ const ScholarshipForm = () => {
                     id="sfmens"
                     name="procategory"
                     value="SF Mens"
-                     className=' scale-200'
-                    checked={personalDetails.procategory === 'SF Mens'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={procategory === 'SF Mens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label htmlFor="SF Mens" className=' form-radio ml-2 text-lg'> SF Mens</label>
@@ -199,9 +181,9 @@ const ScholarshipForm = () => {
                     id="sfwomens"
                     name="procategory"
                     value="SF Womens"
-                     className=' scale-200'
-                    checked={personalDetails.procategory === 'SF Womens'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={procategory === 'SF Womens'}
+                    onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
                   <label htmlFor="SF Womens" className=' form-radio ml-2 text-lg'> SF Womens </label>
@@ -217,9 +199,9 @@ const ScholarshipForm = () => {
                     id="ISemester"
                     name="semester"
                     value="Isemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'Isemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'Isemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
@@ -230,9 +212,9 @@ const ScholarshipForm = () => {
                     id="IISemester"
                     name="semester"
                     value="IIsemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'IIsemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'IIsemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
@@ -243,9 +225,9 @@ const ScholarshipForm = () => {
                     id="IIISemester"
                     name="semester"
                     value="IIIsemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'IIIsemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'IIIsemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
@@ -256,9 +238,9 @@ const ScholarshipForm = () => {
                     id="IVSemester"
                     name="semester"
                     value="IVsemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'IVsemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'IVsemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
@@ -269,9 +251,9 @@ const ScholarshipForm = () => {
                     id="VSemester"
                     name="semester"
                     value="Vsemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'Vsemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'Vsemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
@@ -282,9 +264,9 @@ const ScholarshipForm = () => {
                     id="VIsemester"
                     name="semester"
                     value="VIsemester"
-                     className=' scale-200'
-                    checked={personalDetails.semester === 'VIsemester'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={semester === 'VIsemester'}
+                    onChange={(e) =>  setSemester(e.target.value)}
                     required
                   />
                   <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
@@ -301,8 +283,8 @@ const ScholarshipForm = () => {
                     name="hostel"
                     value="yes"
                     className=' scale-200'
-                    checked={personalDetails.hostel === 'yes'}
-                    onChange={handleChangePersonal}
+                    checked={hostel === 'yes'}
+                    onChange={(e) =>  setHostel(e.target.value)}
                     required
                   />
                   <label htmlFor="hostelYes" className=' form-radio ml-2 text-lg'> Yes</label>
@@ -313,9 +295,9 @@ const ScholarshipForm = () => {
                     id="hostelNo"
                     name="hostel"
                     value="no"
-                    className=' scale-200' 
-                    checked={personalDetails.hostel === 'no'}
-                    onChange={handleChangePersonal}
+                    className=' scale-200'
+                    checked={hostel === 'no'}
+                    onChange={(e) =>  setHostel(e.target.value)}
                     required
                   />
                   <label htmlFor="hostelNo" className=' form-radio ml-2 text-lg'> No</label>
@@ -329,8 +311,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="registerNo"
-                value={personalDetails.registerNo}
-                onChange={handleChangePersonal}
+                value={registerNo}
+                onChange={(e) =>  setRegisterNo(e.target.value)}
                 className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -340,8 +322,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="name"
-                value={personalDetails.name}
-                onChange={handleChangePersonal}
+                value={name}
+                onChange={(e) =>  setName(e.target.value)}
                 className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -351,22 +333,32 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="dept"
-                value={personalDetails.dept}
-                onChange={handleChangePersonal}
+                value={dept}
+                onChange={(e) =>  setDept(e.target.value)}
                 className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
             <div>
               <label className="block mb-1">Section</label>
-              <input
-                type="text"
-                name="section"
-                value={personalDetails.section}
-                onChange={handleChangePersonal}
-                className="w-96 p-2 border rounded-md text-slate-950"
+              <select
+                name="specialCategory"
+                value={section}
+                onChange={(e) =>  setSection(e.target.value)}
+                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
-              />
+              >
+                <option value="">Select</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="F">F</option>
+                <option value="G">G</option>
+                <option value="H">H</option>
+                <option value="I">I</option>
+              </select>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
@@ -374,8 +366,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Special Category:</label>
               <select
                 name="specialCategory"
-                value={personalDetails.specialCategory}
-                onChange={handleChangePersonal}
+                value={specialCategory}
+                onChange={(e) =>  setSpecialCategory(e.target.value)}
                 className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
@@ -393,8 +385,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Religion:</label>
               <select
                 name="religion"
-                value={personalDetails.religion}
-                onChange={handleChangePersonal}
+                value={religion}
+                onChange={(e) =>  setReligion(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
@@ -409,8 +401,8 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Community:</label>
               <select
                 name="community"
-                value={personalDetails.community}
-                onChange={handleChangePersonal}
+                value={community}
+                onChange={(e) =>  setCommunity(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
@@ -422,15 +414,15 @@ const ScholarshipForm = () => {
                 <option value="Others">Others</option>
               </select>
             </div>
-           
+
             <div>
               <label className="block mb-1">Mobile No.:</label>
               <input
                 type="text"
-                maxlength="10" 
+                maxlength="10"
                 name="mobileNo"
-                value={personalDetails.mobileNo}
-                onChange={handleChangePersonal}
+                value={mobileNo}
+                onChange={(e) =>  setMobileNo(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
@@ -440,8 +432,8 @@ const ScholarshipForm = () => {
               <input
                 type="email"
                 name="emailId"
-                value={personalDetails.emailId}
-                onChange={handleChangePersonal}
+                value={emailId}
+                onChange={(e) =>  setEmailId(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
@@ -452,8 +444,8 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="aadhar"
-                value={personalDetails.aadhar}
-                onChange={handleChangePersonal}
+                value={aadhar}
+                onChange={(e) =>  setAadhar(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
@@ -465,40 +457,39 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherName"
-                value={personalDetails.fatherName}
-                onChange={handleChangePersonal}
+                value={fatherName}
+                onChange={(e) =>  setFatherName(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-                        
+
               <label className="block mb-1">Father's Contact No.:</label>
               <input
                 type="text"
                 name="fatherNo"
-                value={personalDetails.fatherNo}
-                onChange={handleChangePersonal}
+                value={fatherNo}
+                onChange={(e) =>  setFatherNo(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-            
-            
+
+
               <label className="block mb-1">Father's Occupation:</label>
               <input
                 type="text"
                 name="fatherOccupation"
-                value={personalDetails.fatherOccupation}
-                onChange={handleChangePersonal}
+                value={fatherOccupation}
+                onChange={(e) =>  setFatherOccupation(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
-            
-            
+
               <label className="block mb-1">Annual Income:</label>
               <input
                 type="text"
                 name="annualIncome"
-                value={personalDetails.annualIncome}
-                onChange={handleChangePersonal}
+                value={annualIncome}
+                onChange={(e) =>  setAnnualIncome(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -508,20 +499,20 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="address"
-                value={personalDetails.address}
-                onChange={handleChangePersonal}
+                value={address}
+                onChange={(e) =>  setAddress(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 placeholder='Door No & Street'
                 required
               />
-               <label className="block mb-1">State:</label>
+              <label className="block mb-1">State:</label>
               <select
                 name="state"
-                value={personalDetails.state}
-                onChange={handleChangePersonal}
+                value={state}
+                onChange={(e) =>  setState(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
-              > 
+              >
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -564,11 +555,11 @@ const ScholarshipForm = () => {
               <label className="block mb-1">District:</label>
               <select
                 name="district"
-                value={personalDetails.district}
-                onChange={handleChangePersonal}
+                value={district}
+                onChange={(e) =>  setDistrict(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 required
-              > 
+              >
                 <option value="">Select District</option>
                 <option value="Ariyalur">Ariyalur</option>
                 <option value="Chengalpattu">Chengalpattu</option>
@@ -612,31 +603,31 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Pincode:</label>
               <input
                 type="text"
-                maxlength="6" 
+                maxlength="6"
                 name="pin"
-                value={personalDetails.pin}
-                onChange={handleChangePersonal}
+                value={pin}
+                onChange={(e) =>  setPin(e.target.value)}
                 className="w-96 p-2 border rounded-md text-slate-950"
                 placeholder='Pincode'
                 required
               />
-          
+
             </div>
           </div>
-            {/* Education Details section */}
-            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
-            <div>
+          {/* Education Details section */}
+          <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
+          <div>
             <div className="overflow-x-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
                 <div>
                   <label className="block mb-1">Last School Name:</label>
                   <input
                     type="text"
-                    name="lastSchoolName"
-                    value={personalDetails.lastSchoolName}
-                    onChange={handleChangePersonal}
+                    name="schoolName"
+                    value={schoolName}
+                    onChange={(e) =>  setSchoolName(e.target.value)}
                     className="w-96 p-2 border rounded-md text-slate-950"
-                    
+
                   />
                 </div>
                 <div>
@@ -644,10 +635,10 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="yearOfPassing"
-                    value={personalDetails.yearOfPassing}
-                    onChange={handleChangePersonal}
+                    value={yearOfPassing}
+                    onChange={(e) =>  setYearOfPassing(e.target.value)}
                     className="w-96 p-2 border rounded-md text-slate-950"
-                   
+
                   />
                 </div>
                 <div>
@@ -655,10 +646,10 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="maximumMarkSchool"
-                    value={personalDetails.maximumMarkSchool}
-                    onChange={handleChangePersonal}
+                    value={maximumMarkSchool}
+                    onChange={(e) =>  setMaximumMarkSchool(e.target.value)}
                     className="w-96 p-2 border rounded-md text-slate-950"
-                    
+
                   />
                 </div>
                 <div>
@@ -666,10 +657,10 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="marksSecuredSchool"
-                    value={personalDetails.marksSecuredSchool}
-                    onChange={handleChangePersonal}
+                    value={marksSecuredSchool}
+                    onChange={(e) =>  setMarksSecuredSchool(e.target.value)}
                     className="w-96 p-2 border rounded-md text-slate-950"
-                    
+
                   />
                 </div>
                 <div>
@@ -677,80 +668,60 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="percentageOfMarkSchool"
-                    value={personalDetails.percentageOfMarkSchool}
-                    onChange={handleChangePersonal}
+                    value={percentageOfMarkSchool}
+                    onChange={(e) =>  setPercentageOfMarkSchool(e.target.value)}
                     className="w-96 p-2 border rounded-md text-slate-950"
-                    
+
                   />
                 </div>
               </div>
-              <div className='pt-3'>
-                <table className="w-full  ">
-                  <thead>
-                    <tr>
-                      <th className="border px-4 py-2">Semester</th>
-                      <th className="border px-4 py-2">Mark</th>
-                      <th className="border px-4 py-2">Maximum Mark</th>
-                      <th className="border px-4 py-2">Percentage</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {educationDetails.semesters.map((semester, index) => (
-                      <tr key={index}>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="text"
-                            name="semester"
-                            value={semester.semester}
-                            onChange={(e) => handleChangeEducation(e, index)}
-                            className="w-full border rounded-md p-2 text-slate-950"
-                            
-                          />
-                        </td>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="text"
-                            name="mark"
-                            value={semester.mark}
-                            onChange={(e) => handleChangeEducation(e, index)}
-                            className="w-full border rounded-md p-2 text-slate-950"
-                            
-                          />
-                        </td>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="text"
-                            name="maximumMark"
-                            value={semester.maximumMark}
-                            onChange={(e) => handleChangeEducation(e, index)}
-                            className="w-full border rounded-md p-2 text-slate-950"
-                            
-                          />
-                        </td>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="text"
-                            name="percentage"
-                            value={semester.percentage}
-                            onChange={(e) => handleChangeEducation(e, index)}
-                            className="w-full border rounded-md p-2 text-slate-950"
-                            
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+              <div>
+                  <label className="block mb-1">Semester:</label>
+                  <input
+                    type="text"
+                    name="preSemester"
+                    value={preSemester}
+                    onChange={(e) =>  setPreSemester(e.target.value)}
+                    className=" w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Mark (PartIII Only):</label>
+                  <input
+                    type="text"
+                    name="mark"
+                    value={mark}
+                    onChange={(e) =>  setMark(e.target.value)}
+                    className="w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Maximum Mark (PartIII Only):</label>
+                  <input
+                    type="text"
+                    name="maxMark"
+                    value={maxMark}
+                    onChange={(e) =>  setMaxMark(e.target.value)}
+                    className="w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
+                <div>
+                  <label className="block mb-1">Percentage of Mark:</label>
+                  <input
+                    type="text"
+                    name="semPercentage"
+                    value={semPercentage}
+                    onChange={(e) =>  setSemPercentage(e.target.value)}
+                    className=" w-52 p-2 border rounded-md text-slate-950"
+
+                  />
+                </div>
               </div>
-            </div>
-            <div className="flex justify-end mt-4">
-              <button
-                type="button"
-                onClick={addSemesterRow}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md mb-7"
-              >
-                Add Semester
-              </button>
+              
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
               <div>
@@ -758,8 +729,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="classAttendance"
-                  value={personalDetails.classAttendance}
-                  onChange={handleChangePersonal}
+                  value={classAttendance}
+                  onChange={(e) =>  setClassAttendance(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -769,8 +740,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="classMaxAttendance"
-                  value={personalDetails.classMaxAttendance}
-                  onChange={handleChangePersonal}
+                  value={classMaxAttendance}
+                  onChange={(e) =>  setClassMaxAttendance(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -780,19 +751,19 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="classAttendancePer"
-                  value={personalDetails.classAttendancePer}
-                  onChange={handleChangePersonal}
+                  value={classAttendancePer}
+                  onChange={(e) =>  setClassAttendancePer(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
               <div>
-                <label className="block mb-1">Deeniyath Education Days:</label>
+                <label className="block mb-1">Deeniyath Education Days Attendance:</label>
                 <input
                   type="text"
                   name="deeniyathEducationDays"
-                  value={personalDetails.deeniyathEducationDays}
-                  onChange={handleChangePersonal}
+                  value={deeniyathEducationDays}
+                  onChange={(e) =>  setDeeniyathEducationDays(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -802,8 +773,8 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="deeniyathMaxDays"
-                  value={personalDetails.deeniyathMaxDays}
-                  onChange={handleChangePersonal}
+                  value={deeniyathMaxDays}
+                  onChange={(e) =>  setDeeniyathMaxDays(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
@@ -813,20 +784,20 @@ const ScholarshipForm = () => {
                 <input
                   type="text"
                   name="deeniyathPer"
-                  value={personalDetails.deeniyathPer}
-                  onChange={handleChangePersonal}
+                  value={deeniyathPer}
+                  onChange={(e) =>  setDeeniyathPer(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>
-              
+
               <div>
                 <label className="block mb-1">Siblings</label>
                 <input
                   type="text"
                   name="siblings"
-                  value={personalDetails.siblings}
-                  onChange={handleChangePersonal}
+                  value={siblings}
+                  onChange={(e) =>  setSiblings(e.target.value)}
                   className="w-92 p-2 border rounded-md text-slate-950"
                   required
                 />

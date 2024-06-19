@@ -12,7 +12,7 @@ function StudentLayout() {
    },
     { icon: 'add-circle', 
     name: 'Application', 
-    path: '/student/application'
+    path: '/admin/application'
    },
     { icon: 'people', 
     name: 'Status', 
