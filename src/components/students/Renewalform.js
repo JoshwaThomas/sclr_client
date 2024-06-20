@@ -51,7 +51,7 @@ const ScholarshipForm = () => {
     e.preventDefault();
     axios.post("http://localhost:3001/renewal", {
       fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
-      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, siblings, deeniyathEducationDays,
+      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
       deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt
     })
       .then(result => {
