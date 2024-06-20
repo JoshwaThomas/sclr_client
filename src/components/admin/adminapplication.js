@@ -8,10 +8,14 @@ function Action() {
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUsers, setSelectedUsers] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [filterUsers, setFilterUsers] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:3001/fresh')
-            .then(users => setUsers(users.data))
+            .then(users => {
+                setUsers(users.data);
+                setFilterUsers(users.data);
+            })
             .catch(err => console.log(err))
     }, []);
     useEffect(() => {
@@ -33,10 +37,25 @@ function Action() {
         setSelectedUser(null);
     };
 
+    const handleSearch = (e) => {
+        const searchText = e.target.value.toLowerCase();
+        const filteredUsers = users.filter((user) => user.dept.toLowerCase().includes(searchText) || user.registerNo.toLowerCase().includes(searchText) || user.fresherOrRenewal.toLowerCase().includes(searchText));
+        setFilterUsers(filteredUsers)
+    }
 
 
     return (
         <div>
+            <div className=' end-px  '>
+            <input type='text' placeholder='Search text here' className='uppercase py-1 rounded-md mr-2' onChange={handleSearch} />
+            <button
+                type="submit"
+
+                className="bg-blue-500 text-white py-1 px-3  hover:bg-black rounded-lg mt-1"
+            >
+                Search
+            </button>
+            </div>
             <div className='mt-6 pl-0'>
                 <div className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
                     <div className="font-bold border border-white text-center">Application</div>
@@ -47,14 +66,14 @@ function Action() {
                     <div className="font-bold border border-white text-center">Application View</div>
                 </div>
                 {
-                    users.map((user) => {
+                    filterUsers.map((user) => {
                         return (
                             <div key={user.registerNo} className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                                <div className="font-bold border border-white text-center">{user.fresherOrRenewal}</div>
-                                <div className="font-bold border border-white text-center">{user.dept}</div>
-                                <div className="font-bold border border-white text-center">{user.registerNo}</div>
-                                <div className="font-bold border border-white text-center">{user.name}</div>
-                                <div className="font-bold border border-white text-center">
+                                <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.name}</div>
+                                <div className="font-bold border border-white text-center uppercase">
                                     <button
                                         type="submit"
                                         onClick={() => handleViewClick(user)}
@@ -83,10 +102,10 @@ function Action() {
                     rusers.map((user) => {
                         return (
                             <div key={users.registerNo} className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                                <div className="font-bold border border-white text-center">{user.fresherOrRenewal}</div>
-                                <div className="font-bold border border-white text-center">{user.dept}</div>
-                                <div className="font-bold border border-white text-center">{user.registerNo}</div>
-                                <div className="font-bold border border-white text-center">{user.name}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
+                                <div className="font-bold border border-white text-center uppercase">{user.name}</div>
                                 <div className="font-bold border border-white text-center">
                                     <button
                                         type="submit"
@@ -126,7 +145,7 @@ function Action() {
                                     <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
 
                                     <div className="space-x-4 inline-flex border p-10 rounded-xl">
-                                        <div>
+                                        <div className='uppercase'>
                                             <label> Application: </label> {selectedUser.fresherOrRenewal}
                                         </div>
                                     </div>
@@ -136,59 +155,59 @@ function Action() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
 
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">UG Or PG</label>{selectedUser.ugOrPg}
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Programme Category</label>{selectedUser.procategory}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Semester:</label>{selectedUser.semester}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Hostel:</label>{selectedUser.hostel}
 
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10  rounded-xl">
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Register No.:</label>{selectedUser.registerNo}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Name:</label>{selectedUser.name}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Department:</label>{selectedUser.dept}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Section</label>{selectedUser.section}
 
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Special Category:</label>{selectedUser.specialCategory}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Religion:</label>{selectedUser.religion}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Community:</label>{selectedUser.community}
 
                                 </div>
 
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Mobile No.:</label>{selectedUser.mobileNo}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Email Id:</label>{selectedUser.emailId}
 
                                 </div>
@@ -199,7 +218,7 @@ function Action() {
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Father's Name:</label>{selectedUser.fatherName}
 
 
@@ -213,7 +232,7 @@ function Action() {
                                     <label className="block mb-1">Annual Income:</label>{selectedUser.annualIncome}
 
                                 </div>
-                                <div>
+                                <div className='uppercase'>
                                     <label className="block mb-1">Permanent Address</label>{selectedUser.address}
 
                                     <label className="block mb-1">State:</label>{selectedUser.state}
@@ -230,7 +249,7 @@ function Action() {
                             <div>
                                 <div className="overflow-x-auto">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-                                        <div>
+                                        <div className='uppercase'>
                                             <label className="block mb-1">Last School Name:</label>{selectedUser.schoolName}
 
                                         </div>

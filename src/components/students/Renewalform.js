@@ -55,8 +55,15 @@ const ScholarshipForm = () => {
       deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt
     })
       .then(result => {
-        console.log(result);
-        window.alert("Your Application Submitted Successfully");
+        if(result.data.success){
+          window.alert("Your Application Submitted Successfully");
+        }
+        else if(result.data.message === 'Register No. Already Existing'){
+          alert("Register No. Already Existing")
+        }
+        else{
+          alert('Something went worng')
+        }
       })
       .catch(err => {
         console.log(err);
@@ -194,61 +201,61 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="ISemester"
                     name="semester"
-                    value="Isemester"
+                    value="I semester"
                     className=' scale-200'
-                    checked={semester === 'Isemester'}
+                    checked={semester === 'I semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
+                  <label htmlFor="I Semester" className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IISemester"
                     name="semester"
-                    value="IIsemester"
+                    value="II semester"
                     className=' scale-200'
-                    checked={semester === 'IIsemester'}
+                    checked={semester === 'II semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
+                  <label htmlFor="II Semester" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IIISemester"
                     name="semester"
-                    value="IIIsemester"
+                    value="III semester"
                     className=' scale-200'
-                    checked={semester === 'IIIsemester'}
+                    checked={semester === 'III semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
+                  <label htmlFor="III Semester" className=' form-radio ml-2 text-lg'> III </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IVSemester"
                     name="semester"
-                    value="IVsemester"
+                    value="IV semester"
                     className=' scale-200'
-                    checked={semester === 'IVsemester'}
+                    checked={semester === 'IV semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
+                  <label htmlFor="IV Semester" className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VSemester"
                     name="semester"
-                    value="Vsemester"
+                    value="V semester"
                     className=' scale-200'
-                    checked={semester === 'Vsemester'}
+                    checked={semester === 'V semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -259,9 +266,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="VIsemester"
                     name="semester"
-                    value="VIsemester"
+                    value="VI semester"
                     className=' scale-200'
-                    checked={semester === 'VIsemester'}
+                    checked={semester === 'VI semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -310,7 +317,7 @@ const ScholarshipForm = () => {
                 name="registerNo"
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -319,10 +326,11 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="name"
+                
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950"
-                required
+                className="w-72 p-2 uppercase border rounded-md text-slate-950"
+                required 
               />
             </div>
             <div>
@@ -331,7 +339,7 @@ const ScholarshipForm = () => {
                 name="dept"
                 value={dept}
                 onChange={(e) => setDept(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 border  rounded-md text-slate-950"
                 required
               >
                 <option value="">Select</option>
@@ -401,11 +409,11 @@ const ScholarshipForm = () => {
             <div>
               <label className="block mb-1">Last Time Credited Amount:</label>
               <input
-                type="text"
+                type="number"
                 name="lastCreditedAmount"
                 value={lastCreditedAmt}
                 onChange={(e) => setLastCreditedAmt(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950"
+                className="w-72 p-2 appearance-auto border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -418,7 +426,7 @@ const ScholarshipForm = () => {
                 name="specialCategory"
                 value={specialCategory}
                 onChange={(e) => setSpecialCategory(e.target.value)}
-                className="w-48 p-2 border rounded-md text-slate-950"
+                className="w-48 p-2 border  rounded-md text-slate-950"
                 required
               >
                 <option value="">Select</option>
