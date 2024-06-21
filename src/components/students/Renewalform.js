@@ -832,7 +832,7 @@ const ScholarshipForm = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1">Do you have arrear (fill No. of Peppers if no arrear put '0'):</label>
+                <label className="block mb-1">Do you have arrear? (fill No. of Papers, If no arrear enter '0'):</label>
                 <input
                   type="text"
                   name="arrear"
