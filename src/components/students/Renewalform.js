@@ -6,6 +6,7 @@ const ScholarshipForm = () => {
 
   const navigate = useNavigate();
 
+  const [student, setStudent] = useState(null);
   const [fresherOrRenewal, setFresherOrRenewal] = useState()
   const [ugOrPg, setUgOrPg] = useState()
   const [semester, setSemester] = useState()
@@ -44,6 +45,27 @@ const ScholarshipForm = () => {
   const [siblings, setSiblings] = useState()
 
 
+  const handleData = async (e) =>{
+     e.preventDefault();
+    try {
+      const result = await axios.get(`http://localhost:3001/api/students/${registerNo}`);
+      setStudent(result.data);
+      setName(result.data.name);
+      setDept(result.data.dept);
+      setSection(result.data.section);
+      setReligion(result.data.religion);   
+      setCommunity(result.data.community);
+      setMobileNo(result.data.mobileNo); 
+      setEmailId(result.data.emailId);
+      setAadhar(result.data.aadhar); 
+      setFatherName(result.data.fatherName);
+      setFatherNo(result.data.fatherNo);
+
+    } catch (err) {
+      setStudent(null);
+      alert('Student not found');
+    }
+  }
 
 
 
@@ -309,7 +331,7 @@ const ScholarshipForm = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-
+      
             <div>
               <label className="block mb-1">Register No.:</label>
               <input
@@ -320,7 +342,24 @@ const ScholarshipForm = () => {
                 className="w-72 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
+               <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
+                Get</button>
             </div>
+            <div>
+              <label className="block mb-1">Last Time Credited Amount:</label>
+              <input
+                type="text"
+                name="lastCreditedAmount"
+                value={lastCreditedAmt}
+                onChange={(e) => setLastCreditedAmt(e.target.value)}
+                className="w-72 p-2 appearance-auto border rounded-md text-slate-950"
+                required
+              />
+            </div>
+          </div>
+            {student && (
+            <div>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-4 border  p-10 rounded-xl'>
             <div>
               <label className="block mb-1">Name:</label>
               <input
@@ -330,7 +369,7 @@ const ScholarshipForm = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-72 p-2 uppercase border rounded-md text-slate-950"
-                required 
+                readOnly
               />
             </div>
             <div>
@@ -341,6 +380,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setDept(e.target.value)}
                 className="w-72 p-2 border  rounded-md text-slate-950"
                 required
+                readOnly
               >
                 <option value="">Select</option>
                 <option value="UAR">UAR</option>
@@ -388,11 +428,12 @@ const ScholarshipForm = () => {
             <div>
               <label className="block mb-1">Section</label>
               <select
-                name="specialCategory"
+                name="section"
                 value={section}
                 onChange={(e) =>  setSection(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
+                readOnly
               >
                 <option value="">Select</option>
                 <option value="A">A</option>
@@ -406,19 +447,9 @@ const ScholarshipForm = () => {
                 <option value="I">I</option>
               </select>
             </div>
-            <div>
-              <label className="block mb-1">Last Time Credited Amount:</label>
-              <input
-                type="number"
-                name="lastCreditedAmount"
-                value={lastCreditedAmt}
-                onChange={(e) => setLastCreditedAmt(e.target.value)}
-                className="w-72 p-2 appearance-auto border rounded-md text-slate-950"
-                required
-              />
             </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
+            
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
 
             <div>
               <label className="block mb-1">Special Category:</label>
@@ -447,12 +478,13 @@ const ScholarshipForm = () => {
                 onChange={(e) => setReligion(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
+                readOnly
               >
                 <option value="">Select</option>
-                <option value="Muslim">Muslim</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Christian">Christian</option>
-                <option value="Others">Others</option>
+                <option value="MUSLIM">Muslim</option>
+                <option value="HINDU">Hindu</option>
+                <option value="CHRISTIAN">Christian</option>
+                <option value="OTHERS">Others</option>
               </select>
             </div>
             <div>
@@ -472,8 +504,6 @@ const ScholarshipForm = () => {
                 <option value="Others">Others</option>
               </select>
             </div>
-
-
             <div>
               <label className="block mb-1">Mobile No.:</label>
               <input
@@ -484,6 +514,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setMobileNo(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
+                readOnly
               />
             </div>
             <div>
@@ -508,10 +539,11 @@ const ScholarshipForm = () => {
                 onChange={(e) => setAadhar(e.target.value)}
                 className="w-48 p-2 border rounded-md text-slate-950"
                 required
+                readOnly
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 mt-4 rounded-xl">
             <div>
               <label className="block mb-1">Father's Name:</label>
               <input
@@ -521,6 +553,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setFatherName(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
+                readOnly
               />
 
               <label className="block mb-1">Father's Contact No.:</label>
@@ -531,6 +564,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setFatherNo(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
+                readOnly
               />
 
 
@@ -542,6 +576,7 @@ const ScholarshipForm = () => {
                 onChange={(e) => setFatherOccupation(e.target.value)}
                 className="w-72  p-2 border rounded-md text-slate-950"
                 required
+              
               />
 
 
@@ -675,6 +710,8 @@ const ScholarshipForm = () => {
 
             </div>
           </div>
+          </div>
+            )}
           {/* Education Details section */}
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
           <div>
@@ -726,7 +763,7 @@ const ScholarshipForm = () => {
             </div>
 
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
 
               <div>
                 <label className="block mb-1">Class Attendance:</label>

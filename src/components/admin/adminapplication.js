@@ -47,14 +47,14 @@ function Action() {
     return (
         <div>
             <div className=' end-px  '>
-            <input type='text' placeholder='Search text here' className='uppercase py-1 rounded-md mr-2' onChange={handleSearch} />
-            <button
-                type="submit"
+                <input type='text' placeholder='Search text here' className='uppercase py-1 rounded-md mr-2' onChange={handleSearch} />
+                <button
+                    type="submit"
 
-                className="bg-blue-500 text-white py-1 px-3  hover:bg-black rounded-lg mt-1"
-            >
-                Search
-            </button>
+                    className="bg-blue-500 text-white py-1 px-3  hover:bg-black rounded-lg mt-1"
+                >
+                    Search
+                </button>
             </div>
             <div className='mt-6 pl-0'>
                 <div className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
@@ -97,7 +97,9 @@ function Action() {
                             </div>
 
                         )
-                    })}
+                    })
+                }
+
                 {
                     rusers.map((user) => {
                         return (
