@@ -36,6 +36,19 @@ const Dashboard = () => {
             },
         ],
     };
+    const options = {
+        responsive: true,
+        indexAxis: 'y', 
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Number of Applicants by Year',
+          },
+        },
+      };
 
     const pieData = {
         labels: ['UG', 'PG', ],
@@ -100,7 +113,7 @@ const Dashboard = () => {
                     <div>Generous Donors</div>
                 </div>
             </div>
-            <div className="grid grid-cols-3 gap-6 h-30">
+            <div className="grid grid-cols-3 pb-4 gap-6 h-30">
             <div className="bg-white p-4 rounded shadow">
                     <Pie data={pieData} />
                 </div>
@@ -110,11 +123,13 @@ const Dashboard = () => {
                 <div className="bg-white p-4 rounded shadow">
                     <Pie data={pieData2} />
                 </div>
-                <div className="bg-white p-4 rounded shadow h-1/1.4">
-                    <Bar data={barData} />
                 </div>
-                
-            </div>
+                <div className="grid grid-cols-1 gap-6 h-30">
+                <div className="bg-white p-4 rounded shadow h-1/1.5">
+                    <Bar data={barData} options={options}/>
+                </div>
+                </div>
+            
         </div>
     );
 };
