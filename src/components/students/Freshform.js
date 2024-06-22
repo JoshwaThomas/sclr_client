@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -46,6 +46,45 @@ const ScholarshipForm = () => {
   const [mark, setMark] = useState()
   const [semPercentage, setSemPercentage] = useState()
   
+  useEffect(() => {
+    const calculatePercentage = () => {
+      if (maximumMarkSchool && marksSecuredSchool) {
+        const percentage = (parseFloat(marksSecuredSchool) / parseFloat(maximumMarkSchool)) * 100;
+        setPercentageOfMarkSchool(percentage.toFixed(2));
+      } else {
+        setPercentageOfMarkSchool('');
+      }
+    };
+
+    calculatePercentage();
+  }, [maximumMarkSchool, marksSecuredSchool]);
+
+  useEffect(() => {
+    const calculateSemPercentage = () => {
+      if (mark && maxMark) {
+        const percentage = (parseFloat(mark) / parseFloat(maxMark)) * 100;
+        setSemPercentage(percentage.toFixed(2));
+      } else {
+        setSemPercentage('');
+      }
+    };
+
+    calculateSemPercentage();
+  }, [mark, maxMark]);
+
+  useEffect(() => {
+    const calculateDeeniyathPercentage = () => {
+      if (deeniyathEducationDays && deeniyathMaxDays) {
+        const percentage = (parseFloat(deeniyathEducationDays) / parseFloat(deeniyathMaxDays)) * 100;
+        setDeeniyathPer(percentage.toFixed(2));
+      } else {
+        setDeeniyathPer('');
+      }
+    };
+
+    calculateDeeniyathPercentage();
+  }, [deeniyathEducationDays, deeniyathMaxDays]);
+
 
 
   const Submit = (e) => {

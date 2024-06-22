@@ -9,7 +9,8 @@ function Status() {
         dob: '',
         registerNo: '',
         dept: '',
-        gender: ''
+        gender: '',
+        aadharno:'',
     });
 
     const handleChangePersonal = (e) => {
@@ -212,13 +213,15 @@ function Status() {
                                 />
                             </div>
                             <div>
-                                <label className="block mb-1">Date of Birth</label>
+                            <label className="block mb-1">Aadhar No:</label>
                                 <input
-                                    type="date"
-                                    name="dob"
-                                    value={personalDetails.dob}
+                                    type="text"
+                                    maxlength="12"
+                                    name="pin"
+                                    value={personalDetails.aadharno}
                                     onChange={handleChangePersonal}
-                                    className="w-70px p-2 border rounded-md text-slate-600"
+                                    className="w-96 p-2 border rounded-md text-slate-950"
+                                    placeholder='Enter 12 digit Aadhar number'
                                     required
                                 />
                             </div>
@@ -229,7 +232,7 @@ function Status() {
                             type="submit"
                             className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
                         >
-                            Check Stutas
+                            Check Status
                         </button>
                     </div>
 
