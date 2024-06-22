@@ -8,7 +8,7 @@ function TextBox() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    
+
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -16,6 +16,12 @@ function TextBox() {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
+
+    const Submit = (e) =>{
+        e.preventDefault();
+    
+
+    }
 
     const outerFlexContainerStyle = {
         display: 'flex',
@@ -33,7 +39,7 @@ function TextBox() {
         left: 0,
         padding: '20px',
         display: 'flex',
-       //    alignItems: 'center',
+        //    alignItems: 'center',
     };
 
     const logoStyle = {
@@ -42,7 +48,7 @@ function TextBox() {
         marginRight: '10px',
     };
 
-  
+
 
     const flexContainerStyle = {
         display: 'flex',
@@ -53,7 +59,7 @@ function TextBox() {
         backgroundColor: '#FF6A00',
         position: 'relative',
         padding: '40px',
-        
+
     };
 
     const formContainerStyle = {
@@ -76,45 +82,50 @@ function TextBox() {
         <div style={outerFlexContainerStyle}>
             <div style={logoAndNameContainerStyle}>
                 <img src={jmc} alt='LOGO' style={logoStyle} />
-             {/*   <h1 style={collegeName}>JAMAL MOHAMED COLLEGE</h1>
+                {/*   <h1 style={collegeName}>JAMAL MOHAMED COLLEGE</h1>
                 {/*(Autonomous College)<br></br>
                 (XYZ)</h1> 
             */}
-                
+
                 <div>
-                <span class="text-sm"><br></br></span>
-                <span class=" text-5xl font-extrabold ">JAMAL MOHAMED COLLEGE </span>
-                <span class="text-3xl font-bold">(Autonomous)<br></br></span>
-                
-                <span class="text-3xl font-bold 'text-center'">TIRUCHIRAPPALLI - 620 020<br></br></span>
-                <span class="text-3xl font-bold">College Sponsered Application Form </span>
-                <span class="text-3xl font-bold">for Poor and Meritorious Students <br></br></span>
+                    <span class="text-sm"><br></br></span>
+                    <span class=" text-5xl font-extrabold ">JAMAL MOHAMED COLLEGE </span>
+                    <span class="text-3xl font-bold">(Autonomous)<br></br></span>
+
+                    <span class="text-3xl font-bold 'text-center'">TIRUCHIRAPPALLI - 620 020<br></br></span>
+                    <span class="text-3xl font-bold">College Sponsered Application Form </span>
+                    <span class="text-3xl font-bold">for Poor and Meritorious Students <br></br></span>
 
                 </div>
 
             </div>
             <div style={flexContainerStyle}>
-            <img src={scl} alt='LOGO' style={sclimg} />
+                <img src={scl} alt='LOGO' style={sclimg} />
                 <div style={formContainerStyle}>
-                
-                    <h1 className="text-2xl mb-8 font-bold">LOGIN</h1>
-                    <input
-                        type="text"
-                        value={username}
-                        onChange={handleUsernameChange}
-                        className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
-                        placeholder="Username"
-                        style={{ width: '200px', color: 'black' }}
-                    />
-                    <input
-                        type="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
-                        placeholder="Password"
-                        style={{ width: '200px', color: 'black' }}
-                    />
-                    <button className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold" onClick={() => navigate('/admin/dashboard')}>Login</button>
+                    <form onSubmit={Submit}>
+                        <h1 className="text-2xl mb-8 font-bold">LOGIN</h1>
+                        <div>
+                        <input
+                            type="text"
+                            value={username}
+                            onChange={handleUsernameChange}
+                            className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
+                            placeholder="Username"
+                            style={{ width: '200px', color: 'black' }}
+                        />
+                        </div>
+                        <div>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
+                            placeholder="Password"
+                            style={{ width: '200px', color: 'black' }}
+                        />
+                        </div>
+                        <button type='submit' className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold" onClick={() => navigate('/admin/dashboard')}>Login</button>
+                    </form>
                 </div>
             </div>
         </div>

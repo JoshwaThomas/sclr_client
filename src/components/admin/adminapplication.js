@@ -103,7 +103,7 @@ function Action() {
                 {
                     rusers.map((user) => {
                         return (
-                            <div key={users.registerNo} className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
+                            <div key={user.registerNo} className="grid grid-cols-6 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
                                 <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
                                 <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
                                 <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>

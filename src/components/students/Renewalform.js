@@ -98,6 +98,9 @@ const ScholarshipForm = () => {
     console.log(formData);
     // Here you can send the formData to the server or perform other actions
   };
+ 
+  
+
 
   return (
     <div>
@@ -336,12 +339,15 @@ const ScholarshipForm = () => {
               <label className="block mb-1">Register No.:</label>
               <input
                 type="text"
+                id="registerNo"
                 name="registerNo"
                 value={registerNo}
-                onChange={(e) => setRegisterNo(e.target.value)}
+                onChange={ (e) => setRegisterNo(e.target.value.toUpperCase())}
+                
                 className="w-72 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
+             
                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
                 Get</button>
             </div>

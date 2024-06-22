@@ -331,7 +331,7 @@ const ScholarshipForm = () => {
                 type="text"
                 name="name"
                 value={name}
-                onChange={(e) =>  setName(e.target.value)}
+                onChange={(e) =>  setName(e.target.value.toUpperCase())}
                 className=" w-96 p-2 border rounded-md text-slate-950"
                 required
               />
