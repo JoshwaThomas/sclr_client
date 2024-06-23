@@ -1,8 +1,8 @@
-import React from 'react';
+import React,  { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
 import Jmc from '../../assets/jmc_logo.png';
-
+import axios from 'axios';
 
 function StudentLayout() {
   let menus = [
@@ -40,12 +40,60 @@ function StudentLayout() {
    },
   ];
 
+  const [acyear, setAcYear] = useState();
+
+  const Submit = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3001/api/admin/acyear", {acyear})
+    .then(result => {
+      if(result.data.success){
+        window.alert("Academic Year Set Successfully");
+      }
+      else if(result.data.message === 'Already Existing'){
+        alert("Already Existing")
+      }
+      else{
+        alert('Something went worng')
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      window.alert("Something Went Wrong");
+    });
+  }
+
   return (
     <div className="flex flex-row bg-slate-500 h-screen w-screen ">
       <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
         <div className=' flex flex-col mb-10 place-items-center'>
         <img src={Jmclogo} alt="" className=" w-36 h-40  " />
         <img src={Jmc} alt="" className=" w-60 " />
+        <div>
+          <form  onSubmit= {Submit} >
+              <label className="block mb-1">Academic:</label>
+              <select
+                name="acyear"
+                value={acyear}
+                onChange={(e) => setAcYear(e.target.value)}
+                className=" w-28 p-1 border  rounded-md text-slate-950"
+                required
+                readOnly
+              >
+                <option value="">Select</option>
+                <option value="2024-2025">2024-2025</option>
+                <option value="2025-2026">2025-2026</option>
+                <option value="2025-2026">2026-2027</option>
+                <option value="2027-2028">2027-2028</option>
+                <option value="2028-2029">2028-2029</option>
+                <option value="2029-2030">2029-2030</option>
+                <option value="2030-2031">2030-2031</option>
+                <option value="2031-203">2031-2032</option>
+                <option value="2032-2033">2032-2033</option>
+                
+              </select>
+              <button type='submit' className=" p-1 border px-3 ml-3 rounded-md bg-orange-500">set</button>
+              </form>
+            </div>
         </div>
         {menus.map((item, index) => (
           <NavLink

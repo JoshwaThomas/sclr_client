@@ -1,5 +1,7 @@
 // src/Dashboard.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import Loading from '../assets/Pulse.svg'
 import { Bar, Pie } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -25,12 +27,25 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+
+   const[data, setData] = useState(null);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/dashboard/counts')
+            .then(response => setData(response.data))
+            .catch(err => console.log('Error fetching data:',err))
+    }, []);
+
+    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+   
+
     const barData = {
         labels: ['First Year/UG', 'Second Year/UG', 'Third Year/UG', 'First Year/PG','Second Year/PG'],
         datasets: [
             {
                 label: 'Applicants ',
-                data: [120, 100, 190, 570, 200],
+                data: [data.firstYear, data.secYear, data.thirdYear, data.pgfirstYear, data.pgsecYear],
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 
             },
@@ -55,9 +70,9 @@ const Dashboard = () => {
         datasets: [
             {
                 
-                data: [63, 36],
+                data: [data.ugPercent, data.pgPercent],
                 backgroundColor: [
-                    'rgb(225,29,72)',
+                    'rgb(251,79,20)',
                     'rgb(6,95,70)',
                 ],
             },
@@ -68,10 +83,10 @@ const Dashboard = () => {
         datasets: [
             {
                 
-                data: [43,25,31],
+                data: [data.sfmPercent, data.sfwPercent, data.amPercent],
                 backgroundColor: [
+                    ' rgb(253,88,0)',
                     'rgb(225,29,72)',
-                    'rgb(6,95,70)',
                     'rgb(14,165,233)',
                 ],
             },
@@ -82,10 +97,10 @@ const Dashboard = () => {
         datasets: [
             {
                 
-                data: [63, 36],
+                data: [data.mensTotal, data.sfwPercent],
                 backgroundColor: [
                     'rgb(99,102,241)',
-                    'rgb(101, 163, 13)',
+                    'rgb(233,105,44)',
                 ],
             },
         ],
@@ -96,10 +111,13 @@ const Dashboard = () => {
     return (
         <div className="container mx-auto p-4">
             <div className="grid grid-cols-4 gap-4 mb-8 ">
+           
                 <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
                     <FontAwesomeIcon icon={faUsers} size="2x" />
                     <div>Total Applicants</div>
+                    <div>{data.totalApplicants}</div>
                 </div>
+            
                 <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
                     <FontAwesomeIcon icon={faGraduationCap} size="2x" />
                     <div>Students Benefitted</div>
