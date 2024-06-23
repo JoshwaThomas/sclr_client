@@ -217,7 +217,7 @@ function Status() {
                                 <input
                                     type="text"
                                     maxlength="12"
-                                    name="pin"
+                                    name="aadharno"
                                     value={personalDetails.aadharno}
                                     onChange={handleChangePersonal}
                                     className="w-96 p-2 border rounded-md text-slate-950"

@@ -85,7 +85,18 @@ const ScholarshipForm = () => {
     calculateDeeniyathPercentage();
   }, [deeniyathEducationDays, deeniyathMaxDays]);
 
+  useEffect(() => {
+    const calculateClassAttendancePercentage = () => {
+      if (classAttendance && classMaxAttendance) {
+        const percentage = (parseFloat(classAttendance) / parseFloat(classMaxAttendance)) * 100;
+        setClassAttendancePer(percentage.toFixed(2));
+      } else {
+        setClassAttendancePer('');
+      }
+    };
 
+    calculateClassAttendancePercentage();
+  }, [classAttendance, classMaxAttendance]); 
 
   const Submit = (e) => {
     e.preventDefault();
@@ -377,14 +388,41 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">Department:</label>
-              <input
+              <select
                 type="text"
                 name="dept"
                 value={dept}
                 onChange={(e) =>  setDept(e.target.value)}
                 className=" w-96 p-2 border rounded-md text-slate-950"
                 required
-              />
+              >
+                <option value="">Select Department</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Business Adminsitration">Business Adminsitration</option>
+                <option value="Bio Technology">Bio Technology</option>
+                <option value="Botany">Botany</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Computer Science">Computer Science</option>
+                <option value="Economics">Economics</option>
+                <option value="English">English</option>
+                <option value="Fashion Technology">Fashion Technology</option>
+                <option value="French">French</option>
+                <option value="Hindi">Hindi</option>
+                <option value="History">History</option>
+                <option value="Hotel Management">Hotel Management</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="MBA">MBA</option>
+                <option value="Microbiology">Microbiology</option>
+                <option value="Nutrition and Dietetics">Nutrition and Dietetics</option>
+                <option value="Physical Education">Physical Education</option>
+                <option value="Physics">Physics</option>
+                <option value="Social Work">Social Work</option>
+                <option value="Tamil">Tamil</option>
+                <option value="Urdu">Urdu</option>
+                <option value="Visual Communication">Visual Communication</option>
+                <option value="Zoology">Zoology</option>
+                </select>
             </div>
             <div>
               <label className="block mb-1">Section</label>
