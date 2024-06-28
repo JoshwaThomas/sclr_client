@@ -29,11 +29,15 @@ ChartJS.register(
 const Dashboard = () => {
 
    const[data, setData] = useState(null);
+   const[totalamount, setTotalAmount] = useState(0);
 
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/dashboard/counts')
-            .then(response => setData(response.data))
+            .then(response => {setData(response.data)
+                const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
+                setTotalAmount(total);
+            })
             .catch(err => console.log('Error fetching data:',err))
     }, []);
 
@@ -121,14 +125,18 @@ const Dashboard = () => {
                 <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
                     <FontAwesomeIcon icon={faGraduationCap} size="2x" />
                     <div>Students Benefitted</div>
+                    <div>{data.totalBenefit}</div>
                 </div>
                 <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
                     <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
                     <div>Scholarship Funds Awarded</div>
+                    <div>{totalamount}</div>
+                    
                 </div>
                 <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
                     <FontAwesomeIcon icon={faHandsHelping} size="2x" />
                     <div>Generous Donors</div>
+                    <div>{data.totalDonars}</div>
                 </div>
             </div>
             <div className="grid grid-cols-3 pb-4 gap-6 h-30">

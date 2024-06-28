@@ -16,36 +16,41 @@ import Accrej from './components/admin/reports/accrej';
 import Fundreport from './components/admin/reports/fundreport';
 import AdminApplication from './components/admin/adminapplication';
 import DonorForm from './components/admin/donar';
+import Staff from './components/shared/staffLay';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
   return (
     <div>
-     <Router>
-      <Routes>
-        <Route path="/" element={<First />} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<First />} />
           <Route path='student' element={<Layout />} >
             <Route path='dashboard' element={<Dashboard />} />
             <Route path="/student/application/fresh" element={<Fresh />} />
             <Route path="/student/application/renewal" element={<Renewal />} />
             <Route path="/student/guidelines" element={<Guide />} />
-            <Route path='/student/status' element={<Status />}/>
+            <Route path='/student/status' element={<Status />} />
           </Route>
           <Route path='login' element={<Login />} ></Route>
-            <Route path="/admin" element={<Admin />} > 
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path='/admin/application' element={<AdminApplication />} />
-              <Route path='/admin/action' element={<Action />} />
-              <Route path='/admin/report' element={<Report />} />
-              <Route path='/admin/donor' element={<DonorForm />} />
-              <Route path='/admin/report/stureport' element={<Stureport />} />
-              <Route path='/admin/report/catreport' element={<Catreport />} />
-              <Route path='/admin/report/accrej' element={<Accrej />} />
-              <Route path='/admin/report/fundreport' element={<Fundreport />} />
-            </Route>
+          <Route path="/admin" element={<Admin />} >
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='/admin/application' element={<AdminApplication />} />
+            <Route path='/admin/action' element={<Action />} />
+            <Route path='/admin/report' element={<Report />} />
+            <Route path='/admin/donor' element={<DonorForm />} />
+            <Route path='/admin/report/stureport' element={<Stureport />} />
+            <Route path='/admin/report/catreport' element={<Catreport />} />
+            <Route path='/admin/report/accrej' element={<Accrej />} />
+            <Route path='/admin/report/fundreport' element={<Fundreport />} />
+          </Route>
+          <Route path="/staff" element={<Staff />}> 
+            <Route path='dashboard' element={<Dashboard />} />
+
+          </Route>
         </Routes>
-    </Router>
-    
+      </Router>
+
     </div>
   );
 }
