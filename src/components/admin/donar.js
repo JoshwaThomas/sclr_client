@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 
 const Donar = () => {
   const [name, setName] = useState()
   const [mobileNo, setMobileNo] = useState()
-  const [emailId, setEmailId] = useState()
+  // const [emailId, setEmailId] = useState()
   const [address, setAddress] = useState()
   const [state, setState] = useState()
   const [district, setDistrict] = useState()
@@ -13,20 +13,28 @@ const Donar = () => {
   const [scholtype, setScholType] = useState()
   const [amount, setAmount] = useState()
   const [scholdate, setScholDate] = useState()
+  const [balance, setBalance] = useState()
+
+  useEffect(() => {
+    setBalance(amount);
+  }, [amount]);
 
   const Submit = (e) => {
+    
     e.preventDefault();
     axios.post('http://localhost:3001/api/admin/donar', {
-      name, mobileNo, emailId, address, state, district, pin,
-      scholtype, amount, scholdate
+      name, mobileNo, address, state, district, pin,
+      scholtype, amount, balance, scholdate
     })
       .then(result => {
         console.log(result);
         window.alert("Your Application Submitted Successfully");
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);
         window.alert("Submission failed!");
+        window.location.reload();
       });
   }
 
@@ -37,6 +45,41 @@ const Donar = () => {
       <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
       <form onSubmit={Submit} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
+        <div>
+            <label className="block mb-1">Scholarship Type</label>
+            <select
+              name="ScholarshipCategory"
+              value={scholtype}
+              onChange={(e) => setScholType(e.target.value)}
+              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+              required
+            >
+              <option value="">Select</option>
+              <option value="Endowment">Endowment</option>
+              <option value="JMC Staff">JMC Staff</option>
+              <option value="Alumni">Alumni</option>
+              <option value="Well Wishers">Well Wishers</option>
+              <option value="Singapore Chapter">Singapore Chapter</option>
+              <option value="Trichy Chapter">Trichy Chapter</option>
+              <option value="Chennai Chapter">Chennai Chapter</option>
+              <option value="Kerala Chapter">Kerala Chapter</option>
+              <option value="Kuwait Chapter">Kuwait Chapter</option>
+              <option value="Jeddah Chapter">Jeddah Chapter</option>
+              <option value="Koothanallur Chapter">Koothanallur Chapter</option>
+              <option value="USA Chapter">USA Chapter</option>
+              <option value="Burnei Chapter">Burnei Chapter</option>
+              <option value="Riyadh Chapter">Riyadh Chapter</option>
+              <option value="Malaysia Chapter">Malaysia Chapter</option>
+              <option value="Tenkasi Chapter">Tenkasi Chapter</option>
+              <option value="UK Chapter">UK Chapter</option>
+              <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
+              <option value="Bahrain Chapter">Bahrain Chapter</option>
+              <option value="Bengaluru Chapter">Bengaluru Chapter</option>
+              <option value="UAE Chapter">UAE Chapter</option>
+              <option value="Qatar Chapter">Qatar Chapter</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
           <div>
             <label className="block mb-1">Name:</label>
             <input
@@ -60,6 +103,7 @@ const Donar = () => {
               required
             />
           </div>
+          {/* Email not need
           <div>
             <label className="block mb-1">Email Id:</label>
             <input
@@ -70,7 +114,7 @@ const Donar = () => {
               className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
             />
-          </div>
+          </div> */}
           <div>
             <label className="block mb-1">Permanent Address</label>
             <input
@@ -82,6 +126,8 @@ const Donar = () => {
               placeholder='Door No & Street'
               required
             />
+          </div>
+          <div>
             <label className="block mb-1">State:</label>
             <select
               name="state"
@@ -129,6 +175,8 @@ const Donar = () => {
               <option value="Puducherry">Puducherry</option>
               <option value="Other">Other</option>
             </select>
+          </div>
+          <div>
             <label className="block mb-1">District:</label>
             <select
               name="district"
@@ -177,6 +225,8 @@ const Donar = () => {
               <option value="Virudhunagar">Virudhunagar</option>
               <option value="Other">Other</option>
             </select>
+          </div>
+          <div>
             <label className="block mb-1">Pincode:</label>
             <input
               type="text"
@@ -189,28 +239,7 @@ const Donar = () => {
               required
             />
           </div>
-          <div>
-            <label className="block mb-1">Scholarship Type</label>
-            <select
-              name="ScholarshipCategory"
-              value={scholtype}
-              onChange={(e) => setScholType(e.target.value)}
-              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-              required
-            >
-              <option value="">Select</option>
-              <option value="type1">Type 1</option>
-              <option value="type2">Type 2</option>
-              <option value="type3">Type 3</option>
-              <option value="type4">Type 4</option>
-              <option value="type5">Type 5</option>
-              <option value="type6">Type 6</option>
-              <option value="type7">Type 7</option>
-              <option value="type8">Type 8</option>
-              <option value="type9">Type 9</option>
-              <option value="type10">Type 10</option>
-            </select>
-          </div>
+          
           <div>
             <label className="block mb-1">Amount:</label>
             <input
@@ -234,9 +263,9 @@ const Donar = () => {
               required
             />
           </div>
-          
+
         </div>
-        <button type='submit'className=' p-2 border px-3 ml-3 rounded-md bg-orange-500'>Submit</button>
+        <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
       </form>
 
     </div>
