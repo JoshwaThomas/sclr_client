@@ -16,7 +16,9 @@ import Accrej from './components/admin/reports/accrej';
 import Fundreport from './components/admin/reports/fundreport';
 import AdminApplication from './components/admin/adminapplication';
 import DonorForm from './components/admin/donar';
+import Distribute from './components/admin/distribution';
 import Staff from './components/shared/staffLay';
+
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
@@ -39,6 +41,7 @@ function App() {
             <Route path='/admin/action' element={<Action />} />
             <Route path='/admin/report' element={<Report />} />
             <Route path='/admin/donor' element={<DonorForm />} />
+            <Route path='/admin/distribution_statement' element={<Distribute />} />
             <Route path='/admin/report/stureport' element={<Stureport />} />
             <Route path='/admin/report/catreport' element={<Catreport />} />
             <Route path='/admin/report/accrej' element={<Accrej />} />

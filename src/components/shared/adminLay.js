@@ -14,6 +14,10 @@ function StudentLayout() {
       path: 'dashboard' 
     },
     { icon: 'add-circle', 
+      name: 'Donor', 
+      path: '/admin/donor' 
+    },
+    { icon: 'add-circle', 
       name: 'Application', 
       path: '/admin/application'
      },
@@ -22,12 +26,12 @@ function StudentLayout() {
       path: 'guidelines' 
     },
     { icon: 'add-circle', 
-      name: 'Donor', 
-      path: '/admin/donor' 
-    },
-    { icon: 'add-circle', 
       name: 'Action', 
       path: '/admin/action'
+    },
+    { icon: 'add-circle', 
+      name: 'Distribution Statement', 
+      path: '/admin/distribution_statement'
     },
     { icon: 'add-circle', 
       name: 'Reports', 
