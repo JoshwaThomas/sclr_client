@@ -23,7 +23,7 @@ function StudentLayout() {
      },
     { icon: 'people', 
       name: 'Status', 
-      path: 'guidelines' 
+      path: '/admin/status' 
     },
     { icon: 'add-circle', 
       name: 'Action', 
