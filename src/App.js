@@ -15,7 +15,10 @@ import Catreport from './components/admin/reports/catreport';
 import Accrej from './components/admin/reports/accrej';
 import Fundreport from './components/admin/reports/fundreport';
 import AdminApplication from './components/admin/adminapplication';
-import DonorForm from './components/admin/donar';
+import DonorMenu from './components/admin/donormenu';
+import DonorForm from './components/admin/Donor/donar';
+import DonorExisting from './components/admin/Donor/existing';
+import DonorFundStatement from './components/admin/Donor/fundstatement';
 import Distribute from './components/admin/distribution';
 import Adstatus from './components/admin/status';
 import Staff from './components/shared/staffLay';
@@ -41,7 +44,10 @@ function App() {
             <Route path='/admin/application' element={<AdminApplication />} />
             <Route path='/admin/action' element={<Action />} />
             <Route path='/admin/report' element={<Report />} />
+            <Route path='/admin/donormenu' element={<DonorMenu />} />
             <Route path='/admin/donor' element={<DonorForm />} />
+            <Route path='/admin/existing' element={<DonorExisting />} />
+            <Route path='/admin/fundreport' element={<DonorFundStatement />} />
             <Route path='/admin/distribution_statement' element={<Distribute />} />
             <Route path='/admin/status' element={<Adstatus />} />
             <Route path='/admin/report/stureport' element={<Stureport />} />

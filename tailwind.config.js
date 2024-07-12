@@ -8,5 +8,14 @@ module.exports = {
       }
     },
   },
+  variants: {
+    extend: {
+      display: ['print'],
+      visibility: ['print'],
+      backgroundColor: ['print'],
+      textColor: ['print'],
+      borderColor: ['print'],
+    },
+  },
   plugins: [],
 }

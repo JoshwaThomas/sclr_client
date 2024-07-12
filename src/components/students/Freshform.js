@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import PrintHeader from '../../assets/printHeader.jpg';
+
 
 const ScholarshipForm = () => {
 
@@ -20,7 +22,7 @@ const ScholarshipForm = () => {
   const [district, setDistrict] = useState()
   const [pin, setPin] = useState()
   const [specialCategory, setSpecialCategory] = useState()
- // const [community, setCommunity] = useState()
+  // const [community, setCommunity] = useState()
   const [hostel, setHostel] = useState()
   const [mobileNo, setMobileNo] = useState()
   // const [emailId, setEmailId] = useState()
@@ -45,6 +47,9 @@ const ScholarshipForm = () => {
   const [maxMark, setMaxMark] = useState()
   const [mark, setMark] = useState()
   const [semPercentage, setSemPercentage] = useState()
+  const [isPrint, setPrint] = useState(false)
+  const [printData, setPrintData] = useState([]);
+
 
   useEffect(() => {
     const calculatePercentage = () => {
@@ -98,45 +103,127 @@ const ScholarshipForm = () => {
     calculateClassAttendancePercentage();
   }, [classAttendance, classMaxAttendance]);
 
+  const handlePrint = (e) => {
+    const printContent = document.getElementById('print-section').innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+    window.location.reload();
+  }
+  // const handlePrint = (e) => {
+  //   e.preventDefault();
+  //   setPrint(true);
+  //   setTimeout(() => {
+  //     window.print();
+  //     setPrint(false);
+  //   }, 0);
+  // };
+
   const Submit = (e) => {
+
     e.preventDefault();
-    axios.post("http://localhost:3001/fresh", {
-      fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-      // community, emailId, aadhar,
-       hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
-      yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer, classAttendancePer, semPercentage
-    })
-      .then(result => {
-        if (result.data.success) {
-          window.alert("Your Application Submitted Successfully");
-        }
-        else if (result.data.message === 'Register No. Already Existing') {
-          alert("Register No. Already Existing")
-        }
-        else {
-          alert('Something went worng')
+
+    // Fetch current academic year first
+    axios.get('http://localhost:3001/api/admin/current-acyear')
+      .then(response => {
+        if (response.data.success) {
+          const acyear = response.data.acyear.acyear;
+
+          // Submit the form with academic year
+          axios.post("http://localhost:3001/fresh", {
+            fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
+            hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
+            yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer, classAttendancePer, semPercentage, acyear
+          })
+            .then(result => {
+              if (result.data.success) {
+                window.alert("Your Application Submitted Successfully");
+                setPrint(true);
+
+              } else if (result.data.message === 'Register No. Already Existing') {
+                alert("Register No. Already Existing");
+              } else {
+                alert('Something went wrong');
+              }
+            })
+            .catch(err => {
+              console.error('Error submitting application:', err);
+              window.alert("Something Went Wrong");
+            });
+        } else {
+          console.error('Failed to fetch current academic year');
+          window.alert('Failed to fetch current academic year');
         }
       })
-      .catch(err => {
-        console.log(err);
-        window.alert("Something Went Wrong");
+      .catch(error => {
+        console.error('Error fetching current academic year:', error);
+        window.alert('Error fetching current academic year');
       });
 
-    /* const formData = {
-       ...fresherOrRenewal,ugOrPg,semester, name, registerNo, dept, section, religion,  procategory, address,  state,  district, pin,  specialCategory, 
-       community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo,  fatherOccupation, annualIncome, schoolName, 
-         yearOfPassing, marksSecuredSchool, percentageOfMarkSchool, siblings, deeniyathEducationDays, 
-         deeniyathPer, classAttendance, classAttendancePer
-       
-     };
-     console.log(formData);
-     // Here you can send the formData to the server or perform other actions*/
+    const newData = {
+      fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
+      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
+      yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer, classAttendancePer, semPercentage
+    };
+    setPrintData([...printData, newData]);
+    setFresherOrRenewal('');
+    setUgOrPg('');
+    setSemester('');
+    setName('');
+    setRegisterNo('');
+    setDept('');
+    setProcategory('');
+    setSpecialCategory('');
+    setAddress('');
+    setDistrict('');
+    setState('');
+    setPin('');
+    setHostel('');
+    setMobileNo('');
+    setFatherName('');
+    setFatherNo('');
+    setFatherOccupation('');
+    setAnnualIncome('');
+    setSchoolName('');
+    setYearOfPassing('');
+    setPercentageOfMarkSchool('');
+    setSiblings('');
+    setDeeniyathPer('');
+    setClassAttendancePer('');
+
   };
+
+  // const Submit = (e) => {
+  //   e.preventDefault();
+
+  //   axios.post("http://localhost:3001/fresh", {
+  //     fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
+  //     // community, emailId, aadhar,
+  //      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
+  //     yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer, classAttendancePer, semPercentage, acyear: acyear
+  //   })
+  //     .then(result => {
+  //       if (result.data.success) {
+  //         window.alert("Your Application Submitted Successfully");
+  //       }
+  //       else if (result.data.message === 'Register No. Already Existing') {
+  //         alert("Register No. Already Existing")
+  //       }
+  //       else {
+  //         alert('Something went worng')
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       window.alert("Something Went Wrong");
+  //     });
 
   return (
     <div>
       <div className="container mx-auto p-8">
-        <form onSubmit={Submit} className="space-y-4">
+        <form onSubmit={Submit} className="space-y-4" id="">
           <div className=' '>
             <div>
               <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
@@ -147,9 +234,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="Fresher"
                     name="fresherOrRenewal"
-                    value="fresher"
+                    value="Fresher"
                     className=' scale-200'
-                    checked={fresherOrRenewal === 'fresher'}
+                    checked={fresherOrRenewal === 'Fresher'}
                     onChange={(e) => setFresherOrRenewal(e.target.value)}
                     required
                   />
@@ -160,9 +247,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="Renewal"
                     name="fresherOrRenewal"
-                    value="renewal"
+                    value="Renewal"
                     className=' scale-200'
-                    checked={fresherOrRenewal === 'renewal'}
+                    checked={fresherOrRenewal === 'Renewal'}
                     onChange={(e) => setFresherOrRenewal(e.target.value)}
                     onClick={() => navigate('/student/application/renewal')}
                     required
@@ -184,26 +271,26 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="Ug"
                     name="ugOrPg"
-                    value="ug"
+                    value="UG"
                     className=' scale-200'
-                    checked={ugOrPg === 'ug'}
+                    checked={ugOrPg === 'UG'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
-                  <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
+                  <label htmlFor="UG" className=' form-radio ml-2 text-lg'> UG</label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="Pg"
                     name="ugOrPg"
-                    value="pg"
+                    value="PG"
                     className=' scale-200'
-                    checked={ugOrPg === 'pg'}
+                    checked={ugOrPg === 'PG'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
-                  <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
+                  <label htmlFor="PG" className=' form-radio ml-2 text-lg'> PG</label>
                 </div>
               </div>
             </div>
@@ -259,78 +346,78 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="ISemester"
                     name="semester"
-                    value="Isemester"
+                    value="I Semester"
                     className=' scale-200'
-                    checked={semester === 'Isemester'}
+                    checked={semester === 'I Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="ISemester" className=' form-radio ml-2 text-lg'> I </label>
+                  <label htmlFor="I Semester" className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IISemester"
                     name="semester"
-                    value="IIsemester"
+                    value="II Semester"
                     className=' scale-200'
-                    checked={semester === 'IIsemester'}
+                    checked={semester === 'II Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IISemester" className=' form-radio ml-2 text-lg'> II </label>
+                  <label htmlFor="II Semester" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IIISemester"
                     name="semester"
-                    value="IIIsemester"
+                    value="III Semester"
                     className=' scale-200'
-                    checked={semester === 'IIIsemester'}
+                    checked={semester === 'III Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IIISemester" className=' form-radio ml-2 text-lg'> III </label>
+                  <label htmlFor="III Semester" className=' form-radio ml-2 text-lg'> III </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IVSemester"
                     name="semester"
-                    value="IVsemester"
+                    value="IV Semester"
                     className=' scale-200'
-                    checked={semester === 'IVsemester'}
+                    checked={semester === 'IV Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IVSemester" className=' form-radio ml-2 text-lg'> IV </label>
+                  <label htmlFor="IV Semester" className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VSemester"
                     name="semester"
-                    value="Vsemester"
+                    value="V Semester"
                     className=' scale-200'
-                    checked={semester === 'Vsemester'}
+                    checked={semester === 'V Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
+                  <label htmlFor="V Semester" className=' form-radio ml-2 text-lg'> V </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VIsemester"
                     name="semester"
-                    value="VIsemester"
+                    value="VI Semester"
                     className=' scale-200'
-                    checked={semester === 'VIsemester'}
+                    checked={semester === 'VI Semester'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
+                  <label htmlFor="VI Semester" className=' form-radio ml-2 text-lg'> VI </label>
                 </div>
               </div>
             </div>
@@ -373,7 +460,7 @@ const ScholarshipForm = () => {
                 type="text"
                 name="registerNo"
                 value={registerNo}
-                onChange={(e) => setRegisterNo(e.target.value)}
+                onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
                 className=" w-48 md:w-96 p-2 border rounded-md text-slate-950"
                 required
               />
@@ -449,7 +536,7 @@ const ScholarshipForm = () => {
                 value={section}
                 onChange={(e) => setSection(e.target.value)}
                 className=" w-48 md:w-96 p-2 border rounded-md text-slate-950"
-                
+
               >
                 <option value="">Select</option>
                 <option value="A">A</option>
@@ -563,8 +650,8 @@ const ScholarshipForm = () => {
                 type="text"
                 name="fatherName"
                 value={fatherName}
-                onChange={(e) => setFatherName(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                onChange={(e) => setFatherName(e.target.value.toUpperCase())}
+                className=" w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -573,9 +660,10 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherNo"
+                maxlength="10"
                 value={fatherNo}
                 onChange={(e) => setFatherNo(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -585,8 +673,8 @@ const ScholarshipForm = () => {
                 type="text"
                 name="fatherOccupation"
                 value={fatherOccupation}
-                onChange={(e) => setFatherOccupation(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                onChange={(e) => setFatherOccupation(e.target.value.toUpperCase())}
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -597,7 +685,7 @@ const ScholarshipForm = () => {
                 name="annualIncome"
                 value={annualIncome}
                 onChange={(e) => setAnnualIncome(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -608,7 +696,7 @@ const ScholarshipForm = () => {
                 name="siblings"
                 value={siblings}
                 onChange={(e) => setSiblings(e.target.value)}
-                className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
+                className="w-48 md:w-44 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -618,8 +706,8 @@ const ScholarshipForm = () => {
                 type="text"
                 name="address"
                 value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                onChange={(e) => setAddress(e.target.value.toUpperCase())}
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 placeholder='Door No & Street'
                 required
               />
@@ -630,7 +718,7 @@ const ScholarshipForm = () => {
                 name="state"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               >
                 <option value="">Select State</option>
@@ -679,7 +767,7 @@ const ScholarshipForm = () => {
                 name="district"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 required
               >
                 <option value="">Select District</option>
@@ -731,7 +819,7 @@ const ScholarshipForm = () => {
                 name="pin"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                 placeholder='Pincode'
                 required
               />
@@ -749,7 +837,7 @@ const ScholarshipForm = () => {
                     type="text"
                     name="schoolName"
                     value={schoolName}
-                    onChange={(e) => setSchoolName(e.target.value)}
+                    onChange={(e) => setSchoolName(e.target.value.toUpperCase())}
                     className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
 
                   />
@@ -923,8 +1011,88 @@ const ScholarshipForm = () => {
             >
               Submit
             </button>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 ml-3 justify-end "
+              onClick={handlePrint}
+              disabled={!isPrint}
+            >
+              Print
+            </button>
           </div>
         </form>
+
+        {printData.length > 0 && (
+          // <table className="min-w-full divide-y divide-gray-200 mt-8 border border-black" id="print-section">
+          // <thead className="bg-gray-50">
+          <div id="print-section" hidden>
+            <img src={PrintHeader} alt="" className="w-full" />
+            <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP APPLICATION </h1>
+           <div className='border border-black '>
+            {printData.map((data, index) => (
+                <div key={index} className='grid grid-cols-5 w-auto gap-10 mt-2'>
+                  <div className="font-bold border border-black text-center py-2"> {data.fresherOrRenewal} </div>
+                  <div className="font-bold border border-black text-center py-2">{data.ugOrPg}</div>
+                  <div className="font-bold border border-black text-center py-2">{data.semester}</div>
+                  <div className="font-bold border border-black text-center py-2">{data.procategory}</div>
+                  <div className="font-bold border border-black text-center py-2">{data.dept}</div>
+                </div>
+
+              ))}
+            <div className='grid grid-cols-2 w-auto p-4 '>
+              <div>
+                <div className="px-4 py-3 whitespace-normal" >Applicant</div>
+                <div className="px-4 py-3 whitespace-normal" >Mobile No</div>
+                <div className="px-4 py-3 whitespace-normal">Register No</div>
+                <div className="px-4 py-3 whitespace-normal">Hostel</div>
+                <div className="px-4 py-3 whitespace-normal">specialCategory</div>
+                <div className="px-4 py-3 whitespace-normal">Address</div>
+                <div className="px-4 py-3 whitespace-normal">Father Name</div>
+                <div className="px-4 py-3 whitespace-normal">Father Mobile No</div>
+                <div className="px-4 py-3 whitespace-normal">Father Occupation & Income</div>
+                <div className="px-4 py-3 whitespace-normal">School Name</div>
+                <div className="px-4 py-3 whitespace-normal">Year of Passing & Percentage</div>
+                <div className="px-4 py-3 whitespace-normal"> Deeniyadiv Percentage </div>
+                <div className="px-4 py-3 whitespace-normal">Attendance Percentage</div>
+                <div className="px-4 py-3 whitespace-normal">No. Of Siblings</div>
+                {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
+              </div>
+
+              {printData.map((data, index) => (
+                <div key={index} className=''>
+                  <div className="px-4 py-3 whitespace-normal">{data.name}</div>
+                  <div className="px-4 py-3 whitespace-normal"> {data.mobileNo}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.registerNo}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.hostel}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.specialCategory}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.fatherName}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.fatherNo}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.schoolName}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.deeniyathPer}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.classAttendancePer}</div>
+                  <div className="px-4 py-3 whitespace-normal">{data.siblings}</div>
+                  {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
+                <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
+                 */}
+                </div>
+
+              ))}
+            </div>
+            <div className='grid grid-cols-4 w-auto'>
+              <div>Signature of the Class Tuitor</div>
+              <div>Signature of the Attendance Staff</div>
+              <div>Signature of the Deeniyath Staff</div>
+              <div>Signature of the Parent </div>
+            </div>
+            </div>
+          </div>
+
+        )}
+
+
       </div>
     </div>
   );

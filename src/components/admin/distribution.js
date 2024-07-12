@@ -1,15 +1,19 @@
 import { useEffect, useState, React } from 'react';
 import axios from "axios";
-// import Loading from '../../assets/Pulse.svg'
+import Loading from '../../assets/Pulse.svg'
 
 function Action() {
 
     const [users, setUsers] = useState([]);
+    const [filterUsers, setFilterUsers] = useState([]);
+    const [donorMapping, setDonorMapping] = useState({});
+    const [data, setData] = useState(null);
+    const [totalamount, setTotalAmount] = useState(0);
+    const [totaldonaramt, setDonaramt] = useState(0);
     // const [rusers, setRusers] = useState([]);
     // const [donars, setDonars] = useState([]);
     // const [selectedUser, setSelectedUser] = useState(null);
     // const [showModal, setShowModal] = useState(false);
-    const [filterUsers, setFilterUsers] = useState([]);
     // const [showModals, setShowModals] = useState(false);
     // const [scholamt, setScholamt] = useState('');
     // const [scholtype, setScholType] = useState('');
@@ -18,16 +22,31 @@ function Action() {
     // const [dept, setDept] = useState('');
     // const [fresherOrRenewal, setFresherOrRenewal] = useState('');
     // const [scholdonar, setScholdonar] = useState([]);
-    // const [data, setData] = useState(null);
+
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/freshamt')
-            .then(response => {
-                setUsers(response.data);
-                setFilterUsers(response.data);
-            })
-            .catch(err => console.log(err));
+        const fetchUsersAndDonors = async () => {
+            try {
+                const usersResponse = await axios.get('http://localhost:3001/api/admin/freshamt');
+                const donorsResponse = await axios.get('http://localhost:3001/api/admin/donors');
+
+                const usersData = usersResponse.data;
+                const donorsData = donorsResponse.data;
+
+                const donorMap = donorsData.reduce((map, donor) => {
+                    map[donor._id] = donor.name;
+                    return map;
+                }, {});
+
+                setUsers(usersData);
+                setFilterUsers(usersData);
+                setDonorMapping(donorMap);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        fetchUsersAndDonors();
     }, []);
 
     // useEffect(() => {
@@ -94,7 +113,8 @@ function Action() {
             user.dept.toLowerCase().includes(searchText) ||
             user.registerNo.toLowerCase().includes(searchText) ||
             user.name.toLowerCase().includes(searchText) ||
-            user.fresherOrRenewal.toLowerCase().includes(searchText)
+            // user.fresherOrRenewal.toLowerCase().includes(searchText) ||
+            user.scholdonar.toLowerCase().includes(searchText)
         );
         setFilterUsers(filteredUsers);
     };
@@ -152,16 +172,20 @@ function Action() {
     //             window.location.reload();
     //         });
     // };
-    //show the no of applicant in footer
-    // useEffect(() => {
-    //     axios.get('http://localhost:3001/api/dashboard/counts')
-    //         .then(response => {
-    //             setData(response.data)
-    //         })
-    //         .catch(err => console.log('Error fetching data:', err))
-    // }, []);
+    // show the no of applicant in footer
+    useEffect(() => {
+        axios.get('http://localhost:3001/api/dashboard/counts')
+            .then(response => {
+                setData(response.data)
+                const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
+                setTotalAmount(total);
+                const total1 = response.data.donaramt.reduce((add, amount) => add + amount, 0);
+                setDonaramt(total1);
+            })
+            .catch(err => console.log('Error fetching data:', err))
+    }, []);
 
-    // if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
 
     return (
@@ -209,24 +233,29 @@ function Action() {
                 />
                 <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label> */}
             </div>
-            <div className='mt-6 pl-0'>
-                <div className="grid grid-cols-4 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                    {/* <div className="font-bold border border-white text-center">Application</div> */}
-                    <div className="font-bold border border-white text-center">Register No.</div>
-                    <div className="font-bold border border-white text-center">Name</div>
-                    <div className="font-bold border border-white text-center">Dept</div>
-                    <div className='font-bold border border-white text-center'> Amount</div>
-                    {/* <div className="font-bold border border-white text-center">Action</div> */}
+            <div className="grid grid-cols-6 w-auto bg-amber-300 mt-4">
+                {/* <div className=""> */}
+                {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
+                {/* <div className="font-bold border border-white text-center">Application</div> */}
+                <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
+                <div className="font-bold border border-white text-center py-3">NAME</div>
+                <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
+                <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
+                <div className="font-bold border border-white text-center py-3">DONOR NAME</div>
+                <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
+                {/* <div className="font-bold border border-white text-center">Action</div> */}
 
-                </div>
-                {filterUsers.map((user) => (
-                    <div key={user.registerNo} className="grid grid-cols-4 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                        {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                        <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.scholamt}</div>
-                        {/* <div className="font-bold border border-white text-center uppercase">
+            </div>
+            {filterUsers.map((user) => (
+                <div key={user.registerNo} className="grid grid-cols-6 bg-amber-200">
+                    {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
+                    <div className="font-bold border border-white text-center py-3 uppercase">{user.registerNo}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{user.name}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{user.dept}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{user.scholtype}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{donorMapping[user.scholdonar] || user.scholdonar}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{user.scholamt}</div>
+                    {/* <div className="font-bold border border-white text-center uppercase">
                             <button
                                 type="button"
                                 onClick={() => handleViewClick(user)}
@@ -249,10 +278,10 @@ function Action() {
                                 Reject
                             </button>
                         </div> */}
-                    </div>
-                ))}
-                <div>
-                    {/* {rusers.map((user) => (
+                </div>
+            ))}
+            <div>
+                {/* {rusers.map((user) => (
                     <div key={user.registerNo} className="grid grid-cols-5 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
                         <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
                         <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
@@ -282,14 +311,14 @@ function Action() {
                             </button>
                         </div>
                     </div>
-                ))} */}</div>
-            </div>
+                // ))} */}</div>
+            {/* </div> */}
             {/* <div>
                 <div>Total Benefits / Applicants:  
                     {data.totalBenefit} / {data.totalApplication} </div>
 
             </div> */}
-            
+
 
             {/* {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -391,6 +420,17 @@ function Action() {
                     </div>
                 </div>
             )} */}
+
+            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 '>
+                <div className='border border-white rounded-lg  grid grid-cols-2 p-4'>
+                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :{data.totalApplication} </div>
+                    <div className=' w-72 ml-7' > Number of Students Benefitted: </div><div className='ml-16'> {data.totalBenefit} </div>
+                </div>
+                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
+                    <div className='text-right  w-96'>Scholarship Received :</div><div className='ml-36 '> {totaldonaramt}</div>
+                    <div className='text-right w-96'>Scholarship Awarded  : </div><div className='ml-36'> {totalamount}  </div>
+                </div>
+            </div>
         </div>
     );
 }

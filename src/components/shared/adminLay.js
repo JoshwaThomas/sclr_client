@@ -15,7 +15,7 @@ function StudentLayout() {
     },
     { icon: 'add-circle', 
       name: 'Donor', 
-      path: '/admin/donor' 
+      path: '/admin/donormenu' 
     },
     { icon: 'add-circle', 
       name: 'Application', 
@@ -65,12 +65,15 @@ function StudentLayout() {
           alert("Already Existing");
         } else {
           alert('Something went wrong');
+          console.error('Failed to fetch current academic year');
         }
       })
       .catch(err => {
         console.log(err);
+        console.error('Error fetching current academic year:', err);
         window.alert("Something Went Wrong");
       });
+      
   }
 
   return (
@@ -92,7 +95,7 @@ function StudentLayout() {
                 <option value="">Select</option>
                 <option value="2024-2025">2024-2025</option>
                 <option value="2025-2026">2025-2026</option>
-                <option value="2025-2026">2026-2027</option>
+                <option value="2026-2027">2026-2027</option>
                 <option value="2027-2028">2027-2028</option>
                 <option value="2028-2029">2028-2029</option>
                 <option value="2029-2030">2029-2030</option>

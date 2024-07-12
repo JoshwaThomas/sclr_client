@@ -5,6 +5,7 @@ import axios from 'axios';
 const Donar = () => {
   const [name, setName] = useState()
   const [mobileNo, setMobileNo] = useState()
+  const [pan, setPan] = useState()
   // const [emailId, setEmailId] = useState()
   const [address, setAddress] = useState()
   const [state, setState] = useState()
@@ -20,15 +21,24 @@ const Donar = () => {
   }, [amount]);
 
   const Submit = (e) => {
-    
+
     e.preventDefault();
-    axios.post('http://localhost:3001/api/admin/donar', {
+    axios.post('http://localhost:3001/api/admin/donardata', {
       name, mobileNo, address, state, district, pin,
-      scholtype, amount, balance, scholdate
+      scholtype, amount, balance, scholdate, pan
     })
       .then(result => {
         console.log(result);
-        window.alert("Your Application Submitted Successfully");
+        if (result.data.success) {
+          window.alert("Your Data Submitted Successfully");
+        }
+        else if (result.data.message === 'Donor Already Existing') {
+          alert("Pan No. Already Existing")
+        }
+        else {
+          alert('Something went worng')
+        }
+       
         window.location.reload();
       })
       .catch(err => {
@@ -45,40 +55,51 @@ const Donar = () => {
       <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
       <form onSubmit={Submit} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-        <div>
-            <label className="block mb-1">Scholarship Type</label>
-            <select
+          <div>
+            <label className="block mb-1">PAN No</label>
+            <input
+            type='text'
               name="ScholarshipCategory"
-              value={scholtype}
-              onChange={(e) => setScholType(e.target.value)}
+              value={pan}
+              onChange={(e) => setPan(e.target.value)}
               className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
-            >
-              <option value="">Select</option>
-              <option value="Endowment">Endowment</option>
-              <option value="JMC Staff">JMC Staff</option>
-              <option value="Alumni">Alumni</option>
-              <option value="Well Wishers">Well Wishers</option>
-              <option value="Singapore Chapter">Singapore Chapter</option>
-              <option value="Trichy Chapter">Trichy Chapter</option>
-              <option value="Chennai Chapter">Chennai Chapter</option>
-              <option value="Kerala Chapter">Kerala Chapter</option>
-              <option value="Kuwait Chapter">Kuwait Chapter</option>
-              <option value="Jeddah Chapter">Jeddah Chapter</option>
-              <option value="Koothanallur Chapter">Koothanallur Chapter</option>
-              <option value="USA Chapter">USA Chapter</option>
-              <option value="Burnei Chapter">Burnei Chapter</option>
-              <option value="Riyadh Chapter">Riyadh Chapter</option>
-              <option value="Malaysia Chapter">Malaysia Chapter</option>
-              <option value="Tenkasi Chapter">Tenkasi Chapter</option>
-              <option value="UK Chapter">UK Chapter</option>
-              <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
-              <option value="Bahrain Chapter">Bahrain Chapter</option>
-              <option value="Bengaluru Chapter">Bengaluru Chapter</option>
-              <option value="UAE Chapter">UAE Chapter</option>
-              <option value="Qatar Chapter">Qatar Chapter</option>
-              <option value="Others">Others</option>
-            </select>
+            />
+            </div>
+            <div>
+              <label className="block mb-1">Scholarship Type</label>
+              <select
+                name="ScholarshipCategory"
+                value={scholtype}
+                onChange={(e) => setScholType(e.target.value)}
+                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+              >
+                <option value="">Select</option>
+                <option value="Endowment">Endowment</option>
+                <option value="JMC Staff">JMC Staff</option>
+                <option value="Alumni">Alumni</option>
+                <option value="Well Wishers">Well Wishers</option>
+                <option value="Singapore Chapter">Singapore Chapter</option>
+                <option value="Trichy Chapter">Trichy Chapter</option>
+                <option value="Chennai Chapter">Chennai Chapter</option>
+                <option value="Kerala Chapter">Kerala Chapter</option>
+                <option value="Kuwait Chapter">Kuwait Chapter</option>
+                <option value="Jeddah Chapter">Jeddah Chapter</option>
+                <option value="Koothanallur Chapter">Koothanallur Chapter</option>
+                <option value="USA Chapter">USA Chapter</option>
+                <option value="Burnei Chapter">Burnei Chapter</option>
+                <option value="Riyadh Chapter">Riyadh Chapter</option>
+                <option value="Malaysia Chapter">Malaysia Chapter</option>
+                <option value="Tenkasi Chapter">Tenkasi Chapter</option>
+                <option value="UK Chapter">UK Chapter</option>
+                <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
+                <option value="Bahrain Chapter">Bahrain Chapter</option>
+                <option value="Bengaluru Chapter">Bengaluru Chapter</option>
+                <option value="UAE Chapter">UAE Chapter</option>
+                <option value="Qatar Chapter">Qatar Chapter</option>
+                <option value="Others">Others</option>
+              </select>
           </div>
           <div>
             <label className="block mb-1">Name:</label>
@@ -239,7 +260,7 @@ const Donar = () => {
               required
             />
           </div>
-          
+
           <div>
             <label className="block mb-1">Amount:</label>
             <input
