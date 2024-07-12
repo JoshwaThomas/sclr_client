@@ -415,10 +415,9 @@ const ScholarshipForm = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-
+          <div className="grid grid-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1">Register No.:</label>
+              <label className="block mb-1">Register No:</label>
               <input
                 type="text"
                 id="registerNo"
@@ -426,28 +425,43 @@ const ScholarshipForm = () => {
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
 
-                className="w-72 p-2 uppercase border rounded-md text-slate-950"
+                className="w-60 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
+              </div>
+              <div>
+              <label className="block mb-1">Mobile No:</label>
+              <input
+                type="text"
+                maxlength="10"
+                id="mobileNo"
+                name="mobileNo"
+                value={mobileNo}
+                onChange={(e) => setMobileNo(e.target.value)}
 
-              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
+                className="w-60 p-2 uppercase border rounded-md text-slate-950"
+                required
+              />
+              </div>
+              <div>
+              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-6 -ml-2 hover:bg-black rounded-lg mt-7'>
                 Get</button>
             </div>
             <div>
-              <label className="block mb-1">Last Time Credited Amount:</label>
+              <label className="block mb-1 -ml-32">Last Time Credited Amount:</label>
               <input
                 type="text"
                 name="lastCreditedAmount"
                 value={lastCreditedAmt}
                 onChange={(e) => setLastCreditedAmt(e.target.value)}
-                className="w-72 p-2 appearance-auto border rounded-md text-slate-950"
+                className="w-60 p-2 appearance-auto border rounded-md text-slate-950 -ml-32"
                 required
               />
             </div>
           </div>
           {student && (
             <div>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-4 border  p-10 rounded-xl'>
+              <div className='grid grid-rows-1 md:grid-cols-3 gap-4 border  p-10 rounded-xl'>
                 <div>
                   <label className="block mb-1">Name:</label>
                   <input
@@ -631,7 +645,7 @@ const ScholarshipForm = () => {
                   />
                 </div> */}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 mt-4 rounded-xl">
+              <div className="grid grid-rows-2 md:grid-cols-4 gap-4 border p-10 mt-5 rounded-xl">
                 <div>
                   <label className="block mb-1">Father's Name:</label>
                   <input
@@ -639,33 +653,36 @@ const ScholarshipForm = () => {
                     name="fatherName"
                     value={fatherName}
                     onChange={(e) => setFatherName(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className=" w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                     readOnly
                   />
-
+                  </div>
+                  <div>
                   <label className="block mb-1">Father's Contact No.:</label>
                   <input
                     type="text"
                     name="fatherNo"
                     value={fatherNo}
                     onChange={(e) => setFatherNo(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                     readOnly
                   />
-
-
+                  </div>
+                  <div>
                   <label className="block mb-1">Father's Occupation:</label>
                   <input
                     type="text"
                     name="fatherOccupation"
                     value={fatherOccupation}
                     onChange={(e) => setFatherOccupation(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950 "
                     required
 
                   />
+                  </div>
+                  <div>
 
 
                   <label className="block mb-1">Annual Income:</label>
@@ -674,10 +691,10 @@ const ScholarshipForm = () => {
                     name="annualIncome"
                     value={annualIncome}
                     onChange={(e) => setAnnualIncome(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                   />
-                </div>
+                  </div>
                 <div>
                   <label className="block mb-1">Permanent Address</label>
                   <input
@@ -685,16 +702,18 @@ const ScholarshipForm = () => {
                     name="address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     placeholder='Door No & Street'
                     required
                   />
+                  </div>
+                  <div>
                   <label className="block mb-1">State:</label>
                   <select
                     name="state"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                   >
                     <option value="">Select State</option>
@@ -735,13 +754,14 @@ const ScholarshipForm = () => {
                     <option value="Lakshadweep">Lakshadweep</option>
                     <option value="Puducherry">Puducherry</option>
                     <option value="Other">Others</option>
-                  </select>
+                  </select></div>
+                  <div>
                   <label className="block mb-1">District:</label>
                   <select
                     name="district"
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                   >
                     <option value="">Select District</option>
@@ -783,7 +803,8 @@ const ScholarshipForm = () => {
                     <option value="Viluppuram">Viluppuram</option>
                     <option value="Virudhunagar">Virudhunagar</option>
                     <option value="Other">Others</option>
-                  </select>
+                  </select></div>
+                  <div>
                   <label className="block mb-1">Pincode:</label>
                   <input
                     type="text"
@@ -791,11 +812,10 @@ const ScholarshipForm = () => {
                     name="pin"
                     value={pin}
                     onChange={(e) => setPin(e.target.value)}
-                    className="w-72  p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     placeholder='Pincode'
                     required
                   />
-
                 </div>
               </div>
             </div>
@@ -937,7 +957,7 @@ const ScholarshipForm = () => {
                   name="siblings"
                   value={siblings}
                   onChange={(e) => setSiblings(e.target.value)}
-                  className="w-72 p-2 border rounded-md text-slate-950"
+                  className="mt-5 w-58 p-2 border rounded-md text-slate-950"
                   required
                 />
               </div>

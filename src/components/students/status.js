@@ -39,12 +39,12 @@ function Status() {
             <div className="container mx-auto p-8">
                 <form onSubmit={Submit} className="space-y-4 ">
 
-                    <div className='  text-white'>
+                    <div className=' text-white'>
                         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1">Application Status</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+                        <div className="grid grid-rows-2 md:grid-cols-1 gap-4 ">
 
-                            <div>
-                                <label className="block mb-1">Register No.:</label>
+                            <div >
+                                <label className="block mb-1">Register No:</label>
                                 <input
                                     type="text"
                                     id="registerNo"
@@ -56,6 +56,7 @@ function Status() {
                                 />
                             </div>
                             <div>
+                                <label className="block mb-1">Mobile No:</label>
                                 <input
                                     type='text'
                                     id='mobileNo'
@@ -69,7 +70,7 @@ function Status() {
                         </div>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
+                            className="bg-blue-500 text-white py-2 px-4 rounded-md mt-8 "
                         >
                             Check Status
                         </button>
