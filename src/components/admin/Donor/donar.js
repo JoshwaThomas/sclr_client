@@ -56,7 +56,7 @@ const Donar = () => {
       <form onSubmit={Submit} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
           <div>
-            <label className="block mb-1">PAN No</label>
+            <label className="block mb-1">PAN or DID No</label>
             <input
             type='text'
               name="ScholarshipCategory"

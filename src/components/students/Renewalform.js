@@ -8,42 +8,42 @@ const ScholarshipForm = () => {
   const navigate = useNavigate();
 
   const [student, setStudent] = useState(null);
-  const [fresherOrRenewal, setFresherOrRenewal] = useState()
-  const [ugOrPg, setUgOrPg] = useState()
-  const [semester, setSemester] = useState()
-  const [name, setName] = useState()
-  const [registerNo, setRegisterNo] = useState()
-  const [dept, setDept] = useState()
-  const [section, setSection] = useState()
-  const [religion, setReligion] = useState()
-  const [procategory, setProcategory] = useState()
-  const [address, setAddress] = useState()
-  const [state, setState] = useState()
-  const [district, setDistrict] = useState()
-  const [pin, setPin] = useState()
-  const [specialCategory, setSpecialCategory] = useState()
-  const [community, setCommunity] = useState()
-  const [hostel, setHostel] = useState()
-  const [mobileNo, setMobileNo] = useState()
-  const [emailId, setEmailId] = useState()
-  const [aadhar, setAadhar] = useState()
-  const [fatherName, setFatherName] = useState()
-  const [fatherNo, setFatherNo] = useState()
-  const [fatherOccupation, setFatherOccupation] = useState()
-  const [annualIncome, setAnnualIncome] = useState()
-  const [preSemester, setPreSemester] = useState()
-  const [maxMark, setMaxMark] = useState()
-  const [mark, setMark] = useState()
-  const [semPercentage, setSemPercentage] = useState()
-  const [deeniyathEducationDays, setDeeniyathEducationDays] = useState()
-  const [deeniyathPer, setDeeniyathPer] = useState()
-  const [classAttendance, setClassAttendance] = useState()
-  const [classAttendancePer, setClassAttendancePer] = useState()
-  const [classMaxAttendance, setClassMaxAttendance] = useState()
-  const [deeniyathMaxDays, setDeeniyathMaxDays] = useState()
-  const [lastCreditedAmt, setLastCreditedAmt] = useState()
-  const [arrear, setArrear] = useState()
-  const [siblings, setSiblings] = useState()
+  const [fresherOrRenewal, setFresherOrRenewal] = useState('')
+  const [ugOrPg, setUgOrPg] = useState('')
+  const [semester, setSemester] = useState('')
+  const [name, setName] = useState('')
+  const [registerNo, setRegisterNo] = useState('')
+  const [dept, setDept] = useState('')
+  const [section, setSection] = useState('')
+  const [religion, setReligion] = useState('')
+  const [procategory, setProcategory] = useState('')
+  const [address, setAddress] = useState('')
+  const [state, setState] = useState('')
+  const [district, setDistrict] = useState('')
+  const [pin, setPin] = useState('')
+  const [specialCategory, setSpecialCategory] = useState('')
+  const [community, setCommunity] = useState('')
+  const [hostel, setHostel] = useState('')
+  const [mobileNo, setMobileNo] = useState('')
+  // const [emailId, setEmailId] = useState()
+  // const [aadhar, setAadhar] = useState()
+  const [fatherName, setFatherName] = useState('')
+  const [fatherNo, setFatherNo] = useState('')
+  const [fatherOccupation, setFatherOccupation] = useState('')
+  const [annualIncome, setAnnualIncome] = useState('')
+  const [preSemester, setPreSemester] = useState('')
+  const [maxMark, setMaxMark] = useState('')
+  const [mark, setMark] = useState('')
+  const [semPercentage, setSemPercentage] = useState('')
+  const [deeniyathEducationDays, setDeeniyathEducationDays] = useState('')
+  const [deeniyathPer, setDeeniyathPer] = useState('')
+  const [classAttendance, setClassAttendance] = useState('')
+  const [classAttendancePer, setClassAttendancePer] = useState('')
+  const [classMaxAttendance, setClassMaxAttendance] = useState('')
+  const [deeniyathMaxDays, setDeeniyathMaxDays] = useState('')
+  const [lastCreditedAmt, setLastCreditedAmt] = useState('')
+  const [arrear, setArrear] = useState('')
+  const [siblings, setSiblings] = useState('')
   const [isPrint, setPrint] = useState(false)
   const [printData, setPrintData] = useState([]);
 
@@ -101,24 +101,38 @@ const ScholarshipForm = () => {
   const handleData = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.get(`http://localhost:3001/api/students/${registerNo}`);
-      setStudent(result.data);
-      setName(result.data.name);
-      setDept(result.data.dept);
-      setSection(result.data.section);
-      setReligion(result.data.religion);
-      setCommunity(result.data.community);
-      setMobileNo(result.data.mobileNo);
-      setEmailId(result.data.emailId);
-      setAadhar(result.data.aadhar);
-      setFatherName(result.data.fatherName);
-      setFatherNo(result.data.fatherNo);
+        const result = await axios.get(`http://localhost:3001/api/admin/students`, {
+            params: {
+                registerNo: registerNo,
+                mobileNo: mobileNo
+            }
+        });
+
+        console.log('API response:', result.data);
+
+        setStudent(result.data);
+        setName(result.data.name);
+        setDept(result.data.dept);
+        setSection(result.data.section);
+        setReligion(result.data.religion);
+        setCommunity(result.data.community);
+        setFatherName(result.data.fatherName);
+        setFatherNo(result.data.fatherNo);
+        setFatherOccupation(result.data.fatherOccupation);
+        setAddress(result.data.address);
+        setState(result.data.state);
+        setDistrict(result.data.district);
+        setPin(result.data.pin);
+        setSiblings(result.data.siblings);
+        setLastCreditedAmt(result.data.scholamt);
 
     } catch (err) {
-      setStudent(null);
-      alert('Student not found');
+        console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
+        setStudent(null);
+        alert('Student not found');
     }
   }
+
 
 
 
@@ -126,7 +140,7 @@ const ScholarshipForm = () => {
     e.preventDefault();
     axios.post("http://localhost:3001/renewal", {
       fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
-      community, hostel, mobileNo, emailId, aadhar, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
+      community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
       deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt
     })
       .then(result => {
@@ -153,7 +167,8 @@ const ScholarshipForm = () => {
     // Here you can send the formData to the server or perform other actions
     const newData = {
       fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, semPercentage
+      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, arrear, semPercentage,
+      lastCreditedAmt
     };
     setPrintData([...printData, newData]);
     setFresherOrRenewal('');
@@ -425,39 +440,29 @@ const ScholarshipForm = () => {
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
 
-                className="w-60 p-2 uppercase border rounded-md text-slate-950"
+                className="w-52 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
-              </div>
-              <div>
+            </div>
+            <div>
               <label className="block mb-1">Mobile No:</label>
               <input
                 type="text"
-                maxlength="10"
+                maxLength="10"
                 id="mobileNo"
                 name="mobileNo"
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
 
-                className="w-60 p-2 uppercase border rounded-md text-slate-950"
+                className="w-52 p-2 uppercase border rounded-md text-slate-950"
                 required
               />
-              </div>
-              <div>
+            </div>
+            <div>
               <button onClick={handleData} className='bg-blue-500 text-white py-2 px-6 -ml-2 hover:bg-black rounded-lg mt-7'>
                 Get</button>
             </div>
-            <div>
-              <label className="block mb-1 -ml-32">Last Time Credited Amount:</label>
-              <input
-                type="text"
-                name="lastCreditedAmount"
-                value={lastCreditedAmt}
-                onChange={(e) => setLastCreditedAmt(e.target.value)}
-                className="w-60 p-2 appearance-auto border rounded-md text-slate-950 -ml-32"
-                required
-              />
-            </div>
+
           </div>
           {student && (
             <div>
@@ -607,16 +612,14 @@ const ScholarshipForm = () => {
                   </select>
                 </div> */}
                 <div>
-                  <label className="block mb-1">Mobile No.:</label>
+                  <label className="block mb-1 ">Last Time Credited Amount:</label>
                   <input
                     type="text"
-                    maxlength="10"
-                    name="mobileNo"
-                    value={mobileNo}
-                    onChange={(e) => setMobileNo(e.target.value)}
-                    className="w-48 p-2 border rounded-md text-slate-950"
+                    name="lastCreditedAmount"
+                    value={lastCreditedAmt}
+                    onChange={(e) => setLastCreditedAmt(e.target.value)}
+                    className="w-48 p-2 appearance-auto border rounded-md text-slate-950"
                     required
-                    readOnly
                   />
                 </div>
                 {/* <div>
@@ -657,8 +660,8 @@ const ScholarshipForm = () => {
                     required
                     readOnly
                   />
-                  </div>
-                  <div>
+                </div>
+                <div>
                   <label className="block mb-1">Father's Contact No.:</label>
                   <input
                     type="text"
@@ -669,8 +672,8 @@ const ScholarshipForm = () => {
                     required
                     readOnly
                   />
-                  </div>
-                  <div>
+                </div>
+                <div>
                   <label className="block mb-1">Father's Occupation:</label>
                   <input
                     type="text"
@@ -681,8 +684,8 @@ const ScholarshipForm = () => {
                     required
 
                   />
-                  </div>
-                  <div>
+                </div>
+                <div>
 
 
                   <label className="block mb-1">Annual Income:</label>
@@ -694,7 +697,7 @@ const ScholarshipForm = () => {
                     className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
                     required
                   />
-                  </div>
+                </div>
                 <div>
                   <label className="block mb-1">Permanent Address</label>
                   <input
@@ -706,8 +709,8 @@ const ScholarshipForm = () => {
                     placeholder='Door No & Street'
                     required
                   />
-                  </div>
-                  <div>
+                </div>
+                <div>
                   <label className="block mb-1">State:</label>
                   <select
                     name="state"
@@ -755,7 +758,7 @@ const ScholarshipForm = () => {
                     <option value="Puducherry">Puducherry</option>
                     <option value="Other">Others</option>
                   </select></div>
-                  <div>
+                <div>
                   <label className="block mb-1">District:</label>
                   <select
                     name="district"
@@ -804,7 +807,7 @@ const ScholarshipForm = () => {
                     <option value="Virudhunagar">Virudhunagar</option>
                     <option value="Other">Others</option>
                   </select></div>
-                  <div>
+                <div>
                   <label className="block mb-1">Pincode:</label>
                   <input
                     type="text"
@@ -979,15 +982,15 @@ const ScholarshipForm = () => {
           </div>
         </form>
 
-          {/* form Print section  */}
-          {printData.length > 0 && (
+        {/* form Print section  */}
+        {printData.length > 0 && (
           // <table className="min-w-full divide-y divide-gray-200 mt-8 border border-black" id="print-section">
           // <thead className="bg-gray-50">
           <div id="print-section" hidden>
             <img src={PrintHeader} alt="" className="w-full" />
             <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP APPLICATION </h1>
-           <div className='border border-black '>
-            {printData.map((data, index) => (
+            <div className='border border-black '>
+              {printData.map((data, index) => (
                 <div key={index} className='grid grid-cols-5 w-auto gap-10 mt-2'>
                   <div className="font-bold border border-black text-center py-2"> {data.fresherOrRenewal} </div>
                   <div className="font-bold border border-black text-center py-2">{data.ugOrPg}</div>
@@ -997,54 +1000,54 @@ const ScholarshipForm = () => {
                 </div>
 
               ))}
-            <div className='grid grid-cols-2 w-auto p-4 '>
-              <div>
-                <div className="px-4 py-3 whitespace-normal" >Applicant</div>
-                <div className="px-4 py-3 whitespace-normal" >Mobile No</div>
-                <div className="px-4 py-3 whitespace-normal">Register No</div>
-                <div className="px-4 py-3 whitespace-normal">Hostel</div>
-                <div className="px-4 py-3 whitespace-normal">specialCategory</div>
-                <div className="px-4 py-3 whitespace-normal">Address</div>
-                <div className="px-4 py-3 whitespace-normal">Father Name</div>
-                <div className="px-4 py-3 whitespace-normal">Father Mobile No</div>
-                <div className="px-4 py-3 whitespace-normal">Father Occupation & Income</div>
-                {/* <div className="px-4 py-3 whitespace-normal">School Name</div>
+              <div className='grid grid-cols-2 w-auto p-4 '>
+                <div>
+                  <div className="px-4 py-3 whitespace-normal" >Applicant</div>
+                  <div className="px-4 py-3 whitespace-normal" >Mobile No</div>
+                  <div className="px-4 py-3 whitespace-normal">Register No</div>
+                  <div className="px-4 py-3 whitespace-normal">Hostel</div>
+                  <div className="px-4 py-3 whitespace-normal">specialCategory</div>
+                  <div className="px-4 py-3 whitespace-normal">Address</div>
+                  <div className="px-4 py-3 whitespace-normal">Father Name</div>
+                  <div className="px-4 py-3 whitespace-normal">Father Mobile No</div>
+                  <div className="px-4 py-3 whitespace-normal">Father Occupation & Income</div>
+                  {/* <div className="px-4 py-3 whitespace-normal">School Name</div>
                 <div className="px-4 py-3 whitespace-normal">Year of Passing & Percentage</div> */}
-                <div className="px-4 py-3 whitespace-normal"> Deeniyadiv Percentage </div>
-                <div className="px-4 py-3 whitespace-normal">Attendance Percentage</div>
-                <div className="px-4 py-3 whitespace-normal">No. Of Siblings</div>
-                {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
-              </div>
-
-              {printData.map((data, index) => (
-                <div key={index} className=''>
-                  <div className="px-4 py-3 whitespace-normal">{data.name}</div>
-                  <div className="px-4 py-3 whitespace-normal"> {data.mobileNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.registerNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.hostel}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.specialCategory}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherName}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                  {/* <div className="px-4 py-3 whitespace-normal">{data.schoolName}</div> */}
-                  {/* <div className="px-4 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
-                  <div className="px-4 py-3 whitespace-normal">{data.deeniyathPer}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.classAttendancePer}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.siblings}</div>
-                  {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
-                <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
-                 */}
+                  <div className="px-4 py-3 whitespace-normal"> Deeniyadiv Percentage </div>
+                  <div className="px-4 py-3 whitespace-normal">Attendance Percentage</div>
+                  <div className="px-4 py-3 whitespace-normal">No. Of Siblings</div>
+                  {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
                 </div>
 
-              ))}
-            </div>
-            <div className='grid grid-cols-4 w-auto'>
-              <div>Signature of the Class Tuitor</div>
-              <div>Signature of the Attendance Staff</div>
-              <div>Signature of the Deeniyath Staff</div>
-              <div>Signature of the Parent </div>
-            </div>
+                {printData.map((data, index) => (
+                  <div key={index} className=''>
+                    <div className="px-4 py-3 whitespace-normal">{data.name}</div>
+                    <div className="px-4 py-3 whitespace-normal"> {data.mobileNo}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.registerNo}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.hostel}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.specialCategory}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.fatherName}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.fatherNo}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
+                    {/* <div className="px-4 py-3 whitespace-normal">{data.schoolName}</div> */}
+                    {/* <div className="px-4 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
+                    <div className="px-4 py-3 whitespace-normal">{data.deeniyathPer}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.classAttendancePer}</div>
+                    <div className="px-4 py-3 whitespace-normal">{data.siblings}</div>
+                    {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
+                <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
+                 */}
+                  </div>
+
+                ))}
+              </div>
+              <div className='grid grid-cols-4 w-auto'>
+                <div>Signature of the Class Tuitor</div>
+                <div>Signature of the Attendance Staff</div>
+                <div>Signature of the Deeniyath Staff</div>
+                <div>Signature of the Parent </div>
+              </div>
             </div>
           </div>
 

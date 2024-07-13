@@ -62,6 +62,7 @@ const Dashboard = () => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         indexAxis: 'y',
         plugins: {
             legend: {
@@ -179,8 +180,10 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="grid grid-cols-1 gap-6 h-30">
-                <div className="bg-white p-4 rounded shadow h-1/1.5">
+                <div className="bg-white p-4 rounded shadow h-80 w-full">
+                <div className="relative h-72 w-full">
                     <Bar data={barData} options={options} />
+                </div>
                 </div>
             </div>
             {/* <div>
