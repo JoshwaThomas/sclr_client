@@ -1039,41 +1039,41 @@ const ScholarshipForm = () => {
                 </div>
 
               ))}
-            <div className='grid grid-cols-2 w-auto p-4 '>
+            <div className='grid grid-cols-2 w-auto p-2  '>
               <div>
-                <div className="px-4 py-3 whitespace-normal" >Applicant</div>
-                <div className="px-4 py-3 whitespace-normal" >Mobile No</div>
-                <div className="px-4 py-3 whitespace-normal">Register No</div>
-                <div className="px-4 py-3 whitespace-normal">Hostel</div>
-                <div className="px-4 py-3 whitespace-normal">specialCategory</div>
-                <div className="px-4 py-3 whitespace-normal">Address</div>
-                <div className="px-4 py-3 whitespace-normal">Father Name</div>
-                <div className="px-4 py-3 whitespace-normal">Father Mobile No</div>
-                <div className="px-4 py-3 whitespace-normal">Father Occupation & Income</div>
-                <div className="px-4 py-3 whitespace-normal">School Name</div>
-                <div className="px-4 py-3 whitespace-normal">Year of Passing & Percentage</div>
-                <div className="px-4 py-3 whitespace-normal"> Deeniyadiv Percentage </div>
-                <div className="px-4 py-3 whitespace-normal">Attendance Percentage</div>
-                <div className="px-4 py-3 whitespace-normal">No. Of Siblings</div>
+                <div className="font-bold px-2 py-2 whitespace-normal" >Applicant</div>
+                <div className="font-bold px-2 py-2 whitespace-normal" >Mobile No</div>
+                <div className="font-bold px-2 py-2 whitespace-normal">Register No</div>
+                <div className="font-bold px-2 py-2 whitespace-normal">Hostel</div>
+                <div className="font-bold px-2 py-2 whitespace-normal">SpecialCategory</div>
+                <div className="font-bold px-2 py-4 whitespace-normal">Address</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father Name</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father Mobile No</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father Occupation & Income</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">School Name</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Year of Passing & Percentage</div>
+                <div className="font-bold px-2 py-3 whitespace-normal"> Deeniyath Percentage </div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Attendance Percentage</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">No. Of Siblings</div>
                 {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
               </div>
 
               {printData.map((data, index) => (
                 <div key={index} className=''>
-                  <div className="px-4 py-3 whitespace-normal">{data.name}</div>
-                  <div className="px-4 py-3 whitespace-normal"> {data.mobileNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.registerNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.hostel}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.specialCategory}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherName}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherNo}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.schoolName}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.deeniyathPer}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.classAttendancePer}</div>
-                  <div className="px-4 py-3 whitespace-normal">{data.siblings}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.name}</div>
+                  <div className="px-2 py-2 whitespace-normal"> {data.mobileNo}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.registerNo}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.hostel}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.specialCategory}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.fatherName}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.fatherNo}</div>
+                  <div className="px-2 py-4 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
+                  <div className="px-2 py-3 whitespace-normal">{data.schoolName}</div>
+                  <div className="px-2 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div>
+                  <div className="px-2 py-3 whitespace-normal">{data.deeniyathPer}</div>
+                  <div className="px-2 py-3 whitespace-normal">{data.classAttendancePer}</div>
+                  <div className="px-2 py-3 whitespace-normal">{data.siblings}</div>
                   {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                 <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                  */}
@@ -1081,14 +1081,27 @@ const ScholarshipForm = () => {
 
               ))}
             </div>
-            <div className='grid grid-cols-4 w-auto'>
+            <div className="mt-16 grid grid-cols-4 w-auto">
+            <div className="text-center">
               <div>Signature of the Class Tuitor</div>
+              <div className="h-12 mt-4"></div>
+              </div>
+              <div className="text-center">
               <div>Signature of the Attendance Staff</div>
-              <div>Signature of the Deeniyath Staff</div>
-              <div>Signature of the Parent </div>
+              <div className="h-12 mt-4"></div>
+              </div>
+             <div className="text-center">
+            <div>Signature of the Deeniyath Staff</div>
+            <div className="h-12 mt-4"></div>
+            </div>
+            <div className="text-center">
+            <div>Signature of the</div><div>Parents</div>
+            <div className="h-12 mt-4"></div>
+           </div>
+            </div>
+            
             </div>
             </div>
-          </div>
 
         )}
 
