@@ -18,7 +18,7 @@ function Report() {
                     Existing Donar
                 </button>
                 <button
-                    onClick={() => navigate('/admin/report/accrej')}
+                    onClick={() => navigate('/admin/donor/modify')}
                     className="px-4 py-9 ml-2 bg-cyan-500 text-white hover:bg-black rounded-lg"
                 >
                     Modify	

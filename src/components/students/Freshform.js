@@ -112,15 +112,9 @@ const ScholarshipForm = () => {
     document.body.innerHTML = originalContent;
     window.location.reload();
   }
-  // const handlePrint = (e) => {
-  //   e.preventDefault();
-  //   setPrint(true);
-  //   setTimeout(() => {
-  //     window.print();
-  //     setPrint(false);
-  //   }, 0);
-  // };
-
+  
+  
+  
   const Submit = (e) => {
 
     e.preventDefault();
@@ -645,7 +639,7 @@ const ScholarshipForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1">Father's Name:</label>
+              <label className="block mb-1">Father's & Mother's Name:</label>
               <input
                 type="text"
                 name="fatherName"
@@ -656,7 +650,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Father's Contact No.:</label>
+              <label className="block mb-1">Father's & Mother's Contact No.:</label>
               <input
                 type="text"
                 name="fatherNo"
@@ -668,7 +662,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Father's Occupation:</label>
+              <label className="block mb-1">Father's or Mother's Occupation:</label>
               <input
                 type="text"
                 name="fatherOccupation"
@@ -894,7 +888,7 @@ const ScholarshipForm = () => {
                     type="text"
                     name="preSemester"
                     value={preSemester}
-                    onChange={(e) => setPreSemester(e.target.value)}
+                    onChange={(e) => setPreSemester(e.target.value.toUpperCase())}
                     className="w-48  md:w-52 p-2 border rounded-md text-slate-950"
 
                   />
@@ -944,7 +938,7 @@ const ScholarshipForm = () => {
                   value={classAttendance}
                   onChange={(e) => setClassAttendance(e.target.value)}
                   className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
-                  required
+                  
                 />
               </div>
               <div>
@@ -955,7 +949,7 @@ const ScholarshipForm = () => {
                   value={classMaxAttendance}
                   onChange={(e) => setClassMaxAttendance(e.target.value)}
                   className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
-                  required
+                  
                 />
               </div>
               <div>
