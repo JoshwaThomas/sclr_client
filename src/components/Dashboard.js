@@ -52,7 +52,7 @@ const Dashboard = () => {
             {
                 label: 'Applicants ',
                 data: [data.firstYear, data.secYear, data.thirdYear, data.pgfirstYear, data.pgsecYear],
-                backgroundColor: 'rgb(0,66,37)',
+                backgroundColor: 'rgb(255,75,0)',
                 borderColor: 'rgb(0,66,37)',
                 borderWidth: 1,
 

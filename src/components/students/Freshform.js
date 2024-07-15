@@ -639,7 +639,7 @@ const ScholarshipForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1">Father's & Mother's Name:</label>
+              <label className="block mb-1 py-4 -mt-8">Father's & Mother's Name:</label>
               <input
                 type="text"
                 name="fatherName"
@@ -650,7 +650,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Father's & Mother's Contact No.:</label>
+              <label className="block mb-1 -mt-6">Father's & Mother's Contact No.:</label>
               <input
                 type="text"
                 name="fatherNo"
@@ -662,7 +662,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Father's or Mother's Occupation:</label>
+              <label className="block mb-1 -mt-6">Father's or Mother's Occupation:</label>
               <input
                 type="text"
                 name="fatherOccupation"
@@ -673,7 +673,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Annual Income:</label>
+              <label className="block mb-1 py-4 -mt-8">Annual Income:</label>
               <input
                 type="text"
                 name="annualIncome"
@@ -684,7 +684,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Siblings</label>
+              <label className="block mb-1 py-4 -mt-8">Siblings</label>
               <input
                 type="text"
                 name="siblings"
@@ -695,7 +695,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Permanent Address</label>
+              <label className="block mb-1 mt-3">Permanent Address</label>
               <input
                 type="text"
                 name="address"
@@ -707,7 +707,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">State:</label>
+              <label className="block mb-1 mt-3">State:</label>
               <select
                 name="state"
                 value={state}
@@ -756,7 +756,7 @@ const ScholarshipForm = () => {
               </select>
             </div>
             <div>
-              <label className="block mb-1">District:</label>
+              <label className="block mb-1 mt-3">District:</label>
               <select
                 name="district"
                 value={district}
@@ -806,7 +806,7 @@ const ScholarshipForm = () => {
               </select>
             </div>
             <div>
-              <label className="block mb-1">Pincode:</label>
+              <label className="block mb-1 mt-3">Pincode:</label>
               <input
                 type="text"
                 maxlength="6"
@@ -1041,9 +1041,9 @@ const ScholarshipForm = () => {
                 <div className="font-bold px-2 py-2 whitespace-normal">Hostel</div>
                 <div className="font-bold px-2 py-2 whitespace-normal">SpecialCategory</div>
                 <div className="font-bold px-2 py-4 whitespace-normal">Address</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father Name</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father Mobile No</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father Occupation & Income</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father Name & Mother Name</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father & Mother Mobile No</div>
+                <div className="font-bold px-2 py-3 whitespace-normal">Father & Mother Occupation & Income</div>
                 <div className="font-bold px-2 py-3 whitespace-normal">School Name</div>
                 <div className="font-bold px-2 py-3 whitespace-normal">Year of Passing & Percentage</div>
                 <div className="font-bold px-2 py-3 whitespace-normal"> Deeniyath Percentage </div>

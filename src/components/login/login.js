@@ -93,21 +93,21 @@ function TextBox() {
     return (
         <div style={outerFlexContainerStyle}>
             <div style={logoAndNameContainerStyle}>
-                <img src={jmc} alt='LOGO' style={logoStyle} />
-                <div>
+                <img src={jmc} alt='LOGO' style={logoStyle} className='-mt-8'/>
+                <div className='-mt-5'>
                     <span className="text-sm"><br /></span>
                     <span className="text-5xl font-extrabold">JAMAL MOHAMED COLLEGE</span>
-                    <span className="text-3xl font-bold">(Autonomous)<br /></span>
-                    <span className="text-3xl font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
-                    <span className="text-3xl font-bold">College Sponsored Application Form</span>
-                    <span className="text-3xl font-bold">for Poor and Meritorious Students<br /></span>
+                    <span className="text-2xl font-bold">(Autonomous)<br /></span>
+                    <span className="text-2xl font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
+                    <span className="text-2xl font-bold">College Sponsored Application Form</span>
+                    <span className="text-2xl font-bold">for Poor and Meritorious Students<br /></span>
                 </div>
             </div>
             <div style={flexContainerStyle}>
-                <img src={scl} alt='LOGO' style={sclimg} />
+                <img src={scl} alt='LOGO' style={sclimg} className='mr-20 mt-5'/>
                 <div style={formContainerStyle}>
                     <form onSubmit={Submit}>
-                        <h1 className="text-2xl mb-8 font-bold">LOGIN</h1>
+                        <h1 className="text-2xl mb-8 font-bold">ADMIN LOGIN</h1>
                         <div>
                             <input
                                 type="text"
@@ -115,7 +115,7 @@ function TextBox() {
                                 onChange={(e) => setStaffId(e.target.value)}
                                 className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
                                 placeholder="Username"
-                                style={{ width: '200px', color: 'black' }}
+                                style={{ width: '250px', color: 'black' }}
                             />
                         </div>
                         <div>
@@ -125,7 +125,7 @@ function TextBox() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
                                 placeholder="Password"
-                                style={{ width: '200px', color: 'black' }}
+                                style={{ width: '250px', color: 'black' }}
                             />
                         </div>
                         <button type='submit' className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold">Login</button>
