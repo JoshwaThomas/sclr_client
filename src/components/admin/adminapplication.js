@@ -7,6 +7,7 @@ function Action() {
     const [users, setUsers] = useState([]);
     const [rusers, setRusers] = useState([]);
     const [donars, setDonars] = useState([]);
+    const [scholtypes, setScholtypes] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [filterUsers, setFilterUsers] = useState([]);
@@ -24,6 +25,7 @@ function Action() {
     const [totalamount, setTotalAmount] = useState(0);
     const [totaldonaramt, setDonaramt] = useState(0);
     const [submittedData, setSubmittedData] = useState([]);
+    // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
 
@@ -44,6 +46,30 @@ function Action() {
             })
             .catch(err => console.log(err));
     }, []);
+
+    // useEffect(() => {
+    //     const fetchUsersAndDonors = async () => {
+    //         try {
+    //             const usersResponse = await axios.get('http://localhost:3001/api/admin/freshamt');
+    //             const donorsResponse = await axios.get('http://localhost:3001/api/admin/donors');
+
+    //             const usersData = usersResponse.data;
+    //             const donorsData = donorsResponse.data;
+
+    //             const donorMap = donorsData.reduce((map, donor) => {
+    //                 map[donor._id] = donor.name;
+    //                 return map;
+    //             }, {});
+
+    //             setUsers(usersData);
+    //             setFilterUsers(usersData);
+    //             setDonorMapping(donorMap);
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     };
+    //     fetchUsersAndDonors();
+    // }, []);
 
     const handleViewClick = (user) => {
         setSelectedUser(user);
@@ -78,6 +104,28 @@ function Action() {
             });
     };
 
+    const fetchScholtypes = () => {
+        return axios.get('http://localhost:3001/api/admin/scholtypes')
+            .then(response => response.data)
+            .catch(err => {
+                console.error('Error fetching scholarship types:', err);
+                return [];
+            });
+    };
+
+    // useEffect(() => {
+    //     if (showModals) {
+    //         fetchDonars()
+    //             .then(data => {
+    //                 console.log('Fetched Donors:', data); // Debugging log
+    //                 setDonars(data);
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching donors:', error);
+    //             });
+    //     }
+    // }, [showModals]);
+
     useEffect(() => {
         if (showModals) {
             fetchDonars()
@@ -88,9 +136,17 @@ function Action() {
                 .catch(error => {
                     console.error('Error fetching donors:', error);
                 });
+
+            fetchScholtypes()
+                .then(data => {
+                    console.log('Fetched Scholarship Types:', data); // Debugging log
+                    setScholtypes(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching scholarship types:', error);
+                });
         }
     }, [showModals]);
-
 
 
 
@@ -248,9 +304,9 @@ function Action() {
                             const newSubmission = { scholtype, scholdonar, scholamt };
                             setSubmittedData([...submittedData, newSubmission]);
                             refreshInputs();
-                             
+
                             console.log(result);
-                          
+
                         })
                         // .then(result => {
                         //     console.log(result);
@@ -293,14 +349,14 @@ function Action() {
         axios.post('http://localhost:3001/api/admin/action', {
             registerNo
         })
-        .then(result => {
-            console.log(result);
-            window.location.reload();
-        })
-        .catch(err => {
-            console.log(err);
-            // Handle error appropriately
-        });
+            .then(result => {
+                console.log(result);
+                window.location.reload();
+            })
+            .catch(err => {
+                console.log(err);
+                // Handle error appropriately
+            });
     };
 
 
@@ -719,7 +775,7 @@ function Action() {
                                 <div className='uppercase'>
                                     <label className="block mb-1">Department:</label>{selectedUser.dept}
                                 </div>
-                                <div>
+                                {/* <div>
                                     <label className="block mb-1">Scholarship Type</label>
                                     <select
                                         name="ScholarshipCategory"
@@ -752,6 +808,22 @@ function Action() {
                                         <option value="UAE Chapter">UAE Chapter</option>
                                         <option value="Qatar Chapter">Qatar Chapter</option>
                                         <option value="Others">Others</option>
+                                    </select>
+                                </div> */}
+                                <div>
+                                    <label className="block mb-1">Scholarship Type</label>
+                                    <select
+                                        name="ScholarshipCategory"
+                                        value={scholtype}
+                                        onChange={(e) => setScholType(e.target.value)}
+                                        className="w-48 p-2 border rounded-md text-slate-950 lg:w-48"
+                                    >
+                                        <option value="">Select</option>
+                                        {scholtypes.map((type, index) => (
+                                            <option key={index} value={type}>
+                                                {type}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div>
@@ -788,21 +860,22 @@ function Action() {
                                         Confirm
                                     </button>
                                 </div>
-                                {submittedData.length > 0 && (
+                               
+                            </div>
+                            {submittedData.length > 0 && (
                                     <div>
-                                        <h3>Submitted Values:</h3>
+                                        
                                         {submittedData.map((submission, index) => (
-                                            <div key={index}>
-                                                <p>Submission {index + 1}:</p>
-                                                <p>Scholarship Type: {submission.scholtype}</p>
-                                                <p>Donor: {submission.scholdonar}</p>
-                                                <p>Scholarship Amount: {submission.scholamt}</p>
-                                                <hr />
+                                            <div key={index} className=' grid grid-cols-4'>
+                                                <div className=''>Submission {index + 1}:</div>
+                                                <div className=' w-60 '>Scholarship Type: {submission.scholtype}</div>
+                                                <div className=' w-60 '>Donor: {submission.scholdonar}</div>
+                                                <div className=' w-60 '>Scholarship Amount: {submission.scholamt}</div>
+                                          
                                             </div>
                                         ))}
                                     </div>
                                 )}
-                            </div>
 
 
                             <div className="mt-4 flex justify-end">

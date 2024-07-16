@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
-import Jmc from '../../assets/jmc_logo.png';
+import Jmc from '../../assets/jmc_whitefont.png';
 
 function StudentLayout() {
   let menus = [

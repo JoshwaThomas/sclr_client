@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
-import Jmc from '../../assets/jmc_logo.png';
+import Jmc from '../../assets/jmc_whitefont.png';
 import axios from 'axios';
 
 function StudentLayout() {

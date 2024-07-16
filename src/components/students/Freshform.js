@@ -639,18 +639,18 @@ const ScholarshipForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1 py-4 -mt-8">Father's & Mother's Name:</label>
+              <label className="block mb-3 lg: -mt-8">Father's or Mother's Name:</label>
               <input
                 type="text"
                 name="fatherName"
                 value={fatherName}
                 onChange={(e) => setFatherName(e.target.value.toUpperCase())}
-                className=" w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                className=" w-48  md:w-44 p-2  border rounded-md text-slate-950"
                 required
               />
             </div>
             <div>
-              <label className="block mb-1 -mt-6">Father's & Mother's Contact No.:</label>
+              <label className="block mb-1 -mt-6">Father's or Mother's Contact No.:</label>
               <input
                 type="text"
                 name="fatherNo"
