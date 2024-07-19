@@ -455,7 +455,7 @@ const ScholarshipForm = () => {
                 name="registerNo"
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
-                className=" w-48 md:w-96 p-2 border rounded-md text-slate-950"
+                className=" w-48 md:w-72 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -466,7 +466,7 @@ const ScholarshipForm = () => {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value.toUpperCase())}
-                className="w-48 md:w-96 p-2 border rounded-md text-slate-950"
+                className="w-48 md:w-72 p-2 border rounded-md text-slate-950"
                 required
               />
             </div>
@@ -476,7 +476,7 @@ const ScholarshipForm = () => {
                 name="dept"
                 value={dept}
                 onChange={(e) => setDept(e.target.value)}
-                className="w-72 p-2 border  rounded-md text-slate-950"
+                className="w-48 md:w-72 p-2 border  rounded-md text-slate-950"
                 required
                 readOnly
               >
@@ -529,7 +529,7 @@ const ScholarshipForm = () => {
                 name="specialCategory"
                 value={section}
                 onChange={(e) => setSection(e.target.value)}
-                className=" w-48 md:w-96 p-2 border rounded-md text-slate-950"
+                className=" w-48 md:w-72 p-2 border rounded-md text-slate-950"
 
               >
                 <option value="">Select</option>
@@ -1024,7 +1024,7 @@ const ScholarshipForm = () => {
             <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP APPLICATION </h1>
            <div className='border border-black '>
             {printData.map((data, index) => (
-                <div key={index} className='grid grid-cols-5 w-auto gap-10 mt-2'>
+                <div key={index} className='grid grid-cols-5 w-auto px-3 mt-2'>
                   <div className="font-bold border border-black text-center py-2"> {data.fresherOrRenewal} </div>
                   <div className="font-bold border border-black text-center py-2">{data.ugOrPg}</div>
                   <div className="font-bold border border-black text-center py-2">{data.semester}</div>
@@ -1035,20 +1035,20 @@ const ScholarshipForm = () => {
               ))}
             <div className='grid grid-cols-2 w-auto p-2  '>
               <div>
-                <div className="font-bold px-2 py-2 whitespace-normal" >Applicant</div>
-                <div className="font-bold px-2 py-2 whitespace-normal" >Mobile No</div>
-                <div className="font-bold px-2 py-2 whitespace-normal">Register No</div>
-                <div className="font-bold px-2 py-2 whitespace-normal">Hostel</div>
-                <div className="font-bold px-2 py-2 whitespace-normal">SpecialCategory</div>
-                <div className="font-bold px-2 py-4 whitespace-normal">Address</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father Name & Mother Name</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father & Mother Mobile No</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Father & Mother Occupation & Income</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">School Name</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Year of Passing & Percentage</div>
-                <div className="font-bold px-2 py-3 whitespace-normal"> Deeniyath Percentage </div>
-                <div className="font-bold px-2 py-3 whitespace-normal">Attendance Percentage</div>
-                <div className="font-bold px-2 py-3 whitespace-normal">No. Of Siblings</div>
+                <div className="font-bold px-1 py-2 whitespace-normal" >Applicant</div>
+                <div className="font-bold px-1 py-2 whitespace-normal" >Mobile No</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Register No</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Hostel</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">SpecialCategory</div>
+                <div className="font-bold px-1 py-5 whitespace-normal">Address</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Father Name & Mother Name</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Father & Mother Mobile No</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Father & Mother Occupation & Income</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">School Name</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Year of Passing & Percentage</div>
+                <div className="font-bold px-1 py-2 whitespace-normal"> Deeniyath Percentage </div>
+                <div className="font-bold px-1 py-2 whitespace-normal">Attendance Percentage</div>
+                <div className="font-bold px-1 py-2 whitespace-normal">No. Of Siblings</div>
                 {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
               </div>
 
@@ -1062,12 +1062,12 @@ const ScholarshipForm = () => {
                   <div className="px-2 py-2 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
                   <div className="px-2 py-2 whitespace-normal">{data.fatherName}</div>
                   <div className="px-2 py-2 whitespace-normal">{data.fatherNo}</div>
-                  <div className="px-2 py-4 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                  <div className="px-2 py-3 whitespace-normal">{data.schoolName}</div>
-                  <div className="px-2 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div>
-                  <div className="px-2 py-3 whitespace-normal">{data.deeniyathPer}</div>
-                  <div className="px-2 py-3 whitespace-normal">{data.classAttendancePer}</div>
-                  <div className="px-2 py-3 whitespace-normal">{data.siblings}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.schoolName}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.deeniyathPer}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.classAttendancePer}</div>
+                  <div className="px-2 py-2 whitespace-normal">{data.siblings}</div>
                   {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                 <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                  */}
@@ -1075,22 +1075,18 @@ const ScholarshipForm = () => {
 
               ))}
             </div>
-            <div className="mt-16 grid grid-cols-4 w-auto">
+            <div className="mt-44 grid grid-cols-4 w-auto">
             <div className="text-center">
               <div>Signature of the Class Tuitor</div>
-              <div className="h-12 mt-4"></div>
               </div>
               <div className="text-center">
               <div>Signature of the Attendance Staff</div>
-              <div className="h-12 mt-4"></div>
               </div>
              <div className="text-center">
             <div>Signature of the Deeniyath Staff</div>
-            <div className="h-12 mt-4"></div>
             </div>
             <div className="text-center">
             <div>Signature of the</div><div>Parents</div>
-            <div className="h-12 mt-4"></div>
            </div>
             </div>
             
