@@ -639,7 +639,7 @@ const ScholarshipForm = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-3 lg: -mt-8">Father's or Mother's Name:</label>
+              <label className="block mb-1 py-4 -mt-8 ">Father's or Mother's Name:</label>
               <input
                 type="text"
                 name="fatherName"
@@ -1075,21 +1075,23 @@ const ScholarshipForm = () => {
 
               ))}
             </div>
-            <div className="mt-44 grid grid-cols-4 w-auto">
+            <div className="mt-32 px-3 grid grid-cols-5 w-auto">
             <div className="text-center">
-              <div>Signature of the Class Tuitor</div>
+              <div>Class Teacher</div>
               </div>
               <div className="text-center">
-              <div>Signature of the Attendance Staff</div>
+              <div>HOD / MID</div>
+              </div>
+              <div className="text-center">
+              <div>Deputy Warden-Hostel</div>
               </div>
              <div className="text-center">
-            <div>Signature of the Deeniyath Staff</div>
+            <div>Register Of Attendance</div>
             </div>
             <div className="text-center">
-            <div>Signature of the</div><div>Parents</div>
+            <div>Coordinator-Deeniyath / Moral</div>
            </div>
             </div>
-            
             </div>
             </div>
 
