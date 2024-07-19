@@ -6,7 +6,7 @@ function Existing() {
     const [donar, setDonar] = useState(null);
     const [name, setName] = useState()
     const [mobileNo, setMobileNo] = useState()
-    const [pan, setPan] = useState()
+    const [pan, setPan] = useState('')
     // const [emailId, setEmailId] = useState()
     const [address, setAddress] = useState()
     const [state, setState] = useState()
@@ -16,11 +16,52 @@ function Existing() {
     const [amount, setAmount] = useState()
     const [scholdate, setScholDate] = useState()
     const [balance, setBalance] = useState()
+    const [scholtypes, setScholTypes] = useState([]);
+    const [panList, setPanList] = useState([]);
+
 
 
     useEffect(() => {
         setBalance(amount);
     }, [amount]);
+
+    useEffect(() => {
+        fetchPanList();
+    }, []);
+
+    useEffect(() => {
+        const fetchScholTypes = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
+                setScholTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching scholarship types:', error);
+            }
+        };
+        fetchScholTypes();
+
+    }, []);
+
+
+    const fetchPanList = async (e) => {
+        if (e) {
+            e.preventDefault();  // Ensure e is defined before calling preventDefault()
+        }
+        
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            console.log('Fetched Donors:', response.data); // Debugging log
+            setPanList(response.data);
+        } catch (error) {
+            console.error('Error fetching donors:', error);
+            setPanList([]); // Ensure to handle state appropriately in case of error
+        }
+    };
+
+    // const handlePanChange = (e) => {
+    //     setPan(e.target.value.toUpperCase());
+    // };
+
 
     const handleData = async (e) => {
         e.preventDefault();
@@ -65,24 +106,30 @@ function Existing() {
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
             <form onSubmit={Submit} >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-                    <div>
+                    <div onChange={(e) => fetchPanList(e)}>
                         <label className="block mb-1">PAN No</label>
-                        <input
-                            type='text'
-                            name="ScholarshipCategory"
+                        <select
                             value={pan}
                             onChange={(e) => setPan(e.target.value)}
-                            className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                             required
-                        />
+                        >
+                            <option value="">Select Donor</option>
+                            {Array.isArray(panList) && panList.map((panItem) => (
+                                <option key={panItem.pan} value={panItem.pan}>
+                                    {panItem.pan}
+                                </option>
+                            ))}
+                        </select>
+
                         <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
-                            Get</button>
+                            Get
+                        </button>
                     </div>
                     <div>
                         <label className="block mb-1">Amount:</label>
                         <input
                             type="text"
-                            maxlength="10"
                             name="amount"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
@@ -101,8 +148,8 @@ function Existing() {
                             required
                         />
                     </div>
-                    </div>
-                    {donar && (
+                </div>
+                {donar && (
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
                         <div>
                             <label className="block mb-1">Scholarship Type</label>
@@ -111,32 +158,12 @@ function Existing() {
                                 value={scholtype}
                                 onChange={(e) => setScholType(e.target.value)}
                                 className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                disabled
+                                required
                             >
                                 <option value="">Select</option>
-                                <option value="Endowment">Endowment</option>
-                                <option value="JMC Staff">JMC Staff</option>
-                                <option value="Alumni">Alumni</option>
-                                <option value="Well Wishers">Well Wishers</option>
-                                <option value="Singapore Chapter">Singapore Chapter</option>
-                                <option value="Trichy Chapter">Trichy Chapter</option>
-                                <option value="Chennai Chapter">Chennai Chapter</option>
-                                <option value="Kerala Chapter">Kerala Chapter</option>
-                                <option value="Kuwait Chapter">Kuwait Chapter</option>
-                                <option value="Jeddah Chapter">Jeddah Chapter</option>
-                                <option value="Koothanallur Chapter">Koothanallur Chapter</option>
-                                <option value="USA Chapter">USA Chapter</option>
-                                <option value="Burnei Chapter">Burnei Chapter</option>
-                                <option value="Riyadh Chapter">Riyadh Chapter</option>
-                                <option value="Malaysia Chapter">Malaysia Chapter</option>
-                                <option value="Tenkasi Chapter">Tenkasi Chapter</option>
-                                <option value="UK Chapter">UK Chapter</option>
-                                <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
-                                <option value="Bahrain Chapter">Bahrain Chapter</option>
-                                <option value="Bengaluru Chapter">Bengaluru Chapter</option>
-                                <option value="UAE Chapter">UAE Chapter</option>
-                                <option value="Qatar Chapter">Qatar Chapter</option>
-                                <option value="Others">Others</option>
+                                {scholtypes.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
+                                ))}
                             </select>
                         </div>
                         <div>
@@ -154,7 +181,7 @@ function Existing() {
                             <label className="block mb-1">Mobile No.:</label>
                             <input
                                 type="text"
-                                maxlength="10"
+                                maxLength="10"
                                 name="mobileNo"
                                 value={mobileNo}
                                 onChange={(e) => setMobileNo(e.target.value)}
@@ -289,7 +316,7 @@ function Existing() {
                             <label className="block mb-1">Pincode:</label>
                             <input
                                 type="text"
-                                maxlength="6"
+                                maxLength="6"
                                 name="pin"
                                 value={pin}
                                 onChange={(e) => setPin(e.target.value)}
@@ -299,10 +326,10 @@ function Existing() {
                             />
                         </div>
                     </div>
-                    )}
-                   
+                )}
 
-               
+
+
                 <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
             </form>
 
@@ -310,4 +337,4 @@ function Existing() {
     )
 }
 
-export default Existing
+export default Existing;

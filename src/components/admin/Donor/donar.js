@@ -12,6 +12,7 @@ const Donar = () => {
   const [district, setDistrict] = useState()
   const [pin, setPin] = useState()
   const [scholtype, setScholType] = useState()
+  // const [scholtypes, setScholTypes] = useState([]);
   const [amount, setAmount] = useState()
   const [scholdate, setScholDate] = useState()
   const [balance, setBalance] = useState()
@@ -19,6 +20,21 @@ const Donar = () => {
   useEffect(() => {
     setBalance(amount);
   }, [amount]);
+
+  // useEffect(() => {
+  //   const fetchScholTypes = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:3001/api/admin/scholtypelist');
+  //       const uniqueScholTypes = [...new Set(response.data.map(item => item.scholtype))];
+            
+  //           setScholTypes(uniqueScholTypes);
+  //     } catch (error) {
+  //       console.error('Error fetching scholarship types:', error);
+  //     }
+  //   };
+
+  //   fetchScholTypes();
+  // }, []);
 
   const Submit = (e) => {
 
@@ -61,7 +77,7 @@ const Donar = () => {
             type='text'
               name="ScholarshipCategory"
               value={pan}
-              onChange={(e) => setPan(e.target.value)}
+              onChange={(e) => setPan(e.target.value.toUpperCase())}
               className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
             />
@@ -98,9 +114,28 @@ const Donar = () => {
                 <option value="Bengaluru Chapter">Bengaluru Chapter</option>
                 <option value="UAE Chapter">UAE Chapter</option>
                 <option value="Qatar Chapter">Qatar Chapter</option>
-                <option value="Others">Others</option>
+                <option value="Others">Others1</option>
+                <option value="Others">Others2</option>
+                <option value="Others">Others3</option>
+
               </select>
           </div>
+          {/* <div>
+            <label className="block mb-1">Scholarship Type</label>
+            <select
+                value={scholtype}
+                onChange={(e) => setScholType(e.target.value)}
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+            >
+                <option value="">Select Type</option>
+                {Array.isArray(scholtypes) && scholtypes.map((type) => (
+                    <option key={type._id} value={type.scholtype}>
+                                    {type.scholtype}
+                                </option>
+                ))}
+            </select>
+          </div> */}
           <div>
             <label className="block mb-1">Name:</label>
             <input

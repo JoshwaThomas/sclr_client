@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Modify() {
@@ -12,6 +12,41 @@ function Modify() {
     const [district, setDistrict] = useState()
     const [pin, setPin] = useState()
     const [scholtype, setScholType] = useState()
+    const [scholtypes, setScholTypes] = useState([]);
+    const [panList, setPanList] = useState([]);
+
+    
+    useEffect(() => {
+        const fetchScholTypes = async () => {
+          try {
+            const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
+            setScholTypes(response.data);
+          } catch (error) {
+            console.error('Error fetching scholarship types:', error);
+          }
+        };
+    
+        fetchScholTypes();
+      }, []);
+
+    useEffect(() => {
+        fetchPanList();
+    }, []);
+      
+    const fetchPanList = async (e) => {
+        if (e) {
+            e.preventDefault();  // Ensure e is defined before calling preventDefault()
+        }
+        
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            console.log('Fetched Donors:', response.data); // Debugging log
+            setPanList(response.data);
+        } catch (error) {
+            console.error('Error fetching donors:', error);
+            setPanList([]); // Ensure to handle state appropriately in case of error
+        }
+    };
 
 
     const handleData = async (e) => {
@@ -54,35 +89,35 @@ function Modify() {
             });
     }
 
-    const AddSubmit = (e) => {
+    // const AddSubmit = (e) => {
 
-        e.preventDefault();
-        axios.post('http://localhost:3001/api/admin/scholtype', {
-            scholtype
-        })
-            .then(result => {
-                if (result.data.success) {
-                    window.alert("ScholarType Added Successfully");
-                    window.location.reload();
-                  }
-                  else if (result.data.message === 'ScholarType Already Existing') {
-                    alert("ScholarType Already Existing")
-                    window.location.reload();
-                  }
-                  else {
-                    alert('Something went worng')
-                    window.location.reload();
-                  }
-                console.log(result);
+    //     e.preventDefault();
+    //     axios.post('http://localhost:3001/api/admin/scholtype', {
+    //         scholtype
+    //     })
+    //         .then(result => {
+    //             if (result.data.success) {
+    //                 window.alert("ScholarType Added Successfully");
+    //                 window.location.reload();
+    //               }
+    //               else if (result.data.message === 'ScholarType Already Existing') {
+    //                 alert("ScholarType Already Existing")
+    //                 window.location.reload();
+    //               }
+    //               else {
+    //                 alert('Something went worng')
+    //                 window.location.reload();
+    //               }
+    //             console.log(result);
                
                
-            })
-            .catch(err => {
-                console.log(err);
-                window.alert("Submission failed!");
-                window.location.reload();
-            });
-    }
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //             window.alert("Submission failed!");
+    //             window.location.reload();
+    //         });
+    // }
 
     return (
         <div>
@@ -92,55 +127,40 @@ function Modify() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
                         <div>
                             <label className="block mb-1">PAN or DID No</label>
-                            <input
-                                type='text'
-                                name="ScholarshipCategory"
-                                value={pan}
-                                onChange={(e) => setPan(e.target.value)}
-                                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                required
-                            />
+                            <select
+                            value={pan}
+                            onChange={(e) => setPan(e.target.value)}
+                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            required
+                        >
+                            <option value="">  </option>
+                            {Array.isArray(panList) && panList.map((panItem) => (
+                                <option key={panItem.pan} value={panItem.pan}>
+                                    {panItem.pan}
+                                </option>
+                            ))}
+                        </select>
                             <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
                                 Get</button>
                         </div>
                     </div>
                     {donar && (
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
-                            <div>
-                                <label className="block mb-1">Scholarship Type</label>
-                                <select
-                                    name="ScholarshipCategory"
-                                    value={scholtype}
-                                    onChange={(e) => setScholType(e.target.value)}
-                                    className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-
-                                >
-                                    <option value="">Select</option>
-                                    <option value="Endowment">Endowment</option>
-                                    <option value="JMC Staff">JMC Staff</option>
-                                    <option value="Alumni">Alumni</option>
-                                    <option value="Well Wishers">Well Wishers</option>
-                                    <option value="Singapore Chapter">Singapore Chapter</option>
-                                    <option value="Trichy Chapter">Trichy Chapter</option>
-                                    <option value="Chennai Chapter">Chennai Chapter</option>
-                                    <option value="Kerala Chapter">Kerala Chapter</option>
-                                    <option value="Kuwait Chapter">Kuwait Chapter</option>
-                                    <option value="Jeddah Chapter">Jeddah Chapter</option>
-                                    <option value="Koothanallur Chapter">Koothanallur Chapter</option>
-                                    <option value="USA Chapter">USA Chapter</option>
-                                    <option value="Burnei Chapter">Burnei Chapter</option>
-                                    <option value="Riyadh Chapter">Riyadh Chapter</option>
-                                    <option value="Malaysia Chapter">Malaysia Chapter</option>
-                                    <option value="Tenkasi Chapter">Tenkasi Chapter</option>
-                                    <option value="UK Chapter">UK Chapter</option>
-                                    <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
-                                    <option value="Bahrain Chapter">Bahrain Chapter</option>
-                                    <option value="Bengaluru Chapter">Bengaluru Chapter</option>
-                                    <option value="UAE Chapter">UAE Chapter</option>
-                                    <option value="Qatar Chapter">Qatar Chapter</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                            </div>
+                           <div>
+                            <label className="block mb-1">Scholarship Type</label>
+                            <select
+                                name="ScholarshipCategory"
+                                value={scholtype}
+                                onChange={(e) => setScholType(e.target.value)}
+                                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                required
+                            >
+                                <option value="">Select</option>
+                                {scholtypes.map((type, index) => (
+                                    <option key={index} value={type}>{type}</option>
+                                ))}
+                            </select>
+                        </div>
                             <div>
                                 <label className="block mb-1">Name:</label>
                                 <input
@@ -297,7 +317,7 @@ function Modify() {
                     <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
                 </form>
             </div>
-            <div className='mt-10'>
+            {/* <div className='mt-10'>
                 <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">SCHOLARSHIP TYPE DETAIL ADD</h3>
                 <form onSubmit={AddSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
@@ -317,7 +337,7 @@ function Modify() {
                         </div>
                     </div>
                 </form>
-            </div>
+            </div> */}
         </div>
     )
 }
