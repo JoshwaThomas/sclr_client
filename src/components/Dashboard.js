@@ -52,8 +52,7 @@ const Dashboard = () => {
             {
                 label: 'Applicants ',
                 data: [data.firstYear, data.secYear, data.thirdYear, data.pgfirstYear, data.pgsecYear],
-                backgroundColor: 'rgb(255,75,0)',
-                borderColor: 'rgb(0,66,37)',
+                backgroundColor:['rgb(34,139,34)','rgb(251,79,20)','rgb(30,144,255)','rgb(34,139,34)','rgb(99,102,241)'], // rgb specif color in pie chart
                 borderWidth: 1,
 
             },
@@ -118,9 +117,9 @@ const Dashboard = () => {
 
                 data: [data.sfmPercent, data.sfwPercent, data.amPercent],
                 backgroundColor: [
-                    ' rgb(253,88,0)',
-                    'rgb(225,29,72)',
+                    'rgb(250,70,130)',
                     'rgb(14,165,233)',
+                    'rgb(251,79,20)',
                 ],
             },
         ],
@@ -133,7 +132,7 @@ const Dashboard = () => {
                 data: [data.mensTotal, data.sfwPercent],
                 backgroundColor: [
                     'rgb(99,102,241)',
-                    'rgb(233,105,44)',
+                    'rgb(251,79,20)',
                 ],
             },
         ],

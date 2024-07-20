@@ -559,6 +559,7 @@ function Action() {
                             />
                             <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
 
+<<<<<<< HEAD
                             <input
                                 type="radio"
                                 id="fresher"
@@ -627,6 +628,18 @@ function Action() {
                     </div>
 
                 )}
+=======
+                <input
+                    type="radio"
+                    id="renewal"
+                    name="search"
+                    value="Renewal"
+                    className='scale-200 ml-4'
+                    onChange={handleRadioChange}
+                />
+                <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                
+>>>>>>> f6c6b5621e82a5c650ac5bc4271c4f6301126136
             </div>
             <div className='mt-6 pl-0'>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
