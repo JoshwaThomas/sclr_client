@@ -421,14 +421,14 @@ function Action() {
                 </div>
             )} */}
 
-            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 '>
+            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 mt-4'>
                 <div className='border border-white rounded-lg  grid grid-cols-2 p-4'>
-                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :{data.totalApplication} </div>
-                    <div className=' w-72 ml-7' > Number of Students Benefitted: </div><div className='ml-16'> {data.totalBenefit} </div>
+                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
+                    <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
                 </div>
                 <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
-                    <div className='text-right  w-96'>Scholarship Received :</div><div className='ml-36 '> {totaldonaramt}</div>
-                    <div className='text-right w-96'>Scholarship Awarded  : </div><div className='ml-36'> {totalamount}  </div>
+                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {totaldonaramt}</div>
+                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {totalamount}  </div>
                 </div>
             </div>
         </div>

@@ -557,11 +557,11 @@ const ScholarshipForm = () => {
               >
                 <option value="">Select</option>
                 <option value="none">None</option>
-                <option value="muaddin">Mu-addin</option>
-                <option value="hazrath">Hazrath</option>
-                <option value="fatherMotherSeparated">Father & Mother Separated</option>
-                <option value="fatherExpired">Father Expired</option>
-                <option value="singleparent">Single Parent</option>
+                <option value="Muaddin">Mu-addin</option>
+                <option value="Hazrath">Hazrath</option>
+                <option value="FatherMotherSeparated">Father & Mother Separated</option>
+                <option value="FatherExpired">Father Expired</option>
+                <option value="Singleparent">Single Parent</option>
                 <option value="Orphan">Orphan</option>
               </select>
             </div>

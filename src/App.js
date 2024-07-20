@@ -23,9 +23,9 @@ import DonorFundStatement from './components/admin/Donor/fundstatement';
 import Distribute from './components/admin/distribution';
 import Adstatus from './components/admin/status';
 import Staff from './components/shared/staffLay';
-
-
+import Allreport from './components/admin/reports/allreport';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 function App() {
   return (
     <div>
@@ -52,6 +52,7 @@ function App() {
             <Route path='/admin/fundreport' element={<DonorFundStatement />} />
             <Route path='/admin/distribution_statement' element={<Distribute />} />
             <Route path='/admin/status' element={<Adstatus />} />
+            <Route path='/admin/report/allreport' element={<Allreport />} />
             <Route path='/admin/report/stureport' element={<Stureport />} />
             <Route path='/admin/report/catreport' element={<Catreport />} />
             <Route path='/admin/report/accrej' element={<Accrej />} />

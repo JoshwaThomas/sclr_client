@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 function Existing() {
@@ -18,7 +18,9 @@ function Existing() {
     const [balance, setBalance] = useState()
     const [scholtypes, setScholTypes] = useState([]);
     const [panList, setPanList] = useState([]);
-
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
 
     useEffect(() => {
@@ -47,7 +49,7 @@ function Existing() {
         if (e) {
             e.preventDefault();  // Ensure e is defined before calling preventDefault()
         }
-        
+
         try {
             const response = await axios.get('http://localhost:3001/api/admin/panlist');
             console.log('Fetched Donors:', response.data); // Debugging log
@@ -58,6 +60,28 @@ function Existing() {
         }
     };
 
+    const filteredPanList = panList.filter(panItem =>
+        panItem.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const handleSelect = (name) => {
+        setName(name);
+        setSearchTerm(name);
+        setIsDropdownOpen(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsDropdownOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
     // const handlePanChange = (e) => {
     //     setPan(e.target.value.toUpperCase());
     // };
@@ -66,9 +90,9 @@ function Existing() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get(`http://localhost:3001/api/admin/donor/${pan}`);
+            const result = await axios.get(`http://localhost:3001/api/admin/donor/${name}`);
             setDonar(result.data);
-            setName(result.data.name);
+            setPan(result.data.pan);
             setMobileNo(result.data.mobileNo);
             setAddress(result.data.address);
             setState(result.data.state);
@@ -107,12 +131,12 @@ function Existing() {
             <form onSubmit={Submit} >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
                     <div onChange={(e) => fetchPanList(e)}>
-                        <label className="block mb-1">PAN No</label>
+                        {/* <label className="block mb-1">PAN No</label>
                         <select
                             value={pan}
                             onChange={(e) => setPan(e.target.value)}
                             className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                            required
+                            // required
                         >
                             <option value="">Select Donor</option>
                             {Array.isArray(panList) && panList.map((panItem) => (
@@ -120,11 +144,58 @@ function Existing() {
                                     {panItem.pan}
                                 </option>
                             ))}
-                        </select>
-
-                        <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
+                        </select> */}
+                        {/* <label className="block mb-1">Name</label>
+                        <select
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            required
+                        >
+                            <option value="">Select Donor</option>
+                            {Array.isArray(panList) && panList.map((panItem) => (
+                                <option key={panItem.pan} value={panItem.name}>
+                                    {panItem.name}
+                                </option>
+                            ))}
+                        </select> */}
+                        <div ref={dropdownRef} className="relative">
+                            <label className="block mb-1">Name</label>
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setIsDropdownOpen(true);
+                                }}
+                                onClick={() => setIsDropdownOpen(true)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                placeholder="Search Donor"
+                                required
+                            />
+                            {isDropdownOpen && (
+                                <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
+                                    {filteredPanList.length > 0 ? (
+                                        filteredPanList.map((panItem) => (
+                                            <li
+                                                key={panItem.pan}
+                                                onClick={() => handleSelect(panItem.name)}
+                                                className="p-2 cursor-pointer hover:bg-gray-200"
+                                            >
+                                                {panItem.name}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li className="p-2">No results found</li>
+                                    )}
+                                </ul>
+                            )}
+                              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
                             Get
                         </button>
+                        </div>
+
+                      
                     </div>
                     <div>
                         <label className="block mb-1">Amount:</label>
@@ -166,13 +237,14 @@ function Existing() {
                                 ))}
                             </select>
                         </div>
+                        {/* name */}
                         <div>
-                            <label className="block mb-1">Name:</label>
+                            <label className="block mb-1">Donor ID:</label>
                             <input
                                 type="text"
-                                name="name"
-                                value={name}
-                                onChange={(e) => setName(e.target.value.toUpperCase())}
+                                name="pan"
+                                value={pan}
+                                onChange={(e) => setPan(e.target.value.toUpperCase())}
                                 className=" w-72 p-2 border rounded-md text-slate-950"
                                 readOnly
                             />

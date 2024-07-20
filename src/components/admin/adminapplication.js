@@ -25,51 +25,146 @@ function Action() {
     const [totalamount, setTotalAmount] = useState(0);
     const [totaldonaramt, setDonaramt] = useState(0);
     const [submittedData, setSubmittedData] = useState([]);
+    const [radioValue, setRadioValue] = useState('all');
+    const [progressRadioValue, setProgressRadioValue] = useState('all');
+    const [specialCategories, setSpecialCategories] = useState({
+        muaddin: false,
+        hazrath: false,
+        fatherMotherSeparated: false,
+        fatherExpired: false,
+        singleparent: false,
+    });
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/fresh')
-            .then(response => {
+        const fetchFreshUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/fresh');
                 setUsers(response.data);
                 setFilterUsers(response.data);
-            })
-            .catch(err => console.log(err));
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        const fetchRenewalUsers = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/renewal');
+                setRusers(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchFreshUsers();
+        fetchRenewalUsers();
     }, []);
 
-    useEffect(() => {
-        axios.get('http://localhost:3001/renewal')
-            .then(response => {
-                setRusers(response.data);
-                setFilterUsers(prevUsers => [...prevUsers, ...response.data]);
-            })
-            .catch(err => console.log(err));
-    }, []);
 
     // useEffect(() => {
-    //     const fetchUsersAndDonors = async () => {
-    //         try {
-    //             const usersResponse = await axios.get('http://localhost:3001/api/admin/freshamt');
-    //             const donorsResponse = await axios.get('http://localhost:3001/api/admin/donors');
+    //     let combinedUsers = [...users, ...rusers];
+    //     let filteredUsers = [];
 
-    //             const usersData = usersResponse.data;
-    //             const donorsData = donorsResponse.data;
-
-    //             const donorMap = donorsData.reduce((map, donor) => {
-    //                 map[donor._id] = donor.name;
-    //                 return map;
-    //             }, {});
-
-    //             setUsers(usersData);
-    //             setFilterUsers(usersData);
-    //             setDonorMapping(donorMap);
-    //         } catch (err) {
-    //             console.log(err);
+    //     if (radioValue === 'all') {
+    //         filteredUsers = combinedUsers;
+    //     } else if (radioValue === 'in-progress') {
+    //         filteredUsers = combinedUsers.filter(user => user.action === 0);
+    //         if (progressRadioValue !== 'all') {
+    //             filteredUsers = filteredUsers.filter(user => 
+    //                 (user.fresherOrRenewal || '').toLowerCase() === progressRadioValue
+    //             );
     //         }
-    //     };
-    //     fetchUsersAndDonors();
-    // }, []);
+    //     }
+    //     setFilterUsers(filteredUsers);
+    // }, [radioValue, progressRadioValue, users, rusers]);
+
+
+    // Handle Progress Radio Change
+    const handleProgressRadioChange = (e) => {
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
+        setProgressRadioValue(value);
+    };
+
+    // Use Effect to Filter Users
+    useEffect(() => {
+        let combinedUsers = [...users, ...rusers];
+        console.log('Combined Users:', combinedUsers);
+
+        let filteredUsers = [];
+
+        if (radioValue === 'all') {
+            filteredUsers = combinedUsers;
+        } else if (radioValue === 'in-progress') {
+            filteredUsers = combinedUsers.filter(user => user.action === 0);
+            console.log('Filtered Users after action check:', filteredUsers);
+
+            if (progressRadioValue !== 'all') {
+                filteredUsers = filteredUsers.filter(user => {
+                    const userFresherOrRenewal = (user.fresherOrRenewal || '').toLowerCase().trim();
+                    const selectedProgress = progressRadioValue.toLowerCase().trim();
+                    return userFresherOrRenewal === selectedProgress;
+                });
+            }
+        }
+
+        if (Object.values(specialCategories).some(value => value)) {
+            filteredUsers = filteredUsers.filter(user => {
+                const specialCategory = (user.specialCategory || '').toLowerCase();
+                return (
+                    (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                    (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
+                    (specialCategories.fatherMotherSeparated && specialCategory.includes('fatherMotherSeparated')) ||
+                    (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                    (specialCategories.singleparent && specialCategory.includes('singleparent'))
+                );
+            });
+        }
+
+        console.log('Filtered Users:', filteredUsers);
+        setFilterUsers(filteredUsers);
+    }, [radioValue, progressRadioValue, specialCategories, users, rusers]);
+
+    const handleSearch = (e) => {
+        const searchText = e.target.value.toLowerCase();
+        const allUsers = [...users, ...rusers];
+
+        const filteredUsers = allUsers.filter(user => {
+            const dept = user.dept?.toLowerCase() || '';
+            const registerNo = user.registerNo?.toLowerCase() || '';
+            const name = user.name?.toLowerCase() || '';
+            const fresherOrRenewal = user.fresherOrRenewal?.toLowerCase() || '';
+
+            return dept.includes(searchText) ||
+                registerNo.includes(searchText) ||
+                name.includes(searchText) ||
+                fresherOrRenewal.includes(searchText);
+        });
+
+        setFilterUsers(filteredUsers);
+    };
+
+    const handleRadioChange = (e) => {
+        // Ensure e.target.value is a string before calling .toLowerCase()
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
+        setRadioValue(value);
+    };
+
+    const handleSpecialCategoryChange = (e) => {
+        const { name, checked } = e.target;
+        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
+    };
+
+
+    // const handleProgressRadioChange = (e) => {
+    //     // Ensure e.target.value is a string before calling .toLowerCase()
+    //     const value = e.target.value ? e.target.value.toLowerCase() : '';
+    //     setProgressRadioValue(value);
+    // };
+
+
+
 
     const handleViewClick = (user) => {
         setSelectedUser(user);
@@ -113,18 +208,6 @@ function Action() {
             });
     };
 
-    // useEffect(() => {
-    //     if (showModals) {
-    //         fetchDonars()
-    //             .then(data => {
-    //                 console.log('Fetched Donors:', data); // Debugging log
-    //                 setDonars(data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching donors:', error);
-    //             });
-    //     }
-    // }, [showModals]);
 
     useEffect(() => {
         if (showModals) {
@@ -158,30 +241,30 @@ function Action() {
 
     };
 
-    const handleSearch = (e) => {
-        const searchText = e.target.value.toLowerCase();
+    // const handleSearch = (e) => {
+    //     const searchText = e.target.value.toLowerCase();
+    //     const allUsers = [...users, ...rusers];
+    //     const filteredUsers = allUsers.filter(user =>
+    //         user.dept.toLowerCase().includes(searchText) ||
+    //         user.registerNo.toLowerCase().includes(searchText) ||
+    //         user.name.toLowerCase().includes(searchText) ||
+    //         user.fresherOrRenewal.toLowerCase().includes(searchText)
+    //     );
+    //     setFilterUsers(filteredUsers);
+    // };
+    // const handleRadioChange = (e) => {
+    //     const radioValue = e.target.value.toLowerCase();
+    //     const allUsers = [...users, ...rusers];
 
-        const filteredUsers = users.filter((user) =>
-            user.dept.toLowerCase().includes(searchText) ||
-            user.registerNo.toLowerCase().includes(searchText) ||
-            user.name.toLowerCase().includes(searchText) ||
-            user.fresherOrRenewal.toLowerCase().includes(searchText)
-        );
-        setFilterUsers(filteredUsers);
-    };
-    const handleRadioChange = (e) => {
-        const radioValue = e.target.value.toLowerCase();
-        const allUsers = [...users, ...rusers];
-
-        if (radioValue === 'all') {
-            setFilterUsers(allUsers);
-        } else {
-            const filteredUsers = allUsers.filter(user =>
-                user.fresherOrRenewal.toLowerCase() === radioValue
-            );
-            setFilterUsers(filteredUsers);
-        }
-    };
+    //     if (radioValue === 'all') {
+    //         setFilterUsers(allUsers);
+    //     } else {
+    //         const filteredUsers = allUsers.filter(user =>
+    //             user.fresherOrRenewal.toLowerCase() === radioValue
+    //         );
+    //         setFilterUsers(filteredUsers);
+    //     }
+    // };
     // const handleScholarshipChange = (index, event) => {
     //     const { name, value } = event.target;
     //     const updatedRows = [...scholarshipRows];
@@ -422,7 +505,7 @@ function Action() {
             .catch(err => console.log('Error fetching data:', err))
     }, []);
 
-    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+    if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
 
     return (
@@ -440,48 +523,120 @@ function Action() {
                 >
                     Search
                 </button>
-                <input
-                    type="radio"
-                    id="all"
-                    name="search"
-                    value="All"
-                    className='scale-200 ml-8'
-                    onChange={handleRadioChange}
-                />
-                <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                <div className='end-px text-white border border-amber-300 w-72 mt-4'>
+                    <input
+                        type="radio"
+                        id="all"
+                        name="search"
+                        value="all"
+                        className='scale-200 ml-8'
+                        onChange={handleRadioChange}
+                        defaultChecked
+                    />
+                    <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 
-                <input
-                    type="radio"
-                    id="fresher"
-                    name="search"
-                    value="Fresh"
-                    className='scale-200 ml-4'
-                    onChange={handleRadioChange}
-                />
-                <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
+                    <input
+                        type="radio"
+                        id="in-progress"
+                        name="search"
+                        value="in-progress"
+                        className='scale-200 ml-4'
+                        onChange={handleRadioChange}
+                    />
+                    <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
+                </div>
+                {radioValue === 'in-progress' && (
+                    <div className='flex inline-flex gap-28'>
+                        <div className='end-px text-white border border-amber-300 w-72 mt-4 '>
+                            <input
+                                type="radio"
+                                id="all-progress"
+                                name="progress"
+                                value="all"
+                                className='scale-200 ml-8'
+                                onChange={handleProgressRadioChange}
+                                defaultChecked
+                            />
+                            <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
 
-                <input
-                    type="radio"
-                    id="renewal"
-                    name="search"
-                    value="Renewal"
-                    className='scale-200 ml-4'
-                    onChange={handleRadioChange}
-                />
-                <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                            <input
+                                type="radio"
+                                id="fresher"
+                                name="progress"
+                                value="Fresher"
+                                className='scale-200 ml-4'
+                                onChange={handleProgressRadioChange}
+                            />
+                            <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
+
+                            <input
+                                type="radio"
+                                id="renewal"
+                                name="progress"
+                                value="renewal"
+                                className='scale-200 ml-4'
+                                onChange={handleProgressRadioChange}
+                            />
+                            <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                        </div>
+                        <div className='end-px text-white border border-amber-300 w-auto mt-4'>
+                            <input
+                                type="checkbox"
+                                id="muaddin"
+                                name="muaddin"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
+
+                            <input
+                                type="checkbox"
+                                id="hazrath"
+                                name="hazrath"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>Hazrath</label>
+
+                            <input
+                                type="checkbox"
+                                id="fatherMotherSeparated"
+                                name="fatherMotherSeparated"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="fatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Father & Mother Separated</label>
+
+                            <input
+                                type="checkbox"
+                                id="fatherExpired"
+                                name="fatherExpired"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>Father Expired</label>
+                            <input
+                                type="checkbox"
+                                id="singleparent"
+                                name="singleparent"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
+                        </div>
+                    </div>
+
+                )}
             </div>
             <div className='mt-6 pl-0'>
-                <div className="grid grid-cols-4 w-auto bg-amber-300 ">
-                    {/* <div className="font-bold border border-white text-center">Application</div> */}
+                <div className="grid grid-cols-4 w-auto bg-amber-300">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
                     <div className="font-bold border border-white text-center py-3">ACTION</div>
-
                 </div>
-                {filterUsers.map((user) => (
-                    <div key={user.registerNo} className="grid grid-cols-4 w-auto bg-amber-200 ">
-                        {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
+                {filterUsers.map((user, index) => (
+                    <div key={`${user.registerNo}-${index}`} className="grid grid-cols-4 w-auto bg-amber-200">
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
@@ -493,7 +648,6 @@ function Action() {
                             >
                                 View
                             </button>
-
                             <button
                                 type="button"
                                 onClick={() => handleAccept(user)}
@@ -511,48 +665,47 @@ function Action() {
                         </div>
                     </div>
                 ))}
-                <div>
-                    {/* {rusers.map((user) => (
-                    <div key={user.registerNo} className="grid grid-cols-5 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                        <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
-                        <div className="font-bold border border-white text-center">
-                            <button
-                                type="button"
-                                onClick={() => handleViewClick(user)}
-                                className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                            >
-                                View
-                            </button>
+                {/* <div>
+                    {rusers.map((user) => (
+                        <div key={user.registerNo} className="grid grid-cols-5 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
+                            <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
+                            <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
+                            <div className="font-bold border border-white text-center uppercase">{user.name}</div>
+                            <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
+                            <div className="font-bold border border-white text-center">
+                                <button
+                                    type="button"
+                                    onClick={() => handleViewClick(user)}
+                                    className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
+                                >
+                                    View
+                                </button>
 
-                            <button
-                                type="button"
-                                onClick={() => handleAccept(user)}
-                                className="px-3 py-1 bg-green-500 text-white hover:bg-black rounded-lg"
-                            >
-                                Accept
-                            </button>
-                            <button
-                                type="button"
-                                className="px-4 py-1 ml-2 bg-red-500 text-white hover:bg-black rounded-lg"
-                            >
-                                Reject
-                            </button>
+                                <button
+                                    type="button"
+                                    onClick={() => handleAccept(user)}
+                                    className="px-3 py-1 bg-green-500 text-white hover:bg-black rounded-lg"
+                                >
+                                    Accept
+                                </button>
+                                <button
+                                    type="button"
+                                    className="px-4 py-1 ml-2 bg-red-500 text-white hover:bg-black rounded-lg"
+                                >
+                                    Reject
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                ))} */}</div>
+                    ))}</div> */}
             </div>
-            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-10'>
-                <div>
-                    <div>  Number of Students Applied: {data.totalApplication} </div>
-                    <div> Number of Students Benefitted: {data.totalBenefit} </div>
+            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 mt-4'>
+                <div className='border border-white rounded-lg  grid grid-cols-2 p-4'>
+                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
+                    <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
                 </div>
-                <div className='ml-90'>
-                    <div className=' ml-'>
-                        Scholarship Received: {totaldonaramt}</div>
-                    <div className=' ml-'>Scholarship Awarded	: {totalamount}  </div>
+                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
+                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {totaldonaramt}</div>
+                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {totalamount}  </div>
                 </div>
             </div>
             {showModal && selectedUser && (
@@ -860,22 +1013,22 @@ function Action() {
                                         Confirm
                                     </button>
                                 </div>
-                               
+
                             </div>
                             {submittedData.length > 0 && (
-                                    <div>
-                                        
-                                        {submittedData.map((submission, index) => (
-                                            <div key={index} className=' grid grid-cols-4'>
-                                                <div className=''>Submission {index + 1}:</div>
-                                                <div className=' w-60 '>Scholarship Type: {submission.scholtype}</div>
-                                                <div className=' w-60 '>Donor: {submission.scholdonar}</div>
-                                                <div className=' w-60 '>Scholarship Amount: {submission.scholamt}</div>
-                                          
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                <div>
+
+                                    {submittedData.map((submission, index) => (
+                                        <div key={index} className=' grid grid-cols-4'>
+                                            <div className=''>Submission {index + 1}:</div>
+                                            <div className=' w-60 '>Scholarship Type: {submission.scholtype}</div>
+                                            <div className=' w-60 '>Donor: {submission.scholdonar}</div>
+                                            <div className=' w-60 '>Scholarship Amount: {submission.scholamt}</div>
+
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
 
                             <div className="mt-4 flex justify-end">

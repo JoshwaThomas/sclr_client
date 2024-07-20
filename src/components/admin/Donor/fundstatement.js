@@ -34,7 +34,7 @@ function Fundstatement() {
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
         const fileExtension = '.xlsx';
-        const fileName = 'fund_statement';
+        const fileName = 'Fund_statement';
 
         // Define headers for Excel
         const headers = [
@@ -69,6 +69,12 @@ function Fundstatement() {
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
     };
+
+    const formatDateString = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}-${month}-${year}`;
+      };
+      
 
     return (
         <div>
@@ -141,7 +147,7 @@ function Fundstatement() {
             {filterUsers.map((user) => (
                 <div key={user.pan} className="grid grid-cols-7 bg-amber-200">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.scholdate}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3"> {formatDateString(user.scholdate)}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.mobileNo}</div>

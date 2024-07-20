@@ -319,9 +319,9 @@ const Donar = () => {
               required
             />
           </div>
-
+          <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
         </div>
-        <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
+       
       </form>
 
     </div>

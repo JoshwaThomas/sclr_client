@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
 import Jmc from '../../assets/jmc_whitefont.png';
@@ -7,6 +7,9 @@ import axios from 'axios';
 function StudentLayout() {
   const navigate = useNavigate();
   const [acyear, setAcYear] = useState('');
+  
+  const [activeAcYear, setActiveAcYear] = useState('');
+  // const [alertMessage, setAlertMessage] = useState('');
 
   const menus = [
     { icon: 'menu', 
@@ -55,26 +58,37 @@ function StudentLayout() {
     });
   };
 
+  useEffect(() => {
+    // Fetch current active academic year on component mount
+    fetchActiveAcademicYear();
+  }, []);
+
+  const fetchActiveAcademicYear = () => {
+    axios.get("http://localhost:3001/api/admin/current-acyear")
+      .then(response => {
+        if (response.data.success) {
+          setActiveAcYear(response.data.acyear.acyear);
+        } else {
+          setActiveAcYear('');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching current academic year:', error);
+      });
+  };
+
   const Submit = (e) => {
     e.preventDefault();
     axios.post("http://localhost:3001/api/admin/acyear", { acyear })
       .then(result => {
-        if (result.data.success) {
-          window.alert("Academic Year Set Successfully");
-        } else if (result.data.message === 'Already Existing') {
-          alert("Already Existing");
-        } else {
-          alert('Something went wrong');
-          console.error('Failed to fetch current academic year');
-        }
+        alert('Academic year set to active successfully.');
+        fetchActiveAcademicYear(); // Update active academic year after setting
       })
       .catch(err => {
         console.log(err);
-        console.error('Error fetching current academic year:', err);
-        window.alert("Something Went Wrong");
+        alert('Something Went Wrong');
       });
-      
-  }
+  };
 
   return (
     <div className="flex flex-row bg-slate-500 h-screen w-screen ">
@@ -84,12 +98,14 @@ function StudentLayout() {
           <img src={Jmc} alt="" className="w-60" />
           <div>
             <form onSubmit={Submit}>
-              <label className="block mb-1">Academic:</label>
+            <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
+         
+
               <select
                 name="acyear"
                 value={acyear}
                 onChange={(e) => setAcYear(e.target.value)}
-                className="w-28 p-1 border rounded-md text-slate-950"
+                className="w-28 p-1 border rounded-md text-slate-950 ml-8"
                 required
               >
                 <option value="">Select</option>
@@ -104,6 +120,7 @@ function StudentLayout() {
                 <option value="2032-2033">2032-2033</option>
               </select>
               <button type='submit' className="p-1 border px-3 ml-3 rounded-md bg-orange-500">Set</button>
+            
             </form>
           </div>
         </div>

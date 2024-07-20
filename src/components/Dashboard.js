@@ -145,24 +145,24 @@ const Dashboard = () => {
         <div className="container mx-auto p-4">
             <div className="grid grid-cols-4 gap-4 mb-8 ">
 
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center text-xl font-bold">
                     <FontAwesomeIcon icon={faUsers} size="2x" />
                     <div>Total Applicants</div>
                     <div>{data.totalApplicants}</div>
                 </div>
 
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center text-xl font-bold">
                     <FontAwesomeIcon icon={faGraduationCap} size="2x" />
                     <div>Students Benefitted</div>
                     <div>{data.totalBenefit}</div>
                 </div>
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center text-xl font-bold">
                     <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
                     <div>Scholarship Funds Awarded</div>
                     <div>{totalamount}</div>
 
                 </div>
-                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center">
+                <div className="bg-gray-100 p-4 py-11 rounded shadow text-center text-xl font-bold">
                     <FontAwesomeIcon icon={faHandsHelping} size="2x" />
                     <div>Generous Donors</div>
                     <div>{data.totalDonars}</div>

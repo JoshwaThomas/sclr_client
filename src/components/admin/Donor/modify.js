@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import axios from 'axios';
 
 function Modify() {
@@ -14,6 +14,9 @@ function Modify() {
     const [scholtype, setScholType] = useState()
     const [scholtypes, setScholTypes] = useState([]);
     const [panList, setPanList] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     
     useEffect(() => {
@@ -48,15 +51,39 @@ function Modify() {
         }
     };
 
+    const filteredPanList = panList.filter(panItem =>
+        panItem.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const handleSelect = (name) => {
+        setName(name);
+        setSearchTerm(name);
+        setIsDropdownOpen(false);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsDropdownOpen(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
 
     const handleData = async (e) => {
         e.preventDefault();
         try {
             const result = await axios.get(`http://localhost:3001/api/admin/donarUpdate`, {
-                params: { pan }
+                params: { name }
             });
             setDonar(result.data);
             setName(result.data.name);
+            setPan(result.data.pan);
             setMobileNo(result.data.mobileNo);
             setAddress(result.data.address);
             setState(result.data.state);
@@ -126,7 +153,7 @@ function Modify() {
                 <form onSubmit={Submit} >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
                         <div>
-                            <label className="block mb-1">PAN or DID No</label>
+                            {/* <label className="block mb-1">PAN or DID No</label>
                             <select
                             value={pan}
                             onChange={(e) => setPan(e.target.value)}
@@ -139,9 +166,43 @@ function Modify() {
                                     {panItem.pan}
                                 </option>
                             ))}
-                        </select>
-                            <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
-                                Get</button>
+                        </select> */}
+                        <div ref={dropdownRef} className="relative">
+                            <label className="block mb-1">Name</label>
+                            <input
+                                type="text"
+                                value={searchTerm}
+                                onChange={(e) => {
+                                    setSearchTerm(e.target.value);
+                                    setIsDropdownOpen(true);
+                                }}
+                                onClick={() => setIsDropdownOpen(true)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                placeholder="Search Donor"
+                                required
+                            />
+                            {isDropdownOpen && (
+                                <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
+                                    {filteredPanList.length > 0 ? (
+                                        filteredPanList.map((panItem) => (
+                                            <li
+                                                key={panItem.pan}
+                                                onClick={() => handleSelect(panItem.name)}
+                                                className="p-2 cursor-pointer hover:bg-gray-200"
+                                            >
+                                                {panItem.name}
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li className="p-2">No results found</li>
+                                    )}
+                                </ul>
+                            )}
+                              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
+                            Get
+                        </button>
+                        </div>
+                            
                         </div>
                     </div>
                     {donar && (
@@ -172,6 +233,18 @@ function Modify() {
 
                                 />
                             </div>
+                            <div>
+                                <label className="block mb-1">Name:</label>
+                                <input
+                                    type="text"
+                                    name="pan"
+                                    value={pan}
+                                    onChange={(e) => setPan(e.target.value.toUpperCase())}
+                                    className=" w-72 p-2 border rounded-md text-slate-950"
+
+                                />
+                            </div>
+
                             <div>
                                 <label className="block mb-1">Mobile No.:</label>
                                 <input
