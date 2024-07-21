@@ -129,30 +129,30 @@ function Fundstatement() {
                     Download Excel
                 </button>
             </div>
-            <div className='mt-6 grid grid-cols-7 w-auto bg-amber-300'>
+            <div className='mt-6 grid grid-cols-6  w-auto bg-amber-300'>
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
-                <div className="font-bold border border-white text-center">DATE</div>
-                <div className="font-bold border border-white text-center">PAN</div>
-                <div className="font-bold border border-white text-center">NAME</div>
-                <div className="font-bold border border-white text-center">MOBILE</div>
-                <div className="font-bold border border-white text-center">ADDRESS</div>
-                <div className='font-bold border border-white text-center'>SCHOLARSHIP TYPE</div>
-                <div className='font-bold border border-white text-center'>AMOUNT</div>
+                <div className="font-bold border border-white text-center py-3">DATE</div>
+                {/* <div className="font-bold border border-white text-center py-3"></div> */}
+                <div className="font-bold border border-white text-center py-3">NAME</div>
+                <div className="font-bold border border-white text-center py-3">MOBILE</div>
+                <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
+                <div className='font-bold border border-white text-center py-3'>PAN</div>
+                <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
                 {/* <div className='font-bold border border-white text-center'> Balance </div> */}
                 {/* <div className="font-bold border border-white text-center">Action</div> */}
 
             </div>
             {filterUsers.map((user) => (
-                <div key={user.pan} className="grid grid-cols-7 bg-amber-200">
+                <div key={user.pan} className="grid grid-cols-6 bg-amber-200">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center uppercase py-3"> {formatDateString(user.scholdate)}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
+                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDateString(user.scholdate)}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.mobileNo}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.district}</div>
+                    {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
                     <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.amount}</div>
                     {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
 

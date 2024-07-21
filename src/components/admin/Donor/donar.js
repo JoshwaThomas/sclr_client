@@ -5,6 +5,7 @@ import axios from 'axios';
 const Donar = () => {
   const [name, setName] = useState()
   const [mobileNo, setMobileNo] = useState()
+  const [did, setDid] = useState();
   const [pan, setPan] = useState()
   // const [emailId, setEmailId] = useState()
   const [address, setAddress] = useState()
@@ -26,7 +27,7 @@ const Donar = () => {
   //     try {
   //       const response = await axios.get('http://localhost:3001/api/admin/scholtypelist');
   //       const uniqueScholTypes = [...new Set(response.data.map(item => item.scholtype))];
-            
+
   //           setScholTypes(uniqueScholTypes);
   //     } catch (error) {
   //       console.error('Error fetching scholarship types:', error);
@@ -37,30 +38,40 @@ const Donar = () => {
   // }, []);
 
   const Submit = (e) => {
+    axios.get('http://localhost:3001/api/admin/current-acyear')
+      .then(response => {
+        if (response.data.success) {
+          const acyear = response.data.acyear.acyear;
 
-    e.preventDefault();
-    axios.post('http://localhost:3001/api/admin/donardata', {
-      name, mobileNo, address, state, district, pin,
-      scholtype, amount, balance, scholdate, pan
-    })
-      .then(result => {
-        console.log(result);
-        if (result.data.success) {
-          window.alert("Your Data Submitted Successfully");
+          e.preventDefault();
+          axios.post('http://localhost:3001/api/admin/donardata', {
+            did, name, mobileNo, address, state, district, pin,
+            scholtype, amount, balance, scholdate, pan, acyear
+          })
+            .then(result => {
+              console.log(result);
+              if (result.data.success) {
+                window.alert("Your Data Submitted Successfully");
+              }
+              else if (result.data.message === 'Donor Already Existing') {
+                alert("Pan No. Already Existing")
+              }
+              else {
+                alert('Something went worng')
+              }
+
+              window.location.reload();
+            })
+            .catch(err => {
+              console.log(err);
+              window.alert("Submission failed!");
+              window.location.reload();
+            });
         }
-        else if (result.data.message === 'Donor Already Existing') {
-          alert("Pan No. Already Existing")
-        }
-        else {
-          alert('Something went worng')
-        }
-       
-        window.location.reload();
       })
-      .catch(err => {
-        console.log(err);
-        window.alert("Submission failed!");
-        window.location.reload();
+      .catch(error => {
+        console.error('Error fetching current academic year:', error);
+        window.alert('Error fetching current academic year');
       });
   }
 
@@ -72,53 +83,64 @@ const Donar = () => {
       <form onSubmit={Submit} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
           <div>
-            <label className="block mb-1">PAN or DID No</label>
+            <label className="block mb-1">Donor ID</label>
             <input
-            type='text'
+              type='text'
+              name="ScholarshipCategory"
+              value={did}
+              onChange={(e) => setDid(e.target.value)}
+              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Pan No</label>
+            <input
+              type='text'
               name="ScholarshipCategory"
               value={pan}
               onChange={(e) => setPan(e.target.value.toUpperCase())}
               className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-              required
-            />
-            </div>
-            <div>
-              <label className="block mb-1">Scholarship Type</label>
-              <select
-                name="ScholarshipCategory"
-                value={scholtype}
-                onChange={(e) => setScholType(e.target.value)}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
-              >
-                <option value="">Select</option>
-                <option value="Endowment">Endowment</option>
-                <option value="JMC Staff">JMC Staff</option>
-                <option value="Alumni">Alumni</option>
-                <option value="Well Wishers">Well Wishers</option>
-                <option value="Singapore Chapter">Singapore Chapter</option>
-                <option value="Trichy Chapter">Trichy Chapter</option>
-                <option value="Chennai Chapter">Chennai Chapter</option>
-                <option value="Kerala Chapter">Kerala Chapter</option>
-                <option value="Kuwait Chapter">Kuwait Chapter</option>
-                <option value="Jeddah Chapter">Jeddah Chapter</option>
-                <option value="Koothanallur Chapter">Koothanallur Chapter</option>
-                <option value="USA Chapter">USA Chapter</option>
-                <option value="Burnei Chapter">Burnei Chapter</option>
-                <option value="Riyadh Chapter">Riyadh Chapter</option>
-                <option value="Malaysia Chapter">Malaysia Chapter</option>
-                <option value="Tenkasi Chapter">Tenkasi Chapter</option>
-                <option value="UK Chapter">UK Chapter</option>
-                <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
-                <option value="Bahrain Chapter">Bahrain Chapter</option>
-                <option value="Bengaluru Chapter">Bengaluru Chapter</option>
-                <option value="UAE Chapter">UAE Chapter</option>
-                <option value="Qatar Chapter">Qatar Chapter</option>
-                <option value="Others">Others1</option>
-                <option value="Others">Others2</option>
-                <option value="Others">Others3</option>
 
-              </select>
+            />
+          </div>
+          <div>
+            <label className="block mb-1">Scholarship Type</label>
+            <select
+              name="ScholarshipCategory"
+              value={scholtype}
+              onChange={(e) => setScholType(e.target.value)}
+              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+              required
+            >
+              <option value="">Select</option>
+              <option value="Endowment">Endowment</option>
+              <option value="JMC Staff">JMC Staff</option>
+              <option value="Alumni">Alumni</option>
+              <option value="Well Wishers">Well Wishers</option>
+              <option value="Singapore Chapter">Singapore Chapter</option>
+              <option value="Trichy Chapter">Trichy Chapter</option>
+              <option value="Chennai Chapter">Chennai Chapter</option>
+              <option value="Kerala Chapter">Kerala Chapter</option>
+              <option value="Kuwait Chapter">Kuwait Chapter</option>
+              <option value="Jeddah Chapter">Jeddah Chapter</option>
+              <option value="Koothanallur Chapter">Koothanallur Chapter</option>
+              <option value="USA Chapter">USA Chapter</option>
+              <option value="Burnei Chapter">Burnei Chapter</option>
+              <option value="Riyadh Chapter">Riyadh Chapter</option>
+              <option value="Malaysia Chapter">Malaysia Chapter</option>
+              <option value="Tenkasi Chapter">Tenkasi Chapter</option>
+              <option value="UK Chapter">UK Chapter</option>
+              <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
+              <option value="Bahrain Chapter">Bahrain Chapter</option>
+              <option value="Bengaluru Chapter">Bengaluru Chapter</option>
+              <option value="UAE Chapter">UAE Chapter</option>
+              <option value="Qatar Chapter">Qatar Chapter</option>
+              <option value="Others">Others1</option>
+              <option value="Others">Others2</option>
+              <option value="Others">Others3</option>
+
+            </select>
           </div>
           {/* <div>
             <label className="block mb-1">Scholarship Type</label>
@@ -143,7 +165,7 @@ const Donar = () => {
               name="name"
               value={name}
               onChange={(e) => setName(e.target.value.toUpperCase())}
-              className=" w-72 p-2 border rounded-md text-slate-950"
+              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
             />
           </div>
@@ -178,7 +200,7 @@ const Donar = () => {
               name="address"
               value={address}
               onChange={(e) => setAddress(e.target.value.toUpperCase())}
-              className="w-72 p-2 border rounded-md text-slate-950"
+              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               placeholder='Door No & Street'
               required
             />
@@ -189,7 +211,7 @@ const Donar = () => {
               name="state"
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950"
+              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
             >
               <option value="">Select State</option>
@@ -238,7 +260,7 @@ const Donar = () => {
               name="district"
               value={district}
               onChange={(e) => setDistrict(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950"
+              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
             >
               <option value="">Select District</option>
@@ -290,7 +312,7 @@ const Donar = () => {
               name="pin"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950"
+              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               placeholder='Pincode'
               required
             />
@@ -315,13 +337,13 @@ const Donar = () => {
               name="dob"
               value={scholdate}
               onChange={(e) => setScholDate(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-600"
+              className="w-72 p-2 border rounded-md text-slate-600 lg:w-48"
               required
             />
           </div>
-          <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
+          <button type='submit' className=' p-2 border mr-10 ml-32 mt-20 rounded-md bg-orange-500'>Submit</button>
         </div>
-       
+
       </form>
 
     </div>

@@ -187,6 +187,14 @@ function Action() {
 
     if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
+    const formatCurrency = (amount) => {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 2,
+  }).format(amount);
+};
+
 
     return (
         <div>
@@ -427,8 +435,8 @@ function Action() {
                     <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
                 </div>
                 <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
-                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {totaldonaramt}</div>
-                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {totalamount}  </div>
+                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
+                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
                 </div>
             </div>
         </div>

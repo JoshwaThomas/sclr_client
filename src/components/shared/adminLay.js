@@ -83,6 +83,7 @@ function StudentLayout() {
       .then(result => {
         alert('Academic year set to active successfully.');
         fetchActiveAcademicYear(); // Update active academic year after setting
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);

@@ -6,6 +6,7 @@ function Modify() {
     const [name, setName] = useState()
     const [mobileNo, setMobileNo] = useState()
     const [pan, setPan] = useState()
+    const [did, setDid] = useState();
     // const [emailId, setEmailId] = useState()
     const [address, setAddress] = useState()
     const [state, setState] = useState()
@@ -52,12 +53,15 @@ function Modify() {
     };
 
     const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase())
+        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleSelect = (name) => {
-        setName(name);
+    const handleSelect = (name, did) => {
         setSearchTerm(name);
+        // setPanSearchTerm(did);
+        setName(name);
+        setDid(did);
         setIsDropdownOpen(false);
     };
 
@@ -84,6 +88,7 @@ function Modify() {
             setDonar(result.data);
             setName(result.data.name);
             setPan(result.data.pan);
+            setDid(result.data.did);
             setMobileNo(result.data.mobileNo);
             setAddress(result.data.address);
             setState(result.data.state);
@@ -101,7 +106,7 @@ function Modify() {
 
         e.preventDefault();
         axios.post('http://localhost:3001/api/admin/donarUpdate', {
-            name, mobileNo, address, state, district, pin,
+            did, name, mobileNo, address, state, district, pin,
             scholtype, pan
         })
             .then(result => {
@@ -152,58 +157,117 @@ function Modify() {
                 <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
                 <form onSubmit={Submit} >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-                        <div>
-                            {/* <label className="block mb-1">PAN or DID No</label>
-                            <select
+                    <div onChange={(e) => fetchPanList(e)} className=''>
+                        {/* <label className="block mb-1">PAN No</label>
+                        <select
                             value={pan}
                             onChange={(e) => setPan(e.target.value)}
                             className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                            required
+                            // required
                         >
-                            <option value="">  </option>
+                            <option value="">Select Donor</option>
                             {Array.isArray(panList) && panList.map((panItem) => (
                                 <option key={panItem.pan} value={panItem.pan}>
                                     {panItem.pan}
                                 </option>
                             ))}
                         </select> */}
-                        <div ref={dropdownRef} className="relative">
-                            <label className="block mb-1">Name</label>
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setIsDropdownOpen(true);
-                                }}
-                                onClick={() => setIsDropdownOpen(true)}
-                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                placeholder="Search Donor"
-                                required
-                            />
-                            {isDropdownOpen && (
-                                <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
-                                    {filteredPanList.length > 0 ? (
-                                        filteredPanList.map((panItem) => (
-                                            <li
-                                                key={panItem.pan}
-                                                onClick={() => handleSelect(panItem.name)}
-                                                className="p-2 cursor-pointer hover:bg-gray-200"
-                                            >
-                                                {panItem.name}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li className="p-2">No results found</li>
-                                    )}
-                                </ul>
-                            )}
-                              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
-                            Get
-                        </button>
+                        {/* <label className="block mb-1">Name</label>
+                        <select
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            required
+                        >
+                            <option value="">Select Donor</option>
+                            {Array.isArray(panList) && panList.map((panItem) => (
+                                <option key={panItem.pan} value={panItem.name}>
+                                    {panItem.name}
+                                </option>
+                            ))}
+                        </select> */}
+                        <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
+                            <div>
+                                <label className="block mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setIsDropdownOpen(true);
+
+                                    }}
+                                    onClick={() => setIsDropdownOpen(true)}
+                                    className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
+                                    placeholder="Search Donor"
+                                    required
+                                />
+                                {isDropdownOpen && (
+                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
+                                        {filteredPanList.length > 0 ? (
+                                            filteredPanList.map((panItem) => (
+                                                <React.Fragment key={panItem.did}>
+                                                <li
+                                                  onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                  className="p-2 cursor-pointer hover:bg-gray-200"
+                                                >
+                                                  {panItem.name}
+                                                </li>
+                                                <li
+                                                  onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                  className="p-2 cursor-pointer hover:bg-gray-200"
+                                                >
+                                                  {panItem.did}
+                                                </li>
+                                              </React.Fragment>
+                                            ))
+                                        ) : (
+                                            <li className="p-2">No results found</li>
+                                        )}
+                                    </ul>
+                                )}
+                            </div>
+                            {/* DID */}
+                            <div className=' '>
+                                {/* <label className="block mb-1 ml-16 ">PAN</label>
+                                <div className='flex inline-flex'>
+                                <input
+                                    type="text"
+                                    value={panSearchTerm}
+                                    onChange={(e) => {
+                                        setPanSearchTerm(e.target.value);
+                                        setIsDropdownOpen(true);
+                                    }}
+                                    onClick={() => setIsDropdownOpen(true)}
+                                    className="w-72 p-2 border rounded-md text-slate-950 ml-16 lg:w-20"
+                                    placeholder="Search DID"
+                                    required
+                                />
+                                {isDropdownOpen && (
+                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-20 ml-16 mt-11 max-h-60 overflow-y-auto">
+                                        {filteredPanList.length > 0 ? (
+                                            filteredPanList.map((panItem) => (
+                                                <li
+                                                    key={panItem.pan}
+                                                    onClick={() => handleSelect(panItem.name, panItem.pan)}
+                                                    className="p-2 cursor-pointer hover:bg-gray-200"
+                                                >
+                                                    {panItem.pan}
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <li className="p-2">No results found</li>
+                                        )}
+                                    </ul>
+                                )} */}
+                               
+                                {/* </div> */}
+                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                                    Get
+                                </button>
+                            </div>
                         </div>
-                            
-                        </div>
+                    </div>
                     </div>
                     {donar && (
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
@@ -234,12 +298,12 @@ function Modify() {
                                 />
                             </div>
                             <div>
-                                <label className="block mb-1">Name:</label>
+                                <label className="block mb-1">Donor ID:</label>
                                 <input
                                     type="text"
-                                    name="pan"
-                                    value={pan}
-                                    onChange={(e) => setPan(e.target.value.toUpperCase())}
+                                    name="did"
+                                    value={did}
+                                    onChange={(e) => setDid(e.target.value.toUpperCase())}
                                     className=" w-72 p-2 border rounded-md text-slate-950"
 
                                 />
@@ -257,7 +321,17 @@ function Modify() {
 
                                 />
                             </div>
+                            <div>
+                                <label className="block mb-1">Pan No:</label>
+                                <input
+                                    type="text"
+                                    name="pan"
+                                    value={pan}
+                                    onChange={(e) => setPan(e.target.value.toUpperCase())}
+                                    className=" w-72 p-2 border rounded-md text-slate-950"
 
+                                />
+                            </div>
                             <div>
                                 <label className="block mb-1">Permanent Address</label>
                                 <input

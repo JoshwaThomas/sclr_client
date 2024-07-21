@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -8,8 +9,8 @@ function Status() {
 
     const Submit = async (e) => {
         e.preventDefault();
-        const result = await axios.get(`http://localhost:3001/api/admin/status/${registerNo}`);
         try {
+            const result = await axios.get(`http://localhost:3001/api/admin/status/${registerNo}`);
             setStudent(result.data);
             setShowModal(true); // Show modal when student data is fetched
         } catch (err) {
@@ -52,98 +53,80 @@ function Status() {
                     </div>
                 </form>
                 {showModal && student && (
-                    <div className= "fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        {/* <div className="bg-red-400 bg-teal-300 w-3/4 h-96 rounded-lg overflow-auto p-6"> */}
-                        <div className=" bg-teal-600 w-3/4 h-96 rounded-lg overflow-auto p-6 ">
-                            <div className='grid grid-cols-4 w-auto p-4 text-white'>
-                                <div className='uppercase'>
-                                    <label className="block mb-1 ">Register No.:  {student.registerNo}</label>
-
-                                </div>
-                                <div className='uppercase'>
-                                    <label className="block mb-1">Name: {student.name}</label>
-
-                                </div>
-                                <div className='uppercase'>
-                                    <label className="block mb-1">Application:  {student.fresherOrRenewal}</label>
-                                </div>
-                                <div>
-
-                                </div>
-
-                                <div className='uppercase mt-3'>
-                                    <div> {student.ugOrPg} </div>
-                                    <div> {student.dept} </div>
-                                    <div> {student.section} </div>
-                                    <div> {student.procategory} </div>
-                                    <div>{student.semester} </div>
-                                    <div> {student.mobileNo} </div>
-                                    <div>  <label className="block mb-1">Hostel:{student.hostel} </label> </div>
-                                </div>
-
-
-                                <div className='uppercase mt-3'>
-                                    <div> <label className="block mb-1">S/O,D/O :{student.fatherName} </label> </div>
-                                    <div> {student.fatherNo} </div>
-                                    <div> {student.fatherOccupation} </div>
-                                    <div> {student.annualIncome} </div>
-                                    <div> <label className="">Siblings: </label>{student.siblings} </div>
-                                </div>
-
-
-
-
-                                <div className='uppercase mt-3'>
-
-                                    {/* <label className="block mb-1">Special Category:</label> */}
-                                    <div>   {student.specialCategory} </div>
-                                    <div>   {student.religion} </div>
-                                    <div>    {student.address} </div>
-                                    <div>    {student.district} </div>
-                                    <div>   {student.state} </div>
-                                    <div>   {student.pin} </div>
-                                </div>
-
-                                <div className='uppercase mt-3'>
-                                    {/* <label className="">Last School Name:</label> */}
-                                    <div>  {student.schoolName}  </div>
-
-                                    {/* <label className="">Percentage of Mark:</label> */}
-                                    <div>  {student.percentageOfMarkSchool}  </div>
-
-                                    {/* <label className="">Semester:</label> */}
-                                    <div>    {student.preSemester}  </div>
-
-                                    {/* <label className="">Percentage of Mark:</label> */}
-                                    <div>   {student.semPercentage}  </div>
-
-                                    <div>  <label className="">Class Attendance Percentage:  {student.classAttendancePer}  </label>
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-red-300 w-3/4 h-96 rounded-lg overflow-auto p-6">
+                            <div className='grid grid-cols-3 w-auto p-4 text-white'>
+                                {student.registerNo && (
+                                    <div className='uppercase'>
+                                        <label className="block mb-1">Register No.: {student.registerNo}</label>
                                     </div>
-
-                                    <div>  <label className="">Deeniyath Percentage:     {student.deeniyathPer}</label>
+                                )}
+                                {student.name && (
+                                    <div className='uppercase'>
+                                        <label className="block mb-1">Name: {student.name}</label>
                                     </div>
-
-                                    <div>  <label className="">No. Of Arrear :    {student.arrear} </label>
+                                )}
+                                {student.fresherOrRenewal && (
+                                    <div className='uppercase'>
+                                        <label className="block mb-1">Application: {student.fresherOrRenewal}</label>
                                     </div>
-                                </div>
-
-
-
-                                <div className='uppercase mt-3'>
-                                    <label className="block mb-1">Amount:</label>
-                                    {student.scholamt}
-                                </div>
-                                <div className='uppercase mt-3'>
-                                    <label className="block mb-1">Scholar Type:</label>
-                                    {student.scholtype}
-                                </div>
-                                <div className='uppercase mt-3'>
-                                    <label className="block mb-1">Rejected Reason:</label>
-                                    {student.reason}
-                                </div>
-
-
-
+                                )}
+                                {student.ugOrPg && (
+                                    <div className='uppercase mt-3'>
+                                        <div>{student.ugOrPg}</div>
+                                        <div>{student.dept}</div>
+                                        <div>{student.section}</div>
+                                        <div>{student.procategory}</div>
+                                        <div>{student.semester}</div>
+                                        <div>{student.mobileNo}</div>
+                                        <div><label className="block mb-1">Hostel: {student.hostel}</label></div>
+                                    </div>
+                                )}
+                                {student.fatherName && (
+                                    <div className='uppercase mt-3'>
+                                        <div><label className="block mb-1">S/O,D/O: {student.fatherName}</label></div>
+                                        <div>{student.fatherNo}</div>
+                                        <div>{student.fatherOccupation}</div>
+                                        <div>{student.annualIncome}</div>
+                                        <div><label className="">Siblings: </label>{student.siblings}</div>
+                                    </div>
+                                )}
+                                {student.specialCategory && (
+                                    <div className='uppercase mt-3'>
+                                        <div>{student.specialCategory}</div>
+                                        <div>{student.religion}</div>
+                                        <div>{student.address}</div>
+                                        <div>{student.district}</div>
+                                        <div>{student.state}</div>
+                                        <div>{student.pin}</div>
+                                    </div>
+                                )}
+                                {student.schoolName && (
+                                    <div className='uppercase mt-3'>
+                                        <div>{student.schoolName}</div>
+                                        <div>{student.percentageOfMarkSchool}</div>
+                                        <div>{student.preSemester}</div>
+                                        <div>{student.semPercentage}</div>
+                                        <div><label className="">Class Attendance Percentage: {student.classAttendancePer}</label></div>
+                                        <div><label className="">Deeniyath Percentage: {student.deeniyathPer}</label></div>
+                                        <div><label className="">No. Of Arrear: {student.arrear}</label></div>
+                                    </div>
+                                )}
+                                {student.scholamt && (
+                                    <div className='uppercase mt-3'>
+                                        <label className="block mb-1">Amount: {student.scholamt}</label>
+                                    </div>
+                                )}
+                                {student.scholtype && (
+                                    <div className='uppercase mt-3'>
+                                        <label className="block mb-1">Scholar Type: {student.scholtype}</label>
+                                    </div>
+                                )}
+                                {student.reason && (
+                                    <div className='uppercase mt-3'>
+                                        <label className="block mb-1">Rejected Reason: {student.reason}</label>
+                                    </div>
+                                )}
                             </div>
                             <button
                                 type="button"
@@ -153,15 +136,11 @@ function Status() {
                                 Close
                             </button>
                         </div>
-                    
                     </div>
-
-
-
-                )};
+                )}
             </div>
         </div>
-    )
+    );
 }
-export default Status;
 
+export default Status;

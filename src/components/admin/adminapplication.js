@@ -27,6 +27,7 @@ function Action() {
     const [submittedData, setSubmittedData] = useState([]);
     const [radioValue, setRadioValue] = useState('all');
     const [progressRadioValue, setProgressRadioValue] = useState('all');
+    const [acceptreject, setAcceptreject] = useState('all');
     const [specialCategories, setSpecialCategories] = useState({
         muaddin: false,
         hazrath: false,
@@ -81,11 +82,7 @@ function Action() {
     // }, [radioValue, progressRadioValue, users, rusers]);
 
 
-    // Handle Progress Radio Change
-    const handleProgressRadioChange = (e) => {
-        const value = e.target.value ? e.target.value.toLowerCase() : '';
-        setProgressRadioValue(value);
-    };
+   
 
     // Use Effect to Filter Users
     useEffect(() => {
@@ -96,6 +93,15 @@ function Action() {
 
         if (radioValue === 'all') {
             filteredUsers = combinedUsers;
+            
+            if (acceptreject !== 'all') {
+                filteredUsers = filteredUsers.filter(user => {
+                    const userAction = String(user.action || '').trim();
+                    const selectedAccept = acceptreject.trim();
+                    return userAction === selectedAccept;
+                });
+            }
+
         } else if (radioValue === 'in-progress') {
             filteredUsers = combinedUsers.filter(user => user.action === 0);
             console.log('Filtered Users after action check:', filteredUsers);
@@ -124,7 +130,7 @@ function Action() {
 
         console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
-    }, [radioValue, progressRadioValue, specialCategories, users, rusers]);
+    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers]);
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -145,6 +151,12 @@ function Action() {
         setFilterUsers(filteredUsers);
     };
 
+     // Handle Progress Radio Change
+     const handleProgressRadioChange = (e) => {
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
+        setProgressRadioValue(value);
+    };
+
     const handleRadioChange = (e) => {
         // Ensure e.target.value is a string before calling .toLowerCase()
         const value = e.target.value ? e.target.value.toLowerCase() : '';
@@ -156,6 +168,10 @@ function Action() {
         setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
 
+    const handleAcceptrejectChange = (e) => {
+        const value = e.target.value ? e.target.value.toLowerCase() : '';
+        setAcceptreject(value);
+    }
 
     // const handleProgressRadioChange = (e) => {
     //     // Ensure e.target.value is a string before calling .toLowerCase()
@@ -505,6 +521,14 @@ function Action() {
             .catch(err => console.log('Error fetching data:', err))
     }, []);
 
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+          style: 'currency',
+          currency: 'INR',
+          minimumFractionDigits: 2,
+        }).format(amount);
+      };
+
     if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
 
@@ -545,8 +569,45 @@ function Action() {
                     />
                     <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
                 </div>
+                {radioValue === 'all' && (
+                    <div className=''>
+                        <div className='end-px text-white border border-amber-300 w-72 mt-4 '>
+                        <input
+                                type="radio"
+                                id="all"
+                                name="search"
+                                value="all"
+                                className='scale-200 ml-8'
+                                onChange={handleAcceptrejectChange}
+                                defaultChecked
+                            />
+                            <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                            <input
+                                type="radio"
+                                id="accept"
+                                name="search"
+                                value="1"
+                                className='scale-200 ml-4'
+                                onChange={handleAcceptrejectChange}
+                            />
+                            <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Accept</label>
+
+                            <input
+                                type="radio"
+                                id="reject"
+                                name="search"
+                                value="2"
+                                className='scale-200 ml-4'
+                                onChange={handleAcceptrejectChange}
+                            />
+                            <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
+                        </div>
+                       
+                    </div>
+
+                )}
                 {radioValue === 'in-progress' && (
-                    <div className='flex inline-flex gap-28'>
+                    <div className=''>
                         <div className='end-px text-white border border-amber-300 w-72 mt-4 '>
                             <input
                                 type="radio"
@@ -559,7 +620,6 @@ function Action() {
                             />
                             <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
 
-<<<<<<< HEAD
                             <input
                                 type="radio"
                                 id="fresher"
@@ -628,18 +688,6 @@ function Action() {
                     </div>
 
                 )}
-=======
-                <input
-                    type="radio"
-                    id="renewal"
-                    name="search"
-                    value="Renewal"
-                    className='scale-200 ml-4'
-                    onChange={handleRadioChange}
-                />
-                <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
-                
->>>>>>> f6c6b5621e82a5c650ac5bc4271c4f6301126136
             </div>
             <div className='mt-6 pl-0'>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
@@ -664,14 +712,16 @@ function Action() {
                             <button
                                 type="button"
                                 onClick={() => handleAccept(user)}
-                                className="px-4 py-1 ml-1 bg-green-500 text-white hover:bg-black rounded-lg"
+                                className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                disabled={user.action !== 0}
                             >
                                 Accept
                             </button>
                             <button
                                 type="button"
                                 onClick={() => handleReject(user)}
-                                className="px-4 py-1 ml-1 bg-red-500 text-white hover:bg-black rounded-lg"
+                                className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
+                            disabled={user.action !== 0}
                             >
                                 Reject
                             </button>
@@ -711,14 +761,14 @@ function Action() {
                         </div>
                     ))}</div> */}
             </div>
-            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 mt-4'>
-                <div className='border border-white rounded-lg  grid grid-cols-2 p-4'>
+            <div className=' text-white flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
+                <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
                     <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
                     <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
                 </div>
-                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
-                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {totaldonaramt}</div>
-                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {totalamount}  </div>
+                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 bg-blue-600 '>
+                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
+                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
                 </div>
             </div>
             {showModal && selectedUser && (
@@ -929,7 +979,7 @@ function Action() {
 
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-teal-600 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
+                    <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
                         <form onSubmit={Submit}>
                             <div className='grid grid-cols-3 w-auto p-4'>
                                 <div className='uppercase'>
@@ -1033,10 +1083,10 @@ function Action() {
 
                                     {submittedData.map((submission, index) => (
                                         <div key={index} className=' grid grid-cols-4'>
-                                            <div className=''>Submission {index + 1}:</div>
-                                            <div className=' w-60 '>Scholarship Type: {submission.scholtype}</div>
-                                            <div className=' w-60 '>Donor: {submission.scholdonar}</div>
-                                            <div className=' w-60 '>Scholarship Amount: {submission.scholamt}</div>
+                                            <div className=''> {index + 1}:</div>
+                                            <div className=' w-auto '>  {submission.scholtype}</div>
+                                            {/* <div className=' w-60 '> {submission.scholdonar}</div> */}
+                                            <div className=' w-auto '>  {submission.scholamt}</div>
 
                                         </div>
                                     ))}
@@ -1054,7 +1104,7 @@ function Action() {
                                 </button>
                                 <button
                                     type="button"
-                                    className="bg-red-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                    className="bg-red-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
                                     onClick={closeModal}
                                 >
                                     Close

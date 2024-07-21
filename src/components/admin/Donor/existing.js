@@ -6,6 +6,7 @@ function Existing() {
     const [donar, setDonar] = useState(null);
     const [name, setName] = useState()
     const [mobileNo, setMobileNo] = useState()
+    const [did, setDid] = useState('');
     const [pan, setPan] = useState('')
     // const [emailId, setEmailId] = useState()
     const [address, setAddress] = useState()
@@ -19,6 +20,7 @@ function Existing() {
     const [scholtypes, setScholTypes] = useState([]);
     const [panList, setPanList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    // const [panSearchTerm, setPanSearchTerm] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -27,9 +29,7 @@ function Existing() {
         setBalance(amount);
     }, [amount]);
 
-    useEffect(() => {
-        fetchPanList();
-    }, []);
+
 
     useEffect(() => {
         const fetchScholTypes = async () => {
@@ -60,13 +60,20 @@ function Existing() {
         }
     };
 
+    useEffect(() => {
+        fetchPanList();
+    }, []);
+
     const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase())
+        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleSelect = (name) => {
-        setName(name);
+    const handleSelect = (name, did) => {
         setSearchTerm(name);
+        // setPanSearchTerm(pan);
+        setName(name);
+        setDid(did);
         setIsDropdownOpen(false);
     };
 
@@ -82,6 +89,7 @@ function Existing() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
     // const handlePanChange = (e) => {
     //     setPan(e.target.value.toUpperCase());
     // };
@@ -92,7 +100,9 @@ function Existing() {
         try {
             const result = await axios.get(`http://localhost:3001/api/admin/donor/${name}`);
             setDonar(result.data);
+            setName(result.data.name);
             setPan(result.data.pan);
+            setDid(result.data.did);
             setMobileNo(result.data.mobileNo);
             setAddress(result.data.address);
             setState(result.data.state);
@@ -109,19 +119,30 @@ function Existing() {
     const Submit = (e) => {
 
         e.preventDefault();
-        axios.post('http://localhost:3001/api/admin/donar', {
-            name, mobileNo, address, state, district, pin,
-            scholtype, amount, balance, scholdate, pan
-        })
-            .then(result => {
-                console.log(result);
-                window.alert("Your Application Updated Successfully");
-                window.location.reload();
-            })
-            .catch(err => {
-                console.log(err);
-                window.alert("Submission failed!");
-                window.location.reload();
+        axios.get('http://localhost:3001/api/admin/current-acyear')
+            .then(response => {
+                if (response.data.success) {
+                    const acyear = response.data.acyear.acyear;
+
+                    axios.post('http://localhost:3001/api/admin/donar', {
+                        name, mobileNo, address, state, district, pin,
+                        scholtype, amount, balance, scholdate, pan, acyear,did
+                    })
+                        .then(result => {
+                            console.log(result);
+                            window.alert("Your Application Updated Successfully");
+                            window.location.reload();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            window.alert("Submission failed!");
+                            window.location.reload();
+                        });
+                }
+            }) 
+            .catch(error => {
+                console.error('Error fetching current academic year:', error);
+                window.alert('Error fetching current academic year');
             });
     }
 
@@ -129,8 +150,8 @@ function Existing() {
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
             <form onSubmit={Submit} >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-                    <div onChange={(e) => fetchPanList(e)}>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+                    <div onChange={(e) => fetchPanList(e)} className=''>
                         {/* <label className="block mb-1">PAN No</label>
                         <select
                             value={pan}
@@ -159,69 +180,116 @@ function Existing() {
                                 </option>
                             ))}
                         </select> */}
-                        <div ref={dropdownRef} className="relative">
-                            <label className="block mb-1">Name</label>
-                            <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => {
-                                    setSearchTerm(e.target.value);
-                                    setIsDropdownOpen(true);
-                                }}
-                                onClick={() => setIsDropdownOpen(true)}
-                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                placeholder="Search Donor"
-                                required
-                            />
-                            {isDropdownOpen && (
-                                <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
-                                    {filteredPanList.length > 0 ? (
-                                        filteredPanList.map((panItem) => (
-                                            <li
-                                                key={panItem.pan}
-                                                onClick={() => handleSelect(panItem.name)}
-                                                className="p-2 cursor-pointer hover:bg-gray-200"
-                                            >
-                                                {panItem.name}
-                                            </li>
-                                        ))
-                                    ) : (
-                                        <li className="p-2">No results found</li>
-                                    )}
-                                </ul>
-                            )}
-                              <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-3 hover:bg-black rounded-lg mt-1'>
-                            Get
-                        </button>
-                        </div>
+                        <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
+                            <div>
+                                <label className="block mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setIsDropdownOpen(true);
 
-                      
+                                    }}
+                                    onClick={() => setIsDropdownOpen(true)}
+                                    className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
+                                    placeholder="Search Donor"
+                                    required
+                                />
+                                {isDropdownOpen && (
+                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
+                                        {filteredPanList.length > 0 ? (
+                                            filteredPanList.map((panItem) => (
+                                                <React.Fragment key={panItem.did}>
+                                                    <li
+                                                        onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                        className="p-2 cursor-pointer hover:bg-gray-200"
+                                                    >
+                                                        {panItem.name}
+                                                    </li>
+                                                    <li
+                                                        onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                        className="p-2 cursor-pointer hover:bg-gray-200"
+                                                    >
+                                                        {panItem.did}
+                                                    </li>
+                                                </React.Fragment>
+                                            ))
+                                        ) : (
+                                            <li className="p-2">No results found</li>
+                                        )}
+                                    </ul>
+                                )}
+                            </div>
+                            {/* DID */}
+                            <div className=' '>
+                                {/* <label className="block mb-1 ml-16 ">PAN</label>
+                                <div className='flex inline-flex'>
+                                <input
+                                    type="text"
+                                    value={panSearchTerm}
+                                    onChange={(e) => {
+                                        setPanSearchTerm(e.target.value);
+                                        setIsDropdownOpen(true);
+                                    }}
+                                    onClick={() => setIsDropdownOpen(true)}
+                                    className="w-72 p-2 border rounded-md text-slate-950 ml-16 lg:w-20"
+                                    placeholder="Search DID"
+                                    required
+                                />
+                                {isDropdownOpen && (
+                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-20 ml-16 mt-11 max-h-60 overflow-y-auto">
+                                        {filteredPanList.length > 0 ? (
+                                            filteredPanList.map((panItem) => (
+                                                <li
+                                                    key={panItem.pan}
+                                                    onClick={() => handleSelect(panItem.name, panItem.pan)}
+                                                    className="p-2 cursor-pointer hover:bg-gray-200"
+                                                >
+                                                    {panItem.pan}
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <li className="p-2">No results found</li>
+                                        )}
+                                    </ul>
+                                )} */}
+
+                                {/* </div> */}
+                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                                    Get
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div>
-                        <label className="block mb-1">Amount:</label>
+
+                    </div>
+                    <div>
+                        <label className="block mb-1 -ml-24 ">Amount:</label>
                         <input
                             type="text"
                             name="amount"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            className="w-72 p-2 border  rounded-md text-slate-950 -ml-24 lg:w-48"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block mb-1">Date</label>
+                        <label className="block mb-1  -ml-12">Date</label>
                         <input
                             type="date"
                             name="dob"
                             value={scholdate}
                             onChange={(e) => setScholDate(e.target.value)}
-                            className="w-72 p-2 border rounded-md text-slate-600"
+                            className="w-72 p-2 border rounded-md text-slate-600 -ml-12 lg:w-48"
                             required
                         />
                     </div>
                 </div>
                 {donar && (
-                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
+                    <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>
                         <div>
                             <label className="block mb-1">Scholarship Type</label>
                             <select
@@ -230,6 +298,7 @@ function Existing() {
                                 onChange={(e) => setScholType(e.target.value)}
                                 className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                                 required
+                                disabled
                             >
                                 <option value="">Select</option>
                                 {scholtypes.map((type, index) => (
@@ -237,8 +306,8 @@ function Existing() {
                                 ))}
                             </select>
                         </div>
-                        {/* name */}
-                        <div>
+                        {/* pan */}
+                        {/* <div>
                             <label className="block mb-1">Donor ID:</label>
                             <input
                                 type="text"
@@ -248,7 +317,7 @@ function Existing() {
                                 className=" w-72 p-2 border rounded-md text-slate-950"
                                 readOnly
                             />
-                        </div>
+                        </div> */}
                         <div>
                             <label className="block mb-1">Mobile No.:</label>
                             <input
@@ -257,6 +326,30 @@ function Existing() {
                                 name="mobileNo"
                                 value={mobileNo}
                                 onChange={(e) => setMobileNo(e.target.value)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                readOnly
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1">PAN No.:</label>
+                            <input
+                                type="text"
+                                maxLength="10"
+                                name="pan"
+                                value={pan}
+                                onChange={(e) => setPan(e.target.value)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                readOnly
+                            />
+                        </div>
+                        <div>
+                            <label className="block mb-1">Donor ID:</label>
+                            <input
+                                type="text"
+                                maxLength="10"
+                                name="did"
+                                value={did}
+                                onChange={(e) => setDid(e.target.value)}
                                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                                 readOnly
                             />
@@ -280,7 +373,7 @@ function Existing() {
                                 name="address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value.toUpperCase())}
-                                className="w-72 p-2 border rounded-md text-slate-950"
+                                className="w-48 p-2 border rounded-md text-slate-950"
                                 placeholder='Door No & Street'
                                 readOnly
                             />
@@ -291,7 +384,7 @@ function Existing() {
                                 name="state"
                                 value={state}
                                 onChange={(e) => setState(e.target.value)}
-                                className="w-72 p-2 border rounded-md text-slate-950"
+                                className="w-48 p-2 border rounded-md text-slate-950"
                                 disabled
                             >
                                 <option value="">Select State</option>
@@ -340,7 +433,7 @@ function Existing() {
                                 name="district"
                                 value={district}
                                 onChange={(e) => setDistrict(e.target.value)}
-                                className="w-72 p-2 border rounded-md text-slate-950"
+                                className="w-48 p-2 border rounded-md text-slate-950"
                                 disabled
                             >
                                 <option value="">Select District</option>
@@ -392,7 +485,7 @@ function Existing() {
                                 name="pin"
                                 value={pin}
                                 onChange={(e) => setPin(e.target.value)}
-                                className="w-72 p-2 border rounded-md text-slate-950"
+                                className="w-48 p-2 border rounded-md text-slate-950"
                                 placeholder='Pincode'
                                 readOnly
                             />
