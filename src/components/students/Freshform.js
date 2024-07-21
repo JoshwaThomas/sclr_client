@@ -1075,20 +1075,20 @@ const ScholarshipForm = () => {
 
               ))}
             </div>
-            <div className="mt-32 px-3 grid grid-cols-5 w-auto">
-            <div className="text-center">
+            <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
+            <div className="mt-3 text-center">
               <div>Class Teacher</div>
               </div>
-              <div className="text-center">
+              <div className="mt-3 text-center">
               <div>HOD / MID</div>
               </div>
-              <div className="text-center">
+              <div className="mb-3 text-center">
               <div>Deputy Warden-Hostel</div>
               </div>
-             <div className="text-center">
+             <div className="mb-3 text-center">
             <div>Register Of Attendance</div>
             </div>
-            <div className="text-center">
+            <div className="mb-3 text-center">
             <div>Coordinator-Deeniyath / Moral</div>
            </div>
             </div>

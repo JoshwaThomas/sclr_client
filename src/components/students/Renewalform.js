@@ -991,7 +991,7 @@ const ScholarshipForm = () => {
             <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP APPLICATION </h1>
             <div className='border border-black '>
               {printData.map((data, index) => (
-                <div key={index} className='grid grid-cols-5 w-auto gap-10 mt-2'>
+                <div key={index} className='grid grid-cols-5 w-auto px-3 mt-2'>
                   <div className="font-bold border border-black text-center py-2"> {data.fresherOrRenewal} </div>
                   <div className="font-bold border border-black text-center py-2">{data.ugOrPg}</div>
                   <div className="font-bold border border-black text-center py-2">{data.semester}</div>
@@ -1000,41 +1000,41 @@ const ScholarshipForm = () => {
                 </div>
 
               ))}
-              <div className='grid grid-cols-2 w-auto p-4 '>
+              <div className='grid grid-cols-2 w-auto p-2'>
                 <div>
-                  <div className="px-4 py-3 whitespace-normal" >Applicant</div>
-                  <div className="px-4 py-3 whitespace-normal" >Mobile No</div>
-                  <div className="px-4 py-3 whitespace-normal">Register No</div>
-                  <div className="px-4 py-3 whitespace-normal">Hostel</div>
-                  <div className="px-4 py-3 whitespace-normal">specialCategory</div>
-                  <div className="px-4 py-3 whitespace-normal">Address</div>
-                  <div className="px-4 py-3 whitespace-normal">Father Name</div>
-                  <div className="px-4 py-3 whitespace-normal">Father Mobile No</div>
-                  <div className="px-4 py-3 whitespace-normal">Father Occupation & Income</div>
-                  {/* <div className="px-4 py-3 whitespace-normal">School Name</div>
-                <div className="px-4 py-3 whitespace-normal">Year of Passing & Percentage</div> */}
-                  <div className="px-4 py-3 whitespace-normal"> Deeniyadiv Percentage </div>
-                  <div className="px-4 py-3 whitespace-normal">Attendance Percentage</div>
-                  <div className="px-4 py-3 whitespace-normal">No. Of Siblings</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal" >Applicant</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal" >Mobile No</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Register No</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Hostel</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">specialCategory</div>
+                  <div className="font-bold px-1 py-5 whitespace-normal">Address</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Father Name</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Father Mobile No</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Father Occupation & Income</div>
+              {/* <div className="font-bold px-1 py-2 whitespace-normal">School Name</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Year of Passing & Percentage</div> */}
+                  <div className="font-bold px-1 py-2 whitespace-normal"> Deeniyadiv Percentage </div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">Attendance Percentage</div>
+                  <div className="font-bold px-1 py-2 whitespace-normal">No. Of Siblings</div>
                   {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
                 </div>
 
                 {printData.map((data, index) => (
                   <div key={index} className=''>
-                    <div className="px-4 py-3 whitespace-normal">{data.name}</div>
-                    <div className="px-4 py-3 whitespace-normal"> {data.mobileNo}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.registerNo}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.hostel}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.specialCategory}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.fatherName}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.fatherNo}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                    {/* <div className="px-4 py-3 whitespace-normal">{data.schoolName}</div> */}
-                    {/* <div className="px-4 py-3 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
-                    <div className="px-4 py-3 whitespace-normal">{data.deeniyathPer}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.classAttendancePer}</div>
-                    <div className="px-4 py-3 whitespace-normal">{data.siblings}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.name}</div>
+                    <div className="px-2 py-2 whitespace-normal"> {data.mobileNo}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.registerNo}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.hostel}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.specialCategory}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.fatherName}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.fatherNo}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
+                {/* <div className="px-2 py-2 whitespace-normal">{data.schoolName}</div> */}
+                {/* <div className="px-2 py-2 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
+                    <div className="px-2 py-2 whitespace-normal">{data.deeniyathPer}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.classAttendancePer}</div>
+                    <div className="px-2 py-2 whitespace-normal">{data.siblings}</div>
                     {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                 <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
                  */}
@@ -1042,14 +1042,26 @@ const ScholarshipForm = () => {
 
                 ))}
               </div>
-              <div className='grid grid-cols-4 w-auto'>
-                <div>Signature of the Class Tuitor</div>
-                <div>Signature of the Attendance Staff</div>
-                <div>Signature of the Deeniyath Staff</div>
-                <div>Signature of the Parent </div>
+              <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
+            <div className="mt-3 text-center">
+              <div>Class Teacher</div>
               </div>
+              <div className="mt-3 text-center">
+              <div>HOD / MID</div>
+              </div>
+              <div className="mb-3 text-center">
+              <div>Deputy Warden-Hostel</div>
+              </div>
+             <div className="mb-3 text-center">
+            <div>Register Of Attendance</div>
             </div>
-          </div>
+            <div className="mb-3 text-center">
+            <div>Coordinator-Deeniyath / Moral</div>
+           </div>
+            </div>
+            </div>
+            </div>
+
 
         )}
 
