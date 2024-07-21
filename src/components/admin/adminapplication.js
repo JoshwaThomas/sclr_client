@@ -619,10 +619,7 @@ function Action() {
                                 defaultChecked
                             />
                             <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
-<<<<<<< HEAD
 
-=======
->>>>>>> 87abc4218c40e4945a2928d9abf41ceec3e24c3c
                             <input
                                 type="radio"
                                 id="fresher"
@@ -691,8 +688,7 @@ function Action() {
                     </div>
 
                 )}
-<<<<<<< HEAD
-=======
+
                 <input
                     type="radio"
                     id="renewal"
@@ -703,7 +699,7 @@ function Action() {
                 />
                 <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
                 
->>>>>>> 87abc4218c40e4945a2928d9abf41ceec3e24c3c
+
             </div>
             <div className='mt-6 pl-0'>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
