@@ -340,35 +340,35 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="ISemester"
                     name="semester"
-                    value="I Semester"
+                    value="I "
                     className=' scale-200'
-                    checked={semester === 'I Semester'}
+                    checked={semester === 'I '}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="I Semester" className=' form-radio ml-2 text-lg'> I </label>
+                  <label htmlFor="I " className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IISemester"
                     name="semester"
-                    value="II Semester"
+                    value="II"
                     className=' scale-200'
-                    checked={semester === 'II Semester'}
+                    checked={semester === 'II'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="II Semester" className=' form-radio ml-2 text-lg'> II </label>
+                  <label htmlFor="II" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IIISemester"
                     name="semester"
-                    value="III Semester"
+                    value="III "
                     className=' scale-200'
-                    checked={semester === 'III Semester'}
+                    checked={semester === 'III '}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -379,39 +379,39 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="IVSemester"
                     name="semester"
-                    value="IV Semester"
+                    value="IV "
                     className=' scale-200'
-                    checked={semester === 'IV Semester'}
+                    checked={semester === 'IV '}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="IV Semester" className=' form-radio ml-2 text-lg'> IV </label>
+                  <label htmlFor="IV " className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VSemester"
                     name="semester"
-                    value="V Semester"
+                    value="V "
                     className=' scale-200'
-                    checked={semester === 'V Semester'}
+                    checked={semester === 'V '}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="V Semester" className=' form-radio ml-2 text-lg'> V </label>
+                  <label htmlFor="V " className=' form-radio ml-2 text-lg'> V </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VIsemester"
                     name="semester"
-                    value="VI Semester"
+                    value="VI "
                     className=' scale-200'
-                    checked={semester === 'VI Semester'}
+                    checked={semester === 'VI '}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="VI Semester" className=' form-radio ml-2 text-lg'> VI </label>
+                  <label htmlFor="VI " className=' form-radio ml-2 text-lg'> VI </label>
                 </div>
               </div>
             </div>
@@ -1086,7 +1086,7 @@ const ScholarshipForm = () => {
               <div>Deputy Warden-Hostel</div>
               </div>
              <div className="mb-3 text-center">
-            <div>Register Of Attendance</div>
+            <div>Register of Attendance</div>
             </div>
             <div className="mb-3 text-center">
             <div>Coordinator-Deeniyath / Moral</div>

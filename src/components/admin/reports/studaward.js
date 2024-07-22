@@ -3,7 +3,7 @@ import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function FundReport(){
+function StudawardReport() {
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
@@ -20,9 +20,10 @@ function FundReport(){
         const searchText = e.target.value.toLowerCase();
     
         const filteredUsers = users.filter((user) =>
-            (user.did?.toLowerCase() || '').includes(searchText) ||
+            (user.dept?.toLowerCase() || '').includes(searchText) ||
+            (user.registerNo?.toLowerCase() || '').includes(searchText) ||
             (user.name?.toLowerCase() || '').includes(searchText) ||
-            (user.pan?.toLowerCase() || '').includes(searchText)
+            (user.fresherOrRenewal?.toLowerCase() || '').includes(searchText)
         );
     
         setFilterUsers(filteredUsers);
@@ -64,7 +65,7 @@ function FundReport(){
         let filteredUsers = users;
 
         if (department !== 'All') {
-            filteredUsers = filteredUsers.filter(user => user.acyear === department);
+            filteredUsers = filteredUsers.filter(user => user.dept === department);
         }
 
         setFilterUsers(filteredUsers);
@@ -73,12 +74,12 @@ function FundReport(){
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/donoracyear-report')
+        axios.get('http://localhost:3001/api/admin/studawardreport')
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);
 
-                const uniqueDepartments = Array.from(new Set(response.data.map(user => user.acyear)));
+                const uniqueDepartments = Array.from(new Set(response.data.map(user => user.dept)));
                 setDepartments(['All', ...uniqueDepartments]);
             })
             .catch(err => console.log(err));
@@ -87,31 +88,29 @@ function FundReport(){
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
         const fileExtension = '.xlsx';
-        const fileName = 'DonorYearWise_Report';
+        const fileName = 'Student_Report';
 
         // Define headers for Excel
         const headers = [
-            'acyear',
-            'Donor ID',
-            'Scholar Type',
+
+            'FRESHER/RENEWAL',
+            'REGISTER NO',
             'NAME',
-            'Amount',
-            'Pan'
-            
-           
+            'DEPARTMENT',
+            'AMOUNT',
+            'ACADEMIC'
 
         ];
 
         // Add headers to the beginning of the data array
         const dataWithHeaders = [headers, ...users.map(user => [
 
-            user.acyear,
-            user.did,
-            user.scholtype,
+            user.fresherOrRenewal,
+            user.registerNo,
             user.name,
-            user.amount,
-            user.pan
-        
+            user.dept,
+            user.totalScholamt,
+            user.acyear
         ])];
 
         // Convert data to sheet format
@@ -128,7 +127,7 @@ function FundReport(){
 
     return (
         <div>
-            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Year wise Funds Reports</h1>
+            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENT REPORTS</h1>
             <div>
                 <div className='end-px '>
                     <input
@@ -148,8 +147,8 @@ function FundReport(){
                         onChange={handleDepartmentChange}
                         value={selectedDepartment}
                     >
-                        {departments.map((acyear, index) => (
-                            <option key={index} value={acyear}>{acyear}</option>
+                        {departments.map((dept, index) => (
+                            <option key={index} value={dept}>{dept}</option>
                         ))}
                     </select>
                     {/* <div className='end-px text-white border border-white w-72 mt-4'>
@@ -192,22 +191,23 @@ function FundReport(){
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-300'>
-                <div className="font-bold border border-white text-center">Academic Year</div>
-                    <div className="font-bold border border-white text-center">Donor ID</div>
-                    <div className="font-bold border border-white text-center">Scholar Type</div>
+                <div className='mt-6 grid grid-cols-5 w-auto bg-amber-300'>
+
+                    <div className="font-bold border border-white text-center">Reg. No</div>
+                    <div className="font-bold border border-white text-center">Dept</div>
                     <div className="font-bold border border-white text-center">NAME</div>
                     <div className="font-bold border border-white text-center">AMOUNT</div>
-                    <div className="font-bold border border-white text-center">Pan</div>
+                    <div className="font-bold border border-white text-center">Academic</div>
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className="grid grid-cols-6 w-auto bg-amber-200">
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.acyear}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
+                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-200">
+
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.amount}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
+                        
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.totalScholamt}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.acyear}</div>
                     </div>
                 ))}
 
@@ -217,4 +217,4 @@ function FundReport(){
 }
 
 
-export default FundReport;
+export default StudawardReport;

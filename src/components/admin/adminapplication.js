@@ -121,7 +121,7 @@ function Action() {
                 return (
                     (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
                     (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                    (specialCategories.fatherMotherSeparated && specialCategory.includes('fatherMotherSeparated')) ||
+                    (specialCategories.fatherMotherSeparated && specialCategory.includes('fathermotherseparated')) ||
                     (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
                     (specialCategories.singleparent && specialCategory.includes('singleparent'))
                 );
@@ -547,7 +547,7 @@ function Action() {
                 >
                     Search
                 </button>
-                <div className='end-px text-white border border-amber-300 w-72 mt-4'>
+                <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
                     <input
                         type="radio"
                         id="all"
@@ -571,7 +571,7 @@ function Action() {
                 </div>
                 {radioValue === 'all' && (
                     <div className=''>
-                        <div className='end-px text-white border border-amber-300 w-72 mt-4 '>
+                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
                         <input
                                 type="radio"
                                 id="all"
@@ -608,7 +608,7 @@ function Action() {
                 )}
                 {radioValue === 'in-progress' && (
                     <div className=''>
-                        <div className='end-px text-white border border-amber-300 w-72 mt-4 '>
+                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4 flex inline-flex'>
                             <input
                                 type="radio"
                                 id="all-progress"
@@ -640,12 +640,13 @@ function Action() {
                             />
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
                         </div>
-                        <div className='end-px text-white border border-amber-300 w-auto mt-4'>
+                        <div className='flex inline-flex px-4'></div>
+                        <div className='end-px text-white border border-amber-300 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
                                 id="muaddin"
                                 name="muaddin"
-                                className='scale-200 ml-4'
+                                className='scale-200 ml-2'
                                 onChange={handleSpecialCategoryChange}
                             />
                             <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
@@ -661,12 +662,12 @@ function Action() {
 
                             <input
                                 type="checkbox"
-                                id="fatherMotherSeparated"
-                                name="fatherMotherSeparated"
+                                id="FatherMotherSeparated"
+                                name="FatherMotherSeparated"
                                 className='scale-200 ml-4'
                                 onChange={handleSpecialCategoryChange}
                             />
-                            <label htmlFor="fatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Father & Mother Separated</label>
+                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Parent Separated</label>
 
                             <input
                                 type="checkbox"
@@ -689,15 +690,7 @@ function Action() {
 
                 )}
 
-                <input
-                    type="radio"
-                    id="renewal"
-                    name="search"
-                    value="Renewal"
-                    className='scale-200 ml-4'
-                    onChange={handleRadioChange}
-                />
-                <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+               
                 
 
             </div>
@@ -989,6 +982,7 @@ function Action() {
                 </div>
             )}
 
+            {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">

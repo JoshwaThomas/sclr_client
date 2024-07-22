@@ -19,29 +19,29 @@ function Report() {
                     Student Reports
                 </button>
                 <button
-                    onClick={() => navigate('/admin/report/catreport')}
+                    onClick={() => navigate('/admin/report/studawardreport')}
                     className="px-4 py-9 ml-2 bg-cyan-500 text-white hover:bg-black rounded-lg"
                 >
-                    Category Reports
+                    Student Awarded Reports
                 </button>
                 <button
-                    onClick={() => navigate('/admin/report/accrej')}
+                    onClick={() => navigate('/admin/report/fundavl')}
                     className="px-4 py-9 ml-2 bg-cyan-500 text-white hover:bg-black rounded-lg"
                 >
-                    Accepted / Rejected Application
+                     Funds Available
                 </button>
                 <button
                     onClick={() => navigate('/admin/report/fundreport')}
                     className="px-4 py-9 ml-2 bg-cyan-500 text-white hover:bg-black rounded-lg"
                 >
-                    Funds Reports
+                    Year wise Funds Reports
                 </button>
-                <button
+                {/* <button
                     onClick={() => navigate('/admin/report/stureport')}
                     className="px-3 py-9 bg-cyan-500 text-white hover:bg-black rounded-lg"
                     >
                     Student Reports
-                </button>
+                </button> */}
             </div>
         </div>
     )

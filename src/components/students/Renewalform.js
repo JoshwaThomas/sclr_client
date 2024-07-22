@@ -248,26 +248,26 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="Ug"
                     name="ugOrPg"
-                    value="ug"
+                    value="UG"
                     className=' scale-200'
-                    checked={ugOrPg === 'ug'}
+                    checked={ugOrPg === 'UG'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
-                  <label htmlFor="Ug" className=' form-radio ml-2 text-lg'> UG</label>
+                  <label htmlFor="UG" className=' form-radio ml-2 text-lg'> UG</label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="Pg"
                     name="ugOrPg"
-                    value="pg"
+                    value="PG"
                     className=' scale-200'
-                    checked={ugOrPg === 'pg'}
+                    checked={ugOrPg === 'PG'}
                     onChange={(e) => setUgOrPg(e.target.value)}
                     required
                   />
-                  <label htmlFor="Pg" className=' form-radio ml-2 text-lg'> PG</label>
+                  <label htmlFor="PG" className=' form-radio ml-2 text-lg'> PG</label>
                 </div>
               </div>
             </div>
@@ -279,39 +279,39 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="aided"
                     name="procategory"
-                    value="Aided Mens"
+                    value="Aided"
                     className=' scale-200'
-                    checked={procategory === 'Aided Mens'}
+                    checked={procategory === 'Aided'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
-                  <label className=' form-radio ml-2 text-lg'> Aided Mens</label>
+                  <label className=' form-radio ml-2 text-lg'> Aided</label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="sfmens"
                     name="procategory"
-                    value="SF Mens"
+                    value="SFM"
                     className=' scale-200'
-                    checked={procategory === 'SF Mens'}
+                    checked={procategory === 'SFM'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
-                  <label className=' form-radio ml-2 text-lg' > SF Mens</label>
+                  <label className=' form-radio ml-2 text-lg' > SFM</label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="sfwomens"
                     name="procategory"
-                    value="SF Womens"
+                    value="SFW"
                     className=' scale-200'
-                    checked={procategory === 'SF Womens'}
+                    checked={procategory === 'SFW'}
                     onChange={(e) => setProcategory(e.target.value)}
                     required
                   />
-                  <label htmlFor="SF Womens" className=' form-radio ml-2 text-lg'> SF Womens </label>
+                  <label htmlFor="SFW" className=' form-radio ml-2 text-lg'>SFW </label>
                 </div>
               </div>
             </div>
@@ -323,48 +323,48 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="ISemester"
                     name="semester"
-                    value="I semester"
+                    value="I"
                     className=' scale-200'
-                    checked={semester === 'I semester'}
+                    checked={semester === 'I'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="I Semester" className=' form-radio ml-2 text-lg'> I </label>
+                  <label htmlFor="I" className=' form-radio ml-2 text-lg'> I </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IISemester"
                     name="semester"
-                    value="II semester"
+                    value="II"
                     className=' scale-200'
-                    checked={semester === 'II semester'}
+                    checked={semester === 'II'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="II Semester" className=' form-radio ml-2 text-lg'> II </label>
+                  <label htmlFor="II" className=' form-radio ml-2 text-lg'> II </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IIISemester"
                     name="semester"
-                    value="III semester"
+                    value="III"
                     className=' scale-200'
-                    checked={semester === 'III semester'}
+                    checked={semester === 'III'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="III Semester" className=' form-radio ml-2 text-lg'> III </label>
+                  <label htmlFor="III" className=' form-radio ml-2 text-lg'> III </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="IVSemester"
                     name="semester"
-                    value="IV semester"
+                    value="IV"
                     className=' scale-200'
-                    checked={semester === 'IV semester'}
+                    checked={semester === 'IV'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -375,26 +375,26 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="VSemester"
                     name="semester"
-                    value="V semester"
+                    value="V"
                     className=' scale-200'
-                    checked={semester === 'V semester'}
+                    checked={semester === 'V'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="VSemester" className=' form-radio ml-2 text-lg'> V </label>
+                  <label htmlFor="V" className=' form-radio ml-2 text-lg'> V </label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="VIsemester"
                     name="semester"
-                    value="VI semester"
+                    value="VI"
                     className=' scale-200'
-                    checked={semester === 'VI semester'}
+                    checked={semester === 'VI'}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
-                  <label htmlFor="VISemester" className=' form-radio ml-2 text-lg'> VI </label>
+                  <label htmlFor="VI" className=' form-radio ml-2 text-lg'> VI </label>
                 </div>
               </div>
             </div>
@@ -569,11 +569,11 @@ const ScholarshipForm = () => {
                   >
                     <option value="">Select</option>
                     <option value="none">None</option>
-                    <option value="muaddin">Mu-addin</option>
-                    <option value="hazrath">Hazrath</option>
-                    <option value="fatherMotherSeparated">Father & Mother Separated</option>
-                    <option value="fatherExpired">Father Expired</option>
-                    <option value="singleparent">Single Parent</option>
+                    <option value="Muaddin">Mu-addin</option>
+                    <option value="Hazrath">Hazrath</option>
+                    <option value="FatherMotherSeparated">Father & Mother Separated</option>
+                    <option value="FatherExpired">Father Expired</option>
+                    <option value="Singleparent">Single Parent</option>
                     <option value="Orphan">Orphan</option>
                   </select>
                 </div>
