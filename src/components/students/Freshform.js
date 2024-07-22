@@ -1076,10 +1076,10 @@ const ScholarshipForm = () => {
               ))}
             </div>
             <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
-            <div className="mt-3 text-center">
+            <div className="text-center">
               <div>Class Teacher</div>
               </div>
-              <div className="mt-3 text-center">
+              <div className="text-center">
               <div>HOD / MID</div>
               </div>
               <div className="mb-3 text-center">

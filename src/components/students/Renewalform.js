@@ -1057,6 +1057,7 @@ const ScholarshipForm = () => {
                 ))}
               </div>
               <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
+<<<<<<< HEAD
                 <div className="mt-3 text-center">
                   <div>Class Teacher</div>
                 </div>
@@ -1073,6 +1074,25 @@ const ScholarshipForm = () => {
                   <div>Coordinator-Deeniyath / Moral</div>
                 </div>
               </div>
+=======
+            <div className="text-center">
+              <div>Class Teacher</div>
+              </div>
+              <div className="text-center">
+              <div>HOD / MID</div>
+              </div>
+              <div className="mb-3 text-center">
+              <div>Deputy Warden-Hostel</div>
+              </div>
+             <div className="mb-3 text-center">
+            <div>Register Of Attendance</div>
+            </div>
+            <div className="mb-3 text-center">
+            <div>Coordinator-Deeniyath / Moral</div>
+           </div>
+            </div>
+            </div>
+>>>>>>> 4a0d60eca8f7251ee37642b000fe64a91b75d93f
             </div>
           </div>
 
