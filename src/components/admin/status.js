@@ -211,6 +211,26 @@ function Status() {
                                         <div><label className="">Class Attendance Percentage: {student.classAttendancePer}</label></div>
                                         <div><label className="">Deeniyath Percentage: {student.deeniyathPer}</label></div>
                                         <div><label className="">No. Of Arrear: {student.arrear}</label></div>
+                                        <div className='grid grid-cols-3 -ml-60'>
+                                            <div></div>
+                                            <div></div>
+                                            <div className='flex inline-flex'>
+                                                <button
+                                                    type="button"
+                                                    className="bg-green-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                                    onClick={handleAccept}
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="bg-slate-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-red-500"
+                                                    onClick={closeModal}
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                                 {student.scholamt && (
@@ -221,34 +241,56 @@ function Status() {
                                 {student.scholtype && (
                                     <div className='uppercase mt-3'>
                                         <label className="block mb-1">Scholar Type: {student.scholtype}</label>
+                                        <div className='grid grid-cols-3 ml-28'>
+                                            <div></div>
+                                            <div></div>
+                                            <div className='flex inline-flex mt-40'>
+                                                <button
+                                                    type="button"
+                                                    className="bg-green-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                                    onClick={handleAccept}
+                                                >
+                                                    Release
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="bg-slate-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-red-500"
+                                                    onClick={closeModal}
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                                 {student.reason && (
-                                    <div className='uppercase mt-3'>
+                                    <div className='uppercase mt-3 '>
                                         <label className="block mb-1">Rejected Reason: {student.reason}</label>
+                                        <div className='grid grid-cols-3 ml-28'>
+                                            <div></div>
+                                            <div></div>
+                                            <div className='flex inline-flex ml-96'>
+                                                <button
+                                                    type="button"
+                                                    className="bg-green-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                                    onClick={handleAccept}
+                                                >
+                                                    Release
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="bg-slate-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-red-500"
+                                                    onClick={closeModal}
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 )}
                             </div>
-                            <div className='grid grid-cols-3 ml-28'>
-                                <div></div>
-                                <div></div>
-                                <div>
-                                <button
-                                    type="button"
-                                    className="bg-green-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
-                                    onClick={handleAccept}
-                                >
-                                    Release
-                                </button>
-                                <button
-                                    type="button"
-                                    className="bg-slate-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-red-500"
-                                    onClick={closeModal}
-                                >
-                                    Close
-                                </button>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 )}

@@ -188,12 +188,12 @@ function Action() {
     if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
     const formatCurrency = (amount) => {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    minimumFractionDigits: 2,
-  }).format(amount);
-};
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
+    };
 
 
     return (
@@ -262,7 +262,7 @@ function Action() {
                     <div className="font-bold border border-white text-center py-3 uppercase">{user.dept}</div>
                     <div className="font-bold border border-white text-center py-3 uppercase">{user.scholtype}</div>
                     <div className="font-bold border border-white text-center py-3 uppercase">{donorMapping[user.scholdonar] || user.scholdonar}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{user.scholamt}</div>
+                    <div className="font-bold border border-white text-center py-3 uppercase">{formatCurrency(user.scholamt)}</div>
                     {/* <div className="font-bold border border-white text-center uppercase">
                             <button
                                 type="button"
@@ -429,12 +429,12 @@ function Action() {
                 </div>
             )} */}
 
-            <div className=' text-white flex inline-flex text-xl bg-blue-600 py-5 grid grid-cols-2 gap-4 mt-4'>
-                <div className='border border-white rounded-lg  grid grid-cols-2 p-4'>
+            <div className=' text-white flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
+                <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
                     <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
                     <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
                 </div>
-                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 '>
+                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 bg-blue-600 '>
                     <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
                     <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
                 </div>

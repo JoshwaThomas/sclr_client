@@ -75,10 +75,17 @@ function Fundstatement() {
         return `${day}-${month}-${year}`;
       };
       
+      const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
+    };
 
     return (
         <div>
-            <h1 className='text-white'>FUND Statement</h1>
+            <h1 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>FUND Statement</h1>
             <div className='end-px'>
                 <input
                     type='text'
@@ -153,7 +160,7 @@ function Fundstatement() {
                     {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
                     <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.amount}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount)}</div>
                     {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
 
                 </div>

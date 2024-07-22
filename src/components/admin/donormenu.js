@@ -29,6 +29,12 @@ function Report() {
                 >
                     Fund Statement (Scholarship Received)
                 </button>
+                <button
+                    onClick={() => navigate('/admin/getLetter')}
+                    className="px-4 py-9 ml-2 bg-cyan-500 text-white hover:bg-black rounded-lg"
+                >
+                    GET LETTER
+                </button>
             </div>
         </div>
     )

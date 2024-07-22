@@ -101,35 +101,35 @@ const ScholarshipForm = () => {
   const handleData = async (e) => {
     e.preventDefault();
     try {
-        const result = await axios.get(`http://localhost:3001/api/admin/students`, {
-            params: {
-                registerNo: registerNo,
-                mobileNo: mobileNo
-            }
-        });
+      const result = await axios.get(`http://localhost:3001/api/admin/students`, {
+        params: {
+          registerNo: registerNo,
+          mobileNo: mobileNo
+        }
+      });
 
-        console.log('API response:', result.data);
+      console.log('API response:', result.data);
 
-        setStudent(result.data);
-        setName(result.data.name);
-        setDept(result.data.dept);
-        setSection(result.data.section);
-        setReligion(result.data.religion);
-        setCommunity(result.data.community);
-        setFatherName(result.data.fatherName);
-        setFatherNo(result.data.fatherNo);
-        setFatherOccupation(result.data.fatherOccupation);
-        setAddress(result.data.address);
-        setState(result.data.state);
-        setDistrict(result.data.district);
-        setPin(result.data.pin);
-        setSiblings(result.data.siblings);
-        setLastCreditedAmt(result.data.scholamt);
+      setStudent(result.data);
+      setName(result.data.name);
+      setDept(result.data.dept);
+      setSection(result.data.section);
+      setReligion(result.data.religion);
+      setCommunity(result.data.community);
+      setFatherName(result.data.fatherName);
+      setFatherNo(result.data.fatherNo);
+      setFatherOccupation(result.data.fatherOccupation);
+      setAddress(result.data.address);
+      setState(result.data.state);
+      setDistrict(result.data.district);
+      setPin(result.data.pin);
+      setSiblings(result.data.siblings);
+      setLastCreditedAmt(result.data.scholamt);
 
     } catch (err) {
-        console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
-        setStudent(null);
-        alert('Student not found');
+      console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
+      setStudent(null);
+      alert('Student not found');
     }
   }
 
@@ -138,26 +138,40 @@ const ScholarshipForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3001/renewal", {
-      fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
-      community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
-      deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt
-    })
-      .then(result => {
-        if (result.data.success) {
-          window.alert("Your Application Submitted Successfully");
-          setPrint(true);
-        }
-        else if (result.data.message === 'Register No. Already Existing') {
-          alert("Register No. Already Existing")
-        }
-        else {
-          alert('Something went worng')
+
+    axios.get('http://localhost:3001/api/admin/current-acyear')
+      .then(response => {
+        if (response.data.success) {
+          const acyear = response.data.acyear.acyear;
+          axios.post("http://localhost:3001/renewal", {
+            fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
+            community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
+            deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt, acyear
+          })
+            .then(result => {
+              if (result.data.success) {
+                window.alert("Your Application Submitted Successfully");
+                setPrint(true);
+              }
+              else if (result.data.message === 'Register No. Already Existing') {
+                alert("Register No. Already Existing")
+              }
+              else {
+                alert('Something went worng')
+              }
+            })
+            .catch(err => {
+              console.log(err);
+              window.alert("Something Went Wrong");
+            });
+        } else {
+          console.error('Failed to fetch current academic year');
+          window.alert('Failed to fetch current academic year');
         }
       })
-      .catch(err => {
-        console.log(err);
-        window.alert("Something Went Wrong");
+      .catch(error => {
+        console.error('Error fetching current academic year:', error);
+        window.alert('Error fetching current academic year');
       });
 
     const formData = {
@@ -1011,7 +1025,7 @@ const ScholarshipForm = () => {
                   <div className="font-bold px-1 py-2 whitespace-normal">Father Name</div>
                   <div className="font-bold px-1 py-2 whitespace-normal">Father Mobile No</div>
                   <div className="font-bold px-1 py-2 whitespace-normal">Father Occupation & Income</div>
-              {/* <div className="font-bold px-1 py-2 whitespace-normal">School Name</div>
+                  {/* <div className="font-bold px-1 py-2 whitespace-normal">School Name</div>
                   <div className="font-bold px-1 py-2 whitespace-normal">Year of Passing & Percentage</div> */}
                   <div className="font-bold px-1 py-2 whitespace-normal"> Deeniyadiv Percentage </div>
                   <div className="font-bold px-1 py-2 whitespace-normal">Attendance Percentage</div>
@@ -1030,8 +1044,8 @@ const ScholarshipForm = () => {
                     <div className="px-2 py-2 whitespace-normal">{data.fatherName}</div>
                     <div className="px-2 py-2 whitespace-normal">{data.fatherNo}</div>
                     <div className="px-2 py-2 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                {/* <div className="px-2 py-2 whitespace-normal">{data.schoolName}</div> */}
-                {/* <div className="px-2 py-2 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
+                    {/* <div className="px-2 py-2 whitespace-normal">{data.schoolName}</div> */}
+                    {/* <div className="px-2 py-2 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
                     <div className="px-2 py-2 whitespace-normal">{data.deeniyathPer}</div>
                     <div className="px-2 py-2 whitespace-normal">{data.classAttendancePer}</div>
                     <div className="px-2 py-2 whitespace-normal">{data.siblings}</div>
@@ -1043,24 +1057,24 @@ const ScholarshipForm = () => {
                 ))}
               </div>
               <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
-            <div className="mt-3 text-center">
-              <div>Class Teacher</div>
+                <div className="mt-3 text-center">
+                  <div>Class Teacher</div>
+                </div>
+                <div className="mt-3 text-center">
+                  <div>HOD / MID</div>
+                </div>
+                <div className="mb-3 text-center">
+                  <div>Deputy Warden-Hostel</div>
+                </div>
+                <div className="mb-3 text-center">
+                  <div>Register Of Attendance</div>
+                </div>
+                <div className="mb-3 text-center">
+                  <div>Coordinator-Deeniyath / Moral</div>
+                </div>
               </div>
-              <div className="mt-3 text-center">
-              <div>HOD / MID</div>
-              </div>
-              <div className="mb-3 text-center">
-              <div>Deputy Warden-Hostel</div>
-              </div>
-             <div className="mb-3 text-center">
-            <div>Register Of Attendance</div>
             </div>
-            <div className="mb-3 text-center">
-            <div>Coordinator-Deeniyath / Moral</div>
-           </div>
-            </div>
-            </div>
-            </div>
+          </div>
 
 
         )}

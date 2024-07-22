@@ -124,10 +124,17 @@ function Donoravl(){
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
     };
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
+    };
 
     return (
         <div>
-            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENT REPORTS</h1>
+            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Funds Available Reports</h1>
             <div>
                 <div className='end-px '>
                     <input
@@ -205,7 +212,7 @@ function Donoravl(){
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.balance}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.balance)}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
                     </div>
                 ))}

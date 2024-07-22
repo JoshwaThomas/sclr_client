@@ -84,6 +84,8 @@ function FundReport(){
             .catch(err => console.log(err));
     }, []);
 
+
+
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
         const fileExtension = '.xlsx';
@@ -124,6 +126,13 @@ function FundReport(){
         // Create Blob and trigger download
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
+    };
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
     };
 
     return (
@@ -206,7 +215,7 @@ function FundReport(){
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.amount}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount)}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
                     </div>
                 ))}

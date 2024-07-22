@@ -125,6 +125,13 @@ function StudawardReport() {
         saveAs(data, fileName + fileExtension);
     };
 
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
+    };
     return (
         <div>
             <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENT REPORTS</h1>
@@ -206,7 +213,7 @@ function StudawardReport() {
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.totalScholamt}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.totalScholamt)}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.acyear}</div>
                     </div>
                 ))}

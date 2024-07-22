@@ -54,6 +54,7 @@ function Action() {
             try {
                 const response = await axios.get('http://localhost:3001/renewal');
                 setRusers(response.data);
+                setFilterUsers(prev => [...prev, ...response.data]);
             } catch (error) {
                 console.log(error);
             }
@@ -63,38 +64,16 @@ function Action() {
         fetchRenewalUsers();
     }, []);
 
-
-    // useEffect(() => {
-    //     let combinedUsers = [...users, ...rusers];
-    //     let filteredUsers = [];
-
-    //     if (radioValue === 'all') {
-    //         filteredUsers = combinedUsers;
-    //     } else if (radioValue === 'in-progress') {
-    //         filteredUsers = combinedUsers.filter(user => user.action === 0);
-    //         if (progressRadioValue !== 'all') {
-    //             filteredUsers = filteredUsers.filter(user => 
-    //                 (user.fresherOrRenewal || '').toLowerCase() === progressRadioValue
-    //             );
-    //         }
-    //     }
-    //     setFilterUsers(filteredUsers);
-    // }, [radioValue, progressRadioValue, users, rusers]);
-
-
-   
-
     // Use Effect to Filter Users
     useEffect(() => {
         let combinedUsers = [...users, ...rusers];
-        console.log('Combined Users:', combinedUsers);
+        // console.log('Combined Users:', combinedUsers);
 
-        let filteredUsers = [];
+        let filteredUsers = combinedUsers;
 
-        if (radioValue === 'all') {
-            filteredUsers = combinedUsers;
+        if (radioValue ===  'all') {
             
-            if (acceptreject !== 'all') {
+            if (acceptreject !== 'allar') {
                 filteredUsers = filteredUsers.filter(user => {
                     const userAction = String(user.action || '').trim();
                     const selectedAccept = acceptreject.trim();
@@ -104,7 +83,7 @@ function Action() {
 
         } else if (radioValue === 'in-progress') {
             filteredUsers = combinedUsers.filter(user => user.action === 0);
-            console.log('Filtered Users after action check:', filteredUsers);
+            // console.log('Filtered Users after action check:', filteredUsers);
 
             if (progressRadioValue !== 'all') {
                 filteredUsers = filteredUsers.filter(user => {
@@ -128,9 +107,19 @@ function Action() {
             });
         }
 
-        console.log('Filtered Users:', filteredUsers);
+        // console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
     }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers]);
+
+    useEffect(() => {
+        // Set default values for filters on initial render
+        setRadioValue('all');
+        setAcceptreject('allar');
+    }, []);
+
+    useEffect(() => {
+        handleRadioChange({ target: { value: 'all' } });
+    }, []);
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -161,6 +150,7 @@ function Action() {
         // Ensure e.target.value is a string before calling .toLowerCase()
         const value = e.target.value ? e.target.value.toLowerCase() : '';
         setRadioValue(value);
+        setAcceptreject('allar');
     };
 
     const handleSpecialCategoryChange = (e) => {
@@ -566,39 +556,43 @@ function Action() {
                         value="in-progress"
                         className='scale-200 ml-4'
                         onChange={handleRadioChange}
+                        
+                      
                     />
                     <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
                 </div>
-                {radioValue === 'all' && (
+                { radioValue === 'all' && (
                     <div className=''>
                         <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
                         <input
                                 type="radio"
                                 id="all"
-                                name="search"
-                                value="all"
+                                name="acceptreject"
+                                value="allar"
                                 className='scale-200 ml-8'
                                 onChange={handleAcceptrejectChange}
-                                defaultChecked
+                               
                             />
                             <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
                             <input
                                 type="radio"
                                 id="accept"
-                                name="search"
+                                name="acceptreject"
                                 value="1"
                                 className='scale-200 ml-4'
                                 onChange={handleAcceptrejectChange}
+                                checked={acceptreject === '1'}
                             />
                             <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Accept</label>
 
                             <input
                                 type="radio"
                                 id="reject"
-                                name="search"
+                                name="acceptreject"
                                 value="2"
                                 className='scale-200 ml-4'
                                 onChange={handleAcceptrejectChange}
+                                checked={acceptreject === '2'}
                             />
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
                         </div>
@@ -616,7 +610,7 @@ function Action() {
                                 value="all"
                                 className='scale-200 ml-8'
                                 onChange={handleProgressRadioChange}
-                                defaultChecked
+                                checked={progressRadioValue === 'all'}
                             />
                             <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
 
@@ -627,6 +621,7 @@ function Action() {
                                 value="Fresher"
                                 className='scale-200 ml-4'
                                 onChange={handleProgressRadioChange}
+                                checked={progressRadioValue === 'fresher'}
                             />
                             <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
 
@@ -637,6 +632,7 @@ function Action() {
                                 value="renewal"
                                 className='scale-200 ml-4'
                                 onChange={handleProgressRadioChange}
+                                checked={progressRadioValue === 'renewal'}
                             />
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
                         </div>
@@ -695,14 +691,16 @@ function Action() {
 
             </div>
             <div className='mt-6 pl-0'>
+            <div className="text-right font-bold">Total Rows: {filterUsers.length}</div>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
                     <div className="font-bold border border-white text-center py-3">ACTION</div>
                 </div>
+
                 {filterUsers.map((user, index) => (
-                    <div key={`${user.registerNo}-${index}`} className="grid grid-cols-4 w-auto bg-amber-200">
+                    <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-200">
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>

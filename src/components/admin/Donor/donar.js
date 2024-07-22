@@ -79,7 +79,7 @@ const Donar = () => {
 
   return (
     <div>
-      <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
+      <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">NEW DONOR </h3>
       <form onSubmit={Submit} >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
           <div>
