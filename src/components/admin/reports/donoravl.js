@@ -7,8 +7,8 @@ function Donoravl(){
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
-    const [departments, setDepartments] = useState([]);
-    const [selectedDepartment, setSelectedDepartment] = useState('All');
+    // const [departments, setDepartments] = useState([]);
+    // const [selectedDepartment, setSelectedDepartment] = useState('All');
     // const [specialCategories, setSpecialCategories] = useState({
     //     fatherExpired: false,
     //     fatherSeparated: false,
@@ -55,21 +55,21 @@ function Donoravl(){
     //         setFilterUsers(filteredUsers);
     //     }
     // };
-    const handleDepartmentChange = (e) => {
-        const department = e.target.value;
-        setSelectedDepartment(department);
-        filterAndSetUsers(department);
-    };
+    // const handleDepartmentChange = (e) => {
+    //     const department = e.target.value;
+    //     setSelectedDepartment(department);
+    //     filterAndSetUsers(department);
+    // };
 
-    const filterAndSetUsers = (department) => {
-        let filteredUsers = users;
+    // const filterAndSetUsers = (department) => {
+    //     let filteredUsers = users;
 
-        if (department !== 'All') {
-            filteredUsers = filteredUsers.filter(user => user.dept === department);
-        }
+    //     if (department !== 'All') {
+    //         filteredUsers = filteredUsers.filter(user => user.dept === department);
+    //     }
 
-        setFilterUsers(filteredUsers);
-    };
+    //     setFilterUsers(filteredUsers);
+    // };
    
 
 
@@ -79,8 +79,8 @@ function Donoravl(){
                 setUsers(response.data);
                 setFilterUsers(response.data);
 
-                const uniqueDepartments = Array.from(new Set(response.data.map(user => user.dept)));
-                setDepartments(['All', ...uniqueDepartments]);
+                // const uniqueDepartments = Array.from(new Set(response.data.map(user => user.dept)));
+                // setDepartments(['All', ...uniqueDepartments]);
             })
             .catch(err => console.log(err));
     }, []);
@@ -96,8 +96,8 @@ function Donoravl(){
             'Donor ID',
             'Scholar Type',
             'NAME',
-            'Balance',
-            'Pan'
+            'Balance'
+            
            
 
         ];
@@ -108,8 +108,8 @@ function Donoravl(){
             user.did,
             user.scholtype,
             user.name,
-            user.balance,
-            user.pan
+            user.balance
+          
         
         ])];
 
@@ -149,7 +149,7 @@ function Donoravl(){
                     >
                         Search
                     </button>
-                    <select
+                    {/* <select
                         className='uppercase py-1 rounded-md ml-4 w-20'
                         onChange={handleDepartmentChange}
                         value={selectedDepartment}
@@ -157,7 +157,7 @@ function Donoravl(){
                         {departments.map((dept, index) => (
                             <option key={index} value={dept}>{dept}</option>
                         ))}
-                    </select>
+                    </select> */}
                     {/* <div className='end-px text-white border border-white w-72 mt-4'>
                         <input
                             type="radio"
@@ -198,22 +198,22 @@ function Donoravl(){
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-amber-300'>
+                <div className='mt-6 grid grid-cols-4 w-auto py-2 bg-amber-300'>
 
                     <div className="font-bold border border-white text-center">Donor ID</div>
                     <div className="font-bold border border-white text-center">Scholar Type</div>
                     <div className="font-bold border border-white text-center">NAME</div>
                     <div className="font-bold border border-white text-center">AMOUNT</div>
-                    <div className="font-bold border border-white text-center">Pan</div>
+                    {/* <div className="font-bold border border-white text-center">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-200">
+                    <div key={index} className="grid grid-cols-4 w-auto bg-amber-200">
 
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.balance)}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
+                        {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
                     </div>
                 ))}
 

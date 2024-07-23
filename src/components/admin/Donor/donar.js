@@ -22,20 +22,21 @@ const Donar = () => {
     setBalance(amount);
   }, [amount]);
 
-  // useEffect(() => {
-  //   const fetchScholTypes = async () => {
-  //     try {
-  //       const response = await axios.get('http://localhost:3001/api/admin/scholtypelist');
-  //       const uniqueScholTypes = [...new Set(response.data.map(item => item.scholtype))];
+  useEffect(() => {
+    const fetchLastDonorId = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/last-donor-id');
+            const newDonorId = response.data.lastDid + 1;
+            setDid(newDonorId.toString());
+        } catch (error) {
+            console.error('Error fetching last donor ID', error);
+        }
+    };
 
-  //           setScholTypes(uniqueScholTypes);
-  //     } catch (error) {
-  //       console.error('Error fetching scholarship types:', error);
-  //     }
-  //   };
+    fetchLastDonorId();
+}, []);
 
-  //   fetchScholTypes();
-  // }, []);
+  
 
   const Submit = (e) => {
     axios.get('http://localhost:3001/api/admin/current-acyear')
@@ -115,10 +116,10 @@ const Donar = () => {
             >
               <option value="">Select</option>
               <option value="Endowment">Endowment</option>
-              <option value="JMC Staff">JMC Staff</option>
+              {/* <option value="JMC Staff">JMC Staff</option> */}
               <option value="Alumni">Alumni</option>
               <option value="Well Wishers">Well Wishers</option>
-              <option value="Singapore Chapter">Singapore Chapter</option>
+              {/* <option value="Singapore Chapter">Singapore Chapter</option>
               <option value="Trichy Chapter">Trichy Chapter</option>
               <option value="Chennai Chapter">Chennai Chapter</option>
               <option value="Kerala Chapter">Kerala Chapter</option>
@@ -138,7 +139,7 @@ const Donar = () => {
               <option value="Qatar Chapter">Qatar Chapter</option>
               <option value="Others">Others1</option>
               <option value="Others">Others2</option>
-              <option value="Others">Others3</option>
+              <option value="Others">Others3</option> */}
 
             </select>
           </div>

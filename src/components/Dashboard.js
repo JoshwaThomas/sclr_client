@@ -75,7 +75,7 @@ const Dashboard = () => {
     // };
 
     const pieData = {
-        labels: ['UG', 'PG',],
+        labels: ['FRESHERS', 'RENEWALS',],
         datasets: [
             {
 
@@ -125,9 +125,11 @@ const Dashboard = () => {
         }).format(amount);
     };
 
+    const barColors = [" bg-fuchsia-500", "bg-green-900", "bg-blue-500", "bg-teal-500", "bg-orange-500"];
+    
     return (
         <div className="container mx-auto p-4">
-            <div className="grid grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-4 gap-4 mb-8  " >
                 <div className="bg-gray-100 p-4 py-4 rounded shadow text-center text-xl font-bold">
                     <FontAwesomeIcon icon={faUsers} size="2x" />
                     <div>Total Applicants</div>
@@ -150,13 +152,13 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="grid grid-cols-3 pb-4 gap-6 h-30">
-                <div className="bg-white p-4 rounded shadow">
+                <div className="bg-gray-100 p-4 rounded shadow">
                     <Pie data={pieData} />
                 </div>
-                <div className="bg-white p-4 rounded shadow">
+                <div className="bg-gray-100 p-4 rounded shadow">
                     <Pie data={pieData1} />
                 </div>
-                <div className="bg-white p-4 rounded shadow">
+                <div className="bg-gray-100 p-4 rounded shadow">
                     <Pie data={pieData2} />
                 </div>
             </div>
@@ -166,7 +168,7 @@ const Dashboard = () => {
                         <Bar data={barData} options={options} />
                     </div>
                 </div> */}
-                <div className="bg-white p-4 rounded shadow w-full">
+                <div className="bg-gray-100 p-4 rounded shadow w-full">
                     {barData.labels.map((label, index) => (
                         <div key={label} className="mb-4">
                             <div className="flex justify-between mb-1">
@@ -177,7 +179,7 @@ const Dashboard = () => {
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-5">
                                 <div
-                                    className="bg-blue-600 h-5 rounded-full"
+                                     className={`${barColors[index % barColors.length]} h-5 rounded-full`}
                                     style={{ width: `${(barData.datasets[0].data[index] / totalApplicants) * 100}%` }}
                                 ></div>
                             </div>

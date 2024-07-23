@@ -958,14 +958,16 @@ function Action() {
                         {/* renewal form data retrive */}
                         <div className=' ml-80'>
                             <button
-                                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-black mr-2"
                                 onClick={() => handleAccept(selectedUser)}
+                                className={`px-4 py-1 ml-1 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                disabled={selectedUser.action !== 0}
                             >
                                 Accept
                             </button>
                             <button
-                                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-black mr-2"
                                 onClick={() => handleReject(selectedUser)}
+                                className={`px-4 py-1 ml-1 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
+                            disabled={selectedUser.action !== 0}
                             >
                                 Reject
                             </button>

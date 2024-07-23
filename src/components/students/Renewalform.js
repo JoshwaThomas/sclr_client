@@ -1075,32 +1075,28 @@ const ScholarshipForm = () => {
                 </div>
               </div>
 
-            <div className="text-center">
-              <div>Class Teacher</div>
+              <div className="text-center">
+                <div>Class Teacher</div>
               </div>
               <div className="text-center">
-              <div>HOD / MID</div>
+                <div>HOD / MID</div>
               </div>
               <div className="mb-3 text-center">
-              <div>Deputy Warden-Hostel</div>
+                <div>Deputy Warden-Hostel</div>
               </div>
-             <div className="mb-3 text-center">
-            <div>Register Of Attendance</div>
-            </div>
-            <div className="mb-3 text-center">
-            <div>Coordinator-Deeniyath / Moral</div>
-           </div>
-            </div>
-            </div>
->>>>>>> 4a0d60eca8f7251ee37642b000fe64a91b75d93f
+              <div className="mb-3 text-center">
+                <div>Register Of Attendance</div>
+              </div>
+              <div className="mb-3 text-center">
+                <div>Coordinator-Deeniyath / Moral</div>
+              </div>
             </div>
           </div>
+        )
+        }
 
-
-        )}
-
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

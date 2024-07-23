@@ -82,7 +82,7 @@ function Modify() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get(`http://localhost:3001/api/admin/donarUpdate`, {
+            const result = await axios.get('http://localhost:3001/api/admin/donarUpdate', {
                 params: { name }
             });
             setDonar(result.data);
