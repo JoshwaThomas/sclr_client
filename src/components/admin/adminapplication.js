@@ -691,7 +691,7 @@ function Action() {
 
             </div>
             <div className='mt-6 pl-0'>
-            <div className="text-right font-bold">Total Rows: {filterUsers.length}</div>
+            <div className="text-right font-bold text-xl mr-40 text-white">No of Students:  {filterUsers.length}</div>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
@@ -959,20 +959,20 @@ function Action() {
                         <div className=' ml-80'>
                             <button
                                 onClick={() => handleAccept(selectedUser)}
-                                className={`px-4 py-1 ml-1 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                className={`px-4 py-2 ml-2 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
                                 disabled={selectedUser.action !== 0}
                             >
                                 Accept
                             </button>
                             <button
                                 onClick={() => handleReject(selectedUser)}
-                                className={`px-4 py-1 ml-1 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
+                                className={`px-4 py-2 ml-2 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
                             disabled={selectedUser.action !== 0}
                             >
                                 Reject
                             </button>
                             <button
-                                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg  hover:bg-black mr-2"
+                                className="mt-4 px-4 py-2 ml-2 bg-red-500 text-white rounded-lg  hover:bg-black mr-2"
                                 onClick={closeModal}
                             >
                                 Close
