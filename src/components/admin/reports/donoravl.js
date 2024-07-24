@@ -198,12 +198,12 @@ function Donoravl(){
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-4 w-auto py-2 bg-amber-300'>
+                <div className='mt-6 grid grid-cols-4 w-auto bg-amber-300'>
 
-                    <div className="font-bold border border-white text-center">Donor ID</div>
-                    <div className="font-bold border border-white text-center">Scholar Type</div>
-                    <div className="font-bold border border-white text-center">NAME</div>
-                    <div className="font-bold border border-white text-center">AMOUNT</div>
+                    <div className="font-bold border border-white text-center py-3">Donor ID</div>
+                    <div className="font-bold border border-white text-center py-3">Scholar Type</div>
+                    <div className="font-bold border border-white text-center py-3">NAME</div>
+                    <div className="font-bold border border-white text-center py-3">AMOUNT</div>
                     {/* <div className="font-bold border border-white text-center">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (

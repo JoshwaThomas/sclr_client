@@ -18,8 +18,8 @@ function StudentLayout() {
     path: '/student/status' },
   
   { icon: 'add-circle', 
-    name: '-----', 
-    path: '/63'
+    name: 'Menu', 
+    path: '/student/status'
    },
    { icon: 'add-circle', 
     name: 'GuideLines', 

@@ -52,6 +52,31 @@ function Status() {
                 setStudent(null);
             } else {
                 setStudent(result.data);
+                setName(result.data.name);
+                setFresherOrRenewal(result.data.fresherOrRenewal);
+                setProcategory(result.data.procategory);
+                setUgOrPg(result.data.ugOrPg);
+                setSection(result.data.section);
+                setSemester(result.data.semester);
+                setDept(result.data.dept);
+                setHostel(result.data.hostel);
+                setMobileNo(result.data.mobileNo);
+                setFatherName(result.data.fatherName);
+                setFatherNo(result.data.fatherNo);
+                setSpecialCategory(result.data.specialCategory);
+                setReligion(result.data.religion);
+                setFatherOccupation(result.data.fatherOccupation);
+                setAnnualIncome(result.data.annualIncome);
+                setSiblings(result.data.siblings);
+                setPreSemester(result.data.preSemester);
+                setSemPercentage(result.data.semPercentage);
+                setDeeniyathPer(result.data.deeniyathPer);
+                setClassAttendancePer(result.data.classAttendancePer);
+                setAddress(result.data.address)
+                setState(result.data.state)
+                setDistrict(result.data.district)
+                setPin(result.data.pin)
+                setShowModal(true);
             }
         } catch (err) {
             alert('An error occurred while fetching the student data');
@@ -71,6 +96,7 @@ function Status() {
             if (result.data.status === 'not exist') {
                 alert('Student Not Found');
                 setStudent(null);
+                
             }
             else {
                 setStudent(result.data);

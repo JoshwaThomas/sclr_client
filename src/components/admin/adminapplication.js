@@ -100,7 +100,7 @@ function Action() {
                 return (
                     (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
                     (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                    (specialCategories.fatherMotherSeparated && specialCategory.includes('fathermotherseparated')) ||
+                    (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
                     (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
                     (specialCategories.singleparent && specialCategory.includes('singleparent'))
                 );
@@ -658,8 +658,8 @@ function Action() {
 
                             <input
                                 type="checkbox"
-                                id="FatherMotherSeparated"
-                                name="FatherMotherSeparated"
+                                id="fathermotherseparated"
+                                name="fathermotherseparated"
                                 className='scale-200 ml-4'
                                 onChange={handleSpecialCategoryChange}
                             />

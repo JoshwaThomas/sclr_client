@@ -7,12 +7,17 @@ function StuReport() {
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
     const [departments, setDepartments] = useState([]);
-    const [selectedDepartment, setSelectedDepartment] = useState('All');
-    // const [specialCategories, setSpecialCategories] = useState({
-    //     fatherExpired: false,
-    //     fatherSeparated: false,
-    //     hazrath: false
-    // });
+    const [radioValue, setRadioValue] = useState('All');
+    const [selectedDepartment, setSelectedDepartment] = useState('');
+    const [acceptreject, setAcceptreject] = useState('');
+    const [specialCategories, setSpecialCategories] = useState({
+        muaddin: false,
+        hazrath: false,
+        fatherMotherSeparated: false,
+        fatherExpired: false,
+        singleparent: false,
+    });
+
 
 
     const handleSearch = (e) => {
@@ -27,32 +32,78 @@ function StuReport() {
         setFilterUsers(filteredUsers);
     };
 
+    useEffect(() => {
+        if (radioValue === 'All') {
+            setFilterUsers(users);
+        } else {
+            const filteredUsers = users.filter(user =>
+                user.fresherOrRenewal.toLowerCase() === radioValue.toLowerCase()
+            );
+            setFilterUsers(filteredUsers);
+        }
+    }, [users, radioValue]);
+
     const handleRadioChange = (e) => {
-        const radioValue = e.target.value.toLowerCase();
-        const allUsers = [...users];
-
-        if (radioValue === 'all') {
-            setFilterUsers(allUsers);
-        } else {
-            const filteredUsers = allUsers.filter(user =>
-                user.fresherOrRenewal.toLowerCase() === radioValue
-            );
-            setFilterUsers(filteredUsers);
-        }
+        setRadioValue(e.target.value);
     };
-    const handleRadioChangeSPL = (e) => {
-        const radioValue = e.target.value.toLowerCase();
-        const allUsers = [...users];
+    // const handleRadioChangeSPL = (e) => {
+    //     const radioValue = e.target.value.toLowerCase();
+    //     const allUsers = [...users];
 
-        if (radioValue === 'all') {
-            setFilterUsers(allUsers);
-        } else {
-            const filteredUsers = allUsers.filter(user =>
-                user.specialCategory && user.specialCategory.toLowerCase() === radioValue
-            );
-            setFilterUsers(filteredUsers);
-        }
+    //     if (radioValue === 'all') {
+    //         setFilterUsers(allUsers);
+    //     } else {
+    //         const filteredUsers = allUsers.filter(user =>
+    //             user.specialCategory && user.specialCategory.toLowerCase() === radioValue
+    //         );
+    //         setFilterUsers(filteredUsers);
+    //     }
+    // };
+
+    const handleSpecialCategoryChange = (e) => {
+        const { name, checked } = e.target;
+        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
+
+    useEffect(() => {
+        let filteredUsers = users;
+        if (Object.values(specialCategories).some(value => value)) {
+            filteredUsers = filteredUsers.filter(user => {
+                const specialCategory = (user.specialCategory || '').toLowerCase();
+                return (
+                    (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                    (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
+                    (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
+                    (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                    (specialCategories.singleparent && specialCategory.includes('singleparent'))
+                );
+            });
+        }
+
+        // console.log('Filtered Users:', filteredUsers);
+        setFilterUsers(filteredUsers);
+    }, [specialCategories, users]);
+
+    const handleAcceptrejectChange = (e) => {
+        const value = e.target.value.toLowerCase();
+        setAcceptreject(value);
+    };
+
+    useEffect(() => {
+        let filteredUsers = users;
+
+        if (acceptreject === 'allar') {
+            // Filter out users where action is 'pending'
+            filteredUsers = users.filter(user => user.action !== 'pending');
+        } else {
+            // Filter based on the string value of action
+            filteredUsers = users.filter(user => user.action === acceptreject);
+        }
+
+        setFilterUsers(filteredUsers);
+    }, [acceptreject, users]);
+
+
     const handleDepartmentChange = (e) => {
         const department = e.target.value;
         setSelectedDepartment(department);
@@ -99,6 +150,7 @@ function StuReport() {
     //     }));
     // };
 
+    //check donardetails
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/admin/studreport')
@@ -216,36 +268,74 @@ function StuReport() {
                             <option key={index} value={dept}>{dept}</option>
                         ))}
                     </select>
-                    <div className='end-px text-white border border-white w-72 mt-4'>
-                        <input
-                            type="radio"
-                            id="all"
-                            name="search"
-                            value="All"
-                            className='scale-200 ml-8'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                    <div className='grid grid-cols-2'>
+                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                            <input
+                                type="radio"
+                                id="all"
+                                name="search"
+                                value="All"
+                                className='scale-200 ml-8'
+                                onChange={handleRadioChange}
+                                checked={radioValue === 'All'}
+                            />
+                            <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 
-                        <input
-                            type="radio"
-                            id="fresher"
-                            name="search"
-                            value="Fresh"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
+                            <input
+                                type="radio"
+                                id="fresher"
+                                name="search"
+                                value="Fresher"
+                                className='scale-200 ml-4'
+                                onChange={handleRadioChange}
+                                checked={radioValue === 'Fresher'}
+                            />
+                            <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
 
-                        <input
-                            type="radio"
-                            id="renewal"
-                            name="search"
-                            value="Renewal"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                            <input
+                                type="radio"
+                                id="renewal"
+                                name="search"
+                                value="Renewal"
+                                className='scale-200 ml-4'
+                                onChange={handleRadioChange}
+                                checked={radioValue === 'Renewal'}
+                            />
+                            <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+
+                        </div>
+                        <div className=' -ml-56 text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                            <input
+                                type="radio"
+                                id="all"
+                                name="acceptreject"
+                                value="allar"
+                                className='scale-200 ml-8'
+                                onChange={handleAcceptrejectChange}
+                                checked={acceptreject === 'allar'}
+                            />
+                            <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                            <input
+                                type="radio"
+                                id="accept"
+                                name="acceptreject"
+                                value="accepted"
+                                className='scale-200 ml-4'
+                                onChange={handleAcceptrejectChange}
+                                checked={acceptreject === 'accepted'}
+                            />
+                            <label htmlFor="accept" className='form-radio ml-2 text-lg'>Accept</label>
+                            <input
+                                type="radio"
+                                id="reject"
+                                name="acceptreject"
+                                value="rejected"
+                                className='scale-200 ml-4'
+                                onChange={handleAcceptrejectChange}
+                                checked={acceptreject === 'rejected'}
+                            />
+                            <label htmlFor="reject" className='form-radio ml-2 text-lg'>Reject</label>
+                        </div>
                     </div>
                 </div>
 
@@ -280,7 +370,8 @@ function StuReport() {
                     checked={specialCategories.hazrath}
                 />
                 <label htmlFor="hazrath" className='mr-4'>Hazrath</label>
-            </div> */}
+                    </div>  
+                     radio button filter splcat
                 <div className='end-px text-white border border-white mt-4' >
                     <input
                         type="radio"
@@ -346,22 +437,70 @@ function StuReport() {
                     />
                     <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Orphan</label>
 
+                </div>*/}
+
+                <div className='end-px text-white border border-amber-300 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                    <input
+                        type="checkbox"
+                        id="muaddin"
+                        name="muaddin"
+                        className='scale-200 ml-2'
+                        onChange={handleSpecialCategoryChange}
+                    />
+                    <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
+
+                    <input
+                        type="checkbox"
+                        id="hazrath"
+                        name="hazrath"
+                        className='scale-200 ml-4'
+                        onChange={handleSpecialCategoryChange}
+                    />
+                    <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>Hazrath</label>
+
+                    <input
+                        type="checkbox"
+                        id="fathermotherseparated"
+                        name="fathermotherseparated"
+                        className='scale-200 ml-4'
+                        onChange={handleSpecialCategoryChange}
+                    />
+                    <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Parent Separated</label>
+
+                    <input
+                        type="checkbox"
+                        id="fatherExpired"
+                        name="fatherExpired"
+                        className='scale-200 ml-4'
+                        onChange={handleSpecialCategoryChange}
+                    />
+                    <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>Father Expired</label>
+                    <input
+                        type="checkbox"
+                        id="singleparent"
+                        name="singleparent"
+                        className='scale-200 ml-4'
+                        onChange={handleSpecialCategoryChange}
+                    />
+                    <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                 </div>
 
                 <button
                     type="button"
-                    className="bg-green-500 text-white py-3 px-3 mt-5 hover:bg-black rounded-lg "
+                    className="bg-green-500 text-white py-3 px-3 -mt-7 ml-3 hover:bg-black rounded-lg "
                     onClick={handleDownload}
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-amber-300'>
 
-                    <div className="font-bold border border-white text-center">Reg. No</div>
-                    <div className="font-bold border border-white text-center">Dept</div>
-                    <div className="font-bold border border-white text-center">NAME</div>
-                    <div className="font-bold border border-white text-center">MOBILE</div>
-                    <div className="font-bold border border-white text-center">ACTION</div>
+
+                <div className='mt-6 grid grid-cols-5  w-auto bg-amber-300'>
+
+                    <div className="font-bold border border-white text-center py-3">Reg. No</div>
+                    <div className="font-bold border border-white text-center py-3">Dept</div>
+                    <div className="font-bold border border-white text-center py-3">NAME</div>
+                    <div className="font-bold border border-white text-center py-3">MOBILE</div>
+                    <div className="font-bold border border-white text-center py-3">ACTION</div>
                 </div>
                 {filterUsers.map((user, index) => (
                     <div key={index} className="grid grid-cols-5 w-auto bg-amber-200">
