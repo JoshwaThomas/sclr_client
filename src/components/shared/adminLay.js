@@ -42,7 +42,7 @@ function StudentLayout() {
     },
     { icon: 'add-circle', 
       name: 'GuideLines', 
-      path: 'guidelines' 
+      path: '/admin/guidelines' 
     },
   ];
 

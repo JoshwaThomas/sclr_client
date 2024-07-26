@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import PrintHeader from '../../../assets/printHeader.jpg';
 
 function DonarLetter() {
     const [users, setUsers] = useState(null);
@@ -9,6 +10,7 @@ function DonarLetter() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [printData, setPrintData] = useState([]);
 
     useEffect(() => {
         fetchPanList();
@@ -16,23 +18,31 @@ function DonarLetter() {
 
     const fetchPanList = async (e) => {
         if (e) {
-            e.preventDefault(); 
+            e.preventDefault();
         }
 
         try {
             const response = await axios.get('http://localhost:3001/api/admin/panlist');
-            console.log('Fetched Donors:', response.data); 
+            console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
             console.error('Error fetching donors:', error);
-            setPanList([]); 
+            setPanList([]);
         }
     };
 
-    const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // const filteredPanList = panList.filter(panItem =>
+    //     panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    const filteredPanList = panList.filter(panItem => {
+        // Ensure panItem.did is a string before calling toLowerCase
+        const didString = String(panItem.did).toLowerCase();
+        const nameString = String(panItem.name).toLowerCase();
+        const searchTermString = searchTerm.toLowerCase();
+
+        return nameString.includes(searchTermString) || didString.includes(searchTermString);
+    });
 
     const handleSelect = (name, did) => {
         setSearchTerm(name);
@@ -61,17 +71,30 @@ function DonarLetter() {
                 params: { name, did }
             });
             if (result.data) {
-                setUsers(result.data);
+                setUsers([result.data]);
+                setPrintData([result.data]);
+                console.log(result.data);
             } else {
-                setUsers(null);
+                setUsers([]);
                 alert('Donor Data not found');
             }
         } catch (err) {
-            console.error('Error fetching donor data:', err);  // Improved error logging
-            setUsers(null);
+            console.error('Error fetching donor data:', err);
+            setUsers([]);
             alert('Donor Data not found');
         }
-    }
+    };
+
+    const handlePrint = (e) => {
+        e.preventDefault();
+        const printContent = document.getElementById('print-section').innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+        // window.location.reload();
+    };
 
     return (
         <div>
@@ -121,20 +144,72 @@ function DonarLetter() {
                         <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
                             Get
                         </button>
+                        <button onClick={handlePrint}>Print</button>
                     </div>
                 </div>
             </div>
-           <div>
-                {users ? (
-                    <div>
-                        <p>Name: {users.name}</p>
-                        <p>Donor ID: {users.did}</p>
-                        {/* Add other fields you want to display here */}
-                    </div>
+            <div className='mt-10'>
+                <div className="grid grid-cols-5 w-auto bg-amber-300">
+                    <div className="font-bold border border-white text-center py-3">REGISTER No.</div>
+                    <div className="font-bold border border-white text-center py-3">NAME</div>
+                    <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
+                    <div className="font-bold border border-white text-center py-3">AMOUNT</div>
+                    <div className="font-bold border border-white text-center py-3">MOBILE No.</div>
+                </div>
+
+                {users && users.length > 0 ? (
+                    users.map((user, index) => (
+                        <div key={`${user.studreg}-${index}`} className="grid grid-cols-5 w-auto bg-amber-200">
+                            <div className="font-bold border border-white text-center uppercase py-3">{user.studreg}</div>
+                            <div className="font-bold border border-white text-center uppercase py-3">{user.studname}</div>
+                            <div className="font-bold border border-white text-center uppercase py-3">{user.studdept}</div>
+                            <div className="font-bold border border-white text-center uppercase py-3">{user.donoramtscholamt}</div>
+                            <div className="font-bold border border-white text-center uppercase py-3">{user.studmobileNo}</div>
+                        </div>
+                    ))
                 ) : (
-                    <p>No donor data available</p>
+                    <div className=' hidden'>No data found</div>
                 )}
-           </div>
+            </div>
+
+            {/* print area */}
+            <div id="print-section" hidden>
+                <img src={PrintHeader} alt="Header" className="w-full" />
+                {/* <h1 className='text-center text-2xl font-bold'></h1> */}
+                <div className='border border-black h-5/6'>
+
+                    <div>
+                        {printData.length > 0 && (
+                            <div className='text-xl mt-50 text-justify'>
+                                <p>      With gratitude, we acknowledge the receipt of <b>Rs.{printData[0].donoramt[0].scholamt}</b> from <b>{printData[0].donar.name} </b>
+                                    towards the JMC Scholarship on<b>{printData[0].donar.scholdate}</b> .</p>
+                                <p className='mt-4'> 
+                                    
+                                    The following students have benefited from your generous donation. 
+                                    </p>
+                            </div>
+                        )}
+                    </div>
+
+
+                    <div className="grid grid-cols-5 w-auto mt-3  px-3">
+                        <div className="font-bold border border-black text-center py-3">REGISTER No.</div>
+                        <div className="font-bold border border-black text-center py-3">NAME</div>
+                        <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
+                        <div className="font-bold border border-black text-center py-3">AMOUNT</div>
+                        <div className="font-bold border border-black text-center py-3">MOBILE No.</div>
+                    </div>
+                    {printData.length > 0 && printData.map((data, index) => (
+                        <div key={index} className='grid grid-cols-5 w-auto px-3 '>
+                            <div className="font-bold border border-black text-center py-2">{data.studreg}</div>
+                            <div className="font-bold border border-black text-center py-2">{data.studname}</div>
+                            <div className="font-bold border border-black text-center py-2">{data.studdept}</div>
+                            <div className="font-bold border border-black text-center py-2">{data.donoramtscholamt}</div>
+                            <div className="font-bold border border-black text-center py-2">{data.studmobileNo}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 }

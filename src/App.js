@@ -25,6 +25,7 @@ import Distribute from './components/admin/distribution';
 import Adstatus from './components/admin/status';
 import Staff from './components/shared/staffLay';
 import Allreport from './components/admin/reports/allreport';
+import GuideLine from './components/admin/guide';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
             <Route path='/admin/report/studawardreport' element={<Catreport />} />
             <Route path='/admin/report/fundavl' element={<Accrej />} />
             <Route path='/admin/report/fundreport' element={<Fundreport />} />
+            <Route path='/admin/guidelines' element={<GuideLine />} />
           </Route>
           <Route path="/staff" element={<Staff />}> 
             <Route path='dashboard' element={<Dashboard />} />

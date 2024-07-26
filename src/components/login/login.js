@@ -58,7 +58,7 @@ function TextBox() {
 
     const logoStyle = {
         width: '150px',
-        height: '190px',
+        height: '170px',
         marginRight: '10px',
     };
 
@@ -71,6 +71,8 @@ function TextBox() {
         backgroundColor: '#FF6A00',
         position: 'relative',
         padding: '40px',
+        borderRadius: '20px',
+       
     };
 
     const formContainerStyle = {
@@ -129,6 +131,7 @@ function TextBox() {
                             />
                         </div>
                         <button type='submit' className="rounded-full font-mono px-4 py-2 bg-orange-500 text-white font-bold">Login</button>
+                        <button type='button' className="rounded-full font-mono px-4 py-2 ml-28 bg-orange-500 text-white font-bold" onClick={() => navigate('/')}>Back</button>
                     </form>
                 </div>
             </div>
