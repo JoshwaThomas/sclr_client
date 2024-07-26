@@ -423,9 +423,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="hostelYes"
                     name="hostel"
-                    value="yes"
+                    value="YES"
                     className=' scale-200'
-                    checked={hostel === 'yes'}
+                    checked={hostel === 'YES'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
                   />
@@ -436,9 +436,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="hostelNo"
                     name="hostel"
-                    value="no"
+                    value="NO"
                     className=' scale-200'
-                    checked={hostel === 'no'}
+                    checked={hostel === 'NO'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
                   />
@@ -556,7 +556,7 @@ const ScholarshipForm = () => {
                 required
               >
                 <option value="">Select</option>
-                <option value="none">None</option>
+                <option value="None">None</option>
                 <option value="Muaddin">Mu-addin</option>
                 <option value="Hazrath">Hazrath</option>
                 <option value="FatherMotherSeparated">Father & Mother Separated</option>
@@ -1075,6 +1075,7 @@ const ScholarshipForm = () => {
 
               ))}
             </div>
+            <div class="border border-gray-500 mt-3"></div>
             <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
             <div className="text-center">
               <div>Class Teacher</div>
