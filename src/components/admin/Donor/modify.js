@@ -33,33 +33,40 @@ function Modify() {
         fetchScholTypes();
       }, []);
 
-    useEffect(() => {
+      useEffect(() => {
         fetchPanList();
     }, []);
-      
+
     const fetchPanList = async (e) => {
         if (e) {
-            e.preventDefault();  // Ensure e is defined before calling preventDefault()
+            e.preventDefault();
         }
-        
+
         try {
             const response = await axios.get('http://localhost:3001/api/admin/panlist');
-            console.log('Fetched Donors:', response.data); // Debugging log
+            console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
             console.error('Error fetching donors:', error);
-            setPanList([]); // Ensure to handle state appropriately in case of error
+            setPanList([]);
         }
     };
 
-    const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    // const filteredPanList = panList.filter(panItem =>
+    //     panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    const filteredPanList = panList.filter(panItem => {
+        // Ensure panItem.did is a string before calling toLowerCase
+        const didString = String(panItem.did).toLowerCase();
+        const nameString = String(panItem.name).toLowerCase();
+        const searchTermString = searchTerm.toLowerCase();
+
+        return nameString.includes(searchTermString) || didString.includes(searchTermString);
+    });
 
     const handleSelect = (name, did) => {
         setSearchTerm(name);
-        // setPanSearchTerm(did);
         setName(name);
         setDid(did);
         setIsDropdownOpen(false);
@@ -77,7 +84,6 @@ function Modify() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
 
     const handleData = async (e) => {
         e.preventDefault();
@@ -188,7 +194,7 @@ function Modify() {
                         </select> */}
                         <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
                             <div>
-                                <label className="block mb-1">Name</label>
+                                <label className="block mb-1">Name or ID</label>
                                 <input
                                     type="text"
                                     value={searchTerm}

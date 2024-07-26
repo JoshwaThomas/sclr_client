@@ -985,7 +985,7 @@ function Action() {
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
+                    <div className="bg-red-400 w-3/4 h-72 text-black rounded-lg overflow-auto p-6">
                         <form onSubmit={Submit}>
                             <div className='grid grid-cols-3 w-auto p-4'>
                                 <div className='uppercase'>
@@ -1126,7 +1126,7 @@ function Action() {
             {
                 showModalReject && selectedUser && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-red-400 w-3/4 h-96 rounded-lg overflow-auto p-6">
+                        <div className="bg-red-400 w-3/4 h-76 rounded-lg overflow-auto p-6">
                             <form onSubmit={submitReject}>
                                 <div className='grid grid-cols-3 w-auto p-4 border border-white gap-1 text-center'>
                                     <div className='uppercase'>

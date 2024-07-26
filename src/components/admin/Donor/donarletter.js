@@ -93,17 +93,17 @@ function DonarLetter() {
         document.body.innerHTML = printContent;
         window.print();
         document.body.innerHTML = originalContent;
-        // window.location.reload();
     };
+
 
     return (
         <div>
-            <h1>Donor Letter</h1>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Gratitude Letter</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div onChange={(e) => fetchPanList(e)} className=''>
                     <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
                         <div>
-                            <label className="block mb-1">Name</label>
+                            <label className="block mb-1 text-white">Name or ID</label>
                             <input
                                 type="text"
                                 value={searchTerm}
@@ -141,13 +141,16 @@ function DonarLetter() {
                                 </ul>
                             )}
                         </div>
-                        <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
-                            Get
-                        </button>
-                        <button onClick={handlePrint}>Print</button>
+
                     </div>
                 </div>
             </div>
+            <div className='mt-5 flex inline-flex '>
+                <button onClick={handleData} className='bg-blue-500 text-white px-5 py-1 rounded-md ml-3 justify-end'>
+                    Get
+                </button>
+                <button onClick={handlePrint} className='bg-blue-500 text-white px-5 py-1 rounded-md  ml-3 justify-end ' >Print</button>
+            </div> 
             <div className='mt-10'>
                 <div className="grid grid-cols-5 w-auto bg-amber-300">
                     <div className="font-bold border border-white text-center py-3">REGISTER No.</div>
@@ -176,17 +179,18 @@ function DonarLetter() {
             <div id="print-section" hidden>
                 <img src={PrintHeader} alt="Header" className="w-full" />
                 {/* <h1 className='text-center text-2xl font-bold'></h1> */}
-                <div className='border border-black h-5/6'>
+                <div className='border border-black  h-96'>
 
-                    <div>
+                    <div className=' mt-20' >
                         {printData.length > 0 && (
-                            <div className='text-xl mt-50 text-justify'>
-                                <p>      With gratitude, we acknowledge the receipt of <b>Rs.{printData[0].donoramt[0].scholamt}</b> from <b>{printData[0].donar.name} </b>
-                                    towards the JMC Scholarship on<b>{printData[0].donar.scholdate}</b> .</p>
-                                <p className='mt-4'> 
-                                    
-                                    The following students have benefited from your generous donation. 
-                                    </p>
+                            <div className='text-xl  text-justify'>
+                                <p className='ml-10'>With gratitude, we acknowledge the receipt of <b>Rs.{printData[0].donar.amount}</b> from <b>{printData[0].donar.name} </b>
+                                   </p>
+                                   <p> towards the JMC Scholarship on<b>{printData[0].donar.scholdate}</b> .</p>
+                                <p className='mt-4'>
+
+                                    The following students have benefited from your generous donation.
+                                </p>
                             </div>
                         )}
                     </div>
@@ -210,6 +214,8 @@ function DonarLetter() {
                     ))}
                 </div>
             </div>
+
+            
         </div>
     );
 }

@@ -45,33 +45,40 @@ function Existing() {
     }, []);
 
 
-    const fetchPanList = async (e) => {
-        if (e) {
-            e.preventDefault();  // Ensure e is defined before calling preventDefault()
-        }
-
-        try {
-            const response = await axios.get('http://localhost:3001/api/admin/panlist');
-            console.log('Fetched Donors:', response.data); // Debugging log
-            setPanList(response.data);
-        } catch (error) {
-            console.error('Error fetching donors:', error);
-            setPanList([]); // Ensure to handle state appropriately in case of error
-        }
-    };
-
     useEffect(() => {
         fetchPanList();
     }, []);
 
-    const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const fetchPanList = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            console.log('Fetched Donors:', response.data);
+            setPanList(response.data);
+        } catch (error) {
+            console.error('Error fetching donors:', error);
+            setPanList([]);
+        }
+    };
+
+    // const filteredPanList = panList.filter(panItem =>
+    //     panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    const filteredPanList = panList.filter(panItem => {
+        // Ensure panItem.did is a string before calling toLowerCase
+        const didString = String(panItem.did).toLowerCase();
+        const nameString = String(panItem.name).toLowerCase();
+        const searchTermString = searchTerm.toLowerCase();
+
+        return nameString.includes(searchTermString) || didString.includes(searchTermString);
+    });
 
     const handleSelect = (name, did) => {
         setSearchTerm(name);
-        // setPanSearchTerm(pan);
         setName(name);
         setDid(did);
         setIsDropdownOpen(false);
@@ -182,7 +189,7 @@ function Existing() {
                         </select> */}
                         <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
                             <div>
-                                <label className="block mb-1">Name</label>
+                                <label className="block mb-1">Name or ID</label>
                                 <input
                                     type="text"
                                     value={searchTerm}
