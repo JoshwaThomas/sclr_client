@@ -26,7 +26,7 @@ const ScholarshipForm = () => {
   const [hostel, setHostel] = useState('')
   const [mobileNo, setMobileNo] = useState('')
   // const [emailId, setEmailId] = useState()
-  // const [aadhar, setAadhar] = useState()
+  const [aadhar, setAadhar] = useState()
   const [fatherName, setFatherName] = useState('')
   const [fatherNo, setFatherNo] = useState('')
   const [fatherOccupation, setFatherOccupation] = useState('')
@@ -146,7 +146,7 @@ const ScholarshipForm = () => {
           axios.post("http://localhost:3001/renewal", {
             fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
             community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
-            deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt, acyear
+            deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt, acyear, aadhar
           })
             .then(result => {
               if (result.data.success) {
@@ -182,7 +182,7 @@ const ScholarshipForm = () => {
     const newData = {
       fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
       hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, arrear, semPercentage,
-      lastCreditedAmt
+      lastCreditedAmt, aadhar
     };
     setPrintData([...printData, newData]);
     setFresherOrRenewal('');
@@ -193,6 +193,7 @@ const ScholarshipForm = () => {
     setDept('');
     setProcategory('');
     setSpecialCategory('');
+    setAadhar('');
     setAddress('');
     setDistrict('');
     setState('');
@@ -249,13 +250,32 @@ const ScholarshipForm = () => {
                   />
                   <label htmlFor="Renewal" className=' form-radio ml-2 text-xl'>Renewal</label>
                 </div>
+                <div>
+                  <label className="block mb-1">Special Category:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                  <select
+                    name="specialCategory"
+                    value={specialCategory}
+                    onChange={(e) => setSpecialCategory(e.target.value)}
+                    className="w-48 p-2 border  rounded-md text-slate-950"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="General">General</option>
+                    <option value="Muaddin">Mu-addin</option>
+                    <option value="Hazrath">Hazrath</option>
+                    <option value="FatherMotherSeparated">Father & Mother Separated</option>
+                    <option value="FatherExpired">Father Expired</option>
+                    <option value="Singleparent">Single Parent</option>
+                    <option value="Orphan">Orphan</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Personal Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1">UG or PG:</label>
+              <label className="block mb-1">UG or PG:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
@@ -286,7 +306,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
             <div>
-              <label className="block mb-1">Programme Category</label>
+              <label className="block mb-1">Programme Category:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
@@ -330,7 +350,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
             <div>
-              <label className="block mb-1">Semester:</label>
+              <label className="block mb-1">Semester:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
@@ -413,7 +433,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
             <div>
-              <label className="block mb-1">Hostel:</label>
+              <label className="block mb-1">Hostel:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
@@ -446,7 +466,7 @@ const ScholarshipForm = () => {
           </div>
           <div className="grid grid-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
             <div>
-              <label className="block mb-1">Register No:</label>
+              <label className="block mb-1">Register No:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="text"
                 id="registerNo"
@@ -459,7 +479,7 @@ const ScholarshipForm = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">Mobile No:</label>
+              <label className="block mb-1">Mobile No:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="text"
                 maxLength="10"
@@ -569,28 +589,9 @@ const ScholarshipForm = () => {
                   </select>
                 </div>
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
 
-                <div>
-                  <label className="block mb-1">Special Category:</label>
-                  <select
-                    name="specialCategory"
-                    value={specialCategory}
-                    onChange={(e) => setSpecialCategory(e.target.value)}
-                    className="w-48 p-2 border  rounded-md text-slate-950"
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="none">None</option>
-                    <option value="Muaddin">Mu-addin</option>
-                    <option value="Hazrath">Hazrath</option>
-                    <option value="FatherMotherSeparated">Father & Mother Separated</option>
-                    <option value="FatherExpired">Father Expired</option>
-                    <option value="Singleparent">Single Parent</option>
-                    <option value="Orphan">Orphan</option>
-                  </select>
-                </div>
+
                 <div>
                   <label className="block mb-1">Religion:</label>
                   <select
@@ -646,7 +647,7 @@ const ScholarshipForm = () => {
                     className="w-48 p-2 border rounded-md text-slate-950"
                     required
                   />
-                </div>
+                </div> */}
 
                 <div>
                   <label className="block mb-1">Aadhar no:</label>
@@ -660,11 +661,11 @@ const ScholarshipForm = () => {
                     required
                     readOnly
                   />
-                </div> */}
+                </div>
               </div>
               <div className="grid grid-rows-2 md:grid-cols-4 gap-4 border p-10 mt-5 rounded-xl">
                 <div>
-                  <label className="block mb-1">Father's Name:</label>
+                  <label className="block mb-1">Parent or Guardian Name:</label>
                   <input
                     type="text"
                     name="fatherName"
@@ -676,7 +677,7 @@ const ScholarshipForm = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1">Father's Contact No.:</label>
+                  <label className="block mb-1">Parent or Guardian Contact No.:</label>
                   <input
                     type="text"
                     name="fatherNo"
@@ -688,7 +689,7 @@ const ScholarshipForm = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1">Father's Occupation:</label>
+                  <label className="block mb-1">Parent or Guardian Occupation:</label>
                   <input
                     type="text"
                     name="fatherOccupation"
@@ -712,6 +713,17 @@ const ScholarshipForm = () => {
                     required
                   />
                 </div>
+                <div>
+                <label className="block mb-1">Siblings:</label>
+                <input
+                  type="text"
+                  name="siblings"
+                  value={siblings}
+                  onChange={(e) => setSiblings(e.target.value)}
+                  className="mt-5 w-58 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
                 <div>
                   <label className="block mb-1">Permanent Address</label>
                   <input
@@ -842,7 +854,7 @@ const ScholarshipForm = () => {
           <div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
               <div>
-                <label className="block mb-1">Semester:</label>
+                <label className="block mb-1">Semester:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                   type="text"
                   name="preSemester"
@@ -853,7 +865,7 @@ const ScholarshipForm = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1">Mark (PartIII Only):</label>
+                <label className="block mb-1">Mark (UG PartIII Only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                   type="text"
                   name="mark"
@@ -864,7 +876,7 @@ const ScholarshipForm = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1">Maximum Mark (PartIII Only):</label>
+                <label className="block mb-1">Maximum Mark (UG PartIII Only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                   type="text"
                   name="maxMark"
@@ -875,7 +887,7 @@ const ScholarshipForm = () => {
                 />
               </div>
               <div>
-                <label className="block mb-1">Percentage of Mark:</label>
+                <label className="block mb-1">Percentage of Mark:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                   type="text"
                   name="semPercentage"
@@ -883,6 +895,17 @@ const ScholarshipForm = () => {
                   onChange={(e) => setSemPercentage(e.target.value)}
                   className=" w-52 p-2 border rounded-md text-slate-950"
 
+                />
+              </div>
+              <div>
+                <label className="block mb-1">Do you have arrear? (fill No. of Papers, If no arrear enter '0')<span className=' text-red-500 text-lg'><sup>*</sup></span>:</label>
+                <input
+                  type="text"
+                  name="arrear"
+                  value={arrear}
+                  onChange={(e) => setArrear(e.target.value)}
+                  className="w-72  p-2 border rounded-md text-slate-950"
+                  required
                 />
               </div>
             </div>
@@ -956,28 +979,8 @@ const ScholarshipForm = () => {
                   required
                 />
               </div>
-              <div>
-                <label className="block mb-1">Do you have arrear? (fill No. of Papers, If no arrear enter '0'):</label>
-                <input
-                  type="text"
-                  name="arrear"
-                  value={arrear}
-                  onChange={(e) => setArrear(e.target.value)}
-                  className="w-72  p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1">Siblings:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblings}
-                  onChange={(e) => setSiblings(e.target.value)}
-                  className="mt-5 w-58 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
+            
+              
             </div>
             <button
               type="submit"
@@ -1084,12 +1087,7 @@ const ScholarshipForm = () => {
               <div className="mb-3 text-center">
                 <div>Deputy Warden-Hostel</div>
               </div>
-              <div className="mb-3 text-center">
-                <div>Register Of Attendance</div>
-              </div>
-              <div className="mb-3 text-center">
-                <div>Coordinator-Deeniyath / Moral</div>
-              </div>
+
             </div>
           </div>
         )

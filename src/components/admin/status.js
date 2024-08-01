@@ -445,21 +445,27 @@ function Status() {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
                             <form onSubmit={SubmitAccept}>
-                                <div className='grid grid-cols-3 w-auto p-4'>
+                                <div className='grid grid-cols-4 w-auto p-4'>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Register No.:</label>{student.registerNo}
+                                        {/* <label className="block mb-1">Register No.:</label> */}
+                                        {student.registerNo}
                                     </div>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Name:</label>{student.name}
+                                        {/* <label className="block mb-1">Name:</label> */}
+                                        {student.name}
                                     </div>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Department:</label>{student.dept}
+                                        {/* <label className="block mb-1">Department:</label> */}
+                                        {student.dept}
                                     </div>
                                     {/* <div className='uppercase mt-3'>
                                         <label className="block mb-1">Amount: {student.totalScholamt}</label>
                                     </div> */}
+                                    <div className='uppercase'>
+                                    <label className="block mb-1"></label>{student.specialCategory}
+                                </div>
                                     <div>
-                                        <label className="block mb-1">Scholarship Type</label>
+                                        <label className="block mb-1 mt-4">Scholarship Type</label>
                                         <select
                                             name="ScholarshipCategory"
                                             value={scholtype}
@@ -475,7 +481,7 @@ function Status() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block mb-1">Donar</label>
+                                        <label className="block mb-1 mt-4">Donar</label>
                                         <select
                                             name="ScholarshipCategory"
                                             value={scholdonar}
@@ -491,21 +497,24 @@ function Status() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block uppercase">Scholarship Amount:</label>
+                                        <label className="block uppercase mt-4">Scholarship Amount</label>
                                         <input
                                             type="text" name="amount"
                                             className="border p-2 rounded w-48 text-black"
                                             value={scholamt}
                                             onChange={(e) => setScholamt(e.target.value)}
                                         />
-                                        <button
-                                            type="submit"
-                                            onClick={ScholSubmit}
-                                            className="bg-sky-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
-                                        >
-                                            Confirm
-                                        </button>
+                                        
                                     </div>
+                                    <div className="block  mt-12">
+                                    <button
+                                        type="submit"
+                                        onClick={ScholSubmit}
+                                        className="bg-sky-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                    >
+                                        Confirm
+                                    </button>
+                                </div>
                                 </div>
                                 {submittedData.length > 0 && (
                                     <div>

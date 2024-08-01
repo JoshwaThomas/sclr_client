@@ -15,16 +15,19 @@ function TextBox() {
         console.log("Submitting form with:", { staffId, password });
 
         axios.post("http://localhost:3001/api/admin/login", {
-            staffId, password
+            staffId, password, 
         })
         .then(res => {
             console.log("Response from server:", res.data);
             if (res.data.status === 'exist') {
                 const role = res.data.role;
                 if (role === 1) {
-                    navigate('/admin/dashboard', { state: { id: staffId } });
+                    navigate('/admin/dashboard', { state: { id: staffId, role } });
                 } else if (role === 2) {
-                    navigate('/staff/dashboard', { state: { id: staffId } });
+                    navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
+                }
+                else if(staffId === `${role}`){
+                    navigate('/student/dashboard', {state: {id: staffId}});
                 }
             } else if (res.data.status === 'wrong password') {
                 alert("Wrong Password");
@@ -109,7 +112,7 @@ function TextBox() {
                 <img src={scl} alt='LOGO' style={sclimg} className='mr-20 mt-5'/>
                 <div style={formContainerStyle}>
                     <form onSubmit={Submit}>
-                        <h1 className="text-2xl mb-8 font-bold">ADMIN LOGIN</h1>
+                        <h1 className="text-2xl mb-8 font-bold">LOGIN</h1>
                         <div>
                             <input
                                 type="text"

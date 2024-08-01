@@ -8,13 +8,14 @@ function Existing() {
     const [mobileNo, setMobileNo] = useState()
     const [did, setDid] = useState('');
     const [pan, setPan] = useState('')
-    // const [emailId, setEmailId] = useState()
+    const [emailId, setEmailId] = useState()
     const [address, setAddress] = useState()
     const [state, setState] = useState()
     const [district, setDistrict] = useState()
     const [pin, setPin] = useState()
     const [scholtype, setScholType] = useState()
     const [amount, setAmount] = useState()
+    const [receipt, setReceipt] = useState()
     const [scholdate, setScholDate] = useState()
     const [balance, setBalance] = useState()
     const [scholtypes, setScholTypes] = useState([]);
@@ -111,6 +112,7 @@ function Existing() {
             setPan(result.data.pan);
             setDid(result.data.did);
             setMobileNo(result.data.mobileNo);
+            setEmailId(result.data.emailId)
             setAddress(result.data.address);
             setState(result.data.state);
             setDistrict(result.data.district);
@@ -132,8 +134,8 @@ function Existing() {
                     const acyear = response.data.acyear.acyear;
 
                     axios.post('http://localhost:3001/api/admin/donar', {
-                        name, mobileNo, address, state, district, pin,
-                        scholtype, amount, balance, scholdate, pan, acyear,did
+                        name, mobileNo, address, state, district, pin, emailId,
+                        scholtype, amount, balance, scholdate, pan, acyear, did
                     })
                         .then(result => {
                             console.log(result);
@@ -146,7 +148,7 @@ function Existing() {
                             window.location.reload();
                         });
                 }
-            }) 
+            })
             .catch(error => {
                 console.error('Error fetching current academic year:', error);
                 window.alert('Error fetching current academic year');
@@ -284,7 +286,18 @@ function Existing() {
                         />
                     </div>
                     <div>
-                        <label className="block mb-1  -ml-12">Date</label>
+                        <label className="block mb-1">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={receipt}
+                            onChange={(e) => setReceipt(e.target.value.toUpperCase())}
+                            className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1  -ml-12"> Date of Payment</label>
                         <input
                             type="date"
                             name="dob"
@@ -361,18 +374,17 @@ function Existing() {
                                 readOnly
                             />
                         </div>
-                        {/* Email not need
-          <div>
-            <label className="block mb-1">Email Id:</label>
-            <input
-              type="email"
-              name="emailId"
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-              required
-            />
-          </div> */}
+                        <div>
+                            <label className="block mb-1">Email Id:</label>
+                            <input
+                                type="email"
+                                name="emailId"
+                                value={emailId}
+                                onChange={(e) => setEmailId(e.target.value)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                required
+                            />
+                        </div>
                         <div>
                             <label className="block mb-1">Permanent Address</label>
                             <input
