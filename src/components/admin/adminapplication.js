@@ -35,6 +35,7 @@ function Action() {
         fatherExpired: false,
         singleparent: false,
     });
+    const [filteredDonars, setFilteredDonars] = useState([]);
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
@@ -195,7 +196,6 @@ function Action() {
         setDept(user.dept);
         setShowModalReject(true);
     }
-
     const fetchDonars = () => {
         return axios.get('http://localhost:3001/api/admin/donar')
             .then(response => response.data)
@@ -207,13 +207,15 @@ function Action() {
 
     const fetchScholtypes = () => {
         return axios.get('http://localhost:3001/api/admin/scholtypes')
-            .then(response => response.data)
+            .then(response => {
+                console.log('Fetched Scholarship Types:', response.data); // Debugging log
+                return response.data;
+            })
             .catch(err => {
                 console.error('Error fetching scholarship types:', err);
                 return [];
             });
     };
-
 
     useEffect(() => {
         if (showModals) {
@@ -228,7 +230,6 @@ function Action() {
 
             fetchScholtypes()
                 .then(data => {
-                    console.log('Fetched Scholarship Types:', data); // Debugging log
                     setScholtypes(data);
                 })
                 .catch(error => {
@@ -237,7 +238,14 @@ function Action() {
         }
     }, [showModals]);
 
-
+    useEffect(() => {
+        if (scholtype) {
+            const filtered = donars.filter(donar => donar.scholtype === scholtype);
+            setFilteredDonars(filtered);
+        } else {
+            setFilteredDonars(donars);
+        }
+    }, [scholtype, donars]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -704,7 +712,7 @@ function Action() {
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">
+                        <div className="font-bold border  border-white text-center uppercase py-3">
                             <button
                                 type="button"
                                 onClick={() => handleViewClick(user)}
@@ -1057,16 +1065,15 @@ function Action() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block mb-1 mt-10">Donar</label>
+                                    <label className="block mb-1 mt-10">Donor</label>
                                     <select
                                         name="ScholarshipCategory"
                                         value={scholdonar}
                                         onChange={(e) => setScholdonar(e.target.value)}
                                         className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
-
                                     >
                                         <option value="">Select Donor</option>
-                                        {Array.isArray(donars) && donars.map((donar) => (
+                                        {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
                                             <option key={donar._id} value={donar._id}>
                                                 {donar.name}
                                             </option>

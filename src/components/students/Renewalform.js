@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PrintHeader from '../../assets/printHeader.jpg';
@@ -31,62 +31,70 @@ const ScholarshipForm = () => {
   const [fatherNo, setFatherNo] = useState('')
   const [fatherOccupation, setFatherOccupation] = useState('')
   const [annualIncome, setAnnualIncome] = useState('')
-  const [preSemester, setPreSemester] = useState('')
-  const [maxMark, setMaxMark] = useState('')
-  const [mark, setMark] = useState('')
-  const [semPercentage, setSemPercentage] = useState('')
-  const [deeniyathEducationDays, setDeeniyathEducationDays] = useState('')
-  const [deeniyathPer, setDeeniyathPer] = useState('')
-  const [classAttendance, setClassAttendance] = useState('')
-  const [classAttendancePer, setClassAttendancePer] = useState('')
-  const [classMaxAttendance, setClassMaxAttendance] = useState('')
-  const [deeniyathMaxDays, setDeeniyathMaxDays] = useState('')
+  // const [preSemester, setPreSemester] = useState('')
+  // const [maxMark, setMaxMark] = useState('')
+  // const [mark, setMark] = useState('')
+  // const [semPercentage, setSemPercentage] = useState('')
+  // const [deeniyathEducationDays, setDeeniyathEducationDays] = useState('')
+  // const [deeniyathPer, setDeeniyathPer] = useState('')
+  // const [classAttendance, setClassAttendance] = useState('')
+  // const [classAttendancePer, setClassAttendancePer] = useState('')
+  // const [classMaxAttendance, setClassMaxAttendance] = useState('')
+  // const [deeniyathMaxDays, setDeeniyathMaxDays] = useState('')
   const [lastCreditedAmt, setLastCreditedAmt] = useState('')
   const [arrear, setArrear] = useState('')
   const [siblings, setSiblings] = useState('')
+  const [siblingsNo, setSiblingsNo] = useState()
+  const [siblingsOccupation, setSiblingsOccupation] = useState()
+  const [siblingsIncome, setSiblingsIncome] = useState()
+  const [showPopup, setShowPopup] = useState(true);
   const [isPrint, setPrint] = useState(false)
   const [printData, setPrintData] = useState([]);
 
 
-  useEffect(() => {
-    const calculateSemPercentage = () => {
-      if (mark && maxMark) {
-        const percentage = (parseFloat(mark) / parseFloat(maxMark)) * 100;
-        setSemPercentage(percentage.toFixed(2));
-      } else {
-        setSemPercentage('');
-      }
-    };
+  // useEffect(() => {
+  //   const calculateSemPercentage = () => {
+  //     if (mark && maxMark) {
+  //       const percentage = (parseFloat(mark) / parseFloat(maxMark)) * 100;
+  //       setSemPercentage(percentage.toFixed(2));
+  //     } else {
+  //       setSemPercentage('');
+  //     }
+  //   };
 
-    calculateSemPercentage();
-  }, [mark, maxMark]);
+  //   calculateSemPercentage();
+  // }, [mark, maxMark]);
 
-  useEffect(() => {
-    const calculateDeeniyathPercentage = () => {
-      if (deeniyathEducationDays && deeniyathMaxDays) {
-        const percentage = (parseFloat(deeniyathEducationDays) / parseFloat(deeniyathMaxDays)) * 100;
-        setDeeniyathPer(percentage.toFixed(2));
-      } else {
-        setDeeniyathPer('');
-      }
-    };
+  // useEffect(() => {
+  //   const calculateDeeniyathPercentage = () => {
+  //     if (deeniyathEducationDays && deeniyathMaxDays) {
+  //       const percentage = (parseFloat(deeniyathEducationDays) / parseFloat(deeniyathMaxDays)) * 100;
+  //       setDeeniyathPer(percentage.toFixed(2));
+  //     } else {
+  //       setDeeniyathPer('');
+  //     }
+  //   };
 
-    calculateDeeniyathPercentage();
-  }, [deeniyathEducationDays, deeniyathMaxDays]);
+  //   calculateDeeniyathPercentage();
+  // }, [deeniyathEducationDays, deeniyathMaxDays]);
 
-  useEffect(() => {
-    const calculateClassAttendancePercentage = () => {
-      if (classAttendance && classMaxAttendance) {
-        const percentage = (parseFloat(classAttendance) / parseFloat(classMaxAttendance)) * 100;
-        setClassAttendancePer(percentage.toFixed(2));
-      } else {
-        setClassAttendancePer('');
-      }
-    };
+  // useEffect(() => {
+  //   const calculateClassAttendancePercentage = () => {
+  //     if (classAttendance && classMaxAttendance) {
+  //       const percentage = (parseFloat(classAttendance) / parseFloat(classMaxAttendance)) * 100;
+  //       setClassAttendancePer(percentage.toFixed(2));
+  //     } else {
+  //       setClassAttendancePer('');
+  //     }
+  //   };
 
-    calculateClassAttendancePercentage();
-  }, [classAttendance, classMaxAttendance]);
+  //   calculateClassAttendancePercentage();
+  // }, [classAttendance, classMaxAttendance]);
 
+   //pop display close
+   const closePopup = () => {
+    setShowPopup(false);
+  };
 
   const handlePrint = (e) => {
     const printContent = document.getElementById('print-section').innerHTML;
@@ -115,15 +123,21 @@ const ScholarshipForm = () => {
       setDept(result.data.dept);
       setSection(result.data.section);
       setReligion(result.data.religion);
+      setAadhar(result.data.aadhar);
       setCommunity(result.data.community);
       setFatherName(result.data.fatherName);
       setFatherNo(result.data.fatherNo);
       setFatherOccupation(result.data.fatherOccupation);
+      setAnnualIncome(result.data.annualIncome);
       setAddress(result.data.address);
       setState(result.data.state);
       setDistrict(result.data.district);
       setPin(result.data.pin);
       setSiblings(result.data.siblings);
+      setSiblingsNo(result.data.siblingsNo);
+      setSiblingsOccupation(result.data.siblingsOccupation);
+      setSiblingsIncome(result.data.siblingsIncome);
+
       setLastCreditedAmt(result.data.scholamt);
 
     } catch (err) {
@@ -145,9 +159,9 @@ const ScholarshipForm = () => {
           const acyear = response.data.acyear.acyear;
           axios.post("http://localhost:3001/renewal", {
             fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
-            community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, preSemester, semPercentage, siblings, deeniyathEducationDays,
-            deeniyathPer, classAttendance, classAttendancePer, arrear, lastCreditedAmt, acyear, aadhar
-          })
+            community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome,
+             arrear, lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome, 
+            })
             .then(result => {
               if (result.data.success) {
                 window.alert("Your Application Submitted Successfully");
@@ -180,8 +194,8 @@ const ScholarshipForm = () => {
     console.log(formData);
     // Here you can send the formData to the server or perform other actions
     const newData = {
-      fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, arrear, semPercentage,
+      ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
+      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, arrear,
       lastCreditedAmt, aadhar
     };
     setPrintData([...printData, newData]);
@@ -205,8 +219,7 @@ const ScholarshipForm = () => {
     setFatherOccupation('');
     setAnnualIncome('');
     setSiblings('');
-    setDeeniyathPer('');
-    setClassAttendancePer('');
+    
 
   };
 
@@ -665,7 +678,7 @@ const ScholarshipForm = () => {
               </div>
               <div className="grid grid-rows-2 md:grid-cols-4 gap-4 border p-10 mt-5 rounded-xl">
                 <div>
-                  <label className="block mb-1">Parent or Guardian Name:</label>
+                  <label className="block mb-1 mt-6">Parent or Guardian Name:</label>
                   <input
                     type="text"
                     name="fatherName"
@@ -703,7 +716,7 @@ const ScholarshipForm = () => {
                 <div>
 
 
-                  <label className="block mb-1">Annual Income:</label>
+                  <label className="block mb-1 mt-6">Annual Income:</label>
                   <input
                     type="text"
                     name="annualIncome"
@@ -713,19 +726,9 @@ const ScholarshipForm = () => {
                     required
                   />
                 </div>
+                
                 <div>
-                <label className="block mb-1">Siblings:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblings}
-                  onChange={(e) => setSiblings(e.target.value)}
-                  className="mt-5 w-58 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-                <div>
-                  <label className="block mb-1">Permanent Address</label>
+                  <label className="block mb-1 ">Permanent Address</label>
                   <input
                     type="text"
                     name="address"
@@ -846,13 +849,70 @@ const ScholarshipForm = () => {
                     required
                   />
                 </div>
+                <div>
+                <label className="block mb-1 -mt-4">Siblings:</label>
+                <input
+                  type="text"
+                  name="siblings"
+                  value={siblings}
+                  onChange={(e) => setSiblings(e.target.value)}
+                  className=" w-44 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 -mt-4">Siblings:</label>
+                <input
+                  type="text"
+                  name="siblings"
+                  value={siblingsNo}
+                  onChange={(e) => setSiblingsNo(e.target.value)}
+                  className=" w-44 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 -mt-4">Siblings Occupation:</label>
+                <input
+                  type="text"
+                  name="siblings"
+                  value={siblingsOccupation}
+                  onChange={(e) => setSiblingsOccupation(e.target.value)} 
+                  className=" w-44 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block mb-1 -mt-4">Siblings Income:</label>
+                <input
+                  type="text"
+                  name="siblings"
+                  value={siblingsIncome}
+                  onChange={(e) => setSiblingsIncome(e.target.value)} 
+                  className=" w-44 p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block mb-1">No of Arrear<span className=' text-red-500 text-lg'><sup>*</sup></span>:</label>
+                <input
+                  type="text"
+                  name="arrear"
+                  value={arrear}
+                  onChange={(e) => setArrear(e.target.value)}
+                  className="w-44  p-2 border rounded-md text-slate-950"
+                  required
+                />
+              </div>
+
               </div>
             </div>
           )}
           {/* Education Details section */}
-          <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
+          {/* <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3> */}
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+            {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
               <div>
                 <label className="block mb-1">Semester:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
@@ -897,17 +957,7 @@ const ScholarshipForm = () => {
 
                 />
               </div>
-              <div>
-                <label className="block mb-1">Do you have arrear? (fill No. of Papers, If no arrear enter '0')<span className=' text-red-500 text-lg'><sup>*</sup></span>:</label>
-                <input
-                  type="text"
-                  name="arrear"
-                  value={arrear}
-                  onChange={(e) => setArrear(e.target.value)}
-                  className="w-72  p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
+              
             </div>
 
 
@@ -981,7 +1031,7 @@ const ScholarshipForm = () => {
               </div>
             
               
-            </div>
+            </div> */}
             <button
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
@@ -1092,6 +1142,18 @@ const ScholarshipForm = () => {
           </div>
         )
         }
+
+           {/* Instructions */}
+           {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-red-400 w-3/4 h-76 rounded-lg shadow-lg overflow-auto p-6">
+
+              <h2 className="text-2xl font-bold mb-4">Instructions</h2>
+              <p className="mb-4">Please fill all the Details</p>
+              <button onClick={closePopup} className="bg-blue-500 text-white py-2 px-4 rounded-md">Close</button>
+            </div>
+          </div>
+        )}
 
       </div >
     </div >

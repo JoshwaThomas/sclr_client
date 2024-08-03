@@ -6,6 +6,8 @@ function Attendaided() {
     const [prevAttendancetot, setPrevattendancetot] = useState('');
     const [currAttendancetot, setCurrattendancetot] = useState('');
     const [classAttendancePer, setClassAttendancePer] = useState({});
+    const [totalwork, setTotalwork] = useState(0);
+    const [totaldata, setTotaldata] = useState(0);
     // const [classAttendanceRem, setClassAttendanceRem] = useState({});
 
     useEffect(() => {
@@ -16,8 +18,18 @@ function Attendaided() {
                     axios.get('http://localhost:3001/renewal')
                 ]);
 
+                const aided1 = freshResponse.data.filter(user => user.procategory === 'Aided');
+                const aided2 = renewalResponse.data.filter(user => user.procategory === 'Aided');
+
+                const totalaided = aided1.length + aided2.length;
+
                 const freshAided = freshResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
                 const renewalAided = renewalResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
+
+                const totalfilter = freshAided.length + renewalAided;
+                const work = totalaided - totalfilter;
+                setTotalwork(work)
+                setTotaldata(totalaided)
 
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
@@ -63,7 +75,7 @@ function Attendaided() {
 
         const updates = {};
         const remarks = {};
-        
+
         users.forEach(user => {
             updates[user.registerNo] = classAttendancePer[user.registerNo];
             remarks[user.registerNo] = user.classAttendanceRem;
@@ -85,9 +97,14 @@ function Attendaided() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Aided Attendance</h3>
-            <div className='flex inline-flex text-white'>
+            <div className='flex inline-flex font-bold text-xl text-white '>
+                <div> Total Work: {totaldata}</div>
+                <div className='ml-2'>Total Work Done: {totalwork}</div>
+            </div>
+
+            <div className='flex inline-flex text-white mt-4'>
                 <div className="w-auto ">
-                <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
                     <input
                         type='text'
                         name='prevAttendancetot'
@@ -97,7 +114,7 @@ function Attendaided() {
                     />
                 </div>
                 <div className="w-auto  ml-5">
-                <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <label className='text-lg font-bold'>Current Semester Working Days</label>
                     <input
                         type='text'
                         name='currAttendancetot'
@@ -143,11 +160,11 @@ function Attendaided() {
                     <div className="font-bold border border-white text-center py-3">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center py-3">
+                    <div className="font-bold border border-white text-center py-">
                         <input
-                            type='text'
+                            type='textarea'
                             name='classAttendanceRem'
-                            className="w-14  border rounded-md"
+                            className="w-full h-full  border rounded-md"
                             value={user.classAttendanceRem || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
                         />

@@ -964,10 +964,10 @@ const ScholarshipForm = () => {
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
           <div>
             <div className="overflow-x-auto">
-              {semester === 'I' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+              {ugOrPg === 'UG' && semester === 'I' && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
                   <div>
-                    <label className="block mb-1">Last School / College Name:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <label className="block mb-1">Last School Name:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                     <input
                       type="text"
                       name="schoolName"
@@ -978,46 +978,108 @@ const ScholarshipForm = () => {
                     />
                   </div>
                   <div>
-                    <label className="block mb-1">Year of Passing:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <label className="block ml-40 mb-1">Year of Passing:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                     <input
                       type="text"
                       name="yearOfPassing"
                       value={yearOfPassing}
                       onChange={(e) => setYearOfPassing(e.target.value)}
-                      className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                      className="w-48  md:w-96 ml-40 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>
+                  <div></div>
                   <div>
-                    <label className="block mb-1">Maximum Mark (If completed UG mention Part III only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <label className="block mb-1">Maximum Mark:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                     <input
                       type="text"
                       name="maximumMarkSchool"
                       value={maximumMarkSchool}
                       onChange={(e) => setMaximumMarkSchool(e.target.value)}
-                      className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>
                   <div>
-                    <label className="block mb-1">Marks Secured (If completed UG mention Part III only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <label className="block mb-1">Marks Secured:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                     <input
                       type="text"
                       name="marksSecuredSchool"
                       value={marksSecuredSchool}
                       onChange={(e) => setMarksSecuredSchool(e.target.value)}
-                      className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>
                   <div>
-                    <label className="block mb-1">Percentage of Mark:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <label className="block mb-1">Percentage:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                     <input
                       type="text"
                       name="percentageOfMarkSchool"
                       value={percentageOfMarkSchool}
                       onChange={(e) => setPercentageOfMarkSchool(e.target.value)}
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+
+                    />
+                  </div>
+                </div>
+              )}
+              {/* if Pg and sem 1  */}
+              { ugOrPg === 'PG' && semester === 'I' && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
+                  <div>
+                    <label className="block mb-1">Last College Name:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <input
+                      type="text"
+                      name="schoolName"
+                      value={schoolName}
+                      onChange={(e) => setSchoolName(e.target.value.toUpperCase())}
                       className="w-48  md:w-96 p-2 border rounded-md text-slate-950"
+
+                    />
+                  </div>
+                  <div>
+                    <label className="block ml-40 mb-1">Year of Passing:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <input
+                      type="text"
+                      name="yearOfPassing"
+                      value={yearOfPassing}
+                      onChange={(e) => setYearOfPassing(e.target.value)}
+                      className="w-48  md:w-96 p-2 ml-40 border rounded-md text-slate-950"
+
+                    />
+                  </div>
+                  <div></div>
+                  <div>
+                    <label className="block mb-1">Maximum Mark (Part III only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <input
+                      type="text"
+                      name="maximumMarkSchool"
+                      value={maximumMarkSchool}
+                      onChange={(e) => setMaximumMarkSchool(e.target.value)}
+                     className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-1">Marks Secured (Part III only):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <input
+                      type="text"
+                      name="marksSecuredSchool"
+                      value={marksSecuredSchool}
+                      onChange={(e) => setMarksSecuredSchool(e.target.value)}
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+
+                    />
+                  </div>
+                  <div>
+                    <label className="block mb-1">Percentage:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                    <input
+                      type="text"
+                      name="percentageOfMarkSchool"
+                      value={percentageOfMarkSchool}
+                      onChange={(e) => setPercentageOfMarkSchool(e.target.value)}
+                     className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>
@@ -1204,6 +1266,7 @@ const ScholarshipForm = () => {
             </button>
           </div>
         </form>
+        {/* Instructions */}
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-red-400 w-3/4 h-76 rounded-lg shadow-lg overflow-auto p-6">
