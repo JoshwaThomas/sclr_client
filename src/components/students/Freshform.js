@@ -766,31 +766,31 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1 py-4 -mt-8">Sibling:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <div className=' p-2 bg-slate-50 border rounded-md '>
+                <input
+                  type="radio"
+                  id="sibyes"
+                  name="sibling"
+                  value="Yes"
+                  className='scale-200 ml-3 '
+                  checked={siblings === 'Yes'}
+                  onChange={(e) => setSiblings(e.target.value)}
+                  required
+                />
+                <label htmlFor="sibyes" className=' form-radio ml-4 text-xl'>Yes</label>
 
-              <input
-                type="radio"
-                id="sibyes"
-                name="sibling"
-                value="Yes"
-                className='scale-200'
-                checked={siblings === 'Yes'}
-                onChange={(e) => setSiblings(e.target.value)}
-                required
-              />
-              <label htmlFor="sibyes" className=' form-radio ml-2 text-xl'>Yes</label>
-
-              <input
-                type="radio"
-                id="sibno"
-                name="sibling"
-                value="No"
-                className='scale-200 ml-3'
-                checked={siblings === 'No'}
-                onChange={(e) => setSiblings(e.target.value)}
-                required
-              />
-              <label htmlFor="sibno" className=' form-radio ml-2 text-xl'>No</label>
-
+                <input
+                  type="radio"
+                  id="sibno"
+                  name="sibling"
+                  value="No"
+                  className='scale-200 ml-3  '
+                  checked={siblings === 'No'}
+                  onChange={(e) => setSiblings(e.target.value)}
+                  required
+                />
+                <label htmlFor="sibno" className=' form-radio ml-2 text-xl'>No</label>
+              </div>
             </div>
           </div>
           {siblings === 'Yes' && (
@@ -1025,7 +1025,7 @@ const ScholarshipForm = () => {
                 </div>
               )}
               {/* if Pg and sem 1  */}
-              { ugOrPg === 'PG' && semester === 'I' && (
+              {ugOrPg === 'PG' && semester === 'I' && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
                   <div>
                     <label className="block mb-1">Last College Name:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
@@ -1057,7 +1057,7 @@ const ScholarshipForm = () => {
                       name="maximumMarkSchool"
                       value={maximumMarkSchool}
                       onChange={(e) => setMaximumMarkSchool(e.target.value)}
-                     className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>
@@ -1079,7 +1079,7 @@ const ScholarshipForm = () => {
                       name="percentageOfMarkSchool"
                       value={percentageOfMarkSchool}
                       onChange={(e) => setPercentageOfMarkSchool(e.target.value)}
-                     className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+                      className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
 
                     />
                   </div>

@@ -7,6 +7,8 @@ function AttendSfw() {
     const [currAttendancetot, setCurrattendancetot] = useState('');
     const [classAttendancePer, setClassAttendancePer] = useState({});
     // const [classAttendanceRem, setClassAttendanceRem] = useState({});
+    const [totalwork, setTotalwork] = useState(0);
+    const [totaldata, setTotaldata] = useState(0);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -16,8 +18,18 @@ function AttendSfw() {
                     axios.get('http://localhost:3001/renewal')
                 ]);
 
+                const SFM1 = freshResponse.data.filter(user => user.procategory === 'SFW');
+                const SFM2 = renewalResponse.data.filter(user => user.procategory === 'SFW');
+
+                const totalsfm = SFM1.length + SFM2.length;
+
                 const freshAided = freshResponse.data.filter(user => user.procategory === 'SFW' && user.classAttendancePer === 0);
                 const renewalAided = renewalResponse.data.filter(user => user.procategory === 'SFW' && user.classAttendancePer === 0);
+
+                const totalfilter = freshAided.length + renewalAided;
+                const work = totalsfm - totalfilter;
+                setTotalwork(work)
+                setTotaldata(totalsfm)
 
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
@@ -85,6 +97,11 @@ function AttendSfw() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">SFW Attendance</h3>
+            <div className='flex inline-flex font-bold text-xl text-white '>
+                <div> Total No of Applicants: {totaldata}</div>
+                <div className='ml-2'>Completed: {totalwork}</div>
+                <div className='ml-2'>Pending:  {users.length}</div>
+            </div>
             <div className='flex inline-flex text-white'>
                 <div className="w-auto ">
                 <label className='text-lg font-bold'>Previous Semester Working Days</label>
@@ -143,11 +160,11 @@ function AttendSfw() {
                     <div className="font-bold border border-white text-center py-3">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center py-3">
+                    <div className="font-bold border border-white text-center">
                         <input
-                            type='text'
-                            name='classAttendanceRem'
-                            className="w-14  border rounded-md"
+                             type='textarea'
+                             name='classAttendanceRem'
+                             className="w-full h-full  border rounded-md"
                             value={user.classAttendanceRem || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
                         />

@@ -98,8 +98,9 @@ function Attendaided() {
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Aided Attendance</h3>
             <div className='flex inline-flex font-bold text-xl text-white '>
-                <div> Total Work: {totaldata}</div>
-                <div className='ml-2'>Total Work Done: {totalwork}</div>
+            <div> Total No of Applicants: {totaldata}</div>
+                <div className='ml-2'>Completed: {totalwork}</div>
+                <div className='ml-2'>Pending:  {users.length}</div>
             </div>
 
             <div className='flex inline-flex text-white mt-4'>
