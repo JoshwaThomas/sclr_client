@@ -1,9 +1,12 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
-import Jmc from '../../assets/jmc_whitefont.png';
+// import Jmc from '../../assets/jmc_whitefont.png';
 
 function StudentLayout() {
+  const navigate = useNavigate();
+  const { staffId } = useParams();
+
   let menus = [
     { icon: 'menu', 
     name: 'Dashboard', 
@@ -11,11 +14,12 @@ function StudentLayout() {
    },
     { icon: 'add-circle', 
     name: 'Application', 
-    path: '/student/application/fresh'
+    path: '/student/application/renewal'
    },
     { icon: 'people', 
     name: 'Status', 
-    path: '/student/status' },
+    path: '/student/status'
+   },
   
   { icon: 'add-circle', 
     name: 'Menu', 
@@ -25,19 +29,35 @@ function StudentLayout() {
     name: 'GuideLines', 
     path: '/student/guidelines'
    },
-   { icon: 'add-circle', 
-    name: 'Logout', 
-    path: '/'
-   },
+  
   
   ];
+
+  const handleLogout = () => {
+    // Clear authentication state (e.g., localStorage, cookies)
+    localStorage.removeItem('authToken');
+    // Redirect to login page
+    navigate('/login', { replace: true });
+    // Prevent back navigation to authenticated pages
+    window.history.pushState(null, null, '/login');
+    window.addEventListener('popstate', function (event) {
+      navigate('/login', { replace: true });
+    });
+  };
+
 
   return (
     <div className="flex flex-row bg-slate-400 h-screen w-screen ">
       <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
         <div className=' flex flex-col mb-10 place-items-center'>
         <img src={Jmclogo} alt="" className=" w-36 h-40  " />
-        <img src={Jmc} alt="" className=" w-60 " />
+        {/* <img src={Jmc} alt="" className=" w-60 " /> */}
+        <div className='mt-2 text-white'>
+            <span className="text-sm font-extrabold text-center">JAMAL MOHAMED COLLEGE<br /></span>
+            <span className="text-sm font-bold ml-12 -mt-1 text-center">(Autonomous)<br /></span>
+            <span className="text-sm font-bold -mt-1 text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
+          </div>
+          <div className='text-white font-bold mt-5'>{staffId}</div>
         </div>
         {menus.map((item, index) => (
           <NavLink
@@ -55,6 +75,16 @@ function StudentLayout() {
             </label>
           </NavLink>
         ))}
+      <button
+          onClick={handleLogout}
+          className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
+        >
+          <ion-icon name="log-out"></ion-icon>
+          <label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
+            Logout
+          </label>
+        </button>
+
       </div>
       <div className="p-4 flex-1 overflow-auto overflow-scroll">
         

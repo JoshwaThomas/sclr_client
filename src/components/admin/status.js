@@ -37,6 +37,60 @@ function Status() {
     const [scholtypes, setScholtypes] = useState([]);
     const [scholtype, setScholType] = useState('');
     const [submittedData, setSubmittedData] = useState([]);
+    const [filteredDonars, setFilteredDonars] = useState([]);
+
+
+    const fetchDonars = () => {
+        return axios.get('http://localhost:3001/api/admin/donar')
+            .then(response => response.data)
+            .catch(err => {
+                console.error('Error fetching donors:', err);
+                return [];
+            });
+    };
+
+    const fetchScholtypes = () => {
+        return axios.get('http://localhost:3001/api/admin/scholtypes')
+            .then(response => {
+                console.log('Fetched Scholarship Types:', response.data); // Debugging log
+                return response.data;
+            })
+            .catch(err => {
+                console.error('Error fetching scholarship types:', err);
+                return [];
+            });
+    };
+
+    useEffect(() => {
+        if (showAcceptModal) {
+            fetchDonars()
+                .then(data => {
+                    console.log('Fetched Donors:', data); // Debugging log
+                    setDonars(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching donors:', error);
+                });
+
+            fetchScholtypes()
+                .then(data => {
+                    setScholtypes(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching scholarship types:', error);
+                });
+        }
+    }, [showAcceptModal]);
+
+    useEffect(() => {
+        if (scholtype) {
+            const filtered = donars.filter(donar => donar.scholtype === scholtype);
+            setFilteredDonars(filtered);
+        } else {
+            setFilteredDonars(donars);
+        }
+    }, [scholtype, donars]);
+
 
     const Submit = async (e) => {
         e.preventDefault();
@@ -96,7 +150,7 @@ function Status() {
             if (result.data.status === 'not exist') {
                 alert('Student Not Found');
                 setStudent(null);
-                
+
             }
             else {
                 setStudent(result.data);
@@ -159,30 +213,13 @@ function Status() {
         setShowAcceptModal(true);
     };
 
-    const fetchDonars = async () => {
-        try {
-            const response = await axios.get('http://localhost:3001/api/admin/donar');
-            setDonars(response.data);
-        } catch (err) {
-            console.error('Error fetching donors:', err);
-        }
-    };
 
-    const fetchScholtypes = async () => {
-        try {
-            const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
-            setScholtypes(response.data);
-        } catch (err) {
-            console.error('Error fetching scholarship types:', err);
-        }
-    };
-
-    useEffect(() => {
-        if (showAcceptModal) {
-            fetchDonars();
-            fetchScholtypes();
-        }
-    }, [showAcceptModal]);
+    // useEffect(() => {
+    //     if (showAcceptModal) {
+    //         fetchDonars();
+    //         fetchScholtypes();
+    //     }
+    // }, [showAcceptModal]);
 
     const ScholSubmit = async (e) => {
         e.preventDefault();
@@ -445,21 +482,27 @@ function Status() {
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
                             <form onSubmit={SubmitAccept}>
-                                <div className='grid grid-cols-3 w-auto p-4'>
+                                <div className='grid grid-cols-4 w-auto p-4'>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Register No.:</label>{student.registerNo}
+                                        {/* <label className="block mb-1">Register No.:</label> */}
+                                        {student.registerNo}
                                     </div>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Name:</label>{student.name}
+                                        {/* <label className="block mb-1">Name:</label> */}
+                                        {student.name}
                                     </div>
                                     <div className='uppercase'>
-                                        <label className="block mb-1">Department:</label>{student.dept}
+                                        {/* <label className="block mb-1">Department:</label> */}
+                                        {student.dept}
                                     </div>
                                     {/* <div className='uppercase mt-3'>
                                         <label className="block mb-1">Amount: {student.totalScholamt}</label>
                                     </div> */}
+                                    <div className='uppercase'>
+                                        <label className="block mb-1"></label>{student.specialCategory}
+                                    </div>
                                     <div>
-                                        <label className="block mb-1">Scholarship Type</label>
+                                        <label className="block mb-1 mt-10">Scholarship Type</label>
                                         <select
                                             name="ScholarshipCategory"
                                             value={scholtype}
@@ -475,7 +518,7 @@ function Status() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block mb-1">Donar</label>
+                                        <label className="block mb-1 mt-10">Donor</label>
                                         <select
                                             name="ScholarshipCategory"
                                             value={scholdonar}
@@ -483,7 +526,7 @@ function Status() {
                                             className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
                                         >
                                             <option value="">Select Donor</option>
-                                            {Array.isArray(donars) && donars.map((donar) => (
+                                            {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
                                                 <option key={donar._id} value={donar._id}>
                                                     {donar.name}
                                                 </option>
@@ -491,13 +534,16 @@ function Status() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block uppercase">Scholarship Amount:</label>
+                                        <label className="block uppercase mt-10">Scholarship Amount</label>
                                         <input
                                             type="text" name="amount"
                                             className="border p-2 rounded w-48 text-black"
                                             value={scholamt}
                                             onChange={(e) => setScholamt(e.target.value)}
                                         />
+
+                                    </div>
+                                    <div className="block  mt-12">
                                         <button
                                             type="submit"
                                             onClick={ScholSubmit}

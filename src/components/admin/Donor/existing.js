@@ -8,13 +8,14 @@ function Existing() {
     const [mobileNo, setMobileNo] = useState()
     const [did, setDid] = useState('');
     const [pan, setPan] = useState('')
-    // const [emailId, setEmailId] = useState()
+    const [emailId, setEmailId] = useState()
     const [address, setAddress] = useState()
     const [state, setState] = useState()
     const [district, setDistrict] = useState()
     const [pin, setPin] = useState()
     const [scholtype, setScholType] = useState()
     const [amount, setAmount] = useState()
+    const [receipt, setReceipt] = useState()
     const [scholdate, setScholDate] = useState()
     const [balance, setBalance] = useState()
     const [scholtypes, setScholTypes] = useState([]);
@@ -45,33 +46,40 @@ function Existing() {
     }, []);
 
 
-    const fetchPanList = async (e) => {
-        if (e) {
-            e.preventDefault();  // Ensure e is defined before calling preventDefault()
-        }
-
-        try {
-            const response = await axios.get('http://localhost:3001/api/admin/panlist');
-            console.log('Fetched Donors:', response.data); // Debugging log
-            setPanList(response.data);
-        } catch (error) {
-            console.error('Error fetching donors:', error);
-            setPanList([]); // Ensure to handle state appropriately in case of error
-        }
-    };
-
     useEffect(() => {
         fetchPanList();
     }, []);
 
-    const filteredPanList = panList.filter(panItem =>
-        panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const fetchPanList = async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            console.log('Fetched Donors:', response.data);
+            setPanList(response.data);
+        } catch (error) {
+            console.error('Error fetching donors:', error);
+            setPanList([]);
+        }
+    };
+
+    // const filteredPanList = panList.filter(panItem =>
+    //     panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //     panItem.did.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
+    const filteredPanList = panList.filter(panItem => {
+        // Ensure panItem.did is a string before calling toLowerCase
+        const didString = String(panItem.did).toLowerCase();
+        const nameString = String(panItem.name).toLowerCase();
+        const searchTermString = searchTerm.toLowerCase();
+
+        return nameString.includes(searchTermString) || didString.includes(searchTermString);
+    });
 
     const handleSelect = (name, did) => {
         setSearchTerm(name);
-        // setPanSearchTerm(pan);
         setName(name);
         setDid(did);
         setIsDropdownOpen(false);
@@ -104,6 +112,7 @@ function Existing() {
             setPan(result.data.pan);
             setDid(result.data.did);
             setMobileNo(result.data.mobileNo);
+            setEmailId(result.data.emailId)
             setAddress(result.data.address);
             setState(result.data.state);
             setDistrict(result.data.district);
@@ -125,8 +134,8 @@ function Existing() {
                     const acyear = response.data.acyear.acyear;
 
                     axios.post('http://localhost:3001/api/admin/donar', {
-                        name, mobileNo, address, state, district, pin,
-                        scholtype, amount, balance, scholdate, pan, acyear,did
+                        name, mobileNo, address, state, district, pin, emailId,
+                        scholtype, amount, balance, scholdate, pan, acyear, did
                     })
                         .then(result => {
                             console.log(result);
@@ -139,7 +148,7 @@ function Existing() {
                             window.location.reload();
                         });
                 }
-            }) 
+            })
             .catch(error => {
                 console.error('Error fetching current academic year:', error);
                 window.alert('Error fetching current academic year');
@@ -182,7 +191,7 @@ function Existing() {
                         </select> */}
                         <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
                             <div>
-                                <label className="block mb-1">Name</label>
+                                <label className="block mb-1">Name or ID</label>
                                 <input
                                     type="text"
                                     value={searchTerm}
@@ -277,7 +286,18 @@ function Existing() {
                         />
                     </div>
                     <div>
-                        <label className="block mb-1  -ml-12">Date</label>
+                        <label className="block mb-1">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={receipt}
+                            onChange={(e) => setReceipt(e.target.value.toUpperCase())}
+                            className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block mb-1  -ml-12"> Date of Payment</label>
                         <input
                             type="date"
                             name="dob"
@@ -354,18 +374,17 @@ function Existing() {
                                 readOnly
                             />
                         </div>
-                        {/* Email not need
-          <div>
-            <label className="block mb-1">Email Id:</label>
-            <input
-              type="email"
-              name="emailId"
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-              required
-            />
-          </div> */}
+                        <div>
+                            <label className="block mb-1">Email Id:</label>
+                            <input
+                                type="email"
+                                name="emailId"
+                                value={emailId}
+                                onChange={(e) => setEmailId(e.target.value)}
+                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                required
+                            />
+                        </div>
                         <div>
                             <label className="block mb-1">Permanent Address</label>
                             <input

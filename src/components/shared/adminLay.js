@@ -1,48 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import Jmclogo from '../../assets/jmclogo.png'; 
-import Jmc from '../../assets/jmc_whitefont.png';
+import Jmclogo from '../../assets/jmclogo.png';
+// import Jmc from '../../assets/jmc_whitefont.png';
 import axios from 'axios';
 
 function StudentLayout() {
   const navigate = useNavigate();
   const [acyear, setAcYear] = useState('');
-  
+
   const [activeAcYear, setActiveAcYear] = useState('');
   // const [alertMessage, setAlertMessage] = useState('');
 
   const menus = [
-    { icon: 'menu', 
-      name: 'Dashboard', 
-      path: 'dashboard' 
+    {
+      icon: 'menu',
+      name: 'Dashboard',
+      path: 'dashboard'
     },
-    { icon: 'add-circle', 
-      name: 'Donor', 
-      path: '/admin/donormenu' 
+    {
+      icon: 'add-circle',
+      name: 'Donor',
+      path: '/admin/donormenu'
     },
-    { icon: 'add-circle', 
-      name: 'Application', 
+    {
+      icon: 'add-circle',
+      name: 'Application',
       path: '/admin/application'
-     },
-    { icon: 'people', 
-      name: 'Status', 
-      path: '/admin/status' 
     },
-    { icon: 'add-circle', 
-      name: 'Action', 
+    {
+      icon: 'people',
+      name: 'Status',
+      path: '/admin/status'
+    },
+    {
+      icon: 'add-circle',
+      name: 'Action',
       path: '/admin/action'
     },
-    { icon: 'add-circle', 
-      name: 'Distribution Statement', 
+    {
+      icon: 'add-circle',
+      name: 'Distribution Statement',
       path: '/admin/distribution_statement'
     },
-    { icon: 'add-circle', 
-      name: 'Reports', 
-      path: '/admin/report' 
+    {
+      icon: 'add-circle',
+      name: 'Reports',
+      path: '/admin/report'
     },
-    { icon: 'add-circle', 
-      name: 'GuideLines', 
-      path: 'guidelines' 
+    {
+      icon: 'add-circle',
+      name: 'GuideLines',
+      path: '/admin/guidelines'
     },
   ];
 
@@ -96,11 +104,16 @@ function StudentLayout() {
       <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
         <div className='flex flex-col mb-10 place-items-center'>
           <img src={Jmclogo} alt="" className="w-36 h-40" />
-          <img src={Jmc} alt="" className="w-60" />
+          {/* <img src={Jmc} alt="" className="w-60" /> */}
+          <div className='mt-2 text-white'>
+            <span className="text-sm font-extrabold text-center">JAMAL MOHAMED COLLEGE<br /></span>
+            <span className="text-sm font-bold ml-12 text-center">(Autonomous)<br /></span>
+            <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
+          </div>
           <div>
             <form onSubmit={Submit}>
-            <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
-         
+              <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
+
 
               <select
                 name="acyear"
@@ -123,7 +136,7 @@ function StudentLayout() {
                 <option value="2032-2033">2032-2033</option>
               </select>
               <button type='submit' className="p-1 border px-3 ml-3 rounded-md bg-orange-500">Set</button>
-            
+
             </form>
           </div>
         </div>
@@ -132,8 +145,7 @@ function StudentLayout() {
             key={index}
             to={item.path}
             className={({ isActive }) =>
-              `space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50 ${
-                isActive ? 'bg-black rounded-[5px] bg-opacity-50' : ''
+              `space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50 ${isActive ? 'bg-black rounded-[5px] bg-opacity-50' : ''
               }`
             }
           >

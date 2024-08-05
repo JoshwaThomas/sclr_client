@@ -35,6 +35,7 @@ function Action() {
         fatherExpired: false,
         singleparent: false,
     });
+    const [filteredDonars, setFilteredDonars] = useState([]);
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
@@ -71,8 +72,8 @@ function Action() {
 
         let filteredUsers = combinedUsers;
 
-        if (radioValue ===  'all') {
-            
+        if (radioValue === 'all') {
+
             if (acceptreject !== 'allar') {
                 filteredUsers = filteredUsers.filter(user => {
                     const userAction = String(user.action || '').trim();
@@ -140,8 +141,8 @@ function Action() {
         setFilterUsers(filteredUsers);
     };
 
-     // Handle Progress Radio Change
-     const handleProgressRadioChange = (e) => {
+    // Handle Progress Radio Change
+    const handleProgressRadioChange = (e) => {
         const value = e.target.value ? e.target.value.toLowerCase() : '';
         setProgressRadioValue(value);
     };
@@ -195,7 +196,6 @@ function Action() {
         setDept(user.dept);
         setShowModalReject(true);
     }
-
     const fetchDonars = () => {
         return axios.get('http://localhost:3001/api/admin/donar')
             .then(response => response.data)
@@ -207,13 +207,15 @@ function Action() {
 
     const fetchScholtypes = () => {
         return axios.get('http://localhost:3001/api/admin/scholtypes')
-            .then(response => response.data)
+            .then(response => {
+                console.log('Fetched Scholarship Types:', response.data); // Debugging log
+                return response.data;
+            })
             .catch(err => {
                 console.error('Error fetching scholarship types:', err);
                 return [];
             });
     };
-
 
     useEffect(() => {
         if (showModals) {
@@ -228,7 +230,6 @@ function Action() {
 
             fetchScholtypes()
                 .then(data => {
-                    console.log('Fetched Scholarship Types:', data); // Debugging log
                     setScholtypes(data);
                 })
                 .catch(error => {
@@ -237,7 +238,14 @@ function Action() {
         }
     }, [showModals]);
 
-
+    useEffect(() => {
+        if (scholtype) {
+            const filtered = donars.filter(donar => donar.scholtype === scholtype);
+            setFilteredDonars(filtered);
+        } else {
+            setFilteredDonars(donars);
+        }
+    }, [scholtype, donars]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -513,11 +521,11 @@ function Action() {
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
-          style: 'currency',
-          currency: 'INR',
-          minimumFractionDigits: 2,
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
         }).format(amount);
-      };
+    };
 
     if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
@@ -556,22 +564,22 @@ function Action() {
                         value="in-progress"
                         className='scale-200 ml-4'
                         onChange={handleRadioChange}
-                        
-                      
+
+
                     />
                     <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
                 </div>
-                { radioValue === 'all' && (
+                {radioValue === 'all' && (
                     <div className=''>
                         <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
-                        <input
+                            <input
                                 type="radio"
                                 id="all"
                                 name="acceptreject"
                                 value="allar"
                                 className='scale-200 ml-8'
                                 onChange={handleAcceptrejectChange}
-                               
+
                             />
                             <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
                             <input
@@ -596,7 +604,7 @@ function Action() {
                             />
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
                         </div>
-                       
+
                     </div>
 
                 )}
@@ -686,12 +694,12 @@ function Action() {
 
                 )}
 
-               
-                
+
+
 
             </div>
             <div className='mt-6 pl-0'>
-            <div className="text-right font-bold text-xl mr-40 text-white">No of Students:  {filterUsers.length}</div>
+                <div className="text-right font-bold text-xl mr-40 text-white">No of Students:  {filterUsers.length}</div>
                 <div className="grid grid-cols-4 w-auto bg-amber-300">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
@@ -704,7 +712,7 @@ function Action() {
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">
+                        <div className="font-bold border  border-white text-center uppercase py-3">
                             <button
                                 type="button"
                                 onClick={() => handleViewClick(user)}
@@ -724,7 +732,7 @@ function Action() {
                                 type="button"
                                 onClick={() => handleReject(user)}
                                 className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
-                            disabled={user.action !== 0}
+                                disabled={user.action !== 0}
                             >
                                 Reject
                             </button>
@@ -950,6 +958,8 @@ function Action() {
                                     </div>
                                     <div>
                                         <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
+                                        {selectedUser.jamath}
+                                        {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
 
                                     </div>
                                 </div>
@@ -967,7 +977,7 @@ function Action() {
                             <button
                                 onClick={() => handleReject(selectedUser)}
                                 className={`px-4 py-2 ml-2 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
-                            disabled={selectedUser.action !== 0}
+                                disabled={selectedUser.action !== 0}
                             >
                                 Reject
                             </button>
@@ -985,17 +995,20 @@ function Action() {
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-red-300 w-3/4 h-72 text-white rounded-lg overflow-auto p-6">
+                    <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
                         <form onSubmit={Submit}>
-                            <div className='grid grid-cols-3 w-auto p-4'>
-                                <div className='uppercase'>
-                                    <label className="block mb-1">Register No.:</label>{selectedUser.registerNo}
+                            <div className='grid grid-cols-4  mt-10 text-xl w-auto p-4'>
+                                <div className='uppercase font-bold'>
+                                    {/* <label className="block mb-1">Register No.:</label> */}
+                                    {selectedUser.registerNo}
                                 </div>
-                                <div className='uppercase'>
-                                    <label className="block mb-1">Name:</label>{selectedUser.name}
+                                <div className='uppercase font-bold'>
+                                    {/* <label className="block mb-1">Name:</label> */}
+                                    {selectedUser.name}
                                 </div>
-                                <div className='uppercase'>
-                                    <label className="block mb-1">Department:</label>{selectedUser.dept}
+                                <div className='uppercase font-bold'>
+                                    {/* <label className="block mb-1">Department:</label> */}
+                                    {selectedUser.dept}
                                 </div>
                                 {/* <div>
                                     <label className="block mb-1">Scholarship Type</label>
@@ -1032,8 +1045,11 @@ function Action() {
                                         <option value="Others">Others</option>
                                     </select>
                                 </div> */}
+                                <div className='uppercase font-bold'>
+                                    <label className="block mb-1"></label>{selectedUser.specialCategory}
+                                </div>
                                 <div>
-                                    <label className="block mb-1">Scholarship Type</label>
+                                    <label className="block mb-1 mt-10">Scholarship Type</label>
                                     <select
                                         name="ScholarshipCategory"
                                         value={scholtype}
@@ -1049,16 +1065,15 @@ function Action() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block mb-1">Donar</label>
+                                    <label className="block mb-1 mt-10">Donor</label>
                                     <select
                                         name="ScholarshipCategory"
                                         value={scholdonar}
                                         onChange={(e) => setScholdonar(e.target.value)}
                                         className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
-
                                     >
                                         <option value="">Select Donor</option>
-                                        {Array.isArray(donars) && donars.map((donar) => (
+                                        {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
                                             <option key={donar._id} value={donar._id}>
                                                 {donar.name}
                                             </option>
@@ -1066,7 +1081,7 @@ function Action() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block uppercase">Scholarship Amount:</label>
+                                    <label className="block mt-10">Scholarship Amount</label>
                                     <input
                                         type="text" name="amount"
                                         className="border p-2 rounded w-48 text-black"
@@ -1074,6 +1089,8 @@ function Action() {
                                         onChange={(e) => setScholamt(e.target.value)}
 
                                     />
+                                </div>
+                                <div className="block  mt-20">
                                     <button
                                         type="submit"
                                         onClick={ScholSubmit}
@@ -1100,17 +1117,17 @@ function Action() {
                             )}
 
 
-                            <div className="mt-4 flex justify-end">
+                            <div className="mt-7 mr-24 flex justify-end">
 
                                 <button
                                     type="submit"
-                                    className="bg-green-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                    className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-black"
                                 >
                                     Submit
                                 </button>
                                 <button
                                     type="button"
-                                    className="bg-red-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                    className="bg-red-600 text-white py-2 px-5 ml-4 rounded-lg hover:bg-black"
                                     onClick={closeModal}
                                 >
                                     Close
@@ -1126,7 +1143,7 @@ function Action() {
             {
                 showModalReject && selectedUser && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-red-400 w-3/4 h-96 rounded-lg overflow-auto p-6">
+                        <div className="bg-red-400 w-3/4 h-76 rounded-lg overflow-auto p-6">
                             <form onSubmit={submitReject}>
                                 <div className='grid grid-cols-3 w-auto p-4 border border-white gap-1 text-center'>
                                     <div className='uppercase'>

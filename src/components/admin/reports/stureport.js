@@ -8,7 +8,7 @@ function StuReport() {
     const [filterUsers, setFilterUsers] = useState([]);
     const [departments, setDepartments] = useState([]);
     const [radioValue, setRadioValue] = useState('All');
-    const [selectedDepartment, setSelectedDepartment] = useState('');
+    const [selectedDepartment, setSelectedDepartment] = useState('All');
     const [acceptreject, setAcceptreject] = useState('');
     const [specialCategories, setSpecialCategories] = useState({
         muaddin: false,
@@ -22,13 +22,14 @@ function StuReport() {
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-
-        const filteredUsers = users.filter((user) =>
-            user.dept.toLowerCase().includes(searchText) ||
-            user.registerNo.toLowerCase().includes(searchText) ||
-            user.name.toLowerCase().includes(searchText) ||
-            user.fresherOrRenewal.toLowerCase().includes(searchText)
+    
+        const filteredUsers = users.filter((user) => 
+            (user.dept && user.dept.toLowerCase().includes(searchText)) ||
+            (user.registerNo && user.registerNo.toLowerCase().includes(searchText)) ||
+            (user.name && user.name.toLowerCase().includes(searchText)) ||
+            (user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText))
         );
+        
         setFilterUsers(filteredUsers);
     };
 
@@ -37,7 +38,7 @@ function StuReport() {
             setFilterUsers(users);
         } else {
             const filteredUsers = users.filter(user =>
-                user.fresherOrRenewal.toLowerCase() === radioValue.toLowerCase()
+                user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase() === radioValue.toLowerCase()
             );
             setFilterUsers(filteredUsers);
         }
@@ -46,19 +47,7 @@ function StuReport() {
     const handleRadioChange = (e) => {
         setRadioValue(e.target.value);
     };
-    // const handleRadioChangeSPL = (e) => {
-    //     const radioValue = e.target.value.toLowerCase();
-    //     const allUsers = [...users];
-
-    //     if (radioValue === 'all') {
-    //         setFilterUsers(allUsers);
-    //     } else {
-    //         const filteredUsers = allUsers.filter(user =>
-    //             user.specialCategory && user.specialCategory.toLowerCase() === radioValue
-    //         );
-    //         setFilterUsers(filteredUsers);
-    //     }
-    // };
+  
 
     const handleSpecialCategoryChange = (e) => {
         const { name, checked } = e.target;
@@ -119,50 +108,25 @@ function StuReport() {
 
         setFilterUsers(filteredUsers);
     };
-    // useEffect(() => {
-    //     let filteredUsers = users;
-
-    //     // Filter based on selected checkboxes
-    //     if (specialCategories.fatherExpired) {
-    //         filteredUsers = filteredUsers.filter(user =>
-    //             user.specialCategory && user.specialCategory.toLowerCase() === 'father expired'
-    //         );
-    //     }
-    //     if (specialCategories.separated) {
-    //         filteredUsers = filteredUsers.filter(user =>
-    //             user.specialCategory && user.specialCategory.toLowerCase() === 'father & mother separated'
-    //         );
-    //     }
-    //     if (specialCategories.hazrath) {
-    //         filteredUsers = filteredUsers.filter(user =>
-    //             user.specialCategory && user.specialCategory.toLowerCase() === 'hazrath'
-    //         );
-    //     }
-
-    //     setFilterUsers(filteredUsers);
-    // }, [specialCategories, users]);
-
-    // const handleCheckboxChange = (e) => {
-    //     const { name, checked } = e.target;
-    //     setSpecialCategories(prevState => ({
-    //         ...prevState,
-    //         [name]: checked,
-    //     }));
-    // };
-
+    
     //check donardetails
 
     useEffect(() => {
         axios.get('http://localhost:3001/api/admin/studreport')
             .then(response => {
                 setUsers(response.data);
-                setFilterUsers(response.data);
-
+    
                 const uniqueDepartments = Array.from(new Set(response.data.map(user => user.dept)));
                 setDepartments(['All', ...uniqueDepartments]);
+
+                setFilterUsers(response.data);
             })
             .catch(err => console.log(err));
     }, []);
+
+    useEffect(() => {
+        setFilterUsers(users);
+    }, [users]);
 
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -277,7 +241,8 @@ function StuReport() {
                                 value="All"
                                 className='scale-200 ml-8'
                                 onChange={handleRadioChange}
-                                checked={radioValue === 'All'}
+                                // checked={radioValue === 'All'}
+                                defaultChecked
                             />
                             <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 

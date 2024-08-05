@@ -6,33 +6,33 @@ function Status() {
     const [registerNo, setRegisterNo] = useState()
     const [mobileNo, setMobileNo] = useState()
     // const [student, setStudent] = useState(null);
-    
+
     const Submit = async (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3001/api/admin/status", {
-            registerNo, mobileNo
+        axios.get("http://localhost:3001/api/admin/studstatus", {
+            params: { registerNo, mobileNo }
         })
-        .then(res => {
-            console.log("Response from server:", res.data);
-            if (res.data.status === 'exist') {
-                const action = res.data.action;
-                if (action === 1) {
-                   alert("Success")
-                } else if (action === 0) {
-                    alert("not Success")
+            .then(res => {
+                console.log("Response from server:", res.data);
+                if (res.data.success) {
+                    alert(res.data.message);
+                } else {
+                    alert(res.data.message); // Display the message returned from the backend
                 }
-            } else if (res.data.status === 'wrong password') {
-                alert("Wrong Password");
-            } else if (res.data.status === 'not exist') {
-                alert("User does not exist");
-            }
-        })
-        .catch(e => {
-            alert("An error occurred. Please try again.");
-            console.log(e);
-        });
-    }
+            })
+            .catch(e => {
+                alert("An error occurred. Please try again.");
+                console.log(e);
+            });
+    };
 
+    // const handleChange = (e) => {
+    //     const value = e.target.value;
+    //     // Only set the state if the value is empty or a number
+    //     if (value === '' || /^\d+$/.test(value)) {
+    //         setMobileNo(value);
+    //     }
+    // };
 
     return (
         <div>
@@ -58,15 +58,19 @@ function Status() {
                             <div>
                                 <label className="block mb-1">Mobile No:</label>
                                 <input
-                                    type='text'
+                                    type='number'
                                     id='mobileNo'
                                     name='mobileNo'
+                                    inputMode="numeric"
                                     value={mobileNo}
+                                    pattern="\d*"
                                     onChange={(e) => setMobileNo(e.target.value.toUpperCase())}
-                                    className="w-72 p-2 uppercase border rounded-md text-slate-950"
+                                    className="w-72 p-2 uppercase border rounded-md text-slate-950 rem"
                                     required
                                 />
                             </div>
+
+
                         </div>
                         <button
                             type="submit"

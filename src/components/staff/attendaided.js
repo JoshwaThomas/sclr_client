@@ -1,0 +1,179 @@
+import { useEffect, useState } from 'react';
+import axios from "axios";
+
+function Attendaided() {
+    const [users, setUsers] = useState([]);
+    const [prevAttendancetot, setPrevattendancetot] = useState('');
+    const [currAttendancetot, setCurrattendancetot] = useState('');
+    const [classAttendancePer, setClassAttendancePer] = useState({});
+    const [totalwork, setTotalwork] = useState(0);
+    const [totaldata, setTotaldata] = useState(0);
+    // const [classAttendanceRem, setClassAttendanceRem] = useState({});
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const [freshResponse, renewalResponse] = await Promise.all([
+                    axios.get('http://localhost:3001/fresh'),
+                    axios.get('http://localhost:3001/renewal')
+                ]);
+
+                const aided1 = freshResponse.data.filter(user => user.procategory === 'Aided');
+                const aided2 = renewalResponse.data.filter(user => user.procategory === 'Aided');
+
+                const totalaided = aided1.length + aided2.length;
+
+                const freshAided = freshResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
+                const renewalAided = renewalResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
+
+                const totalfilter = freshAided.length + renewalAided;
+                const work = totalaided - totalfilter;
+                setTotalwork(work)
+                setTotaldata(totalaided)
+
+                const combinedUsers = [...freshAided, ...renewalAided];
+                setUsers(combinedUsers);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+    const handleInputChange = (registerNo, type, value) => {
+        setUsers(users.map(user =>
+            user.registerNo === registerNo ? { ...user, [type]: value } : user
+        ));
+    };
+
+    useEffect(() => {
+        const calculatePercentage = () => {
+            const updatedAttendancePer = users.reduce((acc, user) => {
+                const prevAttendance = parseFloat(user.prevAttendance) || 0;
+                const currAttendance = parseFloat(user.currAttendance) || 0;
+                const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
+                const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
+
+                if (totalPrevAttendance + totalCurrAttendance > 0) {
+                    const percentage = ((prevAttendance + currAttendance) /
+                        (totalPrevAttendance + totalCurrAttendance)) * 100;
+                    acc[user.registerNo] = percentage.toFixed(2);
+                } else {
+                    acc[user.registerNo] = '0';
+                }
+                return acc;
+            }, {});
+            setClassAttendancePer(updatedAttendancePer);
+        };
+
+        calculatePercentage();
+    }, [users, prevAttendancetot, currAttendancetot]);
+
+    const updateAttendance = async (e) => {
+        e.preventDefault();
+
+        const updates = {};
+        const remarks = {};
+
+        users.forEach(user => {
+            updates[user.registerNo] = classAttendancePer[user.registerNo];
+            remarks[user.registerNo] = user.classAttendanceRem;
+        });
+
+        try {
+            const response = await axios.put("http://localhost:3001/freshattSfmUpdate", { updates, remarks });
+            if (response.data.success) {
+                window.alert("Updates Submitted Successfully");
+            } else {
+                alert('Something went wrong');
+            }
+        } catch (err) {
+            console.error('Error ', err);
+            window.alert("Something Went Wrong with the server");
+        }
+    };
+
+    return (
+        <div>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Aided Attendance</h3>
+            <div className='flex inline-flex font-bold text-xl text-white '>
+                <div> Total Work: {totaldata}</div>
+                <div className='ml-2'>Total Work Done: {totalwork}</div>
+            </div>
+
+            <div className='flex inline-flex text-white mt-4'>
+                <div className="w-auto ">
+                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <input
+                        type='text'
+                        name='prevAttendancetot'
+                        className="w-16 ml-4 border rounded-md  text-slate-950"
+                        value={prevAttendancetot}
+                        onChange={(e) => setPrevattendancetot(e.target.value)}
+                    />
+                </div>
+                <div className="w-auto  ml-5">
+                    <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <input
+                        type='text'
+                        name='currAttendancetot'
+                        className="w-16 ml-4 border rounded-md  text-slate-950"
+                        value={currAttendancetot}
+                        onChange={(e) => setCurrattendancetot(e.target.value)}
+                    />
+                </div>
+                <div className="text-right font-bold text-xl ml-28 text-white">No of Students:  {users.length}</div>
+            </div>
+            <div className="grid grid-cols-7 w-auto mt-7 bg-amber-300">
+                <div className="font-bold border border-white text-center py-3">Register No.</div>
+                <div className="font-bold border border-white text-center py-3">Name</div>
+                <div className="font-bold border border-white text-center py-3">Department</div>
+                <div className="font-bold border border-white text-center py-3">Previous Sem</div>
+                <div className="font-bold border border-white text-center py-3">Current Sem</div>
+                <div className="font-bold border border-white text-center py-3">Sem Percentage</div>
+                <div className="font-bold border border-white text-center py-3">Remark</div>
+            </div>
+            {users.map((user, index) => (
+                <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-200">
+                    <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">
+                        <input
+                            type='text'
+                            name='prevAttendance'
+                            className="w-14 border rounded-md"
+                            value={user.prevAttendance || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                        />
+                    </div>
+                    <div className="font-bold border border-white text-center py-3">
+                        <input
+                            type='text'
+                            name='currAttendance'
+                            className="w-14  border rounded-md"
+                            value={user.currAttendance || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
+                        />
+                    </div>
+                    <div className="font-bold border border-white text-center py-3">
+                        {classAttendancePer[user.registerNo] || ''}
+                    </div>
+                    <div className="font-bold border border-white text-center py-">
+                        <input
+                            type='textarea'
+                            name='classAttendanceRem'
+                            className="w-full h-full  border rounded-md"
+                            value={user.classAttendanceRem || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
+                        />
+                    </div>
+                </div>
+            ))}
+            <button onClick={updateAttendance} className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4'>Submit</button>
+        </div>
+    );
+}
+
+export default Attendaided;

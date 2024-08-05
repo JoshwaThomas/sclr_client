@@ -13,8 +13,9 @@ const Donar = () => {
   const [district, setDistrict] = useState()
   const [pin, setPin] = useState()
   const [scholtype, setScholType] = useState()
-  // const [scholtypes, setScholTypes] = useState([]);
+  // const [scholtypes, setScholTypes] = useState([]); receipt
   const [amount, setAmount] = useState()
+  const [receipt, setReceipt] = useState()
   const [scholdate, setScholDate] = useState()
   const [balance, setBalance] = useState()
 
@@ -47,7 +48,7 @@ const Donar = () => {
           e.preventDefault();
           axios.post('http://localhost:3001/api/admin/donardata', {
             did, name, mobileNo, address, state, district, pin,
-            scholtype, amount, balance, scholdate, pan, acyear
+            scholtype, amount, balance, scholdate, pan, receipt, acyear
           })
             .then(result => {
               console.log(result);
@@ -55,7 +56,7 @@ const Donar = () => {
                 window.alert("Your Data Submitted Successfully");
               }
               else if (result.data.message === 'Donor Already Existing') {
-                alert("Pan No. Already Existing")
+                alert("Donor ID Already Existing")
               }
               else {
                 alert('Something went worng')
@@ -92,10 +93,12 @@ const Donar = () => {
               onChange={(e) => setDid(e.target.value)}
               className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
               required
+              readOnly
+              disabled
             />
           </div>
           <div>
-            <label className="block mb-1">Pan No</label>
+            <label className="block mb-1">Pan / Aadhar No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type='text'
               name="ScholarshipCategory"
@@ -106,7 +109,7 @@ const Donar = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Scholarship Type</label>
+            <label className="block mb-1">Scholarship Type<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <select
               name="ScholarshipCategory"
               value={scholtype}
@@ -160,7 +163,7 @@ const Donar = () => {
             </select>
           </div> */}
           <div>
-            <label className="block mb-1">Name:</label>
+            <label className="block mb-1">Name<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="text"
               name="name"
@@ -171,7 +174,7 @@ const Donar = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Mobile No.:</label>
+            <label className="block mb-1">Mobile No.<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="text"
               maxlength="10"
@@ -195,7 +198,7 @@ const Donar = () => {
             />
           </div> */}
           <div>
-            <label className="block mb-1">Permanent Address</label>
+            <label className="block mb-1">Permanent Address<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="text"
               name="address"
@@ -207,7 +210,7 @@ const Donar = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">State:</label>
+            <label className="block mb-1">State<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <select
               name="state"
               value={state}
@@ -256,7 +259,7 @@ const Donar = () => {
             </select>
           </div>
           <div>
-            <label className="block mb-1">District:</label>
+            <label className="block mb-1">District<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <select
               name="district"
               value={district}
@@ -306,7 +309,7 @@ const Donar = () => {
             </select>
           </div>
           <div>
-            <label className="block mb-1">Pincode:</label>
+            <label className="block mb-1">Pincode<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="text"
               maxlength="6"
@@ -320,7 +323,7 @@ const Donar = () => {
           </div>
 
           <div>
-            <label className="block mb-1">Amount:</label>
+            <label className="block mb-1">Amount<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="text"
               maxlength="10"
@@ -332,7 +335,18 @@ const Donar = () => {
             />
           </div>
           <div>
-            <label className="block mb-1">Date</label>
+            <label className="block mb-1">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+            <input
+              type="text"
+              name="name"
+              value={receipt}
+              onChange={(e) => setReceipt(e.target.value.toUpperCase())}
+              className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+              required
+            />
+          </div>
+          <div>
+            <label className="block mb-1"> Date of Payment<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
             <input
               type="date"
               name="dob"
