@@ -10,7 +10,9 @@ import Guide from './components/students/Guide';
 import Login from './components/login/login';
 import Admin from './/components/shared/adminLay';
 import Status from './components/students/status';
-import Action from './components/admin/staffmang';
+import Action from './components/admin/setting';
+import Accyear from './components/admin/Setting/accyearset';
+import Staffmang from './components/admin/Setting/staffmaint'; 
 import Report from './components/admin/report';
 import Stureport from './components/admin/reports/stureport';
 import Catreport from './components/admin/reports/studaward';
@@ -32,6 +34,7 @@ import AttendSfw from './components/staff/attendsfw';
 import Deeniyath from './components/staff/deeniyath';
 import Moral from './components/staff/moral';
 import Coe from './components/staff/coe';
+import Staffset from './components/staff/pasw';
 import Allreport from './components/admin/reports/allreport';
 import GuideLine from './components/admin/guide';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -58,6 +61,8 @@ function App() {
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='/admin/application' element={<AdminApplication />} />
               <Route path='/admin/action' element={<Action />} />
+              <Route path='/admin/setting/accyears' element={<Accyear />} />
+              <Route path='/admin/setting/staffmang' element={<Staffmang />} />
               <Route path='/admin/report' element={<Report />} />
               <Route path='/admin/donormenu' element={<DonorMenu />} />
               <Route path='/admin/donor' element={<DonorForm />} />
@@ -82,6 +87,7 @@ function App() {
               <Route path='deeniyath' element={ <Deeniyath />} /> 
               <Route path='moral' element={< Moral />} />
               <Route path='coe' element={< Coe />} />
+              <Route path='settingstaff' element={<Staffset />} />
             </Route> 
 
         </Routes>

@@ -6,8 +6,7 @@ import axios from 'axios';
 
 function StudentLayout() {
   const navigate = useNavigate();
-  const [acyear, setAcYear] = useState('');
-
+  // const [acyear, setAcYear] = useState('');
   const [activeAcYear, setActiveAcYear] = useState('');
   // const [alertMessage, setAlertMessage] = useState('');
 
@@ -34,7 +33,7 @@ function StudentLayout() {
     },
     {
       icon: 'add-circle',
-      name: 'Action',
+      name: 'Settings',
       path: '/admin/action'
     },
     {
@@ -85,19 +84,19 @@ function StudentLayout() {
       });
   };
 
-  const Submit = (e) => {
-    e.preventDefault();
-    axios.post("http://localhost:3001/api/admin/acyear", { acyear })
-      .then(result => {
-        alert('Academic year set to active successfully.');
-        fetchActiveAcademicYear(); // Update active academic year after setting
-        window.location.reload();
-      })
-      .catch(err => {
-        console.log(err);
-        alert('Something Went Wrong');
-      });
-  };
+  // const Submit = (e) => {
+  //   e.preventDefault();
+  //   axios.post("http://localhost:3001/api/admin/acyear", { acyear })
+  //     .then(result => {
+  //       alert('Academic year set to active successfully.');
+  //       fetchActiveAcademicYear(); // Update active academic year after setting
+  //       window.location.reload();
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       alert('Something Went Wrong');
+  //     });
+  // };
 
   return (
     <div className="flex flex-row bg-slate-500 h-screen w-screen ">
@@ -111,7 +110,8 @@ function StudentLayout() {
             <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
           </div>
           <div>
-            <form onSubmit={Submit}>
+          <label className="block mb-1 flex inline-flex font-bold text-white ml-10">Academic: {activeAcYear}</label>
+            {/* <form onSubmit={Submit}>
               <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
 
 
@@ -137,7 +137,7 @@ function StudentLayout() {
               </select>
               <button type='submit' className="p-1 border px-3 ml-3 rounded-md bg-orange-500">Set</button>
 
-            </form>
+            </form> */}
           </div>
         </div>
         {menus.map((item, index) => (
