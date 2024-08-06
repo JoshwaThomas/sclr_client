@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 // import Stud from '../../assets/stud.mp4';
 import Stud1 from '../../assets/stud1.gif'
 
+
 function LandingPage() {
   const navigate = useNavigate();
 
