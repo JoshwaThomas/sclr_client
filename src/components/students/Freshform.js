@@ -523,9 +523,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="hostelYes"
                     name="hostel"
-                    value="yes"
+                    value="YES"
                     className=' scale-200'
-                    checked={hostel === 'yes'}
+                    checked={hostel === 'YES'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
                   />
@@ -536,9 +536,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="hostelNo"
                     name="hostel"
-                    value="no"
+                    value="NO"
                     className=' scale-200'
-                    checked={hostel === 'no'}
+                    checked={hostel === 'NO'}
                     onChange={(e) => setHostel(e.target.value)}
                     required
                   />
@@ -647,7 +647,26 @@ const ScholarshipForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
 
             <div>
-              <label className="block mb-1">Religion:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1">Special Category:</label>
+              <select
+                name="specialCategory"
+                value={specialCategory}
+                onChange={(e) => setSpecialCategory(e.target.value)}
+                className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+              >
+                <option value="">Select</option>
+                <option value="None">None</option>
+                <option value="Muaddin">Mu-addin</option>
+                <option value="Hazrath">Hazrath</option>
+                <option value="FatherMotherSeparated">Father & Mother Separated</option>
+                <option value="FatherExpired">Father Expired</option>
+                <option value="Singleparent">Single Parent</option>
+                <option value="Orphan">Orphan</option>
+              </select>
+            </div>
+            <div>
+              <label className="block mb-1">Religion:</label>
               <select
                 name="religion"
                 value={religion}
@@ -1275,7 +1294,26 @@ const ScholarshipForm = () => {
               <p className="mb-4">Please fill all the Details</p>
               <button onClick={closePopup} className="bg-blue-500 text-white py-2 px-4 rounded-md">Close</button>
             </div>
-          </div>
+
+            <div class="border border-gray-500 mt-3"></div>
+            <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
+            <div className="text-center">
+              <div>Class Teacher</div>
+              </div>
+              <div className="text-center">
+              <div>HOD / MID</div>
+              </div>
+              <div className="mb-3 text-center">
+              <div>Deputy Warden-Hostel</div>
+              </div>
+             <div className="mb-3 text-center">
+            <div>Register of Attendance</div>
+            </div>
+            <div className="mb-3 text-center">
+            <div>Coordinator-Deeniyath / Moral</div>
+           </div>
+            </div>
+            </div>
         )}
 
         {
