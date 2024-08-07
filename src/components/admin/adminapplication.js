@@ -36,6 +36,7 @@ function Action() {
         singleparent: false,
     });
     const [filteredDonars, setFilteredDonars] = useState([]);
+    const [zakkath, setZakkath] = useState(false);
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
@@ -171,8 +172,6 @@ function Action() {
     // };
 
 
-
-
     const handleViewClick = (user) => {
         setSelectedUser(user);
         setShowModal(true);
@@ -196,6 +195,8 @@ function Action() {
         setDept(user.dept);
         setShowModalReject(true);
     }
+
+
     const fetchDonars = () => {
         return axios.get('http://localhost:3001/api/admin/donar')
             .then(response => response.data)
@@ -239,13 +240,33 @@ function Action() {
     }, [showModals]);
 
     useEffect(() => {
-        if (scholtype) {
-            const filtered = donars.filter(donar => donar.scholtype === scholtype);
-            setFilteredDonars(filtered);
-        } else {
-            setFilteredDonars(donars);
+        let filtered = Array.isArray(donars) ? donars : [];
+        if (zakkath) {
+            filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype);
+            console.log('Zakkath list:', filtered);
         }
-    }, [scholtype, donars]);
+        if (scholtype) {
+            filtered = filtered.filter(donar => donar.scholtype === scholtype);
+        }
+
+        setFilteredDonars(filtered);
+    }, [scholtype, zakkath, donars]);
+
+    // useEffect(() => {
+    //     if (scholtype) {
+    //         const filtered = donars.filter(donar => donar.scholtype === scholtype);
+    //         setFilteredDonars(filtered);
+    //     } 
+    //     if (zakkath) {
+    //         const filtered = donars.filter(donar => donar.zakkathamt);
+    //         setFilteredDonars(filtered);
+    //     }    
+
+    //     else {
+    //         setFilteredDonars(donars);
+    //     }
+    // }, [scholtype, donars, zakkath]);
+
 
     const closeModal = () => {
         setShowModal(false);
@@ -384,9 +405,12 @@ function Action() {
                 if (response.data.success) {
                     const acyear = response.data.acyear.acyear;
 
+                    const balanceField = zakkath ? 'zakkathbal' : 'balance';
+
                     // Check the donor details and balance amount before saving to freshamt
                     axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
-                        amount: scholamt
+                        amount: scholamt,
+                        balanceField: balanceField
                     })
                         .then(result => {
                             console.log(result);
@@ -405,17 +429,7 @@ function Action() {
                             console.log(result);
 
                         })
-                        // .then(result => {
-                        //     console.log(result);
-                        //     // Update the action value in the applicant model
-                        //     return axios.post('http://localhost:3001/api/admin/action', {
-                        //         registerNo
-                        //     });
-                        // })
-                        // .then(result => {
-                        //     console.log(result);
-                        //     window.location.reload();
-                        // })
+
                         .catch(err => {
                             console.log(err);
                             if (err.response && err.response.status === 400) {
@@ -427,7 +441,7 @@ function Action() {
                             } else {
                                 window.alert("I am Dull Try Later");
                             }
-                            // window.location.reload();
+
                         });
                 }
                 else {
@@ -996,8 +1010,8 @@ function Action() {
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
-                        <form onSubmit={Submit}>
-                            <div className='grid grid-cols-4  mt-10 text-xl w-auto p-4'>
+                        <form onSubmit={Submit} className='border border-white gap-1'>
+                            <div className='grid grid-cols-4     mt-10 text-xl w-auto p-4'>
                                 <div className='uppercase font-bold'>
                                     {/* <label className="block mb-1">Register No.:</label> */}
                                     {selectedUser.registerNo}
@@ -1010,43 +1024,20 @@ function Action() {
                                     {/* <label className="block mb-1">Department:</label> */}
                                     {selectedUser.dept}
                                 </div>
-                                {/* <div>
-                                    <label className="block mb-1">Scholarship Type</label>
-                                    <select
-                                        name="ScholarshipCategory"
-                                        value={scholtype}
-                                        onChange={(e) => setScholType(e.target.value)}
-                                        className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
 
-                                    >
-                                        <option value="">Select</option>
-                                        <option value="Endowment">Endowment</option>
-                                        <option value="JMC Staff">JMC Staff</option>
-                                        <option value="Alumni">Alumni</option>
-                                        <option value="Well Wishers">Well Wishers</option>
-                                        <option value="Singapore Chapter">Singapore Chapter</option>
-                                        <option value="Trichy Chapter">Trichy Chapter</option>
-                                        <option value="Chennai Chapter">Chennai Chapter</option>
-                                        <option value="Kerala Chapter">Kerala Chapter</option>
-                                        <option value="Kuwait Chapter">Kuwait Chapter</option>
-                                        <option value="Jeddah Chapter">Jeddah Chapter</option>
-                                        <option value="Koothanallur Chapter">Koothanallur Chapter</option>
-                                        <option value="USA Chapter">USA Chapter</option>
-                                        <option value="Burnei Chapter">Burnei Chapter</option>
-                                        <option value="Riyadh Chapter">Riyadh Chapter</option>
-                                        <option value="Malaysia Chapter">Malaysia Chapter</option>
-                                        <option value="Tenkasi Chapter">Tenkasi Chapter</option>
-                                        <option value="UK Chapter">UK Chapter</option>
-                                        <option value="Kongu Nadu Chapter">Kongu Nadu Chapter</option>
-                                        <option value="Bahrain Chapter">Bahrain Chapter</option>
-                                        <option value="Bengaluru Chapter">Bengaluru Chapter</option>
-                                        <option value="UAE Chapter">UAE Chapter</option>
-                                        <option value="Qatar Chapter">Qatar Chapter</option>
-                                        <option value="Others">Others</option>
-                                    </select>
-                                </div> */}
                                 <div className='uppercase font-bold'>
                                     <label className="block mb-1"></label>{selectedUser.specialCategory}
+                                </div>
+                                <div className=' flex inline-flex'>
+                                    <input
+                                        type="checkbox"
+                                        name="zakkath"
+                                        id="zakkath"
+                                        checked={zakkath}
+                                        onChange={(e) => setZakkath(e.target.checked)}
+                                        className=" scale-200"
+                                    />
+                                    <label htmlFor="zakkath" className=" ml-3 mt-11 font-bold ">Zakkath</label>
                                 </div>
                                 <div>
                                     <label className="block mb-1 mt-10">Scholarship Type</label>
@@ -1090,17 +1081,18 @@ function Action() {
 
                                     />
                                 </div>
-                                <div className="block  mt-20">
+                                </div>
+                                <div className="block relative">
                                     <button
                                         type="submit"
                                         onClick={ScholSubmit}
-                                        className="bg-sky-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                        className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
                                     >
                                         Confirm
                                     </button>
                                 </div>
 
-                            </div>
+                            
                             {submittedData.length > 0 && (
                                 <div>
 
@@ -1108,7 +1100,6 @@ function Action() {
                                         <div key={index} className=' grid grid-cols-4'>
                                             <div className=''> {index + 1}:</div>
                                             <div className=' w-auto '>  {submission.scholtype}</div>
-                                            {/* <div className=' w-60 '> {submission.scholdonar}</div> */}
                                             <div className=' w-auto '>  {submission.scholamt}</div>
 
                                         </div>
@@ -1117,17 +1108,17 @@ function Action() {
                             )}
 
 
-                            <div className="mt-7 mr-24 flex justify-end">
+                            <div className="mt-32 mr-12 mb-5 flex justify-end">
 
                                 <button
                                     type="submit"
-                                    className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-black"
+                                    className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
                                 >
                                     Submit
                                 </button>
                                 <button
                                     type="button"
-                                    className="bg-red-600 text-white py-2 px-5 ml-4 rounded-lg hover:bg-black"
+                                    className="bg-red-600 text-white py-2 px-6 text-lg ml-4 rounded-lg hover:bg-black"
                                     onClick={closeModal}
                                 >
                                     Close
@@ -1143,27 +1134,44 @@ function Action() {
             {
                 showModalReject && selectedUser && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-red-400 w-3/4 h-76 rounded-lg overflow-auto p-6">
-                            <form onSubmit={submitReject}>
-                                <div className='grid grid-cols-3 w-auto p-4 border border-white gap-1 text-center'>
-                                    <div className='uppercase'>
-                                        <label className="block mb-1">Register No.:</label>{selectedUser.registerNo}
+                        <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
+                            <form onSubmit={submitReject} className='border border-white gap-1 h-3/4 mt-12'>
+                                <div className='grid grid-cols-4 w-auto p-4 text-xl text-center'>
+                                    <div className='uppercase font-bold'>
+                                        {/* <label className="block mb-1">Register No.:</label> */}
+                                        {selectedUser.registerNo}
                                     </div>
-                                    <div className='uppercase'>
-                                        <label className="block mb-1">Name:</label>{selectedUser.name}
+                                    <div className='uppercase font-bold'>
+                                        {/* <label className="block mb-1">Name:</label> */}
+                                        {selectedUser.name}
                                     </div>
-                                    <div className='uppercase'>
-                                        <label className="block mb-1">Department:</label>{selectedUser.dept}
+                                    <div className='uppercase font-bold'>
+                                        {/* <label className="block mb-1">Department:</label> */}
+                                        {selectedUser.dept}
                                     </div>
-                                    <div>
+                                    <div className='uppercase font-bold'>
+                                        <label className="block mb-1"></label>{selectedUser.specialCategory}
+                                    </div>
+                                    <div className='ml-10 mt-10 font-bold'>
                                         <label>Reason</label>
-                                        <input
-                                            type='text'
+
+                                        <select
+                                            name="ScholarshipCategory"
                                             value={reason}
                                             onChange={(e) => setReason(e.target.value)}
-                                        />
-                                    </div>
+                                            className="ml-3 mt-10 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                            required
+                                        >
+                                            <option value="">Select</option>
+                                            <option value="Reason1">Reason1</option>
+                                            <option value="Reason2">Reason2</option>
+                                            <option value="Reason3">Reason3</option>
 
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
                                     <div className="mt-4 flex justify-end">
                                         <button
                                             type="submit"
@@ -1174,7 +1182,7 @@ function Action() {
 
                                         <button
                                             type="button"
-                                            className="bg-red-500 text-white py-1 px-4 ml-4 rounded-lg hover:bg-black"
+                                            className=" bg-red-600 text-white py-2 px-5 ml-4 rounded-lg hover:bg-black"
                                             onClick={closeModal}
                                         >
                                             Close

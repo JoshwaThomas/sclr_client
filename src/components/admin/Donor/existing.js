@@ -24,6 +24,27 @@ function Existing() {
     // const [panSearchTerm, setPanSearchTerm] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [zakkath, setZakkath] = useState(false);
+    const [zakkathamt, setZakkathamt] = useState('');
+    const [zakkathbal, setZakkathbal] = useState();
+  
+    const handleCheckboxChange = () => {
+      setZakkath(!zakkath);
+      if (!zakkath) {
+        setZakkathamt(amount);
+        setAmount('');
+      } else {
+        setAmount(zakkathamt);
+        setZakkathamt('');
+      }
+    };
+  
+  
+    useEffect(() => {
+      setBalance(amount);
+      setZakkathbal(zakkathamt);
+    }, [amount, zakkathamt]);
+  
 
 
     useEffect(() => {
@@ -103,58 +124,115 @@ function Existing() {
     // };
 
 
+    // const handleData = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const result = await axios.get(`http://localhost:3001/api/admin/donor/${name}`);
+    //         setDonar(result.data);
+    //         setName(result.data.name);
+    //         setPan(result.data.pan);
+    //         setDid(result.data.did);
+    //         setMobileNo(result.data.mobileNo);
+    //         setEmailId(result.data.emailId)
+    //         setAddress(result.data.address);
+    //         setState(result.data.state);
+    //         setDistrict(result.data.district);
+    //         setPin(result.data.pin);
+    //         setScholType(result.data.scholtype);
+
+    //     } catch (err) {
+    //         setDonar(null);
+    //         alert('Donor Data not found');
+    //     }
+    // }
+
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get(`http://localhost:3001/api/admin/donor/${name}`);
+            const result = await axios.get(`http://localhost:3001/api/admin/donor/${did}`);
             setDonar(result.data);
-            setName(result.data.name);
-            setPan(result.data.pan);
-            setDid(result.data.did);
-            setMobileNo(result.data.mobileNo);
-            setEmailId(result.data.emailId)
-            setAddress(result.data.address);
-            setState(result.data.state);
-            setDistrict(result.data.district);
-            setPin(result.data.pin);
-            setScholType(result.data.scholtype);
-
+            setName(result.data.name || '');
+            setPan(result.data.pan || '');
+            setDid(result.data.did || '');
+            setMobileNo(result.data.mobileNo || '');
+            setEmailId(result.data.emailId || '');
+            setAddress(result.data.address || '');
+            setState(result.data.state || '');
+            setDistrict(result.data.district || '');
+            setPin(result.data.pin || '');
+            setScholType(result.data.scholtype || '');
+            setBalance(result.data.balance || '');
+            setZakkathbal(result.data.zakkathbal || '');
         } catch (err) {
             setDonar(null);
             alert('Donor Data not found');
         }
-    }
+    };
 
-    const Submit = (e) => {
+    // const Submit = (e) => {
 
+    //     e.preventDefault();
+    //     axios.get('http://localhost:3001/api/admin/current-acyear')
+    //         .then(response => {
+    //             if (response.data.success) {
+    //                 const acyear = response.data.acyear.acyear;
+
+    //                 axios.post('http://localhost:3001/api/admin/donar', {
+    //                     name, mobileNo, address, state, district, pin, emailId,
+    //                     scholtype, amount, balance, scholdate, pan, acyear, did, zakkathamt, zakkathbal
+    //                 })
+    //                     .then(result => {
+    //                         console.log(result);
+    //                         window.alert("Your Application Updated Successfully");
+    //                         // window.location.reload();
+    //                     })
+    //                     .catch(err => {
+    //                         console.log(err);
+    //                         window.alert("Submission failed!");
+    //                         // window.location.reload();
+    //                     });
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching current academic year:', error);
+    //             window.alert('Error fetching current academic year');
+    //         });
+    // }
+
+    const Submit = async (e) => {
         e.preventDefault();
-        axios.get('http://localhost:3001/api/admin/current-acyear')
-            .then(response => {
-                if (response.data.success) {
-                    const acyear = response.data.acyear.acyear;
-
-                    axios.post('http://localhost:3001/api/admin/donar', {
-                        name, mobileNo, address, state, district, pin, emailId,
-                        scholtype, amount, balance, scholdate, pan, acyear, did
-                    })
-                        .then(result => {
-                            console.log(result);
-                            window.alert("Your Application Updated Successfully");
-                            window.location.reload();
-                        })
-                        .catch(err => {
-                            console.log(err);
-                            window.alert("Submission failed!");
-                            window.location.reload();
-                        });
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching current academic year:', error);
-                window.alert('Error fetching current academic year');
-            });
-    }
-
+        try {
+            const response = await axios.get('http://localhost:3001/api/admin/current-acyear');
+            if (response.data.success) {
+                const acyear = response.data.acyear.acyear;
+                const postData = {
+                    name,
+                    mobileNo,
+                    address,
+                    state,
+                    district,
+                    pin,
+                    emailId,
+                    scholtype,
+                    scholdate,
+                    pan,
+                    acyear,
+                    receipt,
+                    did,
+                    ...(amount && { amount }),
+                    ...(balance && { balance }),
+                    ...(zakkathamt && { zakkathamt }),
+                    ...(zakkathbal && { zakkathbal })
+                };
+                const result = await axios.post('http://localhost:3001/api/admin/donar', postData);
+                console.log(result);
+                window.alert("Your Application Updated Successfully");
+            }
+        } catch (err) {
+            console.error(err);
+            window.alert("Submission failed!");
+        }
+    };
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">EXISTING DONOR DETAILS</h3>
@@ -274,14 +352,27 @@ function Existing() {
                     <div>
 
                     </div>
+                    <div className='flex inline-flex mt-10'>
+                        <input
+                            type="checkbox"
+                            name="zakkath"
+                            checked={zakkath}
+                            onChange={handleCheckboxChange}
+                            className="ml-2 scale-200"
+                        />
+                        <label className="block mt-2 ml-3 font-bold ">Zakkath</label>
+                    </div>
                     <div>
-                        <label className="block mb-1 -ml-24 ">Amount:</label>
+                        <label className="block mb-1 mt-2">
+                            Amount<span className="text-red-500 text-lg"><sup>*</sup></span>
+                        </label>
                         <input
                             type="text"
-                            name="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
-                            className="w-72 p-2 border  rounded-md text-slate-950 -ml-24 lg:w-48"
+                            maxLength="10"
+                            name={zakkath ? "zakkathamt" : "amount"}
+                            value={zakkath ? zakkathamt : amount}
+                            onChange={(e) => zakkath ? setZakkathamt(e.target.value) : setAmount(e.target.value)}
+                            className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                             required
                         />
                     </div>
@@ -297,7 +388,7 @@ function Existing() {
                         />
                     </div>
                     <div>
-                        <label className="block mb-1  -ml-12"> Date of Payment</label>
+                        <label className="block mb-1  "> Date of Payment</label>
                         <input
                             type="date"
                             name="dob"
@@ -351,7 +442,7 @@ function Existing() {
                             />
                         </div>
                         <div>
-                            <label className="block mb-1">PAN No.:</label>
+                            <label className="block mb-1">PAN / Aadhar:</label>
                             <input
                                 type="text"
                                 maxLength="10"

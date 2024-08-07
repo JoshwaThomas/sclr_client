@@ -51,7 +51,7 @@ const ScholarshipForm = () => {
   // const [maxMark, setMaxMark] = useState()
   // const [mark, setMark] = useState()
   // const [semPercentage, setSemPercentage] = useState()
-  const [arrear, setArrear] = useState('')
+  // const [arrear, setArrear] = useState('')
   const [password, setPassword] = useState({ pass: '', conpass: '' })
   const [isConpassTyped, setIsConpassTyped] = useState(false);
   const [error, setError] = useState('');
@@ -173,7 +173,7 @@ const ScholarshipForm = () => {
           axios.post("http://localhost:3001/fresh", {
             deeniyath, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory, aadhar,
             hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
-            yearOfPassing, percentageOfMarkSchool, siblings, siblingsNo, siblingsOccupation, siblingsIncome, acyear, arrear, jamath
+            yearOfPassing, percentageOfMarkSchool, siblings, siblingsNo, siblingsOccupation, siblingsIncome, acyear, jamath, password
           })
             .then(result => {
               if (result.data.success) {
@@ -819,7 +819,7 @@ const ScholarshipForm = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1 ">Siblings AnnualIncome</label>
+                  <label className="block mb-1 ">Siblings Annual Income</label>
                   <input
                     type="text"
                     name="siblingsNo"
@@ -1130,7 +1130,7 @@ const ScholarshipForm = () => {
 
                   />
                 </div> */}
-                <div>
+                {/* <div>
                   <label className="block mb-1">Do you have arrear? (fill No. of Papers, If no arrear enter '0'):<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                   <input
                     type="text"
@@ -1140,7 +1140,7 @@ const ScholarshipForm = () => {
                     className="w-72  p-2 border rounded-md text-slate-950"
                     required
                   />
-                </div>
+                </div> */}
                 <div>
                   <label className="block mb-1 w-auto ml-32">Jamath Letter:</label>
                   <input

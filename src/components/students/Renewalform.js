@@ -42,7 +42,7 @@ const ScholarshipForm = () => {
   // const [classMaxAttendance, setClassMaxAttendance] = useState('')
   // const [deeniyathMaxDays, setDeeniyathMaxDays] = useState('')
   const [lastCreditedAmt, setLastCreditedAmt] = useState('')
-  const [arrear, setArrear] = useState('')
+  // const [arrear, setArrear] = useState('')
   const [siblings, setSiblings] = useState('')
   const [siblingsNo, setSiblingsNo] = useState()
   const [siblingsOccupation, setSiblingsOccupation] = useState()
@@ -160,7 +160,7 @@ const ScholarshipForm = () => {
           axios.post("http://localhost:3001/renewal", {
             fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
             community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome,
-             arrear, lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome, 
+              lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome, 
             })
             .then(result => {
               if (result.data.success) {
@@ -195,7 +195,7 @@ const ScholarshipForm = () => {
     // Here you can send the formData to the server or perform other actions
     const newData = {
       ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, arrear,
+      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, 
       lastCreditedAmt, aadhar
     };
     setPrintData([...printData, newData]);
@@ -894,7 +894,7 @@ const ScholarshipForm = () => {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="block mb-1">No of Arrear<span className=' text-red-500 text-lg'><sup>*</sup></span>:</label>
                 <input
                   type="text"
@@ -904,7 +904,7 @@ const ScholarshipForm = () => {
                   className="w-44  p-2 border rounded-md text-slate-950"
                   required
                 />
-              </div>
+              </div> */}
 
               </div>
             </div>

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import PrintHeader from '../../../assets/printHeader.jpg';
 
 const Donar = () => {
   const [name, setName] = useState()
   const [mobileNo, setMobileNo] = useState()
   const [did, setDid] = useState();
   const [pan, setPan] = useState()
-  // const [emailId, setEmailId] = useState()
+  const [emailId, setEmailId] = useState()
   const [address, setAddress] = useState()
   const [state, setState] = useState()
   const [district, setDistrict] = useState()
@@ -20,10 +20,29 @@ const Donar = () => {
   const [balance, setBalance] = useState()
   const [donordept, setDonordept] = useState()
   const [donorbatch, setDonorbatch] = useState()
+  const [zakkath, setZakkath] = useState(false);
+
+  const [zakkathamt, setZakkathamt] = useState('');
+  const [zakkathbal, setZakkathbal] = useState();
+  const [isPrint, setPrint] = useState(false)
+  const [printData, setPrintData] = useState([]);
+
+  const handleCheckboxChange = () => {
+    setZakkath(!zakkath);
+    if (!zakkath) {
+      setZakkathamt(amount);
+      setAmount('');
+    } else {
+      setAmount(zakkathamt);
+      setZakkathamt('');
+    }
+  };
+
 
   useEffect(() => {
     setBalance(amount);
-  }, [amount]);
+    setZakkathbal(zakkathamt);
+  }, [amount, zakkathamt]);
 
   useEffect(() => {
     const fetchLastDonorId = async () => {
@@ -40,6 +59,15 @@ const Donar = () => {
   }, []);
 
 
+  const handlePrint = (e) => {
+    const printContent = document.getElementById('print-section').innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    document.body.innerHTML = printContent;
+    window.print();
+    document.body.innerHTML = originalContent;
+    // window.location.reload();
+  }
 
   const Submit = (e) => {
     axios.get('http://localhost:3001/api/admin/current-acyear')
@@ -49,13 +77,35 @@ const Donar = () => {
 
           e.preventDefault();
           axios.post('http://localhost:3001/api/admin/donardata', {
-            did, name, mobileNo, address, state, district, pin,
-            scholtype, amount, balance, scholdate, pan, receipt, acyear, donordept, donorbatch
+            did, name, mobileNo, address, state, district, pin, emailId,
+            scholtype, amount, balance, scholdate, pan, receipt, acyear, donordept, donorbatch, zakkathamt, zakkathbal
           })
             .then(result => {
               console.log(result);
               if (result.data.success) {
                 window.alert("Your Data Submitted Successfully");
+                setPrint(true);
+
+                const newData = {
+                  name, address, district, state, pin, pan,
+                  mobileNo, emailId, amount, scholdate, donordept, donorbatch, zakkathamt
+                };
+                setPrintData([...printData, newData]);
+                setName('');
+                setDonordept('');
+                setDonorbatch('');
+                setZakkathamt('');
+                setScholDate('');
+                setAmount('');
+                setEmailId('');
+                setAddress('');
+                setDistrict('');
+                setState('');
+                setPin('');
+                setPan('');
+                setMobileNo('');
+            
+
               }
               else if (result.data.message === 'Donor Already Existing') {
                 alert("Donor ID Already Existing")
@@ -64,12 +114,11 @@ const Donar = () => {
                 alert('Something went worng')
               }
 
-              window.location.reload();
             })
             .catch(err => {
               console.log(err);
               window.alert("Submission failed!");
-              window.location.reload();
+              // window.location.reload();
             });
         }
       })
@@ -77,6 +126,8 @@ const Donar = () => {
         console.error('Error fetching current academic year:', error);
         window.alert('Error fetching current academic year');
       });
+
+   
   }
 
 
@@ -85,7 +136,7 @@ const Donar = () => {
     <div>
       <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">NEW DONOR </h3>
       <form onSubmit={Submit} >
-        <div className=" border p-10 rounded-xl">
+        <div className=" border p-10 rounded-xl text-lg">
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <div>
               <label className="block mb-1">Donor ID</label>
@@ -99,17 +150,9 @@ const Donar = () => {
                 readOnly
               />
             </div>
-            <div>
-              <label className="block mb-1">Pan / Aadhar No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
-              <input
-                type='text'
-                name="ScholarshipCategory"
-                value={pan}
-                onChange={(e) => setPan(e.target.value.toUpperCase())}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+            <div></div>
+            <div></div>
 
-              />
-            </div>
             <div>
               <label className="block mb-1">Scholarship Type<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <select
@@ -148,6 +191,40 @@ const Donar = () => {
 
               </select>
             </div>
+            {scholtype === 'Alumni' && (
+              <div className=' grid grid-cols-3 gap-4'>
+                <div>
+                  <label className="block mb-1 w-80">
+                    Programme: <span className='text-red-500  text-lg'><sup>*</sup></span>
+                  </label>
+                  <input
+                    type='text'
+                    name='donordept'
+                    value={donordept}
+                    onChange={(e) => setDonordept(e.target.value)}
+                    className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
+                    required
+                  />
+                </div>
+                <div></div>
+                <div>
+                  <label className="block mb-1 w-80 ml-24">
+                    Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
+                  </label>
+                  <input
+                    type='text'
+                    name='donorbatch'
+                    value={donorbatch}
+                    onChange={(e) => setDonorbatch(e.target.value)}
+                    className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
+                    required
+                  />
+                </div>
+                <div>
+                </div>
+
+              </div>
+            )}
           </div>
           {/* <div>
             <label className="block mb-1">Scholarship Type</label>
@@ -166,39 +243,7 @@ const Donar = () => {
             </select>
           </div> */}
           {/* if alumni show the details */}
-          {scholtype === 'Alumni' && (
-            <div className="grid grid-cols-1 md:grid-cols-3 ">
-              <div>
-                <label className="block mb-1">
-                  Programme: <span className='text-red-500 text-lg'><sup>*</sup></span>
-                </label>
-                <input
-                  type='text'
-                  name='donordept'
-                  value={donordept}
-                  onChange={(e) => setDonordept(e.target.value)}
-                  className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1  w-72 ">
-                  Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
-                </label>
-                <input
-                  type='text'
-                  name='donorbatch'
-                  value={donorbatch}
-                  onChange={(e) => setDonorbatch(e.target.value)}
-                  className="w-72  p-2 border rounded-md text-slate-950 lg:w-48"
-                  required
-                />
-              </div>
-              <div>
-              </div>
 
-            </div>
-          )}
 
           <div className="grid grid-cols-1 md:grid-cols-3 ">
             <div>
@@ -224,23 +269,30 @@ const Donar = () => {
                 required
               />
             </div>
-
-
-
-            {/* Email not need
-          <div>
-            <label className="block mb-1">Email Id:</label>
-            <input
-              type="email"
-              name="emailId"
-              value={emailId}
-              onChange={(e) => setEmailId(e.target.value)}
-              className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-              required
-            />
-          </div> */}
             <div>
-              <label className="block mb-1">Permanent Address<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1">Pan / Aadhar No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <input
+                type='text'
+                name="ScholarshipCategory"
+                value={pan}
+                onChange={(e) => setPan(e.target.value.toUpperCase())}
+                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+
+              />
+            </div>
+            <div>
+              <label className="block mb-1">Email Id:</label>
+              <input
+                type="email"
+                name="emailId"
+                value={emailId}
+                onChange={(e) => setEmailId(e.target.value)}
+                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+              />
+            </div>
+            <div>
+              <label className="block mb-1 mt-2">Permanent Address<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="text"
                 name="address"
@@ -252,7 +304,7 @@ const Donar = () => {
               />
             </div>
             <div>
-              <label className="block mb-1">State<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2">State<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <select
                 name="state"
                 value={state}
@@ -301,7 +353,7 @@ const Donar = () => {
               </select>
             </div>
             <div>
-              <label className="block mb-1">District<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2">District<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <select
                 name="district"
                 value={district}
@@ -351,7 +403,7 @@ const Donar = () => {
               </select>
             </div>
             <div>
-              <label className="block mb-1">Pincode<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2">Pincode<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="text"
                 maxlength="6"
@@ -364,20 +416,34 @@ const Donar = () => {
               />
             </div>
 
+            <div className='flex inline-flex mt-10'>
+              <input
+                type="checkbox"
+                name="zakkath"
+                checked={zakkath}
+                onChange={handleCheckboxChange}
+                className="ml-2 scale-200"
+              />
+              <label className="block mt-2 ml-3 font-bold ">Zakkath</label>
+            </div>
+
             <div>
-              <label className="block mb-1">Amount<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2">
+                Amount<span className="text-red-500 text-lg"><sup>*</sup></span>
+              </label>
               <input
                 type="text"
-                maxlength="10"
-                name="amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                maxLength="10"
+                name={zakkath ? "zakkathamt" : "amount"}
+                value={zakkath ? zakkathamt : amount}
+                onChange={(e) => zakkath ? setZakkathamt(e.target.value) : setAmount(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>
+
             <div>
-              <label className="block mb-1">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="text"
                 name="name"
@@ -388,7 +454,7 @@ const Donar = () => {
               />
             </div>
             <div>
-              <label className="block mb-1"> Date of Payment<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1 mt-2"> Date of Payment<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
                 type="date"
                 name="dob"
@@ -399,10 +465,39 @@ const Donar = () => {
               />
             </div>
           </div>
-          <button type='submit' className=' p-2 border mr-10 ml-96 mt-20 rounded-md bg-orange-500'>Submit</button>
+          <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md bg-orange-500'>Submit</button>
+          <button
+            type="submit"
+            className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
+            onClick={handlePrint}
+            disabled={!isPrint}
+          >
+            Print
+          </button>
         </div>
 
       </form>
+      {printData.length > 0 && (
+
+        <div id="print-section" hidden>
+          <img src={PrintHeader} alt="" className="w-full" />
+          <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP </h1>
+          {printData.map((data, index) => (
+            <div key={index} className=''>
+              <div className='text-xl  text-justify'>
+                <p className='ml-10'>With gratitude, we acknowledge the receipt of <b>Rs.{data.amount}</b> from <b>{data.name} </b>
+                </p>
+                <p> towards the JMC Scholarship on<b>{data.scholdate}</b> .</p>
+
+              </div>
+            </div>
+          ))}
+
+        </div>
+
+
+      )
+      }
 
     </div>
   )
