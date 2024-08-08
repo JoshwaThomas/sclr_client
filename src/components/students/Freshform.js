@@ -1294,26 +1294,7 @@ const ScholarshipForm = () => {
               <p className="mb-4">Please fill all the Details</p>
               <button onClick={closePopup} className="bg-blue-500 text-white py-2 px-4 rounded-md">Close</button>
             </div>
-
-            <div class="border border-gray-500 mt-3"></div>
-            <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
-            <div className="text-center">
-              <div>Class Teacher</div>
-              </div>
-              <div className="text-center">
-              <div>HOD / MID</div>
-              </div>
-              <div className="mb-3 text-center">
-              <div>Deputy Warden-Hostel</div>
-              </div>
-             <div className="mb-3 text-center">
-            <div>Register of Attendance</div>
-            </div>
-            <div className="mb-3 text-center">
-            <div>Coordinator-Deeniyath / Moral</div>
-           </div>
-            </div>
-            </div>
+          </div>
         )}
 
         {

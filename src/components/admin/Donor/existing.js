@@ -14,6 +14,8 @@ function Existing() {
     const [district, setDistrict] = useState()
     const [pin, setPin] = useState()
     const [scholtype, setScholType] = useState()
+    const [donordept, setDonordept] = useState()
+    const [donorbatch, setDonorbatch] = useState()
     const [amount, setAmount] = useState()
     const [receipt, setReceipt] = useState()
     const [scholdate, setScholDate] = useState()
@@ -27,24 +29,25 @@ function Existing() {
     const [zakkath, setZakkath] = useState(false);
     const [zakkathamt, setZakkathamt] = useState('');
     const [zakkathbal, setZakkathbal] = useState();
-  
+
+
     const handleCheckboxChange = () => {
-      setZakkath(!zakkath);
-      if (!zakkath) {
-        setZakkathamt(amount);
-        setAmount('');
-      } else {
-        setAmount(zakkathamt);
-        setZakkathamt('');
-      }
+        setZakkath(!zakkath);
+        if (!zakkath) {
+            setZakkathamt(amount);
+            setAmount('');
+        } else {
+            setAmount(zakkathamt);
+            setZakkathamt('');
+        }
     };
-  
-  
+
+
     useEffect(() => {
-      setBalance(amount);
-      setZakkathbal(zakkathamt);
+        setBalance(amount);
+        setZakkathbal(zakkathamt);
     }, [amount, zakkathamt]);
-  
+
 
 
     useEffect(() => {
@@ -161,6 +164,8 @@ function Existing() {
             setDistrict(result.data.district || '');
             setPin(result.data.pin || '');
             setScholType(result.data.scholtype || '');
+            setDonordept(result.data.donordept || '');
+            setDonorbatch(result.data.donorbatch || '');
             setBalance(result.data.balance || '');
             setZakkathbal(result.data.zakkathbal || '');
         } catch (err) {
@@ -398,6 +403,7 @@ function Existing() {
                             required
                         />
                     </div>
+                    <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
                 </div>
                 {donar && (
                     <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>
@@ -600,12 +606,43 @@ function Existing() {
                                 readOnly
                             />
                         </div>
+                        {scholtype === 'Alumni' && (
+                            <div className=' grid grid-cols-3 gap-4'>
+                                <div>
+                                    <label className="block mb-1 w-80">
+                                        Programme: <span className='text-red-500  text-lg'><sup>*</sup></span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        name='donordept'
+                                        value={donordept}
+                                        onChange={(e) => setDonordept(e.target.value)}
+                                        className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
+                                        required
+                                    />
+                                </div>
+                                <div></div>
+                                <div>
+                                    <label className="block mb-1 w-80 ml-24">
+                                        Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
+                                    </label>
+                                    <input
+                                        type='text'
+                                        name='donorbatch'
+                                        value={donorbatch}
+                                        onChange={(e) => setDonorbatch(e.target.value)}
+                                        className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                </div>
+
+                            </div>
+                        )}
                     </div>
                 )}
 
-
-
-                <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
             </form>
 
         </div>

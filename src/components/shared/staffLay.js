@@ -52,7 +52,7 @@ function StaffLayout() {
     },
     {
       icon: 'add-circle',
-      name: 'Coe',
+      name: 'COE',
       path: `/staff/${staffId}/coe`,
       show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'MORAL'
     },

@@ -9,13 +9,13 @@ function Report() {
                     onClick={() => navigate('/admin/donor')}
                     className="px-4 py-12 bg-cyan-500 text-white text-2xl mt-32 hover:bg-black rounded-lg"
                     >
-                    New Donar
+                    New Donor
                 </button>
                 <button
                     onClick={() => navigate('/admin/existing')}
                     className="px-4 py-9 ml-2 bg-cyan-500 text-white text-2xl mt-32 hover:bg-black rounded-lg"
                 >
-                    Existing Donar
+                    Existing Donor
                 </button>
                 <button
                     onClick={() => navigate('/admin/donor/modify')}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import PrintHeader from '../../../assets/printHeader.jpg';
 
@@ -24,8 +24,9 @@ const Donar = () => {
 
   const [zakkathamt, setZakkathamt] = useState('');
   const [zakkathbal, setZakkathbal] = useState();
-  const [isPrint, setPrint] = useState(false)
-  const [printData, setPrintData] = useState([]);
+  // const printSectionRef = useRef(null);
+  // const [printData, setPrintData] = useState([]);
+  const printRef = useRef();
 
   const handleCheckboxChange = () => {
     setZakkath(!zakkath);
@@ -59,23 +60,25 @@ const Donar = () => {
   }, []);
 
 
-  const handlePrint = (e) => {
-    const printContent = document.getElementById('print-section').innerHTML;
-    const originalContent = document.body.innerHTML;
+  const handlePrint = () => {
+    const printWindow = window.open('', '', 'height=600,width=800');
+    const content = printRef.current.innerHTML;
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+    printWindow.document.write(content);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+  };
 
-    document.body.innerHTML = printContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-    // window.location.reload();
-  }
 
   const Submit = (e) => {
+    e.preventDefault();
     axios.get('http://localhost:3001/api/admin/current-acyear')
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
 
-          e.preventDefault();
           axios.post('http://localhost:3001/api/admin/donardata', {
             did, name, mobileNo, address, state, district, pin, emailId,
             scholtype, amount, balance, scholdate, pan, receipt, acyear, donordept, donorbatch, zakkathamt, zakkathbal
@@ -83,42 +86,16 @@ const Donar = () => {
             .then(result => {
               console.log(result);
               if (result.data.success) {
-                window.alert("Your Data Submitted Successfully");
-                setPrint(true);
-
-                const newData = {
-                  name, address, district, state, pin, pan,
-                  mobileNo, emailId, amount, scholdate, donordept, donorbatch, zakkathamt
-                };
-                setPrintData([...printData, newData]);
-                setName('');
-                setDonordept('');
-                setDonorbatch('');
-                setZakkathamt('');
-                setScholDate('');
-                setAmount('');
-                setEmailId('');
-                setAddress('');
-                setDistrict('');
-                setState('');
-                setPin('');
-                setPan('');
-                setMobileNo('');
-            
-
+                handlePrint();
+              } else if (result.data.message === 'Donor Already Existing') {
+                alert("Donor ID Already Existing");
+              } else {
+                alert('Something went wrong');
               }
-              else if (result.data.message === 'Donor Already Existing') {
-                alert("Donor ID Already Existing")
-              }
-              else {
-                alert('Something went worng')
-              }
-
             })
             .catch(err => {
               console.log(err);
               window.alert("Submission failed!");
-              // window.location.reload();
             });
         }
       })
@@ -126,9 +103,7 @@ const Donar = () => {
         console.error('Error fetching current academic year:', error);
         window.alert('Error fetching current academic year');
       });
-
-   
-  }
+  };
 
 
 
@@ -466,39 +441,26 @@ const Donar = () => {
             </div>
           </div>
           <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md bg-orange-500'>Submit</button>
-          <button
+          {/* <button
             type="submit"
             className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
             onClick={handlePrint}
             disabled={!isPrint}
           >
             Print
-          </button>
+          </button> */}
         </div>
+
 
       </form>
-      {printData.length > 0 && (
-
-        <div id="print-section" hidden>
-          <img src={PrintHeader} alt="" className="w-full" />
-          <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP </h1>
-          {printData.map((data, index) => (
-            <div key={index} className=''>
-              <div className='text-xl  text-justify'>
-                <p className='ml-10'>With gratitude, we acknowledge the receipt of <b>Rs.{data.amount}</b> from <b>{data.name} </b>
-                </p>
-                <p> towards the JMC Scholarship on<b>{data.scholdate}</b> .</p>
-
-              </div>
-            </div>
-          ))}
-
-        </div>
-
-
-      )
-      }
-
+      <div ref={printRef} style={{ display: 'none' }}>
+      <img src={PrintHeader} alt="Print Header" />
+        <h1>Donation Receipt</h1>
+        <p><strong>Donor Name:</strong> {name}</p>
+        <p><strong>Mobile Number:</strong> {mobileNo}</p>
+        <p><strong>Donation Amount:</strong> ${amount}</p>
+        <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
+      </div>
     </div>
   )
 }
