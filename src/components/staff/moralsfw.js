@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from "axios";
 
-function AttendDeeniyath() {
+function AttendMoral() {
     const [users, setUsers] = useState([]);
     const [prevAttendancetot, setPrevattendancetot] = useState('');
     const [currAttendancetot, setCurrattendancetot] = useState('');
@@ -17,15 +17,14 @@ function AttendDeeniyath() {
                     axios.get('http://localhost:3001/fresh'),
                     axios.get('http://localhost:3001/renewal')
                 ]);
-
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' );
-                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW');
-
+                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'No' && user.procategory === 'SFW');
+                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'No' && user.procategory === 'SFW' );
+ 
                 const totalsfm = SFM1.length + SFM2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' );
-                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW');
- 
+                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'No' && user.deeniyathPer === 0 && user.procategory === 'SFW');
+                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'No' && user.deeniyathPer === 0 && user.procategory === 'SFW');
+                
                 const totalfilter = freshAided.length + renewalAided;
                 const work = totalsfm - totalfilter;
                 setTotalwork(work)
@@ -96,7 +95,7 @@ function AttendDeeniyath() {
 
     return (
         <div>
-            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Deeniyath Attendance</h3>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Moral Attendance</h3>
             <div className='flex inline-flex font-bold text-xl text-white '>
                 <div> Total No of Applicants: {totaldata}</div>
                 <div className='ml-10 text-green-900'>Completed: {totalwork}</div>
@@ -108,7 +107,7 @@ function AttendDeeniyath() {
                     <input
                         type='text'
                         name='prevAttendancetot'
-                        className="w-16 ml-4 border rounded-md text-right text-slate-950"
+                        className="w-16 ml-4 border rounded-md  text-slate-950"
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
                     />
@@ -118,7 +117,7 @@ function AttendDeeniyath() {
                     <input
                         type='text'
                         name='currAttendancetot'
-                        className="w-16 ml-4 border rounded-md text-right text-slate-950"
+                        className="w-16 ml-4 border rounded-md  text-slate-950"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
@@ -129,9 +128,9 @@ function AttendDeeniyath() {
                 <div className="font-bold border border-white text-center py-3">Register No.</div>
                 <div className="font-bold border border-white text-center py-3">Name</div>
                 <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center w-28 py-3">Previous Sem</div>
-                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Current Sem</div>
-                <div className="font-bold border border-white text-center w-30 -ml-20 py-3">Sem Percentage</div>
+                <div className="font-bold border border-white text-center w-28 py-3">Previous Semester</div>
+                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Current Semester</div>
+                <div className="font-bold border border-white text-center w-30 -ml-20 py-3">Percentage</div>
                 <div className="font-bold border border-white text-center w-66 -ml-28 py-3">Remark</div>
             </div>
             {users.map((user, index) => (
@@ -143,7 +142,7 @@ function AttendDeeniyath() {
                         <input
                             type='text'
                             name='prevAttendance'
-                            className="w-14 text-right border rounded-md"
+                            className="w-14 border rounded-md"
                             value={user.prevAttendance || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
@@ -152,7 +151,7 @@ function AttendDeeniyath() {
                         <input
                             type='text'
                             name='currAttendance'
-                            className="w-14 text-right border rounded-md"
+                            className="w-14  border rounded-md"
                             value={user.currAttendance || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
@@ -160,7 +159,7 @@ function AttendDeeniyath() {
                     <div className="font-bold border border-white text-center w-30 -ml-20 py-3">
                         {deeniyathPer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white w-66 -ml-28">
+                    <div className="font-bold border border-white text-center w-66 -ml-28">
                         <input
                             type='text'
                             name='deeniyathRem'
@@ -176,4 +175,4 @@ function AttendDeeniyath() {
     );
 }
 
-export default AttendDeeniyath;
+export default AttendMoral;

@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from "axios";
 
-function Setting({ staffId })  {
+function Setting( )  {
 
     const [password, setPassword] = useState({ pass: '', conpass: '' })
     const [isConpassTyped, setIsConpassTyped] = useState(false);
     const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
+    // const [message, setMessage] = useState('');
+    const { staffId } = useParams();
 
+    
 
     useEffect(() => {
         if (isConpassTyped && password.pass !== password.conpass) {
@@ -39,10 +42,10 @@ function Setting({ staffId })  {
           return;
         }
         try {
-          await axios.put(`http://localhost:3001/api/staffseting/${staffId}`, { password: password.pass });
-          setMessage('Password updated successfully');
+          await axios.put(`http://localhost:3001/api/admin/staffsetting/${staffId}`, { password: password.pass });
+          window.alert('Password updated successfully');
         } catch (err) {
-          setError('Failed to update password');
+          window.alert('Failed to update password');
         }
       };
     
@@ -73,7 +76,7 @@ function Setting({ staffId })  {
                 />
             </div>
             {isConpassTyped && error && <div style={{ color: 'red' }}>{error}</div>}
-            {message && <div style={{ color: 'green' }}>{message}</div>}
+            {/* {message && <div style={{ color: 'green' }}>{message}</div>} */}
  <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-green-500">Update</button>
         </div>
     )

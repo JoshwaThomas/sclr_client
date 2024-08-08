@@ -33,6 +33,8 @@ import AttendSfm from './components/staff/attendsfm';
 import AttendSfw from './components/staff/attendsfw';
 import Deeniyath from './components/staff/deeniyath';
 import Moral from './components/staff/moral';
+import DeeniyathSfw from './components/staff/deeniyathsfw';
+import MoralSfw from './components/staff/moralsfw';
 import Coe from './components/staff/coe';
 import Staffset from './components/staff/pasw';
 import Allreport from './components/admin/reports/allreport';
@@ -86,6 +88,8 @@ function App() {
               <Route path='attendance/sfw' element={<AttendSfw />} />
               <Route path='deeniyath' element={ <Deeniyath />} /> 
               <Route path='moral' element={< Moral />} />
+              <Route path='deeniyathsfw' element={ <DeeniyathSfw />} /> 
+              <Route path='moralsfw' element={< MoralSfw />} />
               <Route path='coe' element={< Coe />} />
               <Route path='settingstaff' element={<Staffset />} />
             </Route> 

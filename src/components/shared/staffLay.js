@@ -4,9 +4,6 @@ import Jmclogo from '../../assets/jmclogo.png';
 // import Jmc from '../../assets/jmc_logo.png';
 
 
-
-
-
 function StaffLayout() {
 
   const navigate = useNavigate();
@@ -18,49 +15,61 @@ function StaffLayout() {
       icon: 'menu',
       name: 'Dashboard',
       path: `/staff/${staffId}/dashboard`,
-      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO'
+      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO' || staffId === 'DEENIYATHsfw' || staffId === 'MORALsfw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance',
       path: `/staff/${staffId}/attendance`,
-      show: staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH'
+      show: staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance SFM',
       path: `/staff/${staffId}/attendance/sfm`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH'
+      show: staffId !== 'RAO' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance SFW',
       path: `/staff/${staffId}/attendance/sfw`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'DEENIYATH' && staffId !== 'MORAL' && staffId !== 'COE'
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'DEENIYATH' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
     },
     {
       icon: 'add-circle',
       name: 'Deeniyath',
       path: `/staff/${staffId}/deeniyath`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE'
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+    },
+    {
+      icon: 'add-circle',
+      name: 'Deeniyath SFW',
+      path: `/staff/${staffId}/deeniyathsfw`,
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'MORALsfw'
     },
     {
       icon: 'add-circle',
       name: 'Moral',
       path: `/staff/${staffId}/moral`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'COE'
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+    },
+    {
+      icon: 'add-circle',
+      name: 'Moral SFW',
+      path: `/staff/${staffId}/moralsfw`,
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORAL'
     },
     {
       icon: 'add-circle',
       name: 'COE',
       path: `/staff/${staffId}/coe`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'MORAL'
+      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'MORAL' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
     },
     {
       icon: 'menu',
       name: 'Setting',
       path: `/staff/${staffId}/settingstaff`,
-      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO'
+      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO' || staffId === 'DEENIYATHsfw' || staffId === 'MORALsfw'
   },
     {
       icon: 'add-circle',
