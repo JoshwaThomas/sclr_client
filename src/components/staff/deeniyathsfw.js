@@ -18,13 +18,13 @@ function AttendDeeniyath() {
                     axios.get('http://localhost:3001/renewal')
                 ]);
 
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' );
-                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW');
+                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW' );
+                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW');
 
                 const totalsfm = SFM1.length + SFM2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' );
-                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW');
+                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0);
+                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0);
  
                 const totalfilter = freshAided.length + renewalAided;
                 const work = totalsfm - totalfilter;

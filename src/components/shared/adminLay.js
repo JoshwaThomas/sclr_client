@@ -110,7 +110,7 @@ function StudentLayout() {
             <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
           </div>
           <div>
-          <label className="block mb-1 flex inline-flex font-bold text-white ml-10">Academic: {activeAcYear}</label>
+          <label className="block mb-1 flex inline-flex font-bold text-white ml-10">{activeAcYear}</label>
             {/* <form onSubmit={Submit}>
               <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
 

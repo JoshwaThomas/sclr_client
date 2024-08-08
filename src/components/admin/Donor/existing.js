@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import PrintHeader from '../../../assets/printHeader.jpg';
+
 
 function Existing() {
 
@@ -30,6 +32,7 @@ function Existing() {
     const [zakkathamt, setZakkathamt] = useState('');
     const [zakkathbal, setZakkathbal] = useState();
 
+    const printRef = useRef();
 
     const handleCheckboxChange = () => {
         setZakkath(!zakkath);
@@ -204,6 +207,18 @@ function Existing() {
     //         });
     // }
 
+    const handlePrint = () => {
+        const printWindow = window.open('', '', 'height=600,width=800');
+        const content = printRef.current.innerHTML;
+        printWindow.document.write('<html><head><title>Print</title></head><body>');
+        printWindow.document.write(content);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+      };
+    
+
     const Submit = async (e) => {
         e.preventDefault();
         try {
@@ -231,13 +246,22 @@ function Existing() {
                 };
                 const result = await axios.post('http://localhost:3001/api/admin/donar', postData);
                 console.log(result);
-                window.alert("Your Application Updated Successfully");
+                if(result){
+                    handlePrint();
+                    window.alert("Your Application Updated Successfully");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000); 
+                }
+                // window.alert("Your Application Updated Successfully");
             }
         } catch (err) {
             console.error(err);
             window.alert("Submission failed!");
         }
     };
+
+
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">EXISTING DONOR DETAILS</h3>
@@ -644,6 +668,14 @@ function Existing() {
                 )}
 
             </form>
+             <div ref={printRef} style={{ display: 'none' }}>
+      <img src={PrintHeader} alt="Print Header" />
+        <h1>Donation Receipt</h1>
+        <p><strong>Donor Name:</strong> {name}</p>
+        <p><strong>Mobile Number:</strong> {mobileNo}</p>
+        <p><strong>Donation Amount:</strong> ${amount || zakkathamt}</p>
+        <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
+      </div>
 
         </div>
     )

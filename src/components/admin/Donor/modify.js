@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 function Modify() {
@@ -18,22 +18,23 @@ function Modify() {
     const [searchTerm, setSearchTerm] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+    const [donordept, setDonordept] = useState()
+    const [donorbatch, setDonorbatch] = useState()
 
-    
     useEffect(() => {
         const fetchScholTypes = async () => {
-          try {
-            const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
-            setScholTypes(response.data);
-          } catch (error) {
-            console.error('Error fetching scholarship types:', error);
-          }
+            try {
+                const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
+                setScholTypes(response.data);
+            } catch (error) {
+                console.error('Error fetching scholarship types:', error);
+            }
         };
-    
-        fetchScholTypes();
-      }, []);
 
-      useEffect(() => {
+        fetchScholTypes();
+    }, []);
+
+    useEffect(() => {
         fetchPanList();
     }, []);
 
@@ -89,7 +90,7 @@ function Modify() {
         e.preventDefault();
         try {
             const result = await axios.get('http://localhost:3001/api/admin/donarUpdate', {
-                params: { name }
+                params: { did }
             });
             setDonar(result.data);
             setName(result.data.name);
@@ -101,6 +102,8 @@ function Modify() {
             setDistrict(result.data.district);
             setPin(result.data.pin);
             setScholType(result.data.scholtype);
+            setDonordept(result.data.donordept);
+            setDonorbatch(result.data.donorbatch);
 
         } catch (err) {
             setDonar(null);
@@ -113,7 +116,7 @@ function Modify() {
         e.preventDefault();
         axios.post('http://localhost:3001/api/admin/donarUpdate', {
             did, name, mobileNo, address, state, district, pin,
-            scholtype, pan
+            scholtype, pan, donordept, donorbatch
         })
             .then(result => {
                 console.log(result);
@@ -147,8 +150,8 @@ function Modify() {
     //                 window.location.reload();
     //               }
     //             console.log(result);
-               
-               
+
+
     //         })
     //         .catch(err => {
     //             console.log(err);
@@ -163,8 +166,8 @@ function Modify() {
                 <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">DONOR DETAILS</h3>
                 <form onSubmit={Submit} >
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-                    <div onChange={(e) => fetchPanList(e)} className=''>
-                        {/* <label className="block mb-1">PAN No</label>
+                        <div onChange={(e) => fetchPanList(e)} className=''>
+                            {/* <label className="block mb-1">PAN No</label>
                         <select
                             value={pan}
                             onChange={(e) => setPan(e.target.value)}
@@ -178,7 +181,7 @@ function Modify() {
                                 </option>
                             ))}
                         </select> */}
-                        {/* <label className="block mb-1">Name</label>
+                            {/* <label className="block mb-1">Name</label>
                         <select
                             value={name}
                             onChange={(e) => setName(e.target.value)}
@@ -192,50 +195,50 @@ function Modify() {
                                 </option>
                             ))}
                         </select> */}
-                        <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
-                            <div>
-                                <label className="block mb-1">Name or ID</label>
-                                <input
-                                    type="text"
-                                    value={searchTerm}
-                                    onChange={(e) => {
-                                        setSearchTerm(e.target.value);
-                                        setIsDropdownOpen(true);
+                            <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
+                                <div>
+                                    <label className="block mb-1">Name or ID</label>
+                                    <input
+                                        type="text"
+                                        value={searchTerm}
+                                        onChange={(e) => {
+                                            setSearchTerm(e.target.value);
+                                            setIsDropdownOpen(true);
 
-                                    }}
-                                    onClick={() => setIsDropdownOpen(true)}
-                                    className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
-                                    placeholder="Search Donor"
-                                    required
-                                />
-                                {isDropdownOpen && (
-                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
-                                        {filteredPanList.length > 0 ? (
-                                            filteredPanList.map((panItem) => (
-                                                <React.Fragment key={panItem.did}>
-                                                <li
-                                                  onClick={() => handleSelect(panItem.name, panItem.did)}
-                                                  className="p-2 cursor-pointer hover:bg-gray-200"
-                                                >
-                                                  {panItem.name}
-                                                </li>
-                                                <li
-                                                  onClick={() => handleSelect(panItem.name, panItem.did)}
-                                                  className="p-2 cursor-pointer hover:bg-gray-200"
-                                                >
-                                                  {panItem.did}
-                                                </li>
-                                              </React.Fragment>
-                                            ))
-                                        ) : (
-                                            <li className="p-2">No results found</li>
-                                        )}
-                                    </ul>
-                                )}
-                            </div>
-                            {/* DID */}
-                            <div className=' '>
-                                {/* <label className="block mb-1 ml-16 ">PAN</label>
+                                        }}
+                                        onClick={() => setIsDropdownOpen(true)}
+                                        className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
+                                        placeholder="Search Donor"
+                                        required
+                                    />
+                                    {isDropdownOpen && (
+                                        <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-48 max-h-60 overflow-y-auto">
+                                            {filteredPanList.length > 0 ? (
+                                                filteredPanList.map((panItem) => (
+                                                    <React.Fragment key={panItem.did}>
+                                                        <li
+                                                            onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                            className="p-2 cursor-pointer hover:bg-gray-200"
+                                                        >
+                                                            {panItem.name}
+                                                        </li>
+                                                        <li
+                                                            onClick={() => handleSelect(panItem.name, panItem.did)}
+                                                            className="p-2 cursor-pointer hover:bg-gray-200"
+                                                        >
+                                                            {panItem.did}
+                                                        </li>
+                                                    </React.Fragment>
+                                                ))
+                                            ) : (
+                                                <li className="p-2">No results found</li>
+                                            )}
+                                        </ul>
+                                    )}
+                                </div>
+                                {/* DID */}
+                                <div className=' '>
+                                    {/* <label className="block mb-1 ml-16 ">PAN</label>
                                 <div className='flex inline-flex'>
                                 <input
                                     type="text"
@@ -266,32 +269,32 @@ function Modify() {
                                         )}
                                     </ul>
                                 )} */}
-                               
-                                {/* </div> */}
-                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
-                                    Get
-                                </button>
+
+                                    {/* </div> */}
+                                    <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                                        Get
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
                     {donar && (
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
-                           <div>
-                            <label className="block mb-1">Scholarship Type</label>
-                            <select
-                                name="ScholarshipCategory"
-                                value={scholtype}
-                                onChange={(e) => setScholType(e.target.value)}
-                                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                required
-                            >
-                                <option value="">Select</option>
-                                {scholtypes.map((type, index) => (
-                                    <option key={index} value={type}>{type}</option>
-                                ))}
-                            </select>
-                        </div>
+                            <div>
+                                <label className="block mb-1">Scholarship Type</label>
+                                <select
+                                    name="ScholarshipCategory"
+                                    value={scholtype}
+                                    onChange={(e) => setScholType(e.target.value)}
+                                    className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                    required
+                                >
+                                    <option value="">Select</option>
+                                    {scholtypes.map((type, index) => (
+                                        <option key={index} value={type}>{type}</option>
+                                    ))}
+                                </select>
+                            </div>
                             <div>
                                 <label className="block mb-1">Name:</label>
                                 <input
@@ -462,6 +465,40 @@ function Modify() {
 
                                 />
                             </div>
+                            {scholtype === 'Alumni' && (
+                                <div className=' grid grid-cols-3 gap-4'>
+                                    <div>
+                                        <label className="block mb-1 w-80">
+                                            Programme: <span className='text-red-500  text-lg'><sup>*</sup></span>
+                                        </label>
+                                        <input
+                                            type='text'
+                                            name='donordept'
+                                            value={donordept}
+                                            onChange={(e) => setDonordept(e.target.value)}
+                                            className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
+                                            
+                                        />
+                                    </div>
+                                    <div></div>
+                                    <div>
+                                        <label className="block mb-1 w-80 ml-24">
+                                            Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
+                                        </label>
+                                        <input
+                                            type='text'
+                                            name='donorbatch'
+                                            value={donorbatch}
+                                            onChange={(e) => setDonorbatch(e.target.value)}
+                                            className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
+                                            
+                                        />
+                                    </div>
+                                    <div>
+                                    </div>
+
+                                </div>
+                            )}
                         </div>
                     )}
 
