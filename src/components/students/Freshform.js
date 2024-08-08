@@ -280,32 +280,77 @@ const ScholarshipForm = () => {
   // const Submit = (e) => {
   //   e.preventDefault();
 
-  //   axios.post("http://localhost:3001/fresh", {
-  //     fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-  //     // community, emailId, aadhar,
-  //      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, schoolName,
-  //     yearOfPassing, percentageOfMarkSchool, siblings, deeniyathPer, classAttendancePer, semPercentage, acyear: acyear
-  //   })
-  //     .then(result => {
-  //       if (result.data.success) {
-  //         window.alert("Your Application Submitted Successfully");
-  //       }
-  //       else if (result.data.message === 'Register No. Already Existing') {
-  //         alert("Register No. Already Existing")
-  //       }
-  //       else {
-  //         alert('Something went worng')
+  //   axios
+  //     .get("http://localhost:3001/api/admin/current-acyear")
+  //     .then((response) => {
+  //       if (response.data.success) {
+  //         const acyear = response.data.acyear.acyear;
+
+  //         // Create a new FormData object
+  //         const formData = new FormData();
+  //         formData.append("deeniyath", deeniyath);
+  //         formData.append("ugOrPg", ugOrPg);
+  //         formData.append("semester", semester);
+  //         formData.append("name", name);
+  //         formData.append("registerNo", registerNo);
+  //         formData.append("dept", dept);
+  //         formData.append("section", section);
+  //         formData.append("religion", religion);
+  //         formData.append("procategory", procategory);
+  //         formData.append("address", address);
+  //         formData.append("district", district);
+  //         formData.append("state", state);
+  //         formData.append("pin", pin);
+  //         formData.append("specialCategory", specialCategory);
+  //         formData.append("aadhar", aadhar);
+  //         formData.append("hostel", hostel);
+  //         formData.append("mobileNo", mobileNo);
+  //         formData.append("fatherName", fatherName);
+  //         formData.append("fatherNo", fatherNo);
+  //         formData.append("fatherOccupation", fatherOccupation);
+  //         formData.append("annualIncome", annualIncome);
+  //         formData.append("schoolName", schoolName);
+  //         formData.append("yearOfPassing", yearOfPassing);
+  //         formData.append("percentageOfMarkSchool", percentageOfMarkSchool);
+  //         formData.append("siblings", siblings);
+  //         formData.append("siblingsNo", siblingsNo);
+  //         formData.append("siblingsOccupation", siblingsOccupation);
+  //         formData.append("siblingsIncome", siblingsIncome);
+  //         formData.append("acyear", acyear);
+  //         formData.append("jamath", jamath); // Attach the file
+  //         formData.append("password", JSON.stringify(password)); // Convert password object to JSON string
+
+  //         axios
+  //           .post("http://localhost:3001/fresh", formData, {
+  //             headers: {
+  //               "Content-Type": "multipart/form-data",
+  //             },
+  //           })
+  //           .then((result) => {
+  //             if (result.data.success) {
+  //               window.alert("Your Application Submitted Successfully");
+  //               // Clear form fields...
+  //             } else if (result.data.message === "Register No. Already Existing") {
+  //               alert("Register No. Already Existing");
+  //             } else {
+  //               alert("Something went wrong");
+  //             }
+  //           })
+  //           .catch((err) => {
+  //             console.error("Error submitting application:", err);
+  //             window.alert("Something Went Wrong");
+  //           });
+  //       } else {
+  //         console.error("Failed to fetch current academic year");
+  //         window.alert("Failed to fetch current academic year");
   //       }
   //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       window.alert("Something Went Wrong");
+  //     .catch((error) => {
+  //       console.error("Error fetching current academic year:", error);
+  //       window.alert("Error fetching current academic year");
   //     });
-
-  //   const handleRadioChange = (e) => {
-  //     setRadioValue(value);
-  //     setAcceptreject('allar');
   // };
+
 
   return (
     <div>
@@ -348,7 +393,7 @@ const ScholarshipForm = () => {
                 </div> */}
                 <div>
                   <label className="block mb-1">
-                    Special Category:{" "}
+                    Special Category:
                     <span className=" text-red-500 text-lg">
                       <sup>*</sup>
                     </span>
@@ -374,7 +419,7 @@ const ScholarshipForm = () => {
                 </div>
                 <div>
                   <label className="block mb-1">
-                    Education{" "}
+                    Education
                     <span className=" text-red-500 text-lg">
                       <sup>*</sup>
                     </span>
@@ -395,7 +440,7 @@ const ScholarshipForm = () => {
                         htmlFor="Dyes"
                         className=" form-radio ml-2 text-lg"
                       >
-                        {" "}
+
                         Deeniyath
                       </label>
                     </div>
@@ -411,8 +456,8 @@ const ScholarshipForm = () => {
                         required
                       />
                       <label htmlFor="DNo" className=" form-radio ml-2 text-lg">
-                        {" "}
-                        Moral{" "}
+
+                        Moral
                       </label>
                     </div>
                   </div>
@@ -427,7 +472,7 @@ const ScholarshipForm = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
             <div>
               <label className="block mb-1">
-                UG or PG:{" "}
+                UG or PG:
                 <span className=" text-red-500 text-lg">
                   <sup>*</sup>
                 </span>
@@ -445,7 +490,7 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="UG" className=" form-radio ml-2 text-lg">
-                    {" "}
+
                     UG
                   </label>
                 </div>
@@ -461,7 +506,7 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="PG" className=" form-radio ml-2 text-lg">
-                    {" "}
+
                     PG
                   </label>
                 </div>
@@ -469,7 +514,7 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">
-                Programme Category{" "}
+                Programme Category
                 <span className=" text-red-500 text-lg">
                   <sup>*</sup>
                 </span>
@@ -487,7 +532,7 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="Aided" className=" form-radio ml-2 text-lg">
-                    {" "}
+
                     Aided
                   </label>
                 </div>
@@ -503,7 +548,7 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="SFM" className=" form-radio ml-2 text-lg">
-                    {" "}
+
                     SFM
                   </label>
                 </div>
@@ -519,8 +564,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="SFW" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    SFW{" "}
+
+                    SFW
                   </label>
                 </div>
               </div>
@@ -545,8 +590,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="I" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    I{" "}
+
+                    I
                   </label>
                 </div>
                 <div>
@@ -561,8 +606,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="II" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    II{" "}
+
+                    II
                   </label>
                 </div>
                 <div>
@@ -577,8 +622,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="III" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    III{" "}
+
+                    III
                   </label>
                 </div>
                 <div>
@@ -593,8 +638,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="IV" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    IV{" "}
+
+                    IV
                   </label>
                 </div>
                 <div>
@@ -609,8 +654,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="V" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    V{" "}
+
+                    V
                   </label>
                 </div>
                 <div>
@@ -625,8 +670,8 @@ const ScholarshipForm = () => {
                     required
                   />
                   <label htmlFor="VI" className=" form-radio ml-2 text-lg">
-                    {" "}
-                    VI{" "}
+
+                    VI
                   </label>
                 </div>
               </div>
@@ -654,7 +699,7 @@ const ScholarshipForm = () => {
                     htmlFor="hostelYes"
                     className=" form-radio ml-2 text-lg"
                   >
-                    {" "}
+
                     Yes
                   </label>
                 </div>
@@ -673,7 +718,7 @@ const ScholarshipForm = () => {
                     htmlFor="hostelNo"
                     className=" form-radio ml-2 text-lg"
                   >
-                    {" "}
+
                     No
                   </label>
                 </div>
@@ -772,7 +817,7 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">
-                Section{" "}
+                Section
                 <span className=" text-red-500 text-lg">
                   <sup>*</sup>
                 </span>
@@ -797,27 +842,7 @@ const ScholarshipForm = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-            <div>
-              <label className="block mb-1">Special Category:</label>
-              <select
-                name="specialCategory"
-                value={specialCategory}
-                onChange={(e) => setSpecialCategory(e.target.value)}
-                className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
-              >
-                <option value="">Select</option>
-                <option value="None">None</option>
-                <option value="Muaddin">Mu-addin</option>
-                <option value="Hazrath">Hazrath</option>
-                <option value="FatherMotherSeparated">
-                  Father & Mother Separated
-                </option>
-                <option value="FatherExpired">Father Expired</option>
-                <option value="Singleparent">Single Parent</option>
-                <option value="Orphan">Orphan</option>
-              </select>
-            </div>
+
             <div>
               <label className="block mb-1">Religion:</label>
               <select
@@ -1195,7 +1220,7 @@ const ScholarshipForm = () => {
                 required
               />
             </div>
-            
+
             <div>
               <label className="block mb-1 mt-2 w-auto">Jamath Letter:</label>
               <input
@@ -1573,15 +1598,30 @@ const ScholarshipForm = () => {
         {/* Instructions */}
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-red-400 w-3/4 h-76 rounded-lg shadow-lg overflow-auto p-6">
-              <h2 className="text-2xl font-bold mb-4">Instructions</h2>
-              <p className="mb-4">Please fill all the Details</p>
+            <div className="bg-red-400 w-3/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
+              <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>
+              <p className="mb-4">
+                 <span className="font-bold ">1. Register Number as Username</span> <br/>
+                  <span className='ml-10'> Use your Register Number as the username. </span> <br/>
+
+                 <span className="font-bold"> 2. Password Reminder: </span>  <br/>
+                  <span className='ml-10'>Don't forget your password. Make a note of it, as the same login credentials will be
+                used for future references. </span>  <br/>
+
+                <span className="font-bold ">3. Mandatory Fields:</span>  <br/>
+                <span className='ml-10'>Fill in all the mandatory fields in the application form. </span>   <br/>
+
+                <span className="font-bold ">4. Check Application Status:</span>  <br/>
+                 <span className='ml-10'>Students can check the status of the application by logging in with their credentials.  </span>
+              </p> 
+              <div className="block relative">
               <button
                 onClick={closePopup}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                className="bg-blue-500 absolute right-0 text-white py-2 px-4 rounded-md"
               >
                 Close
               </button>
+              </div>
             </div>
           </div>
         )}
@@ -1592,15 +1632,15 @@ const ScholarshipForm = () => {
           <div id="print-section" hidden>
             <img src={PrintHeader} alt="" className="w-full" />
             <h1 className=" text-center text-2xl font-bold">
-              {" "}
-              SCHOLARSHIP APPLICATION (Fresher){" "}
+
+              SCHOLARSHIP APPLICATION (Fresher)
             </h1>
             <div className="border border-black ">
               {printData.map((data, index) => (
                 <div key={index} className="grid grid-cols-5 w-auto px-3 mt-2">
                   <div className="font-bold border border-black text-center py-2">
-                    {" "}
-                    {data.fresherOrRenewal}{" "}
+
+                    {data.fresherOrRenewal}
                   </div>
                   <div className="font-bold border border-black text-center py-2">
                     {data.ugOrPg}
@@ -1652,8 +1692,8 @@ const ScholarshipForm = () => {
                     Year of Passing & Percentage
                   </div>
                   <div className="font-bold px-1 py-2 whitespace-normal">
-                    {" "}
-                    Deeniyath Percentage{" "}
+
+                    Deeniyath Percentage
                   </div>
                   <div className="font-bold px-1 py-2 whitespace-normal">
                     Attendance Percentage
@@ -1670,7 +1710,7 @@ const ScholarshipForm = () => {
                       {data.name}
                     </div>
                     <div className="px-2 py-2 whitespace-normal">
-                      {" "}
+
                       {data.mobileNo}
                     </div>
                     <div className="px-2 py-2 whitespace-normal">
