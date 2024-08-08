@@ -47,7 +47,9 @@ function TextBox() {
         // left: 0,
         // padding: '20px',
         display: 'flex',
-        backgroundColor: 'white'
+        // backgroundColor:'red',
+        marginBottom:'20px'
+
     };
 
     const bottomContainerStyle = {
@@ -87,20 +89,53 @@ function TextBox() {
         alignItems: 'left',
 
     };
+    const jmctext1={
+        fontWeight:'bolder',
+        fontSize:'45px',
 
+        
+    }
+    const jmctext2={
+        fontWeight:'bold',
+          fontSize:'35px',
+          marginTop:'10px',
+          marginLeft:'5px'
+    }
+    const jmctext3={
+        fontWeight:'bold',
+        fontSize:'25px',
+        marginTop:'0px'
+        
+        
+
+    }
+    const jmctext4={
+        fontWeight:'bold',
+        fontSize:'25px'
+    }
+
+    const jmccontent = {
+        display:'flex'
+    }
     return (
 
         <div>
 
             <div style={topContainerStyle}>
                 <div>
-                    <img src={jmc} alt='LOGO' style={logoStyle} className='mt-2 ml-32 ' />
+                    <img src={jmc} alt='LOGO' style={logoStyle} className='mt-2 ml-52 ' />
                 </div>
-                <div className='mt-8'>
-                    <span className="text-5xl font-extrabold ml-3">JAMAL MOHAMED COLLEGE</span>
-                    <span className="text-2xl font-bold ml-2">(Autonomous)<br /></span>
-                    <span className="text-2xl font-bold text-center ml-72">TIRUCHIRAPPALLI - 620 020<br /></span>
-                    <span className="text-2xl font-bold ml-6">College Sponsored Application Form for Poor and Meritorious Students<br /></span>
+                <div  className='mt-3 mr-32 w-3/4 text-center '>
+
+                <div style={jmccontent}>
+                    <div>
+                    <p className="ml-16 " style={jmctext1}>JAMAL MOHAMED COLLEGE</p>
+                    </div>
+                    <div></div>
+                    <p className="" style={jmctext2}>(Autonomous)<br /></p>
+                    </div>
+                    <p className="" style={jmctext3}>TIRUCHIRAPPALLI - 620 020<br /></p>
+                    <p className="-ml-10" style={jmctext4}>College Sponsored Application Form for Poor and Meritorious Students<br /></p>
                 </div>
             </div>
 
@@ -113,7 +148,7 @@ function TextBox() {
           
                 </div>
                 <div style={logincontainer} className='mr-24 py-32 px-32 mr-24'>
-                    <div style={loginbg} className='-mt-10'>
+                    <div style={loginbg} className='-mt-12 ml-36'>
                 <form onSubmit={Submit}>
                         <h1 className="text-2xl mb-8 font-bold pl-32 pt-8">LOGIN</h1>
                         <div className='pl-10'>
@@ -136,8 +171,8 @@ function TextBox() {
                                 style={{ width: '250px', color: 'black' }}
                             />
                         </div>
-                        <button type='submit' className="rounded-full font-mono px-4 py-2 mt-5 ml-10 bg-orange-500 text-white font-bold">Login</button>
-                        <button type='button' className="rounded-full font-mono px-4 py-2 ml-28 bg-orange-500 text-white font-bold" onClick={() => navigate('/')}>Back</button>
+                        <button type='submit' className="rounded-full font-mono px-4 py-2 mt-5 ml-10 bg-orange-500  hover:bg-black text-white font-bold">Login</button>
+                        <button type='button' className="rounded-full font-mono px-5 py-2 ml-24 bg-orange-500  hover:bg-black text-white font-bold" onClick={() => navigate('/')}>Back</button>
                     </form>
                     </div>
                 </div>

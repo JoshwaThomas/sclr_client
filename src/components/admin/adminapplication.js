@@ -714,7 +714,7 @@ function Action() {
             </div>
             <div className='mt-6 pl-0'>
                 <div className="text-right font-bold text-xl mr-40 text-white">No of Students:  {filterUsers.length}</div>
-                <div className="grid grid-cols-4 w-auto bg-amber-300">
+                <div className="grid grid-cols-4 w-auto bg-amber-200">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
@@ -722,7 +722,7 @@ function Action() {
                 </div>
 
                 {filterUsers.map((user, index) => (
-                    <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-200">
+                    <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-100">
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>

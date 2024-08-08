@@ -10,6 +10,7 @@ module.exports = {
         '66': '16.5rem', // 16.5rem equals 264px
         '30': '7.5rem',
         '53': '13.25rem',
+        '71': '17.75rem',
       },
       margin: {
         '-15': '-3.75rem', // 3.75rem equals 60px

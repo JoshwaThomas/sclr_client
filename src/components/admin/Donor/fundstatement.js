@@ -155,8 +155,8 @@ function Fundstatement() {
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
                 <div className="font-bold border border-white text-center py-3">DATE</div>
                 {/* <div className="font-bold border border-white text-center py-3"></div> */}
-                <div className="font-bold border border-white text-center w-60 py-3">NAME</div>
-                <div className="font-bold border border-white text-center ml-16 w-28 py-3">MOBILE</div>
+                <div className="font-bold border border-white text-center w-60 py-3 lg: w-71 ">NAME</div>
+                <div className="font-bold border border-white text-center ml-16  w-28 py-3 xl: ml-auto ">MOBILE</div>
                 <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
                 <div className='font-bold border border-white text-center py-3'>PAN</div>
                 <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
@@ -168,8 +168,8 @@ function Fundstatement() {
                 <div key={user.pan} className="grid grid-cols-6 bg-amber-200">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
                     <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDateString(user.scholdate)}</div>
-                    <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3">{user.name}</div>
-                    <div className="font-bold border border-white text-center w-28  ml-16 uppercase py-3">{user.mobileNo}</div>
+                    <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3 lg: w-71">{user.name}</div>
+                    <div className="font-bold border border-white text-center w-28  ml-16 uppercase py-3 xl: ml-auto">{user.mobileNo}</div>
                     {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
                     <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>

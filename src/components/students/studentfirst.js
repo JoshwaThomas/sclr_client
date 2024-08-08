@@ -21,7 +21,7 @@ function Studentfirst() {
             <h2 className="relative z-10 text-amber-300 font-semibold text-center text-3xl font-serif mt-28 ml-16">
               "Jamal &#8211; Empowering your FUTURE with Education and Scholarship."
             </h2>
-            <img src={Stud1} alt="" className="absolute  w-30 h-52 -ml-36 -mt-44 " />
+            <img src={Stud1} alt="" className="absolute  w-52 h-52 -ml-16 -mt-44" />
           </div>
 
 
@@ -31,22 +31,22 @@ function Studentfirst() {
           <div className='grid grid-cols-2 gap-14 ml-16'>
             <button
               onClick={() => navigate('/freshstudent/application/fresh')}
-              className="bg-amber-50 text-black font-bold text-2xl shadow-2xl   px-4 py-4 peer-hover: hover:shadow-red-600 hover:bg-amber-200 hover:text-slate-500 rounded-lg  "
+              className="bg-amber-50 text-black font-bold text-2xl shadow-2xl   px-4 py-4 peer-hover:  hover:shadow-yellow-400 hover:bg-amber-200 hover:text-slate-500 rounded-lg  "
             >
-              Registration
+              Register
             </button>
             <button
               onClick={() => navigate('/login')}
-              className=" bg-amber-50 text-black font-bold text-2xl shadow-2xl  px-4 py-4 hover:bg-amber-200 hover:shadow-orange-500 hover:text-slate-500 rounded-lg"
+              className=" bg-amber-50 text-black font-bold text-2xl shadow-2xl  px-4 py-4 hover:bg-amber-200 hover:shadow-yellow-400 hover:text-slate-500 rounded-lg"
             >
                 Login   
             </button>
 
           </div>
 
-          <div className=' w-full mt-40   h-full flex items-center justify-center relative'>
-            <div className=' absolute bottom-1 right-2 flex flex-col items-start animate-pulse'>
-              <p className=' font-medium text-white'>Developed By T. Joshwa Anand , <span className=' text-xs '>II MCA</span></p>
+          <div className=' w-full mt-40   h-full flex items-center justify-center relative '>
+            <div className='absolute bottom-1 right-2 flex flex-col items-start animate-pulse'>
+              <p className=' font-medium text-white'>Developed By T. Joshwa Anand , <span className=' text-xs  '>II MCA</span></p>
               <p className=' font-semibold text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
             </div>
           </div>
