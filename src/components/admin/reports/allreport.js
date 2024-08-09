@@ -2,6 +2,7 @@ import { useEffect, useState, React } from 'react';
 import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import dayjs from 'dayjs';
 
 function Allreport() {
 
@@ -48,7 +49,7 @@ function Allreport() {
 
         // Add headers to the beginning of the data array
         const dataWithHeaders = [headers, ...users.map(user => [
-            user.scholdate,
+            formatDate(user.amtdate),
             user.fresherOrRenewal,
             user.registerNo,
             user.name,
@@ -79,6 +80,9 @@ function Allreport() {
         // Create Blob and trigger download
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
+    };
+    const formatDate = (dateString) => {
+        return dayjs(dateString).format('DD-MM-YYYY');
     };
 
 
