@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import PrintHeader from '../../assets/printHeader.jpg';
 
 const ScholarshipForm = () => {
 
-  const navigate = useNavigate();
-
   const [student, setStudent] = useState(null);
-  const [fresherOrRenewal, setFresherOrRenewal] = useState('')
+ 
   const [ugOrPg, setUgOrPg] = useState('')
   const [semester, setSemester] = useState('')
   const [name, setName] = useState('')
@@ -48,9 +44,6 @@ const ScholarshipForm = () => {
   const [siblingsOccupation, setSiblingsOccupation] = useState()
   const [siblingsIncome, setSiblingsIncome] = useState()
   const [showPopup, setShowPopup] = useState(true);
-  const [isPrint, setPrint] = useState(false)
-  const [printData, setPrintData] = useState([]);
-
 
   // useEffect(() => {
   //   const calculateSemPercentage = () => {
@@ -96,15 +89,7 @@ const ScholarshipForm = () => {
     setShowPopup(false);
   };
 
-  const handlePrint = (e) => {
-    const printContent = document.getElementById('print-section').innerHTML;
-    const originalContent = document.body.innerHTML;
 
-    document.body.innerHTML = printContent;
-    window.print();
-    document.body.innerHTML = originalContent;
-    window.location.reload();
-  }
 
   const handleData = async (e) => {
     e.preventDefault();
@@ -158,14 +143,14 @@ const ScholarshipForm = () => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
           axios.post("http://localhost:3001/renewal", {
-            fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
+             ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
             community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome,
               lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome, 
             })
             .then(result => {
               if (result.data.success) {
                 window.alert("Your Application Submitted Successfully");
-                setPrint(true);
+             
               }
               else if (result.data.message === 'Register No. Already Existing') {
                 alert("Register No. Already Existing")
@@ -188,39 +173,11 @@ const ScholarshipForm = () => {
         window.alert('Error fetching current academic year');
       });
 
-    const formData = {
-      ...fresherOrRenewal
-    };
-    console.log(formData);
+    // const formData = {
+    //   ...fresherOrRenewal
+    // };
+    // console.log(formData);
     // Here you can send the formData to the server or perform other actions
-    const newData = {
-      ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, district, state, pin, specialCategory,
-      hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome, siblings, 
-      lastCreditedAmt, aadhar
-    };
-    setPrintData([...printData, newData]);
-    setFresherOrRenewal('');
-    setUgOrPg('');
-    setSemester('');
-    setName('');
-    setRegisterNo('');
-    setDept('');
-    setProcategory('');
-    setSpecialCategory('');
-    setAadhar('');
-    setAddress('');
-    setDistrict('');
-    setState('');
-    setPin('');
-    setHostel('');
-    setMobileNo('');
-    setFatherName('');
-    setFatherNo('');
-    setFatherOccupation('');
-    setAnnualIncome('');
-    setSiblings('');
-    
-
   };
 
 
@@ -236,33 +193,6 @@ const ScholarshipForm = () => {
               <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Application</h3>
 
               <div className="space-x-4 inline-flex border p-10 rounded-xl">
-                <div>
-                  <input
-                    type="radio"
-                    id="Fresher"
-                    name="fresherOrRenewal"
-                    value="fresher"
-                    className=' scale-200'
-                    checked={fresherOrRenewal === 'fresh'}
-                    onChange={(e) => setFresherOrRenewal(e.target.value)}
-                    onClick={() => navigate('/student/application/fresh')}
-                    required
-                  />
-                  <label htmlFor="Fresher" className=' form-radio ml-2 text-xl'>Fresher</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="Renewal"
-                    name="fresherOrRenewal"
-                    value="renewal"
-                    className=' scale-200'
-                    checked={fresherOrRenewal === 'renewal'}
-                    onChange={(e) => setFresherOrRenewal(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="Renewal" className=' form-radio ml-2 text-xl'>Renewal</label>
-                </div>
                 <div>
                   <label className="block mb-1">Special Category:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                   <select
@@ -603,42 +533,23 @@ const ScholarshipForm = () => {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
-                <div>
-                  <label className="block mb-1">Special Category:</label>
-                  <select
-                    name="specialCategory"
-                    value={specialCategory}
-                    onChange={(e) => setSpecialCategory(e.target.value)}
-                    className="w-48 p-2 border  rounded-md text-slate-950"
-                    required
-                  >
-                    <option value="">Select</option>
-                    <option value="None">None</option>
-                    <option value="Muaddin">Mu-addin</option>
-                    <option value="Hazrath">Hazrath</option>
-                    <option value="FatherMotherSeparated">Father & Mother Separated</option>
-                    <option value="FatherExpired">Father Expired</option>
-                    <option value="Singleparent">Single Parent</option>
-                    <option value="Orphan">Orphan</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block mb-1">Religion:</label>
-                  <select
-                    name="religion"
-                    value={religion}
-                    onChange={(e) => setReligion(e.target.value)}
-                    className="w-48 p-2 border rounded-md text-slate-950"
-                    required
-                    readOnly
-                  >
-                    <option value="">Select</option>
-                    <option value="MUSLIM">Muslim</option>
-                    <option value="HINDU">Hindu</option>
-                    <option value="CHRISTIAN">Christian</option>
-                    <option value="OTHERS">Others</option>
-                  </select>
-                </div>
+               
+              <div>
+              <label className="block mb-1">Religion:</label>
+              <select
+                name="religion"
+                value={religion}
+                onChange={(e) => setReligion(e.target.value)}
+                className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+              >
+                <option value="">Select</option>
+                <option value="ISLAM">Islam</option>
+                <option value="HINDU">Hindu</option>
+                <option value="CHRISTIAN">Christian</option>
+                <option value="OTHERS">Others</option>
+              </select>
+            </div>
                 {/* <div>
                   <label className="block mb-1">Community:</label>
                   <select
@@ -1055,121 +966,38 @@ const ScholarshipForm = () => {
             >
               Submit
             </button>
-            <button
-              type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 ml-3 justify-end "
-              onClick={handlePrint}
-              disabled={!isPrint}
-            >
-              Print
-            </button>
+            
           </div>
         </form>
 
-        {/* form Print section  */}
-        {printData.length > 0 && (
-          // <table className="min-w-full divide-y divide-gray-200 mt-8 border border-black" id="print-section">
-          // <thead className="bg-gray-50">
-          <div id="print-section" hidden>
-            <img src={PrintHeader} alt="" className="w-full" />
-            <h1 className=' text-center text-2xl font-bold'> SCHOLARSHIP APPLICATION </h1>
-            <div className='border border-black '>
-              {printData.map((data, index) => (
-                <div key={index} className='grid grid-cols-5 w-auto px-3 mt-2'>
-                  <div className="font-bold border border-black text-center py-2"> {data.fresherOrRenewal} </div>
-                  <div className="font-bold border border-black text-center py-2">{data.ugOrPg}</div>
-                  <div className="font-bold border border-black text-center py-2">{data.semester}</div>
-                  <div className="font-bold border border-black text-center py-2">{data.procategory}</div>
-                  <div className="font-bold border border-black text-center py-2">{data.dept}</div>
-                </div>
-
-              ))}
-              <div className='grid grid-cols-2 w-auto p-2'>
-                <div>
-                  <div className="font-bold px-1 py-2 whitespace-normal" >Applicant</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal" >Mobile No</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Register No</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Hostel</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">specialCategory</div>
-                  <div className="font-bold px-1 py-5 whitespace-normal">Address</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Father Name</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Father Mobile No</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Father Occupation & Income</div>
-                  {/* <div className="font-bold px-1 py-2 whitespace-normal">School Name</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Year of Passing & Percentage</div> */}
-                  <div className="font-bold px-1 py-2 whitespace-normal"> Deeniyadiv Percentage </div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">Attendance Percentage</div>
-                  <div className="font-bold px-1 py-2 whitespace-normal">No. Of Siblings</div>
-                  {/*<div className="px-6 py-4 whitespace-nowrap">Course</div> */}
-                </div>
-
-                {printData.map((data, index) => (
-                  <div key={index} className=''>
-                    <div className="px-2 py-2 whitespace-normal">{data.name}</div>
-                    <div className="px-2 py-2 whitespace-normal"> {data.mobileNo}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.registerNo}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.hostel}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.specialCategory}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.address}, {data.district}, {data.state}, {data.pin}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.fatherName}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.fatherNo}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.fatherOccupation} & {data.annualIncome}</div>
-                    {/* <div className="px-2 py-2 whitespace-normal">{data.schoolName}</div> */}
-                    {/* <div className="px-2 py-2 whitespace-normal">{data.yearOfPassing} & {data.percentageOfMarkSchool}</div> */}
-                    <div className="px-2 py-2 whitespace-normal">{data.deeniyathPer}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.classAttendancePer}</div>
-                    <div className="px-2 py-2 whitespace-normal">{data.siblings}</div>
-                    {/* <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
-                <div className="px-6 py-4 whitespace-nowrap">{data.ugOrPg}</div>
-                 */}
-                  </div>
-
-                ))}
-              </div>
-              <div class="border border-gray-500 mt-3"></div>
-              <div className="mt-32 px-3 grid grid-cols-5 w-auto mr-4">
-
-                <div className="text-center">
-                  <div>Class Teacher</div>
-                </div>
-                <div className="text-center">
-                  <div>HOD / MID</div>
-                </div>
-                <div className="mb-3 text-center">
-                  <div>Deputy Warden-Hostel</div>
-                </div>
-                <div className="mb-3 text-center">
-                  <div>Register Of Attendance</div>
-                </div>
-                <div className="mb-3 text-center">
-                  <div>Coordinator-Deeniyath / Moral</div>
-                </div>
-              </div>
-
-
-              <div className="text-center">
-                <div>Class Teacher</div>
-              </div>
-              <div className="text-center">
-                <div>HOD / MID</div>
-              </div>
-              <div className="mb-3 text-center">
-                <div>Deputy Warden-Hostel</div>
-              </div>
-
-            </div>
-          </div>
-        )
-        }
-
+      
            {/* Instructions */}
            {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-red-400 w-3/4 h-76 rounded-lg shadow-lg overflow-auto p-6">
+            <div className="bg-red-400 w-3/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
+              <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>
+              <p className="mb-4">
+                <span className="font-bold ">1. Register Number as Username</span> <br />
+                <span className='ml-10'> Use your Register Number as the username. </span> <br />
 
-              <h2 className="text-2xl font-bold mb-4">Instructions</h2>
-              <p className="mb-4">Please fill all the Details</p>
-              <button onClick={closePopup} className="bg-blue-500 text-white py-2 px-4 rounded-md">Close</button>
+                <span className="font-bold"> 2. Password Reminder: </span>  <br />
+                <span className='ml-10'>Don't forget your password. Make a note of it, as the same login credentials will be
+                  used for future references. </span>  <br />
+
+                <span className="font-bold ">3. Mandatory Fields:</span>  <br />
+                <span className='ml-10'>Fill in all the mandatory fields in the application form. </span>   <br />
+
+                <span className="font-bold ">4. Check Application Status:</span>  <br />
+                <span className='ml-10'>Students can check the status of the application by logging in with their credentials.  </span>
+              </p>
+              <div className="block relative">
+                <button
+                  onClick={closePopup}
+                  className="bg-blue-500 absolute right-0 text-white py-2 px-4 rounded-md"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         )}

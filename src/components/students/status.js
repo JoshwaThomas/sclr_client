@@ -17,6 +17,10 @@ function Status() {
             });
             console.log("Response from server:", res.data);
             setStudent(res.data);
+            console.log('semPercentage:', student.semPercentage);
+            console.log('classAttendancePer:', student.classAttendancePer);
+            console.log('deeniyathPer:', student.deeniyathPer);
+            console.log('action:', student.action);
             setShowModal(true);
 
             if (res.data && res.data.message) {
@@ -131,44 +135,79 @@ function Status() {
                                                 <div>{student.district}</div>
                                                 <div>{student.state}</div>
                                                 <div>{student.pin}</div>
+                                                <div>{student.action}</div>
                                             </div>
                                         )}
                                         {student.schoolName && (
                                             <div className='uppercase mt-3'>
-                                                {student.semPercentage !== 0 && student.classAttendancePer !== 0 && student.deeniyathPer !== 0 ? (
-                                                    <>
+                                                {/* Log the values for debugging */}
+                                                {console.log('semPercentage:', student.semPercentage)}
+                                                {console.log('classAttendancePer:', student.classAttendancePer)}
+                                                {console.log('deeniyathPer:', student.deeniyathPer)}
+                                                {console.log('action:', student.action)}
+
+                                                {/* Updated Condition Check */}
+                                                {parseFloat(student.semPercentage) !== 0 &&
+                                                    parseFloat(student.classAttendancePer) !== 0 &&
+                                                    parseFloat(student.deeniyathPer) !== 0 ? (
+                                                    parseInt(student.action) === 0 ? (
                                                         <div className='grid grid-cols-2 mt-2'>
                                                             <div className='flex inline-flex'>
                                                                 <button
                                                                     onClick={handlePrint}
-                                                                    className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4"
+                                                                    className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-black"
                                                                 >
                                                                     Print
                                                                 </button>
                                                                 <button
                                                                     type="button"
-                                                                    className="bg-slate-600 text-white py-1 px-4 ml-4 rounded-lg hover:bg-red-500"
+                                                                    className="bg-slate-600 text-white py-2 px-4 ml-4 rounded-md mt-4 hover:bg-black"
                                                                     onClick={closeModal}
                                                                 >
                                                                     Close
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                    </>
+                                                    ) : parseInt(student.action) === 1 ? (
+                                                        <div>
+                                                            <button
+                                                                type="button"
+                                                                className="bg-slate-600  text-white py-2 px-4 rounded-md mt-4 hover:bg-black"
+                                                                onClick={closeModal}
+                                                            >
+                                                                Close
+                                                            </button>
+                                                            <div className="text-green-500 font-bold mt-4">
+                                                                Your Application Selected. Contact ERP.
+                                                            </div>
+                                                        </div>
+                                                    ) : parseInt(student.action) === 2 ? (
+                                                        <div>
+                                                            <button
+                                                                type="button"
+                                                                className="bg-slate-600  text-white py-2 px-4 rounded-md mt-4 hover:bg-black"
+                                                                onClick={closeModal}
+                                                            >
+                                                                Close
+                                                            </button>
+                                                            <div className="text-red-500 font-bold mt-4">
+                                                                Your Application Rejected. Contact Scholarship Office {student.reason}
+                                                            </div>
+                                                        </div>
+                                                    ) : null
                                                 ) : (
                                                     <div>
                                                         <button
                                                             type="button"
-                                                            className="bg-slate-600 text-white py-2 px-4 ml-4 rounded-lg hover:bg-red-500"
+                                                            className="bg-slate-600  text-white py-2 px-4 rounded-md mt-4 ml-4 hover:bg-black"
                                                             onClick={closeModal}
                                                         >
                                                             Close
                                                         </button>
-                                                        <div className="text-red-500 -mr-96 font-bold mt-4">
+                                                        <div className="text-red-500 font-bold mt-4">
                                                             Your Application Under Process
                                                         </div>
                                                     </div>
-
                                                 )}
                                             </div>
                                         )}
@@ -177,42 +216,42 @@ function Status() {
                                 </div>
                                 {/* print layout */}
                                 <div ref={printRef} style={{ display: 'none' }}>
-                                <img src={PrintHeader} alt="Print Header" />
-                                    <h1 className="text-2xl font-bold mb-4">Applicantion</h1>
-                                    <div className='border border-white'>
-                                    <div className="grid grid-cols-2 gap-4 text-left">
-                                        <div className="font-semibold">Register No</div><div>{student.registerNo}</div>
-                                        <div className="font-semibold">Name</div><div>{student.name}</div>
-                                        <div className="font-semibold">Fresher/Renewal</div><div>{student.fresherOrRenewal}</div>
-                                        <div className="font-semibold">UG/PG</div><div>{student.ugOrPg}</div>
-                                        <div className="font-semibold">Department</div><div>{student.dept}</div>
-                                        <div className="font-semibold">Section</div><div>{student.section}</div>
-                                        <div className="font-semibold">Category</div><div>{student.procategory}</div>
-                                        <div className="font-semibold">Semester</div><div>{student.semester}</div>
-                                        <div className="font-semibold">Mobile No</div><div>{student.mobileNo}</div>
-                                        <div className="font-semibold">Hostel</div><div>{student.hostel}</div>
-                                        <div className="font-semibold">Father's Name</div><div>{student.fatherName}</div>
-                                        <div className="font-semibold">Father's No</div><div>{student.fatherNo}</div>
-                                        <div className="font-semibold">Father's Occupation</div><div>{student.fatherOccupation}</div>
-                                        <div className="font-semibold">Annual Income</div><div>{student.annualIncome}</div>
-                                        <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
-                                        {student.siblings === 'Yes' && (
-                                            <div>
-                                                <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
-                                                <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
-                                                <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
-                                            </div>
-                                        )}
-                                        <div className="font-semibold">Special Category</div><div>{student.specialCategory}</div>
-                                        <div className="font-semibold">Religion</div><div>{student.religion}</div>
-                                        <div className="font-semibold">Address</div><div>{student.address}</div>
-                                        <div className="font-semibold">District</div><div>{student.district}</div>
-                                        <div className="font-semibold">State</div><div>{student.state}</div>
-                                        <div className="font-semibold">Pin</div><div>{student.pin}</div>
-                                        <div className="font-semibold">Semester Percentage</div><div>{student.semPercentage}</div>
-                                        <div className="font-semibold">Attendance Percentage</div><div>{student.classAttendancePer}</div>
-                                        <div className="font-semibold">Deeniyath/Moral Percentage</div><div>{student.deeniyathPer}</div>
-                                    </div>
+                                    <img src={PrintHeader} alt="Print Header" />
+                                    <h1 className="text-2xl text-center font-bold mb-4">Applicantion</h1>
+                                    <div className='border border-black'>
+                                        <div className="grid grid-cols-2 gap-4 text-left">
+                                            <div className="font-semibold">Register No</div><div>{student.registerNo}</div>
+                                            <div className="font-semibold">Name</div><div>{student.name}</div>
+                                            <div className="font-semibold">Fresher/Renewal</div><div>{student.fresherOrRenewal}</div>
+                                            <div className="font-semibold">UG/PG</div><div>{student.ugOrPg}</div>
+                                            <div className="font-semibold">Department</div><div>{student.dept}</div>
+                                            <div className="font-semibold">Section</div><div>{student.section}</div>
+                                            <div className="font-semibold">Category</div><div>{student.procategory}</div>
+                                            <div className="font-semibold">Semester</div><div>{student.semester}</div>
+                                            <div className="font-semibold">Mobile No</div><div>{student.mobileNo}</div>
+                                            <div className="font-semibold">Hostel</div><div>{student.hostel}</div>
+                                            <div className="font-semibold">Father's Name</div><div>{student.fatherName}</div>
+                                            <div className="font-semibold">Father's No</div><div>{student.fatherNo}</div>
+                                            <div className="font-semibold">Father's Occupation</div><div>{student.fatherOccupation}</div>
+                                            <div className="font-semibold">Annual Income</div><div>{student.annualIncome}</div>
+                                            <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
+                                            {student.siblings === 'Yes' && (
+                                                <div>
+                                                    <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
+                                                    <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
+                                                    <div className="font-semibold">Siblings</div><div>{student.siblings}</div>
+                                                </div>
+                                            )}
+                                            <div className="font-semibold">Special Category</div><div>{student.specialCategory}</div>
+                                            <div className="font-semibold">Religion</div><div>{student.religion}</div>
+                                            <div className="font-semibold">Address</div><div>{student.address}</div>
+                                            <div className="font-semibold">District</div><div>{student.district}</div>
+                                            <div className="font-semibold">State</div><div>{student.state}</div>
+                                            <div className="font-semibold">Pin</div><div>{student.pin}</div>
+                                            <div className="font-semibold">Semester Percentage</div><div>{student.semPercentage}</div>
+                                            <div className="font-semibold">Attendance Percentage</div><div>{student.classAttendancePer}</div>
+                                            <div className="font-semibold">Deeniyath/Moral Percentage</div><div>{student.deeniyathPer}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

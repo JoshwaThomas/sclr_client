@@ -109,8 +109,8 @@ function StudentLayout() {
             <span className="text-sm font-bold ml-12 text-center">(Autonomous)<br /></span>
             <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
           </div>
-          <div>
-          <label className="block mb-1 flex inline-flex font-bold text-white ml-10">{activeAcYear}</label>
+          <div className='bg-slate-400  rounded-md py-1 mt-5 -mb-4 w-64'>
+          <label className="block mb-1 font-extrabold text-center  text-white">{activeAcYear}</label>
             {/* <form onSubmit={Submit}>
               <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
 

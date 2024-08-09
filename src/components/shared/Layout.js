@@ -20,11 +20,7 @@ function StudentLayout() {
     name: 'Status', 
     path: '/student/status'
    },
-  
-  { icon: 'add-circle', 
-    name: 'Menu', 
-    path: '/student/status'
-   },
+
    { icon: 'add-circle', 
     name: 'GuideLines', 
     path: '/student/guidelines'

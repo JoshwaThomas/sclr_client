@@ -673,7 +673,7 @@ function Existing() {
         <h1>Donation Receipt</h1>
         <p><strong>Donor Name:</strong> {name}</p>
         <p><strong>Mobile Number:</strong> {mobileNo}</p>
-        <p><strong>Donation Amount:</strong> ${amount || zakkathamt}</p>
+        <p><strong>Donation Amount:</strong> Rs. {amount || zakkathamt}</p>
         <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
       </div>
 

@@ -393,6 +393,18 @@ const Donar = () => {
               />
             </div>
 
+            <div>
+              <label className="block mb-1 mt-2"> Date of Payment<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <input
+                type="date"
+                name="dob"
+                value={scholdate}
+                onChange={(e) => setScholDate(e.target.value)}
+                className="w-72 p-2 border rounded-md text-slate-600 lg:w-48"
+                required
+              />
+            </div>
+
             <div className='flex inline-flex mt-10'>
               <input
                 type="checkbox"
@@ -402,6 +414,18 @@ const Donar = () => {
                 className="ml-2 scale-200"
               />
               <label className="block mt-2 ml-3 font-bold ">Zakkath</label>
+            </div>
+
+            <div>
+              <label className="block mb-1 mt-2">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <input
+                type="text"
+                name="name"
+                value={receipt}
+                onChange={(e) => setReceipt(e.target.value.toUpperCase())}
+                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                required
+              />
             </div>
 
             <div>
@@ -418,29 +442,7 @@ const Donar = () => {
                 required
               />
             </div>
-
-            <div>
-              <label className="block mb-1 mt-2">Cheque / Receipt No<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
-              <input
-                type="text"
-                name="name"
-                value={receipt}
-                onChange={(e) => setReceipt(e.target.value.toUpperCase())}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1 mt-2"> Date of Payment<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
-              <input
-                type="date"
-                name="dob"
-                value={scholdate}
-                onChange={(e) => setScholDate(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-600 lg:w-48"
-                required
-              />
-            </div>
+           
           </div>
           <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md bg-orange-500'>Submit</button>
           {/* <button
@@ -457,11 +459,13 @@ const Donar = () => {
       </form>
       <div ref={printRef} style={{ display: 'none' }}>
       <img src={PrintHeader} alt="Print Header" />
-        <h1>Donation Receipt</h1>
+      <div className=' h-full border border-black'>
+        <h1 className='text-center mt-4' >Thanks Letter</h1>
         <p><strong>Donor Name:</strong> {name}</p>
         <p><strong>Mobile Number:</strong> {mobileNo}</p>
-        <p><strong>Donation Amount:</strong> ${amount}</p>
+        <p><strong>Donation Amount:</strong> Rs. {amount || zakkathamt}</p>
         <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
+      </div> 
       </div>
     </div>
   )

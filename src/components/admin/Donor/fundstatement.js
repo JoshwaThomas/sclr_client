@@ -2,6 +2,7 @@ import { useEffect, useState, React } from 'react';
 import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import dayjs from 'dayjs';
 
 
 function Fundstatement() {
@@ -31,6 +32,8 @@ function Fundstatement() {
     //     });
     //     setFilterUsers(filteredUsers);
     // };
+
+
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
     
@@ -83,10 +86,9 @@ function Fundstatement() {
         saveAs(data, fileName + fileExtension);
     };
 
-    const formatDateString = (dateString) => {
-        const [year, month, day] = dateString.split('-');
-        return `${day}-${month}-${year}`;
-      };
+     const formatDate = (dateString) => {
+        return dayjs(dateString).format('DD-MM-YYYY');
+    };
       
       const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
@@ -155,7 +157,7 @@ function Fundstatement() {
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
                 <div className="font-bold border border-white text-center py-3">DATE</div>
                 {/* <div className="font-bold border border-white text-center py-3"></div> */}
-                <div className="font-bold border border-white text-center w-60 py-3 lg: w-71 ">NAME</div>
+                <div className="font-bold border border-white text-center w-60 py-3">NAME</div>
                 <div className="font-bold border border-white text-center ml-16  w-28 py-3 xl: ml-auto ">MOBILE</div>
                 <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
                 <div className='font-bold border border-white text-center py-3'>PAN</div>
@@ -167,13 +169,13 @@ function Fundstatement() {
             {filterUsers.map((user) => (
                 <div key={user.pan} className="grid grid-cols-6 bg-amber-200">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDateString(user.scholdate)}</div>
-                    <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3 lg: w-71">{user.name}</div>
-                    <div className="font-bold border border-white text-center w-28  ml-16 uppercase py-3 xl: ml-auto">{user.mobileNo}</div>
+                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDate(user.scholdate)}</div>
+                    <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3 ">{user.name}</div>
+                    <div className="font-bold border border-white text-center w-28  ml-16 uppercase py-3 xl: ml-auto">{user.mobileNo || '-'}</div>
                     {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
                     <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount)}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount || user.zakkathamt || 0)}</div>
                     {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
 
                 </div>

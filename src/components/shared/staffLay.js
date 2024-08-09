@@ -15,61 +15,61 @@ function StaffLayout() {
       icon: 'menu',
       name: 'Dashboard',
       path: `/staff/${staffId}/dashboard`,
-      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO' || staffId === 'DEENIYATHsfw' || staffId === 'MORALsfw'
+      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCDM' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance',
       path: `/staff/${staffId}/attendance`,
-      show: staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      show: staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCDM' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance SFM',
       path: `/staff/${staffId}/attendance/sfm`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCDM' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance SFW',
       path: `/staff/${staffId}/attendance/sfw`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'DEENIYATH' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Deeniyath',
-      path: `/staff/${staffId}/deeniyath`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      path: `/staff/${staffId}/deethiyath`,
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
-      name: 'Deeniyath SFW',
-      path: `/staff/${staffId}/deeniyathsfw`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'MORAL' && staffId !== 'COE' && staffId !== 'DEENIYATH' && staffId !== 'MORALsfw'
+      name: 'Deeniyath',
+      path: `/staff/${staffId}/deethiyathsfw`,
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Moral',
       path: `/staff/${staffId}/moral`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
-      name: 'Moral SFW',
+      name: 'Moral',
       path: `/staff/${staffId}/moralsfw`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'COE' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORAL'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmm'
     },
     {
       icon: 'add-circle',
       name: 'COE',
       path: `/staff/${staffId}/coe`,
-      show: staffId !== 'RAO' && staffId !== 'RAOSFM' && staffId !== 'RAOSFW' && staffId !== 'DEENIYATH' && staffId !== 'MORAL' && staffId !== 'DEENIYATHsfw' && staffId !== 'MORALsfw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'menu',
       name: 'Setting',
       path: `/staff/${staffId}/settingstaff`,
-      show: staffId === 'RAOSFM' || staffId === 'RAOSFW' || staffId === 'MORAL' || staffId === 'COE' || staffId === 'DEENIYATH' || staffId === 'RAO' || staffId === 'DEENIYATHsfw' || staffId === 'MORALsfw'
+      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCRAA' || staffId === 'JMCdw' || staffId === 'JMCmw'
   },
     {
       icon: 'add-circle',

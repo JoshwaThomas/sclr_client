@@ -54,8 +54,9 @@ function Setting( )  {
 
     return (
         <div>
-            <div>
-                <label className="block mb-1 mt-3">Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+          <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white"> Password Change </h3>
+            <div className='mt-10 '>
+                <label className="block mb-1 mt-3 text-white">Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                     type='password'
                     name='pass'
@@ -66,7 +67,7 @@ function Setting( )  {
                 />
             </div>
             <div>
-                <label className="block mb-1 mt-3">Re-Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                <label className="block mb-1 mt-3 text-white">Re-Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                     type='password'
                     name='conpass'
@@ -77,7 +78,7 @@ function Setting( )  {
             </div>
             {isConpassTyped && error && <div style={{ color: 'red' }}>{error}</div>}
             {/* {message && <div style={{ color: 'green' }}>{message}</div>} */}
- <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-green-500">Update</button>
+ <button onClick={handleSubmit} className="bg-blue-500 mt-10 text-white px-4 py-2 rounded hover:bg-black ">Update</button>
         </div>
     )
 }

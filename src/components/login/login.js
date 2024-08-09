@@ -91,14 +91,14 @@ function TextBox() {
     };
     const jmctext1={
         fontWeight:'bolder',
-        fontSize:'45px',
+        fontSize:'250%',
 
         
     }
     const jmctext2={
         fontWeight:'bold',
           fontSize:'35px',
-          marginTop:'10px',
+          marginTop:'8px',
           marginLeft:'5px'
     }
     const jmctext3={
@@ -111,7 +111,8 @@ function TextBox() {
     }
     const jmctext4={
         fontWeight:'bold',
-        fontSize:'25px'
+        fontSize:'150%',
+        marginTop:'5px'
     }
 
     const jmccontent = {
@@ -140,7 +141,7 @@ function TextBox() {
             </div>
 
             <div style={bottomContainerStyle} className='bg-orange-500 ml-24 mr-24'>
-                <div style={leftcontainerfile} className='ml-24'>
+                <div style={leftcontainerfile} className=''>
                 <img src={Map} alt='LOGO' style={sclimg} className='mt-10 ml-10'/>
                 <span className="text-2xl font-bold text-center ml-28 mt-28 text-white  animate-pulse">Jamalians Around The World</span><br></br><br></br>
                 <span className="text-2xl font-bold text-center ml-32 mt-20 text-white  animate-pulse">Shows Us The Right Path</span>
