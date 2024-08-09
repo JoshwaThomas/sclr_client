@@ -241,7 +241,7 @@ function Action() {
                 />
                 <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label> */}
             </div>
-            <div className="grid grid-cols-6 w-auto bg-amber-300 mt-4">
+            <div className="grid grid-cols-6 w-auto bg-amber-200 mt-4">
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
@@ -255,7 +255,7 @@ function Action() {
 
             </div>
             {filterUsers.map((user) => (
-                <div key={user.registerNo} className="grid grid-cols-6 bg-amber-200">
+                <div key={user.registerNo} className="grid grid-cols-6 bg-amber-100">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
                     <div className="font-bold border border-white text-center py-3 uppercase">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center py-3 uppercase">{user.name}</div>

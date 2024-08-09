@@ -152,7 +152,7 @@ function DonarLetter() {
                 <button onClick={handlePrint} className='bg-blue-500 text-white px-5 py-1 rounded-md  ml-3 justify-end ' >Print</button>
             </div> 
             <div className='mt-10'>
-                <div className="grid grid-cols-5 w-auto bg-amber-300">
+                <div className="grid grid-cols-5 w-auto bg-amber-200">
                     <div className="font-bold border border-white text-center py-3">REGISTER No.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
@@ -162,7 +162,7 @@ function DonarLetter() {
 
                 {users && users.length > 0 ? (
                     users.map((user, index) => (
-                        <div key={`${user.studreg}-${index}`} className="grid grid-cols-5 w-auto bg-amber-200">
+                        <div key={`${user.studreg}-${index}`} className="grid grid-cols-5 w-auto bg-amber-100">
                             <div className="font-bold border border-white text-center uppercase py-3">{user.studreg}</div>
                             <div className="font-bold border border-white text-center uppercase py-3">{user.studname}</div>
                             <div className="font-bold border border-white text-center uppercase py-3">{user.studdept}</div>

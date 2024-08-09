@@ -504,7 +504,7 @@ function Modify() {
 
 
 
-                    <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
+                    <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
                 </form>
             </div>
             {/* <div className='mt-10'>

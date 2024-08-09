@@ -559,7 +559,7 @@ function Action() {
                 >
                     Search
                 </button>
-                <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
                     <input
                         type="radio"
                         id="all"
@@ -585,7 +585,7 @@ function Action() {
                 </div>
                 {radioValue === 'all' && (
                     <div className=''>
-                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -624,7 +624,7 @@ function Action() {
                 )}
                 {radioValue === 'in-progress' && (
                     <div className=''>
-                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
                             <input
                                 type="radio"
                                 id="all-progress"
@@ -659,7 +659,7 @@ function Action() {
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
                         </div>
                         <div className='flex inline-flex px-4'></div>
-                        <div className='end-px text-white border border-amber-300 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                        <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
                                 id="muaddin"
@@ -713,7 +713,7 @@ function Action() {
 
             </div>
             <div className='mt-6 pl-0'>
-                <div className="text-right font-bold text-xl mr-40 text-white">No of Students:  {filterUsers.length}</div>
+                <div className="text-right font-bold text-xl mr-40 text-white">No Of Students :  {filterUsers.length}</div>
                 <div className="grid grid-cols-4 w-auto bg-amber-200">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>

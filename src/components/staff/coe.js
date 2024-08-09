@@ -102,7 +102,7 @@ function Coe() {
             </div>
             <div className="text-right font-bold text-xl ml-28 text-white">No of Students:  {users.length}</div>
 
-            <div className="grid grid-cols-8 w-auto mt-7 bg-amber-300">
+            <div className="grid grid-cols-8 w-auto mt-7 bg-amber-200">
                 <div className="font-bold border border-white text-center py-3">Register No.</div>
                 <div className="font-bold border border-white text-center py-3">Name</div>
                 <div className="font-bold border border-white text-center py-3">Department</div>
@@ -113,7 +113,7 @@ function Coe() {
                 <div className="font-bold border border-white text-center w-53 -ml-20 py-3">Remark</div>
             </div>
             {users.map((user, index) => (
-                <div key={`${user._id}-${index}`} className="grid grid-cols-8 w-auto bg-amber-200">
+                <div key={`${user._id}-${index}`} className="grid grid-cols-8 w-auto bg-amber-100">
                     <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>

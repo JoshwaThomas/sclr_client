@@ -149,7 +149,7 @@ function Fundstatement() {
                     Download Excel
                 </button>
             </div>
-            <div className='mt-6 grid grid-cols-6  w-auto bg-amber-300'>
+            <div className='mt-6 grid grid-cols-6  w-auto bg-amber-200'>
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
@@ -165,7 +165,7 @@ function Fundstatement() {
 
             </div>
             {filterUsers.map((user) => (
-                <div key={user.pan} className="grid grid-cols-6 bg-amber-200">
+                <div key={user.pan} className="grid grid-cols-6 bg-amber-100">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
                     <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDateString(user.scholdate)}</div>
                     <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3 lg: w-71">{user.name}</div>

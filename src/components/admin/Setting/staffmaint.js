@@ -37,12 +37,12 @@ function Staffmang() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Staffs</h3>
-            <div className='grid grid-cols-2 mt-7 bg-amber-300'>
+            <div className='grid grid-cols-2 mt-7 bg-amber-200'>
                 <div className="font-bold border border-white text-center py-3">User ID</div>
                 <div className="font-bold border border-white text-center py-3">Password</div>
             </div>
             {users.map((user, index) => (
-                <div key={index} className="grid grid-cols-2 w-auto bg-amber-200">
+                <div key={index} className="grid grid-cols-2 w-auto bg-amber-100">
                     <div className="font-bold border border-white text-center  py-3">{user.staffId}</div>
                     <div className="font-bold border border-white text-center  py-3">
                         {user.password} <FaEdit className="inline cursor-pointer" onClick={() => handleEditClick(user)} />

@@ -233,7 +233,7 @@ function StuReport() {
                         ))}
                     </select>
                     <div className='grid grid-cols-2'>
-                        <div className='end-px text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -269,7 +269,7 @@ function StuReport() {
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
 
                         </div>
-                        <div className=' -ml-56 text-white border border-amber-300 w-72 mt-4 py-2 border-4'>
+                        <div className=' -ml-56 text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -404,7 +404,7 @@ function StuReport() {
 
                 </div>*/}
 
-                <div className='end-px text-white border border-amber-300 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                     <input
                         type="checkbox"
                         id="muaddin"
@@ -459,7 +459,7 @@ function StuReport() {
                 </button>
 
 
-                <div className='mt-6 grid grid-cols-5  w-auto bg-amber-300'>
+                <div className='mt-6 grid grid-cols-5  w-auto bg-amber-200'>
 
                     <div className="font-bold border border-white text-center py-3">Reg. No</div>
                     <div className="font-bold border border-white text-center py-3">Dept</div>
@@ -468,7 +468,7 @@ function StuReport() {
                     <div className="font-bold border border-white text-center py-3">ACTION</div>
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-200">
+                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-100">
 
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
