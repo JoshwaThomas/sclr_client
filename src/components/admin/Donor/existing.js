@@ -427,7 +427,9 @@ function Existing() {
                             required
                         />
                     </div>
-                    <button type='submit' className=' p-2 border px-3 mr-3 mt-10 rounded-md bg-orange-500'>Submit</button>
+                    <div className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>
+                    <button type='submit'>Submit</button>
+                </div>
                 </div>
                 {donar && (
                     <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>

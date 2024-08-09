@@ -30,7 +30,7 @@ function Accyears() {
                         name="acyear"
                         value={acyear}
                         onChange={(e) => setAcYear(e.target.value)}
-                        className="w-28 p-1 border rounded-md text-slate-950 ml-8"
+                        className="w-28 p-1 border rounded-md text-slate-950 ml-4 mt-5"
                         required
                     >
                         <option value="">Select</option>

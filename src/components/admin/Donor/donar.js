@@ -444,7 +444,7 @@ const Donar = () => {
             </div>
            
           </div>
-          <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md bg-orange-500'>Submit</button>
+          <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
           {/* <button
             type="submit"
             className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
