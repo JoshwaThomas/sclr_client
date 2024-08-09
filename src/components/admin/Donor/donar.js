@@ -50,6 +50,8 @@ const Donar = () => {
       try {
         const response = await axios.get('http://localhost:3001/api/admin/last-donor-id');
         const newDonorId = response.data.lastDid + 1;
+        console.log('DonorId:', response.data.lastDid)
+        console.log('New DonorId:', newDonorId)
         setDid(newDonorId.toString());
       } catch (error) {
         console.error('Error fetching last donor ID', error);

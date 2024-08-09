@@ -2,6 +2,7 @@ import { useEffect, useState, React } from 'react';
 import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import dayjs from 'dayjs';
 
 function StudawardReport() {
 
@@ -94,6 +95,7 @@ function StudawardReport() {
         const headers = [
 
             'FRESHER/RENEWAL',
+            'DATE',
             'REGISTER NO',
             'NAME',
             'DEPARTMENT',
@@ -106,6 +108,7 @@ function StudawardReport() {
         const dataWithHeaders = [headers, ...users.map(user => [
 
             user.fresherOrRenewal,
+            formatDate(user.amtdate),
             user.registerNo,
             user.name,
             user.dept,
@@ -131,7 +134,14 @@ function StudawardReport() {
             currency: 'INR',
             minimumFractionDigits: 2,
         }).format(amount);
+
     };
+
+    const formatDate = (dateString) => {
+        return dayjs(dateString).format('DD-MM-YYYY');
+    };
+
+
     return (
         <div>
             <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENT REPORTS</h1>
@@ -198,8 +208,9 @@ function StudawardReport() {
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-amber-300'>
+                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-300'>
 
+                    <div className="font-bold border border-white text-center py-3">DATE</div>
                     <div className="font-bold border border-white text-center py-3">REGISTER No</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
@@ -207,8 +218,8 @@ function StudawardReport() {
                     <div className="font-bold border border-white text-center py-3">ACADEMIC</div>
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-200">
-
+                    <div key={index} className="grid grid-cols-6 w-auto bg-amber-200">
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatDate(user.amtdate)}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>

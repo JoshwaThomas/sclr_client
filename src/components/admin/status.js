@@ -178,6 +178,7 @@ function Status() {
                 setState(result.data.state)
                 setDistrict(result.data.district)
                 setPin(result.data.pin)
+                
                 setShowModifyModal(true); // Show modify modal when student data is fetched
             }
         } catch (err) {
