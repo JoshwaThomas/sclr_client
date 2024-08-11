@@ -201,11 +201,7 @@ function FundReport(){
                 >
                     Download Excel
                 </button>
-<<<<<<< HEAD
-                <div className='mt-6 grid grid-cols-7 w-auto bg-amber-300'>
-=======
-                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
->>>>>>> ccf47cac5cf3776f559bf37ba0a28abebd8e6758
+                <div className='mt-6 grid grid-cols-7 w-auto bg-amber-200'>
                 <div className="font-bold border border-white text-center py-3">Academic Year</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
@@ -215,11 +211,7 @@ function FundReport(){
                     <div className="font-bold border border-white text-center py-3">Pan</div>
                 </div>
                 {filterUsers.map((user, index) => (
-<<<<<<< HEAD
-                    <div key={index} className="grid grid-cols-7 w-auto bg-amber-200">
-=======
                     <div key={index} className="grid grid-cols-6 w-auto bg-amber-100">
->>>>>>> ccf47cac5cf3776f559bf37ba0a28abebd8e6758
                         <div className="font-bold border border-white text-center uppercase py-3">{user.acyear}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
