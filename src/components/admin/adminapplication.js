@@ -397,7 +397,7 @@ function Action() {
         setScholType('');
         setScholdonar('');
     };
-// it worked
+    // it worked
     // const ScholSubmit = (e) => {
     //     e.preventDefault();
     //     axios.get('http://localhost:3001/api/admin/current-acyear')
@@ -458,7 +458,7 @@ function Action() {
     //checked
     const ScholSubmit = async (e) => {
         e.preventDefault();
-        
+
         try {
             // Fetch current academic year
             const acYearResponse = await axios.get('http://localhost:3001/api/admin/current-acyear');
@@ -467,32 +467,32 @@ function Action() {
             }
             const acyear = acYearResponse.data.acyear.acyear;
             const balanceField = zakkath ? 'zakkathbal' : 'balance';
-    
+
             // Update donor's balance
             const donorResponse = await axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
                 amount: scholamt,
                 balanceField: balanceField
             });
-    
+
             console.log(donorResponse);
             const updatedBalance = donorResponse.data.updatedBalance;
             window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
-    
+
             // Save scholarship amount in AmountModel
             const saveAmountResponse = await axios.post('http://localhost:3001/api/admin/freshamt', {
                 registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
             });
-    
+
             console.log('Amount saved in AmountModel:', saveAmountResponse);
-    
+
             // Update state and clear inputs only if everything succeeded
             const newSubmission = { scholtype, scholdonar, scholamt };
             setSubmittedData(prevData => [...prevData, newSubmission]);
             refreshInputs();
-    
+
         } catch (err) {
             console.error('Error during submission:', err);
-            
+
             // Specific error handling
             if (err.response && err.response.status === 400) {
                 if (err.response.data.message === 'Insufficient balance') {
@@ -503,7 +503,7 @@ function Action() {
             } else {
                 window.alert("I am Dull Try Later");
             }
-            
+
             // Optionally, you could add additional logging or actions here
             console.error('Data was not saved due to an error.');
         }
@@ -852,8 +852,8 @@ function Action() {
             </div>
             {showModal && selectedUser && (
 
-                <div className="fixed inset-0  flex items-center justify-center -mr-52 bg-black bg-opacity-50">
-                    <div className="bg-white w-4/5 h-full rounded-lg overflow-auto p-6">
+                <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-50">
+                    <div className="bg-white w-3/4 h-3/4 rounded-lg overflow-auto p-6">
                         {/* fresher form data retrive */}
                         <div>
                             <div className=' '>
@@ -1117,7 +1117,7 @@ function Action() {
                                         onChange={(e) => setScholdonar(e.target.value)}
                                         className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
                                     >
-                                     <option value="">Select Donor</option>
+                                        <option value="">Select Donor</option>
                                         {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
                                             <option key={donar._id} value={donar._id}>
                                                 {donar.name}
@@ -1135,18 +1135,18 @@ function Action() {
 
                                     />
                                 </div>
-                                </div>
-                                <div className="block relative">
-                                    <button
-                                        type="submit"
-                                        onClick={ScholSubmit}
-                                        className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
-                                    >
-                                        Confirm
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="block relative">
+                                <button
+                                    type="submit"
+                                    onClick={ScholSubmit}
+                                    className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
+                                >
+                                    Confirm
+                                </button>
+                            </div>
 
-                            
+
                             {submittedData.length > 0 && (
                                 <div>
 
