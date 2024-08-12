@@ -4,7 +4,7 @@ import axios from 'axios';
 const ScholarshipForm = () => {
 
   const [student, setStudent] = useState(null);
- 
+
   const [ugOrPg, setUgOrPg] = useState('')
   const [semester, setSemester] = useState('')
   const [name, setName] = useState('')
@@ -44,6 +44,7 @@ const ScholarshipForm = () => {
   const [siblingsOccupation, setSiblingsOccupation] = useState()
   const [siblingsIncome, setSiblingsIncome] = useState()
   const [showPopup, setShowPopup] = useState(true);
+  // const [jamath, setJamath] = useState("");
 
   // useEffect(() => {
   //   const calculateSemPercentage = () => {
@@ -84,8 +85,8 @@ const ScholarshipForm = () => {
   //   calculateClassAttendancePercentage();
   // }, [classAttendance, classMaxAttendance]);
 
-   //pop display close
-   const closePopup = () => {
+  //pop display close
+  const closePopup = () => {
     setShowPopup(false);
   };
 
@@ -142,15 +143,54 @@ const ScholarshipForm = () => {
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
+
+          // const formData = new FormData();
+          // formData.append("deeniyath", deeniyath);
+          // formData.append("ugOrPg", ugOrPg);
+          // formData.append("semester", semester);
+          // formData.append("name", name);
+          // formData.append("registerNo", registerNo);
+          // formData.append("dept", dept);
+          // formData.append("section", section);
+          // formData.append("religion", religion);
+          // formData.append("procategory", procategory);
+          // formData.append("address", address);
+          // formData.append("district", district);
+          // formData.append("state", state);
+          // formData.append("pin", pin);
+          // formData.append("specialCategory", specialCategory);
+          // formData.append("aadhar", aadhar);
+          // formData.append("hostel", hostel);
+          // formData.append("mobileNo", mobileNo);
+          // formData.append("fatherName", fatherName);
+          // formData.append("fatherNo", fatherNo);
+          // formData.append("fatherOccupation", fatherOccupation);
+          // formData.append("annualIncome", annualIncome);
+          // formData.append("siblings", siblings);
+          // formData.append("siblingsNo", siblingsNo);
+          // formData.append("siblingsOccupation", siblingsOccupation);
+          // formData.append("siblingsIncome", siblingsIncome);
+          // formData.append("acyear", acyear);
+          // formData.append("jamath", jamath);
+
+          // axios
+          //   .post("http://localhost:3001/renewal", formData, {
+          //     headers: { "Content-Type": "multipart/form-data" },
+          //   })
+
           axios.post("http://localhost:3001/renewal", {
-             ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
+            ugOrPg, semester, name, registerNo, dept, section, religion, procategory, address, state, district, pin, specialCategory,
             community, hostel, mobileNo, fatherName, fatherNo, fatherOccupation, annualIncome,
-              lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome, 
-            })
+            lastCreditedAmt, acyear, aadhar, siblingsNo, siblingsOccupation, siblingsIncome,
+          })
             .then(result => {
               if (result.data.success) {
                 window.alert("Your Application Submitted Successfully");
-             
+                console.log(result)
+                setTimeout(() => {
+                  window.location.reload();
+                }, 6000);
+
               }
               else if (result.data.message === 'Register No. Already Existing') {
                 alert("Register No. Already Existing")
@@ -533,23 +573,23 @@ const ScholarshipForm = () => {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
-               
-              <div>
-              <label className="block mb-1">Religion:</label>
-              <select
-                name="religion"
-                value={religion}
-                onChange={(e) => setReligion(e.target.value)}
-                className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
-              >
-                <option value="">Select</option>
-                <option value="ISLAM">Islam</option>
-                <option value="HINDU">Hindu</option>
-                <option value="CHRISTIAN">Christian</option>
-                <option value="OTHERS">Others</option>
-              </select>
-            </div>
+
+                <div>
+                  <label className="block mb-1">Religion:</label>
+                  <select
+                    name="religion"
+                    value={religion}
+                    onChange={(e) => setReligion(e.target.value)}
+                    className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                    required
+                  >
+                    <option value="">Select</option>
+                    <option value="ISLAM">Islam</option>
+                    <option value="HINDU">Hindu</option>
+                    <option value="CHRISTIAN">Christian</option>
+                    <option value="OTHERS">Others</option>
+                  </select>
+                </div>
                 {/* <div>
                   <label className="block mb-1">Community:</label>
                   <select
@@ -654,7 +694,7 @@ const ScholarshipForm = () => {
                     required
                   />
                 </div>
-                
+
                 <div>
                   <label className="block mb-1 ">Permanent Address</label>
                   <input
@@ -778,51 +818,66 @@ const ScholarshipForm = () => {
                   />
                 </div>
                 <div>
-                <label className="block mb-1 -mt-4">Siblings:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblings}
-                  onChange={(e) => setSiblings(e.target.value)}
-                  className=" w-44 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 -mt-4">Siblings:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblingsNo}
-                  onChange={(e) => setSiblingsNo(e.target.value)}
-                  className=" w-44 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 -mt-4">Siblings Occupation:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblingsOccupation}
-                  onChange={(e) => setSiblingsOccupation(e.target.value)} 
-                  className=" w-44 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-1 -mt-4">Siblings Income:</label>
-                <input
-                  type="text"
-                  name="siblings"
-                  value={siblingsIncome}
-                  onChange={(e) => setSiblingsIncome(e.target.value)} 
-                  className=" w-44 p-2 border rounded-md text-slate-950"
-                  required
-                />
-              </div>
+                  <label className="block mb-1 -mt-4">Siblings:</label>
+                  <input
+                    type="text"
+                    name="siblings"
+                    value={siblings}
+                    onChange={(e) => setSiblings(e.target.value)}
+                    className=" w-44 p-2 border rounded-md text-slate-950"
+                    required
+                  />
+                </div>
+                {siblings === 'Yess' && (
+                  <div>
+                    <div>
+                      <label className="block mb-1 -mt-4">Siblings:</label>
+                      <input
+                        type="text"
+                        name="siblings"
+                        value={siblingsNo}
+                        onChange={(e) => setSiblingsNo(e.target.value)}
+                        className=" w-44 p-2 border rounded-md text-slate-950"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1 -mt-4">Siblings Occupation:</label>
+                      <input
+                        type="text"
+                        name="siblings"
+                        value={siblingsOccupation}
+                        onChange={(e) => setSiblingsOccupation(e.target.value)}
+                        className=" w-44 p-2 border rounded-md text-slate-950"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block mb-1 -mt-4">Siblings Income:</label>
+                      <input
+                        type="text"
+                        name="siblings"
+                        value={siblingsIncome}
+                        onChange={(e) => setSiblingsIncome(e.target.value)}
+                        className=" w-44 p-2 border rounded-md text-slate-950"
+                        required
+                      />
+                    </div>
+                  </div>
+                )}
 
-              {/* <div>
+                {/* Jamath section */}
+                {/* <div>
+                  <label className="block mb-1 mt-2 w-auto">Jamath Letter:</label>
+                  <input
+                    type="file"
+                    name="jamath"
+                    onChange={(e) => setJamath(e.target.files[0])}
+                    className=" mt-1 border rounded-md p-2 text-slate-950"
+                  />
+                </div> */}
+
+                {/* <div>
                 <label className="block mb-1">No of Arrear<span className=' text-red-500 text-lg'><sup>*</sup></span>:</label>
                 <input
                   type="text"
@@ -966,13 +1021,13 @@ const ScholarshipForm = () => {
             >
               Submit
             </button>
-            
+
           </div>
         </form>
 
-      
-           {/* Instructions */}
-           {showPopup && (
+
+        {/* Instructions */}
+        {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-red-400 w-3/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
               <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>

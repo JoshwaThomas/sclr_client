@@ -397,62 +397,116 @@ function Action() {
         setScholType('');
         setScholdonar('');
     };
+    // it worked
+    // const ScholSubmit = (e) => {
+    //     e.preventDefault();
+    //     axios.get('http://localhost:3001/api/admin/current-acyear')
+    //         .then(response => {
+    //             if (response.data.success) {
+    //                 const acyear = response.data.acyear.acyear;
 
-    const ScholSubmit = (e) => {
+    //                 const balanceField = zakkath ? 'zakkathbal' : 'balance';
+
+    //                 // Check the donor details and balance amount before saving to freshamt
+    //                 axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
+    //                     amount: scholamt,
+    //                     balanceField: balanceField
+    //                 })
+    //                     .then(result => {
+    //                         console.log(result);
+    //                         const updatedBalance = result.data.updatedBalance;
+    //                         window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
+
+    //                         return axios.post('http://localhost:3001/api/admin/freshamt', {
+    //                             fresherOrRenewal, registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
+    //                         });
+    //                     })
+    //                     .then(result => {
+    //                         const newSubmission = { scholtype, scholdonar, scholamt };
+    //                         setSubmittedData(prevData => [...prevData, newSubmission]);
+    //                         refreshInputs();
+
+    //                         console.log(result);
+
+    //                     })
+
+    //                     .catch(err => {
+    //                         console.log(err);
+    //                         if (err.response && err.response.status === 400) {
+    //                             if (err.response.data.message === 'Insufficient balance') {
+    //                                 window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
+    //                             } else {
+    //                                 window.alert("Server Not Response!");
+    //                             }
+    //                         } else {
+    //                             window.alert("I am Dull Try Later");
+    //                         }
+
+    //                     });
+    //             }
+    //             else {
+    //                 console.error('Failed to fetch current academic year');
+    //                 window.alert('Failed to fetch current academic year');
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching current academic year:', error);
+    //             window.alert('Error fetching current academic year');
+    //         });
+    // };
+
+    //checked
+    const ScholSubmit = async (e) => {
         e.preventDefault();
-        axios.get('http://localhost:3001/api/admin/current-acyear')
-            .then(response => {
-                if (response.data.success) {
-                    const acyear = response.data.acyear.acyear;
 
-                    const balanceField = zakkath ? 'zakkathbal' : 'balance';
+        try {
+            // Fetch current academic year
+            const acYearResponse = await axios.get('http://localhost:3001/api/admin/current-acyear');
+            if (!acYearResponse.data.success) {
+                throw new Error('Failed to fetch current academic year');
+            }
+            const acyear = acYearResponse.data.acyear.acyear;
+            const balanceField = zakkath ? 'zakkathbal' : 'balance';
 
-                    // Check the donor details and balance amount before saving to freshamt
-                    axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
-                        amount: scholamt,
-                        balanceField: balanceField
-                    })
-                        .then(result => {
-                            console.log(result);
-                            const updatedBalance = result.data.updatedBalance;
-                            window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
-
-                            return axios.post('http://localhost:3001/api/admin/freshamt', {
-                                fresherOrRenewal, registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
-                            });
-                        })
-                        .then(result => {
-                            const newSubmission = { scholtype, scholdonar, scholamt };
-                            setSubmittedData([...submittedData, newSubmission]);
-                            refreshInputs();
-
-                            console.log(result);
-
-                        })
-
-                        .catch(err => {
-                            console.log(err);
-                            if (err.response && err.response.status === 400) {
-                                if (err.response.data.message === 'Insufficient balance') {
-                                    window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
-                                } else {
-                                    window.alert("Server Not Response!");
-                                }
-                            } else {
-                                window.alert("I am Dull Try Later");
-                            }
-
-                        });
-                }
-                else {
-                    console.error('Failed to fetch current academic year');
-                    window.alert('Failed to fetch current academic year');
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching current academic year:', error);
-                window.alert('Error fetching current academic year');
+            // Update donor's balance
+            const donorResponse = await axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
+                amount: scholamt,
+                balanceField: balanceField
             });
+
+            console.log(donorResponse);
+            const updatedBalance = donorResponse.data.updatedBalance;
+            window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
+
+            // Save scholarship amount in AmountModel
+            const saveAmountResponse = await axios.post('http://localhost:3001/api/admin/freshamt', {
+                registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
+            });
+
+            console.log('Amount saved in AmountModel:', saveAmountResponse);
+
+            // Update state and clear inputs only if everything succeeded
+            const newSubmission = { scholtype, scholdonar, scholamt };
+            setSubmittedData(prevData => [...prevData, newSubmission]);
+            refreshInputs();
+
+        } catch (err) {
+            console.error('Error during submission:', err);
+
+            // Specific error handling
+            if (err.response && err.response.status === 400) {
+                if (err.response.data.message === 'Insufficient balance') {
+                    window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
+                } else {
+                    window.alert("Server Not Response!");
+                }
+            } else {
+                window.alert("I am Dull Try Later");
+            }
+
+            // Optionally, you could add additional logging or actions here
+            console.error('Data was not saved due to an error.');
+        }
     };
 
     const Submit = (e) => {
@@ -713,7 +767,7 @@ function Action() {
 
             </div>
             <div className='mt-6 pl-0'>
-                <div className="text-right font-bold text-xl mr-40 text-white">No Of Students :  {filterUsers.length}</div>
+                <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {filterUsers.length}</div>
                 <div className="grid grid-cols-4 w-auto bg-amber-200">
                     <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
@@ -1063,7 +1117,7 @@ function Action() {
                                         onChange={(e) => setScholdonar(e.target.value)}
                                         className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
                                     >
-                                     <option value="">Select Donor</option>
+                                        <option value="">Select Donor</option>
                                         {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
                                             <option key={donar._id} value={donar._id}>
                                                 {donar.name}
@@ -1081,18 +1135,18 @@ function Action() {
 
                                     />
                                 </div>
-                                </div>
-                                <div className="block relative">
-                                    <button
-                                        type="submit"
-                                        onClick={ScholSubmit}
-                                        className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
-                                    >
-                                        Confirm
-                                    </button>
-                                </div>
+                            </div>
+                            <div className="block relative">
+                                <button
+                                    type="submit"
+                                    onClick={ScholSubmit}
+                                    className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
+                                >
+                                    Confirm
+                                </button>
+                            </div>
 
-                            
+
                             {submittedData.length > 0 && (
                                 <div>
 

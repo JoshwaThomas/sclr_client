@@ -216,8 +216,8 @@ function Existing() {
         printWindow.document.close();
         printWindow.focus();
         printWindow.print();
-      };
-    
+    };
+
 
     const Submit = async (e) => {
         e.preventDefault();
@@ -246,12 +246,12 @@ function Existing() {
                 };
                 const result = await axios.post('http://localhost:3001/api/admin/donar', postData);
                 console.log(result);
-                if(result){
+                if (result) {
                     handlePrint();
                     window.alert("Your Application Updated Successfully");
                     setTimeout(() => {
                         window.location.reload();
-                    }, 1000); 
+                    }, 1000);
                 }
                 // window.alert("Your Application Updated Successfully");
             }
@@ -428,8 +428,8 @@ function Existing() {
                         />
                     </div>
                     <div className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>
-                    <button type='submit'>Submit</button>
-                </div>
+                        <button type='submit'>Submit</button>
+                    </div>
                 </div>
                 {donar && (
                     <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>
@@ -670,14 +670,14 @@ function Existing() {
                 )}
 
             </form>
-             <div ref={printRef} style={{ display: 'none' }}>
-      <img src={PrintHeader} alt="Print Header" />
-        <h1>Donation Receipt</h1>
-        <p><strong>Donor Name:</strong> {name}</p>
-        <p><strong>Mobile Number:</strong> {mobileNo}</p>
-        <p><strong>Donation Amount:</strong> Rs. {amount || zakkathamt}</p>
-        <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
-      </div>
+            <div ref={printRef} style={{ display: 'none' }}>
+                <img src={PrintHeader} alt="Print Header" />
+                <h1>Donation Receipt</h1>
+                <p><strong>Donor Name:</strong> {name}</p>
+                <p><strong>Mobile Number:</strong> {mobileNo}</p>
+                <p><strong>Donation Amount:</strong> Rs. {amount || zakkathamt}</p>
+                <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
+            </div>
 
         </div>
     )
