@@ -208,11 +208,7 @@ function StudawardReport() {
                 >
                     Download Excel
                 </button>
-<<<<<<< HEAD
                 <div className='mt-6 grid grid-cols-5 w-auto bg-amber-200'>
-=======
-                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-300'>
->>>>>>> cdb660daa6108618fde0694a9ea13f3bcc99acd0
 
                     <div className="font-bold border border-white text-center py-3">DATE</div>
                     <div className="font-bold border border-white text-center py-3">REGISTER No</div>
@@ -222,13 +218,8 @@ function StudawardReport() {
                     <div className="font-bold border border-white text-center py-3">ACADEMIC</div>
                 </div>
                 {filterUsers.map((user, index) => (
-<<<<<<< HEAD
                     <div key={index} className="grid grid-cols-5 w-auto bg-amber-100">
 
-=======
-                    <div key={index} className="grid grid-cols-6 w-auto bg-amber-200">
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatDate(user.amtdate)}</div>
->>>>>>> cdb660daa6108618fde0694a9ea13f3bcc99acd0
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>

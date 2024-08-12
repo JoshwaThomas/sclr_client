@@ -799,7 +799,7 @@ function Action() {
             {showModal && selectedUser && (
 
                 <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-50">
-                    <div className="bg-white w-3/4 h-3/4 rounded-lg overflow-auto p-6">
+                    <div className="bg-white ml-64 w-5/6 h-full rounded-lg overflow-auto p-6">
                         {/* fresher form data retrive */}
                         <div>
                             <div className=' '>
@@ -983,7 +983,7 @@ function Action() {
                         <div className=' ml-80'>
                             <button
                                 onClick={() => handleAccept(selectedUser)}
-                                className={`px-4 py-2 ml-2 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                className={`px-4 py-2 ml-20 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
                                 disabled={selectedUser.action !== 0}
                             >
                                 Accept
