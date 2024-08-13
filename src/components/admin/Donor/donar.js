@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import PrintHeader from '../../../assets/printHeader.jpg';
+import dayjs from 'dayjs';
 
 const Donar = () => {
   const [name, setName] = useState()
@@ -65,7 +66,7 @@ const Donar = () => {
   const handlePrint = () => {
     const printWindow = window.open('', '', 'height=600,width=800');
     const content = printRef.current.innerHTML;
-    printWindow.document.write('<html><head><title>Print</title></head><body>');
+    printWindow.document.write('<html><head><title>Print</title><link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"></head><body>');
     printWindow.document.write(content);
     printWindow.document.write('</body></html>');
     printWindow.document.close();
@@ -88,7 +89,8 @@ const Donar = () => {
             .then(result => {
               console.log(result);
               if (result.data.success) {
-                handlePrint();
+                // handlePrint();
+                alert("Successfully Submited")
               } else if (result.data.message === 'Donor Already Existing') {
                 alert("Donor ID Already Existing");
               } else {
@@ -107,7 +109,9 @@ const Donar = () => {
       });
   };
 
-
+  const formatDate = (dateString) => {
+    return dayjs(dateString).format('DD-MM-YYYY');
+};
 
   return (
     <div>
@@ -444,28 +448,38 @@ const Donar = () => {
             </div>
 
           </div>
-          <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
-          {/* <button
+          <button 
+          type='submit' 
+          className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'
+          
+          >
+            Submit
+          </button>
+          <button
             type="submit"
             className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
             onClick={handlePrint}
-            disabled={!isPrint}
+            // disabled={!isPrint}
           >
             Print
-          </button> */}
+          </button>
         </div>
 
 
       </form>
       <div ref={printRef} style={{ display: 'none' }}>
         <img src={PrintHeader} alt="Print Header" />
-        <div className=' h-full border border-black'>
+        <div className=' h-3/4 w-11/12 mx-7 border border-black'>
           {/* <h1 className='text-center mt-4' >Thanks Letter</h1> */}
-          <span className='text-right text-lg '>Date: {scholdate}</span>
-          <h3> {name}</h3>
-          <p className=' text-justify text-lg'>We want to express our heartfelt thanks for your generous scholarship donation to support financially disadvantaged students at Jamal Mohamed College. Your kindness has provided these students with invaluable opportunities, allowing them to pursue their education without the weight of financial stress. Your commitment to helping those in need has not only transformed their academic journey but also inspired hope and motivation in their lives.
-            We are incredibly grateful for your continued support and the positive impact you've made on our community. Wishing you and your loved ones a joyful and blessed Thanksgiving.
-            With deepest appreciation,</p>
+          <div className=' font-bold text-right text-lg mt-10 px-8'>Date: {formatDate(scholdate)}</div>
+          <h3 className=' font-bold text-lg mt-10 px-8'> {name}</h3>
+          <p className=' text-justify text-lg mt-5 px-10'><span className='ml-5'>We want to express</span> our heartfelt thanks for your generous scholarship donation to support financially disadvantaged students at Jamal Mohamed College. 
+            Your kindness has provided these students with invaluable opportunities, allowing them to pursue their education without the weight of financial stress. 
+            Your commitment to helping those in need has not only transformed their academic journey but also inspired hope and motivation in their lives.<br/><br/>
+            <span className='ml-5'>We </span>are incredibly grateful for your continued support and the positive impact you've made on our community. Wishing you and your loved ones a joyful and blessed Thanksgiving.<br/><br/>
+            With deepest appreciation, <br/> <br/> <br/> 
+          </p>
+          <div className='font-bold text-right text-lg px-8'>Principal</div>
         </div>
       </div>
     </div>

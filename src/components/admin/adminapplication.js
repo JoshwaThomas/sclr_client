@@ -41,13 +41,13 @@ function Action() {
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
     useEffect(() => {
-        console.log('useEffect triggered');
+        // console.log('useEffect triggered');
         const fetchFreshUsers = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/fresh');
                 setUsers(response.data);
                 setFilterUsers(prev => [...prev, ...response.data]);
-                } catch (error) {
+            } catch (error) {
                 console.log(error);
             }
         };
@@ -252,6 +252,7 @@ function Action() {
 
         setFilteredDonars(filtered);
     }, [scholtype, zakkath, donars]);
+    
 
     // useEffect(() => {
     //     if (scholtype) {
@@ -1039,27 +1040,27 @@ function Action() {
                                             <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
                                             <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
                                         </div>
-                                       
+
                                     </div>
 
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl mt-5">
                                     {selectedUser.arrear !== 0 && (
                                         <div>
-                                        <label className="">No. Of Arrear :</label>{selectedUser.arrear}
+                                            <label className="">No. Of Arrear :</label>{selectedUser.arrear}
 
-                                    </div>
+                                        </div>
                                     )}
-                                    
+
                                     {selectedUser.fresherOrRenewal === 'Renewal' && (
-                                         <div>
-                                         <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
-                                     
-                                         {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
- 
-                                     </div>
+                                        <div>
+                                            <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
+
+                                            {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
+
+                                        </div>
                                     )}
-                        
+
                                     <div>
                                         <label className="">Jamath:</label>
                                         {selectedUser.jamath}
@@ -1118,16 +1119,16 @@ function Action() {
                                 <div className='uppercase font-bold'>
                                     <label className="block mb-1"></label>{selectedUser.specialCategory}
                                 </div>
-                                <div className=' flex inline-flex'>
+                                <div className='flex inline-flex'>
                                     <input
-                                        type="checkbox"
+                                        type="radio"
                                         name="zakkath"
                                         id="zakkath"
                                         checked={zakkath}
                                         onChange={(e) => setZakkath(e.target.checked)}
-                                        className=" scale-200"
+                                        className="scale-200"
                                     />
-                                    <label htmlFor="zakkath" className=" ml-3 mt-11 font-bold ">Zakkath</label>
+                                    <label htmlFor="zakkath" className="ml-3 mt-11 font-bold">Zakkath</label>
                                 </div>
                                 <div>
                                     <label className="block mb-1 mt-10">Scholarship Type</label>
