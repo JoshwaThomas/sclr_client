@@ -208,10 +208,7 @@ function StudawardReport() {
                 >
                     Download Excel
                 </button>
-<<<<<<< HEAD
-=======
 
->>>>>>> ed8bfa8cbc2bccbb3157b319e418ac1fe15086f7
                 <div className='mt-6 grid grid-cols-5 w-auto bg-amber-200'>
 
                     <div className="font-bold border border-white text-center py-3">DATE</div>

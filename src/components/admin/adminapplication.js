@@ -40,14 +40,14 @@ function Action() {
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
-
     useEffect(() => {
+        console.log('useEffect triggered');
         const fetchFreshUsers = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/fresh');
                 setUsers(response.data);
-                setFilterUsers(response.data);
-            } catch (error) {
+                setFilterUsers(prev => [...prev, ...response.data]);
+                } catch (error) {
                 console.log(error);
             }
         };
@@ -55,6 +55,7 @@ function Action() {
         const fetchRenewalUsers = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/renewal');
+                console.log('Renewal Users:', response.data); // L
                 setRusers(response.data);
                 setFilterUsers(prev => [...prev, ...response.data]);
             } catch (error) {
@@ -852,8 +853,8 @@ function Action() {
             </div>
             {showModal && selectedUser && (
 
-                <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-50">
-                    <div className="bg-white ml-64 w-5/6 h-full rounded-lg overflow-auto p-6">
+                <div className="fixed inset-0  flex items-center justify-center  ">
+                    <div className="bg-white ml-64 w-5/6 h-full  overflow-auto p-6">
                         {/* fresher form data retrive */}
                         <div>
                             <div className=' '>
@@ -861,77 +862,97 @@ function Action() {
 
                                     <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
 
-                                    <div className="space-x-4 inline-flex border p-10 rounded-xl">
-                                        <div className='uppercase'>
+                                    <div className="space-x-4 inline-flex border p-6 rounded-xl">
+                                        <div className='uppercase font-bold text-xl'>
                                             {selectedUser.fresherOrRenewal}
+                                        </div>
+                                    </div>
+                                    <div className="space-x-4 ml-5 inline-flex border p-6 rounded-xl">
+                                        <div className='uppercase font-bold text-xl'>
+                                            {selectedUser.specialCategory}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Personal Details</h3>
+                            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-4 text-white">Personal Details</h3>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
 
-                                <div className='uppercase'>
-                                    {/* <label className="block mb-1">Register No.:</label> */}
-                                    {selectedUser.registerNo}
-
-                                    {/* <label className="block mb-1">Name:</label> */}
-                                    <div>
-                                        {selectedUser.name}
-                                    </div>
+                                <div className=''>
+                                    <label className="block ">Register No.:</label>
+                                    <label className='font-bold text-lg uppercase'> {selectedUser.registerNo} </label>
 
                                     <div>
-                                        {/* <label className="block mb-1">Department:</label> */}
-                                        {selectedUser.dept}
+                                        <label className="block mt-2">Name:</label>
+                                        <label className='font-bold text-lg uppercase'>  {selectedUser.name} </label>
+                                    </div>
+
+                                    <div>
+                                        <label className="block mt-2">Department:</label>
+                                        <label className='font-bold text-lg uppercase'>  {selectedUser.dept} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">Section</label> */}
-                                        {selectedUser.section}
+                                        <label className="block mb-1">Section</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.section} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">UG Or PG</label> */}{selectedUser.ugOrPg}
+                                        <label className="block mt-2">UG or PG</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.ugOrPg} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">Programme Category</label> */}
-                                        {selectedUser.procategory}
+                                        <label className="block mt-2">Programme Category</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.procategory} </label>
                                     </div>
                                     <div>
 
-                                        {/* <label className="block mb-1">Semester:</label>  */}
-                                        {selectedUser.semester}
+                                        <label className="block mt-2">Semester:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.semester} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">Mobile No.:</label> */}
-                                        {selectedUser.mobileNo}
+                                        <label className="block mt-2">Mobile No.:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.mobileNo} </label>
                                     </div>
                                 </div>
-                                <div className='uppercase'>
+                                <div className=''>
                                     <div>
-                                        <label className="block mb-1">S/O,D/O</label>{selectedUser.fatherName}
+                                        <label className="block mt-2">S/O,D/O</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherName} </label>
                                     </div>
                                     <div>
+                                        <label className="block mt-2">Father's Contact No.:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherNo} </label>
 
-                                        {/* <label className="block mb-1">Father's Contact No.:</label> */}
+                                    </div>
+                                    <div>
+                                        <label className="block mt-2">Father's Occupation:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherOccupation} </label>
+                                    </div>
+                                    <div>
+                                        <label className="block mt-2">Annual Income:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.annualIncome} </label>
+                                    </div>
+                                    <div>
+                                        <label className="">Siblings: </label><br />
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.siblings} </label> <br />
+                                    </div>
+                                    {selectedUser.siblings === 'Yes' && (
+                                        <div>
+                                            <label className="">No of Siblings: </label> <br />
+                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsNo} </label><br />
+                                            <label className="">Siblings Occupation: </label> <br />
+                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsOccupation} </label><br />
+                                            <label className="">Siblings Annual Income: </label> <br />
+                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsIncome} </label>
+                                        </div>
+                                    )}
 
-                                        {/* <label className="block mb-1">Father's Occupation:</label> */}
-                                        {selectedUser.fatherOccupation}
-                                    </div>
-                                    <div>
-                                        {selectedUser.fatherNo}
-                                    </div>
-                                    <div>
-                                        {/* <label className="block mb-1">Annual Income:</label> */}
-                                        {selectedUser.annualIncome}
-                                    </div>
-                                    <label className="">Siblings: </label>{selectedUser.siblings}
 
                                 </div>
 
-                                <div className='uppercase'>
+                                <div className=''>
                                     <div>
-                                        {/* <label className="block mb-1">Hostel:</label> */}
-                                        {selectedUser.hostel}
+                                        <label className="block mt-2">Hostel:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.hostel} </label>
                                     </div>
 
                                     {/* </div>
@@ -956,31 +977,31 @@ function Action() {
 
                                     <div>
 
-                                        {/* <label className="block mb-1">Special Category:</label> */}
-                                        {selectedUser.specialCategory}
+                                        <label className="block mt-2">Special Category:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.specialCategory} </label>
                                     </div>
                                     <div>
 
-                                        {/* <label className="block mb-1">Religion:</label> */}
-                                        {selectedUser.religion}
+                                        <label className="block mt-2">Religion:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.religion} </label>
                                     </div>
                                     <div>
 
-                                        {/* <label className="block mb-1">Permanent Address</label> */}
-                                        {selectedUser.address}
+                                        <label className="block mt-2">Permanent Address</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.address} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">State:</label> */}
-                                        {selectedUser.state}
+                                        <label className="block mt-2">State:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.state} </label>
                                     </div>
                                     <div>
-                                        {/* 
-                                    <label className="block mb-1">District:</label> */}
-                                        {selectedUser.district}
+
+                                        <label className="block mt-2">District:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.district} </label>
                                     </div>
                                     <div>
-                                        {/* <label className="block mb-1">Pincode:</label> */}
-                                        {selectedUser.pin}
+                                        <label className="block mt-2">Pincode:</label>
+                                        <label className='font-bold text-lg uppercase'> {selectedUser.pin} </label>
                                     </div>
 
                                 </div>
@@ -989,46 +1010,61 @@ function Action() {
                             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
                             <div>
                                 <div className="overflow-x-auto">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
-                                        <div className='uppercase'>
-                                            <div>
-                                                <label className="">Last School Name:</label>{selectedUser.schoolName}
-                                            </div>
-                                            <div>
-                                                <label className="">Percentage of Mark:</label>{selectedUser.percentageOfMarkSchool}
-                                            </div>
-                                        </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 border p-10 rounded-xl">
+                                        {selectedUser.semester === 'I' && (
+                                            <div className='grid grid-cols-1 md:grid-cols-4 '>
+                                                <div>
+                                                    <label className="block mt-2 ">Last School Name:</label>
+                                                    <label className='font-bold text-lg uppercase -mr-96'> {selectedUser.schoolName} </label>
+                                                </div>
+                                                <div>
 
-                                        <div className='uppercase'>
-                                            <div>
-                                                <label className="">Semester:</label>{selectedUser.preSemester}
+                                                </div>
+                                                <div>
+                                                    <label className="block mt-2">Percentage of Mark:</label>
+                                                    <label className='font-bold text-lg uppercase'> {selectedUser.percentageOfMarkSchool} </label>
+                                                </div>
+                                                <div>
+                                                    <label className='block mt-2'>Year of Passing: </label>
+                                                    <label className='font-bold text-lg uppercase'> {selectedUser.yearOfPassing} </label>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <label className="">Percentage of Mark:</label>{selectedUser.semPercentage}
-                                            </div>
+                                        )}
+
+                                        <div className="grid grid-cols-2 w-auto ">
+                                            <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
+                                            <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}</div>
+                                            <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
+                                            <div className="font-bold border border-black text-left py-3 px-5"> {selectedUser.classAttendancePer === 0 ? 'Pending' : selectedUser.classAttendancePer}</div>
+                                            <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
+                                            <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
                                         </div>
+                                       
                                     </div>
 
                                 </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-
-                                    <div>
-                                        <label className="">Class Attendance Percentage:</label>{selectedUser.classAttendancePer}
-
-                                    </div>
-                                    <div>
-                                        <label className="">Deeniyath Percentage:</label>{selectedUser.deeniyathPer}
-
-                                    </div>
-                                    <div>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl mt-5">
+                                    {selectedUser.arrear !== 0 && (
+                                        <div>
                                         <label className="">No. Of Arrear :</label>{selectedUser.arrear}
 
                                     </div>
+                                    )}
+                                    
+                                    {selectedUser.fresherOrRenewal === 'Renewal' && (
+                                         <div>
+                                         <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
+                                     
+                                         {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
+ 
+                                     </div>
+                                    )}
+                        
                                     <div>
-                                        <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
+                                        <label className="">Jamath:</label>
                                         {selectedUser.jamath}
                                         {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
-
+                                        <img src={selectedUser.jamath} alt="Jamath" />
                                     </div>
                                 </div>
                             </div>

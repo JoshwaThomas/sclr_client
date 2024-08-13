@@ -442,7 +442,7 @@ const Donar = () => {
                 required
               />
             </div>
-           
+
           </div>
           <button type='submit' className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
           {/* <button
@@ -458,14 +458,15 @@ const Donar = () => {
 
       </form>
       <div ref={printRef} style={{ display: 'none' }}>
-      <img src={PrintHeader} alt="Print Header" />
-      <div className=' h-full border border-black'>
-        <h1 className='text-center mt-4' >Thanks Letter</h1>
-        <p><strong>Donor Name:</strong> {name}</p>
-        <p><strong>Mobile Number:</strong> {mobileNo}</p>
-        <p><strong>Donation Amount:</strong> Rs. {amount || zakkathamt}</p>
-        <p>Thank you for your generous donation. Your support helps us continue our work. We are grateful for your contribution.</p>
-      </div> 
+        <img src={PrintHeader} alt="Print Header" />
+        <div className=' h-full border border-black'>
+          {/* <h1 className='text-center mt-4' >Thanks Letter</h1> */}
+          <span className='text-right text-lg '>Date: {scholdate}</span>
+          <h3> {name}</h3>
+          <p className=' text-justify text-lg'>We want to express our heartfelt thanks for your generous scholarship donation to support financially disadvantaged students at Jamal Mohamed College. Your kindness has provided these students with invaluable opportunities, allowing them to pursue their education without the weight of financial stress. Your commitment to helping those in need has not only transformed their academic journey but also inspired hope and motivation in their lives.
+            We are incredibly grateful for your continued support and the positive impact you've made on our community. Wishing you and your loved ones a joyful and blessed Thanksgiving.
+            With deepest appreciation,</p>
+        </div>
       </div>
     </div>
   )
