@@ -48,7 +48,7 @@ function TextBox() {
         // padding: '20px',
         display: 'flex',
         // backgroundColor:'red',
-        marginBottom:'20px'
+        marginBottom:'5px'
 
     };
 
@@ -122,7 +122,7 @@ function TextBox() {
 
         <div>
 
-            <div style={topContainerStyle}>
+            <div style={topContainerStyle} className=' -mt-5'>
                 <div>
                     <img src={jmc} alt='LOGO' style={logoStyle} className='mt-2 ml-52 ' />
                 </div>
@@ -140,11 +140,11 @@ function TextBox() {
                 </div>
             </div>
 
-            <div style={bottomContainerStyle} className='bg-orange-500 ml-24 mr-24'>
+            <div style={bottomContainerStyle} className='bg-orange-500  ml-24 mr-24'>
                 <div style={leftcontainerfile} className=''>
                 <img src={Map} alt='LOGO' style={sclimg} className='mt-10 ml-10'/>
                 <span className="text-2xl font-bold text-center ml-28 mt-28 text-white  animate-pulse">Jamalians Around The World</span><br></br><br></br>
-                <span className="text-2xl font-bold text-center ml-32 mt-20 text-white  animate-pulse">Shows Us The Right Path</span>
+               
            
           
                 </div>
@@ -177,6 +177,8 @@ function TextBox() {
                     </form>
                     </div>
                 </div>
+                 <span className="text-2xl absolute font-bold top-28 right-48 text-center ml-32 mt-20 text-white">Shows Us The Right Path</span>
+                <h2 className="text-2xl absolute bottom-0 ml-12 font-bold mb-4 text-center text-white">"Eleventing the Next Generation Through the Support of Our Esteemed Alumini Community"</h2>
             </div>
 
 

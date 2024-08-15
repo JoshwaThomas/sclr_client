@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
@@ -11,17 +11,26 @@ import Fire from '../../assets/fire.gif'
 function LandingPage() {
   const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
  const closePopup = () => {
     setShowPopup(false);
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 10000); 
+    // Cleanup function to clear the timeout if the component is unmounted
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="w-screen h-screen flex flex-col overflow-hidden bg-blue-500">
       {showPopup ? (
         <div className="fixed inset-0 flex items-center justify-center">
-          <div className="bg-blue-500 w-screen h-screen overflow-auto p-6">
-          <img src={Jamal} alt="" className="absolute mt-32 h-3/6 w-96 ml-16 opacity-80" />
+          <div className="bg-blue-500 w-screen h-screen  p-4">
+          <img src={Jamal} alt="" className="absolute mt-36 h-3/6 w-1/3 ml-12 opacity-80" />
             <h2 className="text-5xl font-bold mb-4 text-center text-white">JMC Alumini Scholarship</h2>   
             <div className="text-center">
               <button
@@ -31,14 +40,15 @@ function LandingPage() {
                 LAUNCH
               </button>
             </div>
-            <h2 className="text-2xl font-bold mb-4 text-center mt-44 text-white">"Empowering Future Leaders Through Generosity"</h2>
-            <h2 className="text-2xl font-bold mb-4 text-center text-white">"Eleventing the next generation through the support of our esteemed alumini community"</h2>
+            <img src={Jmclogo} alt="" className="absolute h-2/3 w-96 -mt-72 right-12 " />
+            <h2 className="text-2xl font-bold mb-4 text-center mt-32 text-white">"Empowering Future Leaders Through Generosity"</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center text-white">"Eleventing the Next Generation Through the Support of Our Esteemed Alumni Community"</h2>
           </div>
         </div>
       ) : (
         <div className="flex flex-col space-x-2 justify-center items-center p-10">
           <div className="flex justify-center items-center rounded-lg bg-blue-500">
-          <img src={Fire} alt="" className="w-screen h-screen absolute -mt-10 opacity-20" />
+          {isVisible &&  <img src={Fire} alt="" className="w-screen h-screen absolute -mt-12 opacity-20" /> }
 
 
         <div className="w-1/2 -ml-10">
@@ -96,7 +106,7 @@ function LandingPage() {
           <div className=' w-full mt-40   h-full flex items-center justify-center relative'>
             <div className=' absolute bottom-1 right-20 flex flex-col items-start animate-pulse'>
               <p className=' font-medium text-white'>Developed By T. Joshwa Anand , <span className=' text-xs '>II MCA</span></p>
-              <p className=' font-semibold text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
+              <p className=' font-semibold txet-lg text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
             </div>
           </div>
         </div>
