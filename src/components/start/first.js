@@ -1,21 +1,49 @@
-import React from 'react';
+import React, { useState} from "react";
 import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
 // import Stud from '../../assets/stud.mp4';
-import Stud1 from '../../assets/stud1.gif'
+import Stud1 from '../../assets/stud1.gif';
+import Fire from '../../assets/fire.gif'
+
 
 
 function LandingPage() {
   const navigate = useNavigate();
+  const [showPopup, setShowPopup] = useState(true);
+
+ const closePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
-    <div className=" w-screen h-screen flex flex-col space-x-4  overflow-hidden justify-center items-center p-10 bg-blue-500">
-      <div className="flex justify-center items-center rounded-lg bg-blue-500 ">
+    <div className="w-screen h-screen flex flex-col overflow-hidden bg-blue-500">
+      {showPopup ? (
+        <div className="fixed inset-0 flex items-center justify-center">
+          <div className="bg-blue-500 w-screen h-screen overflow-auto p-6">
+          <img src={Jamal} alt="" className="absolute mt-32 h-3/6 w-96 ml-16 opacity-80" />
+            <h2 className="text-5xl font-bold mb-4 text-center text-white">JMC Alumini Scholarship</h2>   
+            <div className="text-center">
+              <button
+                onClick={closePopup}
+                className=  "bg-amber-50 text-black font-bold text-4xl shadow-2xl  px-12 py-12 hover:bg-green-400 hover:shadow-green-400 hover:text-white rounded-lg mt-52 "
+              >
+                LAUNCH
+              </button>
+            </div>
+            <h2 className="text-2xl font-bold mb-4 text-center mt-44 text-white">"Empowering Future Leaders Through Generosity"</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center text-white">"Eleventing the next generation through the support of our esteemed alumini community"</h2>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-col space-x-2 justify-center items-center p-10">
+          <div className="flex justify-center items-center rounded-lg bg-blue-500">
+          <img src={Fire} alt="" className="w-screen h-screen absolute -mt-10 opacity-20" />
+
 
         <div className="w-1/2 -ml-10">
           <img src={Jmclogo} alt="" className="absolute mt-16   h-2/3 w-96 ml-36 opacity-10 " />
-          <img src={Jamal} alt="" className="mt-40 opacity-100" />
+          <img src={Jamal} alt="" className="mt-40  opacity-100" />
           <h1 className="text-white text-center font-semibold text-2xl italic -mt-5 mr-10">
             Shows Us The Right Path </h1>
           <div className="relative z-10">
@@ -24,9 +52,6 @@ function LandingPage() {
             </h2>
             <img src={Stud1} alt="" className="absolute  w-52 h-52 -ml-16 -mt-44 " />
           </div>
-
-
-
         </div>
         <div className='mt-36 flex flex-col justify-evenly rounded-lg ml-16'>
           <div className='grid grid-cols-2 gap-14 ml-16'>
@@ -75,8 +100,10 @@ function LandingPage() {
             </div>
           </div>
         </div>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
 
   );
 }

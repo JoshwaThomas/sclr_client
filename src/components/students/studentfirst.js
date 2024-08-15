@@ -27,7 +27,7 @@ function Studentfirst() {
 
 
         </div>
-        <div className='mt-36 flex flex-col justify-evenly rounded-lg ml-16'>
+        <div className='flex flex-col justify-evenly rounded-lg ml-16'>
           <div className='grid grid-cols-2 gap-14 ml-16'>
             <button
               onClick={() => navigate('/freshstudent/application/fresh')}
@@ -42,13 +42,6 @@ function Studentfirst() {
                 Login   
             </button>
 
-          </div>
-
-          <div className=' w-full mt-40   h-full flex items-center justify-center relative '>
-            <div className='absolute bottom-1 right-2 flex flex-col items-start animate-pulse'>
-              <p className=' font-medium text-white'>Developed By T. Joshwa Anand , <span className=' text-xs  '>II MCA</span></p>
-              <p className=' font-semibold text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
-            </div>
           </div>
         </div>
       </div>
