@@ -411,13 +411,19 @@ const Donar = () => {
 
             <div className='flex inline-flex mt-10'>
               <input
-                type="checkbox"
+                type="radio"
                 name="zakkath"
                 checked={zakkath}
                 onChange={handleCheckboxChange}
                 className="ml-2 scale-200"
               />
               <label className="block mt-2 ml-3 font-bold ">Zakkath</label>
+              <input
+                type="radio"
+                name="zakkath"
+                className="ml-2 scale-200"
+              />
+              <label className="block mt-2 ml-3 font-bold ">General</label>
             </div>
 
             <div>
