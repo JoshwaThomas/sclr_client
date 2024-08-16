@@ -387,13 +387,19 @@ function Existing() {
                     </div>
                     <div className='flex inline-flex mt-10'>
                         <input
-                            type="checkbox"
+                            type="radio"
                             name="zakkath"
                             checked={zakkath}
                             onChange={handleCheckboxChange}
                             className="ml-2 scale-200"
                         />
                         <label className="block mt-2 ml-3 font-bold ">Zakkath</label>
+                        <input
+                            type="radio"
+                            name="zakkath"
+                            className="ml-2 scale-200"
+                        />
+                        <label className="block mt-2 ml-3 font-bold ">General</label>
                     </div>
                     <div>
                         <label className="block mb-1 mt-2">
@@ -434,7 +440,7 @@ function Existing() {
                     <div className=' '>
                         <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
                         <button
-                        type="submit"
+                        type="button"
                         className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
                         onClick={handlePrint} 
                     // disabled={!isPrint}

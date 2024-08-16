@@ -1,31 +1,16 @@
-import React, { useState, useEffect} from "react";
+import React from 'react';
 import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
 // import Stud from '../../assets/stud.mp4';
-import Stud1 from '../../assets/stud1.gif';
-import Fire from '../../assets/fire.gif'
-
+import Stud1 from '../../assets/stud1.gif'
 
 
 function LandingPage() {
   const navigate = useNavigate();
-  const [showPopup, setShowPopup] = useState(true);
-  const [isVisible, setIsVisible] = useState(true);
-
- const closePopup = () => {
-    setShowPopup(false);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 10000); 
-    // Cleanup function to clear the timeout if the component is unmounted
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
+<<<<<<< HEAD
     <div className="w-screen h-screen flex flex-col overflow-hidden bg-blue-500">
       {showPopup ? (
         <div className="fixed inset-0 flex items-center justify-center">
@@ -50,10 +35,14 @@ function LandingPage() {
           <div className="flex justify-center items-center rounded-lg bg-blue-500">
           {isVisible &&  <img src={Fire} alt="" className="w-screen h-screen absolute -mt-12 opacity-20" /> }
 
+=======
+    <div className=" w-screen h-screen flex flex-col space-x-4  overflow-hidden justify-center items-center p-10 bg-blue-500">
+      <div className="flex justify-center items-center rounded-lg bg-blue-500 ">
+>>>>>>> 74f221007b69432d0b79f314d3f9b3681db97009
 
         <div className="w-1/2 -ml-10">
           <img src={Jmclogo} alt="" className="absolute mt-16   h-2/3 w-96 ml-36 opacity-10 " />
-          <img src={Jamal} alt="" className="mt-40  opacity-100" />
+          <img src={Jamal} alt="" className="mt-40 opacity-100" />
           <h1 className="text-white text-center font-semibold text-2xl italic -mt-5 mr-10">
             Shows Us The Right Path </h1>
           <div className="relative z-10">
@@ -62,6 +51,9 @@ function LandingPage() {
             </h2>
             <img src={Stud1} alt="" className="absolute  w-52 h-52 -ml-16 -mt-44 " />
           </div>
+
+
+
         </div>
         <div className='mt-36 flex flex-col justify-evenly rounded-lg ml-16'>
           <div className='grid grid-cols-2 gap-14 ml-16'>
@@ -106,14 +98,12 @@ function LandingPage() {
           <div className=' w-full mt-40   h-full flex items-center justify-center relative'>
             <div className=' absolute bottom-1 right-20 flex flex-col items-start animate-pulse'>
               <p className=' font-medium text-white'>Developed By T. Joshwa Anand , <span className=' text-xs '>II MCA</span></p>
-              <p className=' font-semibold txet-lg text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
+              <p className=' font-semibold text-white'>Guided By <span>Dr. O.S. Abdul Qadir ,</span><span className=' text-xs '> Asst. COE</span></p>
             </div>
           </div>
         </div>
-            </div>
-          </div>
-        )}
       </div>
+    </div>
 
   );
 }
