@@ -27,16 +27,22 @@ function Report() {
 
                 <button
                     onClick={() => navigate('/admin/report/fundavl')}
-                    className="px-4 py-12  ml-48 -mr-48  bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
                 >
                     Funds Available
                 </button>
 
                 <button
                     onClick={() => navigate('/admin/report/fundreport')}
-                    className="px-4 py-12   ml-52 -mr-48 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
                 >
                     Year wise Funds Reports
+                </button>
+                <button
+                    onClick={() => navigate('/admin/report/staffmaint')}
+                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                >
+                    Staff Verify
                 </button>
                 {/* <button
                     onClick={() => navigate('/admin/report/stureport')}

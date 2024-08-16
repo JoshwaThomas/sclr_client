@@ -760,6 +760,81 @@ function Action() {
                             />
                             <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                         </div>
+
+
+
+
+                            <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                            <input
+                                type="checkbox"
+                                id="muaddin"
+                                name="muaddin"
+                                className='scale-200 ml-2'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Aided</label>
+
+                            <input
+                                type="checkbox"
+                                id="hazrath"
+                                name="hazrath"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>SFM</label>
+
+                            <input
+                                type="checkbox"
+                                id="fathermotherseparated"
+                                name="fathermotherseparated"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>SFW</label>
+
+                            <input
+                                type="checkbox"
+                                id="fatherExpired"
+                                name="fatherExpired"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>DM</label>
+                            <input
+                                type="checkbox"
+                                id="singleparent"
+                                name="singleparent"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>DW</label>
+
+                            <input
+                                type="checkbox"
+                                id="fathermotherseparated"
+                                name="fathermotherseparated"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>MM</label>
+                                            
+                            <input
+                                type="checkbox"
+                                id="fatherExpired"
+                                name="fatherExpired"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>MW</label>
+                            <input
+                                type="checkbox"
+                                id="singleparent"
+                                name="singleparent"
+                                className='scale-200 ml-4'
+                                onChange={handleSpecialCategoryChange}
+                            />
+                            <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>COE</label>
+                        </div>
                     </div>
 
                 )}

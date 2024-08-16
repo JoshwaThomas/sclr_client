@@ -18,6 +18,7 @@ import Stureport from './components/admin/reports/stureport';
 import Catreport from './components/admin/reports/studaward';
 import Accrej from './components/admin/reports/donoravl';
 import Fundreport from './components/admin/reports/fundreport';
+import Staffverify from './components/admin/reports/staffverify';
 import AdminApplication from './components/admin/adminapplication';
 import DonorMenu from './components/admin/donormenu';
 import DonorForm from './components/admin/Donor/donar';
@@ -79,6 +80,7 @@ function App() {
               <Route path='/admin/report/studawardreport' element={<Catreport />} />
               <Route path='/admin/report/fundavl' element={<Accrej />} />
               <Route path='/admin/report/fundreport' element={<Fundreport />} />
+              <Route path='/admin/report/staffmaint' element={<Staffverify />} />
               <Route path='/admin/guidelines' element={<GuideLine />} />
             </Route>
             <Route path="/staff/:staffId/*" element={<Staff />}>

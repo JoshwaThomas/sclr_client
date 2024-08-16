@@ -31,7 +31,7 @@ function LandingPage() {
         <div className="fixed inset-0 flex items-center justify-center">
           <div className="bg-blue-500 w-screen h-screen  p-4">
           <img src={Jamal} alt="" className="absolute mt-36 h-3/6 w-1/3 ml-12 opacity-80" />
-            <h2 className="text-5xl font-bold mb-4 text-center text-white">JMC Alumini Scholarship</h2>   
+            <h2 className="text-5xl font-bold mb-4 text-center text-white">JMC Alumni Scholarship</h2>   
             <div className="text-center">
               <button
                 onClick={closePopup}
