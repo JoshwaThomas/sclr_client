@@ -440,7 +440,7 @@ function Existing() {
                     <div className=' '>
                         <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
                         <button
-                        type="submit"
+                        type="button"
                         className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
                         onClick={handlePrint} 
                     // disabled={!isPrint}
