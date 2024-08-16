@@ -10,35 +10,8 @@ function LandingPage() {
   const navigate = useNavigate();
 
   return (
-<<<<<<< HEAD
-    <div className="w-screen h-screen flex flex-col overflow-hidden bg-blue-500">
-      {showPopup ? (
-        <div className="fixed inset-0 flex items-center justify-center">
-          <div className="bg-blue-500 w-screen h-screen  p-4">
-          <img src={Jamal} alt="" className="absolute mt-36 h-3/6 w-1/3 ml-12 opacity-80" />
-            <h2 className="text-5xl font-bold mb-4 text-center text-white">JMC Alumni Scholarship</h2>   
-            <div className="text-center">
-              <button
-                onClick={closePopup}
-                className=  "bg-amber-50 text-black font-bold text-4xl shadow-2xl  px-12 py-12 hover:bg-green-400 hover:shadow-green-400 hover:text-white rounded-lg mt-52 "
-              >
-                LAUNCH
-              </button>
-            </div>
-            <img src={Jmclogo} alt="" className="absolute h-2/3 w-96 -mt-72 right-12 " />
-            <h2 className="text-2xl font-bold mb-4 text-center mt-32 text-white">"Empowering Future Leaders Through Generosity"</h2>
-            <h2 className="text-2xl font-bold mb-4 text-center text-white">"Eleventing the Next Generation Through the Support of Our Esteemed Alumni Community"</h2>
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col space-x-2 justify-center items-center p-10">
-          <div className="flex justify-center items-center rounded-lg bg-blue-500">
-          {isVisible &&  <img src={Fire} alt="" className="w-screen h-screen absolute -mt-12 opacity-20" /> }
-
-=======
     <div className=" w-screen h-screen flex flex-col space-x-4  overflow-hidden justify-center items-center p-10 bg-blue-500">
       <div className="flex justify-center items-center rounded-lg bg-blue-500 ">
->>>>>>> 74f221007b69432d0b79f314d3f9b3681db97009
 
         <div className="w-1/2 -ml-10">
           <img src={Jmclogo} alt="" className="absolute mt-16   h-2/3 w-96 ml-36 opacity-10 " />

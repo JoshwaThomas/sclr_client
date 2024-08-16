@@ -32,6 +32,36 @@ return(
                          <div className="font-bold border border-white text-center py-3">{data.aaComplete}</div>
                          <div className="font-bold border border-white text-center py-3">{data.amCount}</div>
          </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">SFM</div>
+                         <div className="font-bold border border-white text-center py-3">{data.selfmCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.selfmComplete}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.sfmCount}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">SFW</div>
+                         <div className="font-bold border border-white text-center py-3">{data.selfwCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.selfwComplete}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.sfwCount}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">Deeniyath Aided</div>
+                         <div className="font-bold border border-white text-center py-3">{data.damCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.aCompleted}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.damTotal}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">Deeniyath SFM</div>
+                         <div className="font-bold border border-white text-center py-3">{data.dsmCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.sCompleted}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.dsmTotal}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">Deeniyath SFW</div>
+                         <div className="font-bold border border-white text-center py-3">{data.dwCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.wCompleted}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.dwTotal}</div>
+         </div>
          </div>
       )
     }
