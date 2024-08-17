@@ -37,7 +37,7 @@ function Action() {
     });
     //variable declare
     const [staffverify, setStaffverify] = useState({
-        Aided: true,
+        Aided: false,
         SFM: false,
         SFW: false,
         DM: false,
@@ -111,9 +111,16 @@ function Action() {
             if (Object.values(staffverify).some(value => value)) {
                 filteredUsers = filteredUsers.filter(user => {
                     const classper = user.classAttendancePer || 0;
+                    const deeniyathper = user.deeniyathPer || 0;
+                    const semper = user.semPercentage || 0;
     
                     return (
-                        (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) 
+                        (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
+                        (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
+                        (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
+                        (staffverify.DM && user.procategory=== 'SFM' || user.procategory==='Aided' && deeniyathper !== 0) ||
+                        (staffverify.DW && user.procategory=== 'SFW' && deeniyathper !== 0) ||
+                        (staffverify.COE && semper !== 0)
                     )
                 })
             }
