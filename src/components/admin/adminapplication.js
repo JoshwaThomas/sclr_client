@@ -35,6 +35,17 @@ function Action() {
         fatherExpired: false,
         singleparent: false,
     });
+    //variable declare
+    const [staffverify, setStaffverify] = useState({
+        Aided: true,
+        SFM: false,
+        SFW: false,
+        DM: false,
+        DW: false,
+        MM: false,
+        MW: false,
+        COE: false,
+    })
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
     // const [donorMapping, setDonorMapping] = useState({});
@@ -95,6 +106,17 @@ function Action() {
                     return userFresherOrRenewal === selectedProgress;
                 });
             }
+
+            //StaffVerify checkbox
+            if (Object.values(staffverify).some(value => value)) {
+                filteredUsers = filteredUsers.filter(user => {
+                    const classper = user.classAttendancePer || 0;
+    
+                    return (
+                        (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) 
+                    )
+                })
+            }
         }
 
         if (Object.values(specialCategories).some(value => value)) {
@@ -110,9 +132,11 @@ function Action() {
             });
         }
 
+       
+
         // console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
-    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers]);
+    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify]);
 
     useEffect(() => {
         // Set default values for filters on initial render
@@ -160,6 +184,11 @@ function Action() {
         const { name, checked } = e.target;
         setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
+ //get the value
+    const handleStaffverifyChange = (e) => {
+        const { name, checked } = e.target;
+        setStaffverify(prevState => ({ ...prevState, [name]: checked }))
+    }
 
     const handleAcceptrejectChange = (e) => {
         const value = e.target.value ? e.target.value.toLowerCase() : '';
@@ -252,7 +281,7 @@ function Action() {
 
         setFilteredDonars(filtered);
     }, [scholtype, zakkath, donars]);
-    
+
 
     // useEffect(() => {
     //     if (scholtype) {
@@ -761,86 +790,85 @@ function Action() {
                             <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                         </div>
 
-
-
-
-                            <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                        <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
-                                id="muaddin"
-                                name="muaddin"
+                                id="Aided"
+                                name="Aided"
                                 className='scale-200 ml-2'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
+                                defaultChecked
                             />
-                            <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Aided</label>
+                            <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
 
                             <input
                                 type="checkbox"
-                                id="hazrath"
-                                name="hazrath"
+                                id="SFM"
+                                name="SFM"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
+                                
                             />
-                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>SFM</label>
+                            <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
 
                             <input
                                 type="checkbox"
-                                id="fathermotherseparated"
-                                name="fathermotherseparated"
+                                id="SFW"
+                                name="SFW"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>SFW</label>
+                            <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
 
                             <input
                                 type="checkbox"
-                                id="fatherExpired"
-                                name="fatherExpired"
+                                id="DM"
+                                name="DM"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>DM</label>
+                            <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
                             <input
                                 type="checkbox"
-                                id="singleparent"
-                                name="singleparent"
+                                id="DW"
+                                name="DW"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>DW</label>
+                            <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
 
                             <input
                                 type="checkbox"
-                                id="fathermotherseparated"
-                                name="fathermotherseparated"
+                                id="MM"
+                                name="MM"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>MM</label>
-                                            
+                            <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
+
                             <input
                                 type="checkbox"
-                                id="fatherExpired"
-                                name="fatherExpired"
+                                id="MW"
+                                name="MW"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>MW</label>
+                            <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
                             <input
                                 type="checkbox"
-                                id="singleparent"
-                                name="singleparent"
+                                id="COE"
+                                name="COE"
                                 className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
+                                onChange={handleStaffverifyChange}
                             />
-                            <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>COE</label>
+                            <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
                         </div>
                     </div>
 
                 )}
 
 
-                        
+
 
             </div>
             <div className='mt-6 pl-0'>
