@@ -657,7 +657,7 @@ function Action() {
                         type="button"
                         className="bg-orange-500 text-white py-1 px-3 ml-96 hover:bg-black rounded-lg mt-1 "
                     >
-                        Qucik Rejection
+                        Quick Rejection
                     </button>
                     
                 </div>
