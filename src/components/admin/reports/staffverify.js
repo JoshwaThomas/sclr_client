@@ -45,19 +45,13 @@ return(
                          <div className="font-bold border border-white text-center py-3">{data.sfwCount}</div>
          </div>
          <div className='grid grid-cols-4 w-auto bg-amber-100'>
-                     <div className="font-bold border border-white text-center py-3">Deeniyath Aided</div>
+                     <div className="font-bold border border-white text-center py-3">Deeniyath Mens</div>
                          <div className="font-bold border border-white text-center py-3">{data.damCount}</div>
                          <div className="font-bold border border-white text-center py-3">{data.aCompleted}</div>
                          <div className="font-bold border border-white text-center py-3">{data.damTotal}</div>
          </div>
          <div className='grid grid-cols-4 w-auto bg-amber-100'>
-                     <div className="font-bold border border-white text-center py-3">Deeniyath SFM</div>
-                         <div className="font-bold border border-white text-center py-3">{data.dsmCount}</div>
-                         <div className="font-bold border border-white text-center py-3">{data.sCompleted}</div>
-                         <div className="font-bold border border-white text-center py-3">{data.dsmTotal}</div>
-         </div>
-         <div className='grid grid-cols-4 w-auto bg-amber-100'>
-                     <div className="font-bold border border-white text-center py-3">Deeniyath SFW</div>
+                     <div className="font-bold border border-white text-center py-3">Deeniyath Womens</div>
                          <div className="font-bold border border-white text-center py-3">{data.dwCount}</div>
                          <div className="font-bold border border-white text-center py-3">{data.wCompleted}</div>
                          <div className="font-bold border border-white text-center py-3">{data.dwTotal}</div>

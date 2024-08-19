@@ -15,19 +15,19 @@ function StaffLayout() {
       icon: 'menu',
       name: 'Dashboard',
       path: `/staff/${staffId}/dashboard`,
-      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCDM' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
+      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance',
       path: `/staff/${staffId}/attendance`,
-      show: staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCDM' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Attendance SFM',
       path: `/staff/${staffId}/attendance/sfm`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCDM' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
@@ -38,38 +38,38 @@ function StaffLayout() {
     {
       icon: 'add-circle',
       name: 'Deeniyath',
-      path: `/staff/${staffId}/deethiyath`,
+      path: `/staff/${staffId}/deeniyath`,
       show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Deeniyath',
-      path: `/staff/${staffId}/deethiyathsfw`,
-      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCmw'
+      path: `/staff/${staffId}/deeniyathsfw`,
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Moral',
       path: `/staff/${staffId}/moral`,
-      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'add-circle',
       name: 'Moral',
       path: `/staff/${staffId}/moralsfw`,
-      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmm'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmm'
     },
     {
       icon: 'add-circle',
       name: 'COE',
       path: `/staff/${staffId}/coe`,
-      show: staffId !== 'JMCRAA' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
     },
     {
       icon: 'menu',
       name: 'Setting',
       path: `/staff/${staffId}/settingstaff`,
-      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCRAA' || staffId === 'JMCdw' || staffId === 'JMCmw'
+      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
   },
     {
       icon: 'add-circle',

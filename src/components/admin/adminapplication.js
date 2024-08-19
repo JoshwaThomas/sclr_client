@@ -37,6 +37,7 @@ function Action() {
     });
     //variable declare
     const [staffverify, setStaffverify] = useState({
+        All: true,
         Aided: false,
         SFM: false,
         SFW: false,
@@ -107,40 +108,39 @@ function Action() {
                 });
             }
 
+            if (Object.values(specialCategories).some(value => value)) {
+                filteredUsers = filteredUsers.filter(user => {
+                    const specialCategory = (user.specialCategory || '').toLowerCase();
+                    return (
+                        (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                        (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
+                        (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
+                        (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                        (specialCategories.singleparent && specialCategory.includes('singleparent'))
+                    );
+                });
+            }
             //StaffVerify checkbox
             if (Object.values(staffverify).some(value => value)) {
                 filteredUsers = filteredUsers.filter(user => {
                     const classper = user.classAttendancePer || 0;
                     const deeniyathper = user.deeniyathPer || 0;
                     const semper = user.semPercentage || 0;
-    
+
                     return (
+                        (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0)) ||
                         (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
                         (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
                         (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
-                        (staffverify.DM && user.procategory=== 'SFM' || user.procategory==='Aided' && deeniyathper !== 0) ||
-                        (staffverify.DW && user.procategory=== 'SFW' && deeniyathper !== 0) ||
+                        (staffverify.DM && (user.procategory === 'SFM' || user.procategory === 'Aided') && user.deeniyath === 'Yes' && deeniyathper !== 0) ||
+                        (staffverify.DW && user.deeniyath === 'Yes' && deeniyathper !== 0 && user.procategory === 'SFW') ||
+                        (staffverify.MM && user.deeniyath === 'No' && (user.procategory === 'SFM' || user.procategory === 'Aided') && deeniyathper !== 0) ||
+                        (staffverify.MW && user.deeniyath === 'No' && deeniyathper !== 0 && user.procategory === 'SFW') ||
                         (staffverify.COE && semper !== 0)
                     )
                 })
             }
         }
-
-        if (Object.values(specialCategories).some(value => value)) {
-            filteredUsers = filteredUsers.filter(user => {
-                const specialCategory = (user.specialCategory || '').toLowerCase();
-                return (
-                    (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
-                    (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                    (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
-                    (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
-                    (specialCategories.singleparent && specialCategory.includes('singleparent'))
-                );
-            });
-        }
-
-       
-
         // console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
     }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify]);
@@ -191,7 +191,7 @@ function Action() {
         const { name, checked } = e.target;
         setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
- //get the value
+    //get the value
     const handleStaffverifyChange = (e) => {
         const { name, checked } = e.target;
         setStaffverify(prevState => ({ ...prevState, [name]: checked }))
@@ -639,41 +639,142 @@ function Action() {
     return (
         <div>
             <div className='end-px'>
-                <input
-                    type='text'
-                    placeholder='Search text here'
-                    className='uppercase py-1 rounded-md mr-2'
-                    onChange={handleSearch}
-                />
-                <button
-                    type="button"
-                    className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                >
-                    Search
-                </button>
-                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
+                <div>
                     <input
-                        type="radio"
-                        id="all"
-                        name="search"
-                        value="all"
-                        className='scale-200 ml-8'
-                        onChange={handleRadioChange}
-                        defaultChecked
+                        type='text'
+                        placeholder='Search text here'
+                        className='uppercase py-1 rounded-md mr-2'
+                        onChange={handleSearch}
                     />
-                    <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                    <button
+                        type="button"
+                        className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
+                    >
+                        Search
+                    </button>
+                    <span className='ml-56'></span>
+                    <button
+                        type="button"
+                        className="bg-orange-500 text-white py-1 px-3 ml-96 hover:bg-black rounded-lg mt-1 "
+                    >
+                        Qucik Rejection
+                    </button>
+                    
+                </div>
+               
+                <div className='flex inline-flex '>
+                    <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                        <input
+                            type="radio"
+                            id="all"
+                            name="search"
+                            value="all"
+                            className='scale-200 ml-8'
+                            onChange={handleRadioChange}
+                            defaultChecked
+                        />
+                        <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 
-                    <input
-                        type="radio"
-                        id="in-progress"
-                        name="search"
-                        value="in-progress"
-                        className='scale-200 ml-4'
-                        onChange={handleRadioChange}
+                        <input
+                            type="radio"
+                            id="in-progress"
+                            name="search"
+                            value="in-progress"
+                            className='scale-200 ml-4'
+                            onChange={handleRadioChange}
 
 
-                    />
-                    <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
+                        />
+                        <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
+                    </div>
+                    <div className='flex inline-flex px-4'></div>
+                    {radioValue === 'in-progress' && (
+                        <div>
+                            <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                <input
+                                    type="checkbox"
+                                    id="All"
+                                    name="All"
+                                    className='scale-200 ml-2'
+                                    onChange={handleStaffverifyChange}
+                                    defaultChecked
+                                />
+                                <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="Aided"
+                                    name="Aided"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+
+                                />
+                                <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="SFM"
+                                    name="SFM"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+
+                                />
+                                <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="SFW"
+                                    name="SFW"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="DM"
+                                    name="DM"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
+                                <input
+                                    type="checkbox"
+                                    id="DW"
+                                    name="DW"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="MM"
+                                    name="MM"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
+
+                                <input
+                                    type="checkbox"
+                                    id="MW"
+                                    name="MW"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
+                                <input
+                                    type="checkbox"
+                                    id="COE"
+                                    name="COE"
+                                    className='scale-200 ml-4'
+                                    onChange={handleStaffverifyChange}
+                                />
+                                <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 {radioValue === 'all' && (
                     <div className=''>
@@ -796,15 +897,24 @@ function Action() {
                             />
                             <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                         </div>
+                        {/* <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                            <input
+                                type="checkbox"
+                                id="All"
+                                name="All"
+                                className='scale-200 ml-2'
+                                onChange={handleStaffverifyChange}
+                                defaultChecked
+                            />
+                            <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
 
-                        <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
                                 id="Aided"
                                 name="Aided"
                                 className='scale-200 ml-2'
                                 onChange={handleStaffverifyChange}
-                                defaultChecked
+
                             />
                             <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
 
@@ -814,7 +924,7 @@ function Action() {
                                 name="SFM"
                                 className='scale-200 ml-4'
                                 onChange={handleStaffverifyChange}
-                                
+
                             />
                             <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
 
@@ -869,7 +979,7 @@ function Action() {
                                 onChange={handleStaffverifyChange}
                             />
                             <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
-                        </div>
+                        </div> */}
                     </div>
 
                 )}

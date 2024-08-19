@@ -18,16 +18,16 @@ function AttendDeeniyath() {
                     axios.get('http://localhost:3001/renewal')
                 ]);
 
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW' );
+                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW');
                 const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW');
 
                 const totalsfm = SFM1.length + SFM2.length;
 
                 const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0);
                 const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0);
- 
+
                 const totalfilter = freshAided.length + renewalAided;
-                const work = totalsfm - totalfilter;
+                const work = totalfilter - totalsfm;
                 setTotalwork(work)
                 setTotaldata(totalsfm)
 
@@ -75,7 +75,7 @@ function AttendDeeniyath() {
 
         const updates = {};
         const remarks = {};
-        
+
         users.forEach(user => {
             updates[user.registerNo] = deeniyathPer[user.registerNo];
             remarks[user.registerNo] = user.deeniyathRem;
@@ -104,7 +104,7 @@ function AttendDeeniyath() {
             </div>
             <div className='flex inline-flex text-white mt-10'>
                 <div className="w-auto ">
-                <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
                     <input
                         type='text'
                         name='prevAttendancetot'
@@ -114,7 +114,7 @@ function AttendDeeniyath() {
                     />
                 </div>
                 <div className="w-auto  ml-5">
-                <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <label className='text-lg font-bold'>Current Semester Working Days</label>
                     <input
                         type='text'
                         name='currAttendancetot'
@@ -171,8 +171,11 @@ function AttendDeeniyath() {
                     </div>
                 </div>
             ))}
-            <button onClick={updateAttendance} className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4'>Submit</button>
+            <div className=' flex justify-end mr-10'>
+                <button onClick={updateAttendance} className='bg-blue-500 text-white  py-3 px-10 rounded-md mt-4'>Submit</button>
+            </div>
         </div>
+
     );
 }
 
