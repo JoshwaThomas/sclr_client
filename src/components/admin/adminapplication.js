@@ -736,7 +736,7 @@ function Action() {
                     <button
                         type="button"
                         onClick={handleQuickRejection}
-                        className="bg-orange-500 text-white py-1 px-3 ml-96 hover:bg-black rounded-lg mt-1 "
+                        className="bg-orange-500 text-white py-3 px-5 ml-96 hover:bg-black rounded-lg mt-1 font-bold  "
                     >
                         Quick Rejection
                     </button>
@@ -759,7 +759,7 @@ function Action() {
                                     onChange={(e) => setClassAttendance(e.target.value)}
                                 />
                         
-                                <label className="font-bold ml-5 text-gray-700">Moral Attendance:</label>
+                                <label className="font-bold ml-5 text-gray-700">Deeniyath / Moral Attendance:</label>
                                 <input
                                     type="text"
                                     className="border ml-3 rounded-md w-32 p-2 mt-1"
@@ -780,7 +780,7 @@ function Action() {
                             <div className="grid grid-cols-4  bg-amber-200">
                                 <div className="font-bold border border-white text-center py-3">Register No</div>
                                 <div className="font-bold border border-white text-center py-3">Name</div>
-                                <div className="font-bold border border-white text-center py-3">SpecialCategories</div>
+                                <div className="font-bold border border-white text-center py-3">Special Categories</div>
                                 <div className="font-bold border border-white text-center py-3">Rejection Reason</div>
                             </div>
                             {quickRejectList.map((user, index) => (
@@ -812,7 +812,7 @@ function Action() {
                     </button>
                     <button
                         type="button"
-                        className="bg-gray-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4 ml-2"
+                        className="bg-blue-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4 ml-2"
                         onClick={() => setQuickRejectMode(false)}
                     >
                         Back
@@ -987,7 +987,7 @@ function Action() {
                                         onChange={handleProgressRadioChange}
                                         checked={progressRadioValue === 'all'}
                                     />
-                                    <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
+                                    <label htmlFor="all-progress" className='form-radio text-lg'>All</label>
 
                                     <input
                                         type="radio"
@@ -1441,8 +1441,8 @@ function Action() {
                                     )}
 
                                     <div>
-                                        <label className="">Jamath:</label>
-                                        {selectedUser.jamath}
+                                        <label className=""></label>
+                                        {/* {selectedUser.jamath} */}
                                         {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
                                         <img src={selectedUser.jamath} alt="Jamath" />
                                     </div>
@@ -1500,7 +1500,7 @@ function Action() {
                                 </div>
                                 <div className='flex inline-flex'>
                                     <input
-                                        type="radio"
+                                        type="checkbox"
                                         name="zakkath"
                                         id="zakkath"
                                         checked={zakkath}

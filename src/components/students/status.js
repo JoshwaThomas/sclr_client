@@ -169,7 +169,7 @@ function Status() {
                                                             </div>
                                                         </div>
                                                     ) : parseInt(student.action) === 1 ? (
-                                                        <div>
+                                                        <div className=''>
                                                             <button
                                                                 type="button"
                                                                 className="bg-slate-600  text-white py-2 px-4 rounded-md mt-4 hover:bg-black"
@@ -177,8 +177,8 @@ function Status() {
                                                             >
                                                                 Close
                                                             </button>
-                                                            <div className="text-green-500 font-bold mt-4">
-                                                                Your Application Selected. Contact ERP.
+                                                            <div className="text-green-900 font-bold w-full mt-4">
+                                                                Your Application Selected. Contact Scholarship Office / ERP .
                                                             </div>
                                                         </div>
                                                     ) : parseInt(student.action) === 2 ? (
@@ -199,7 +199,7 @@ function Status() {
                                                     <div>
                                                         <button
                                                             type="button"
-                                                            className="bg-slate-600  text-white py-2 px-4 rounded-md mt-4 ml-4 hover:bg-black"
+                                                            className="bg-blue-600  text-white py-2 px-4 rounded-md mt-4 ml-4 hover:bg-black"
                                                             onClick={closeModal}
                                                         >
                                                             Close
