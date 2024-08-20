@@ -1,4 +1,4 @@
-import { useEffect, useState, React } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg'
 
@@ -49,6 +49,13 @@ function Action() {
     })
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
+    const [quickRejectMode, setQuickRejectMode] = useState(false);
+    const [quickRejectList, setQuickRejectList] = useState([]);
+    const [classAttendance, setClassAttendance] = useState('');
+    const [moralAttendance, setMoralAttendance] = useState('');
+    const [mark, setMark] = useState('');
+
+
     // const [donorMapping, setDonorMapping] = useState({});
     // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
 
@@ -141,9 +148,22 @@ function Action() {
                 })
             }
         }
+
+        if (classAttendance) {
+            filteredUsers = filteredUsers.filter(user => user.classAttendancePer < Number(classAttendance));
+        }
+        if (moralAttendance) {
+            filteredUsers = filteredUsers.filter(user => user.deeniyathPer < Number(moralAttendance));
+        }
+        if (mark) {
+            filteredUsers = filteredUsers.filter(user => user.semPercentage < Number(mark));
+        }
+
+        const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
+        setQuickRejectList(quickRejectUsers);
         // console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
-    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify]);
+    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark]);
 
     useEffect(() => {
         // Set default values for filters on initial render
@@ -625,6 +645,66 @@ function Action() {
             .catch(err => console.log('Error fetching data:', err))
     }, []);
 
+
+    //Quick rejection
+    const handleQuickRejection = () => {
+        setQuickRejectMode(true);
+        const quickRejectUsers = filterUsers.filter(user => user.action === 0);
+        setQuickRejectList(quickRejectUsers);
+    };
+
+    const handleQuickRejectReasonChange = (e, userId) => {
+        setQuickRejectList(prevState => prevState.map(user =>
+            user._id === userId ? { ...user, rejectReason: e.target.value } : user
+        ));
+    };
+
+    const handleQuickRejectSubmit = () => {
+        axios.get('http://localhost:3001/api/admin/current-acyear')
+            .then(response => {
+                if (response.data.success) {
+                    const acyear = response.data.acyear.acyear;
+    
+                    // Filter out users without a rejectReason
+                    const filteredRejectList = quickRejectList.filter(user => user.rejectReason && user.rejectReason.trim() !== '');
+    
+                    const rejectRequests = filteredRejectList.map(user => {
+                        return axios.post('http://localhost:3001/api/admin/reject', {
+                            fresherOrRenewal: user.fresherOrRenewal,
+                            registerNo: user.registerNo,
+                            name: user.name,
+                            dept: user.dept,
+                            reason: user.rejectReason,
+                            acyear
+                        }).then(() => {
+                            return axios.post('http://localhost:3001/api/admin/actionreject', {
+                                registerNo: user.registerNo
+                            });
+                        });
+                    });
+    
+                    Promise.all(rejectRequests)
+                        .then(() => {
+                            window.alert("All selected users were rejected successfully");
+                            window.location.reload();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            window.alert("Submission failed!");
+                            window.location.reload();
+                        });
+                } else {
+                    console.error('Failed to fetch current academic year');
+                    window.alert('Failed to fetch current academic year');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching current academic year:', error);
+                window.alert('Error fetching current academic year');
+            });
+    };
+
+
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
             style: 'currency',
@@ -655,249 +735,329 @@ function Action() {
                     <span className='ml-56'></span>
                     <button
                         type="button"
+                        onClick={handleQuickRejection}
                         className="bg-orange-500 text-white py-1 px-3 ml-96 hover:bg-black rounded-lg mt-1 "
                     >
                         Quick Rejection
                     </button>
-                    
+
                 </div>
-               
-                <div className='flex inline-flex '>
-                    <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
-                        <input
-                            type="radio"
-                            id="all"
-                            name="search"
-                            value="all"
-                            className='scale-200 ml-8'
-                            onChange={handleRadioChange}
-                            defaultChecked
-                        />
-                        <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 
-                        <input
-                            type="radio"
-                            id="in-progress"
-                            name="search"
-                            value="in-progress"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
+            </div>
 
-
-                        />
-                        <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
-                    </div>
-                    <div className='flex inline-flex px-4'></div>
-                    {radioValue === 'in-progress' && (
+            {quickRejectMode ? (
+                <div>
+                    <h3 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>Quick Rejection List</h3>
+                    <div className="overflow-auto">
                         <div>
-                            <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                            <div className="mt-6">
+                                <label className="font-bold text-gray-700">Class Attendance:</label>
                                 <input
-                                    type="checkbox"
-                                    id="All"
-                                    name="All"
-                                    className='scale-200 ml-2'
-                                    onChange={handleStaffverifyChange}
+                                    type="text"
+                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                    value={classAttendance}
+                                    onChange={(e) => setClassAttendance(e.target.value)}
+                                />
+                        
+                                <label className="font-bold ml-5 text-gray-700">Moral Attendance:</label>
+                                <input
+                                    type="text"
+                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                    value={moralAttendance}
+                                    onChange={(e) => setMoralAttendance(e.target.value)}
+                                />
+
+                                <label className="font-bold ml-5 text-gray-700">Mark:</label>
+                                <input
+                                    type="text"
+                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                    value={mark}
+                                    onChange={(e) => setMark(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {quickRejectList.length}</div>
+                            <div className="grid grid-cols-4  bg-amber-200">
+                                <div className="font-bold border border-white text-center py-3">Register No</div>
+                                <div className="font-bold border border-white text-center py-3">Name</div>
+                                <div className="font-bold border border-white text-center py-3">SpecialCategories</div>
+                                <div className="font-bold border border-white text-center py-3">Rejection Reason</div>
+                            </div>
+                            {quickRejectList.map((user, index) => (
+                                <React.Fragment key={user._id}>
+                                    <div className="grid grid-cols-4 bg-amber-100">
+                                        <div className="font-bold border border-white text-center py-3">{user.registerNo}</div>
+                                        <div className="font-bold border border-white text-center py-3">{user.name}</div>
+                                        <div className="font-bold border border-white text-center py-3">{user.specialCategory}</div>
+                                        <div className="font-bold border border-white text-center py-3">
+                                            <input
+                                                type="text"
+                                                placeholder="Enter rejection reason"
+                                                className="border rounded-md w-full h-full"
+                                                value={user.rejectReason || ''}
+                                                onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
+                                            />
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                            ))}
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        className="bg-red-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4"
+                        onClick={handleQuickRejectSubmit}
+                    >
+                        Submit All Rejections
+                    </button>
+                    <button
+                        type="button"
+                        className="bg-gray-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4 ml-2"
+                        onClick={() => setQuickRejectMode(false)}
+                    >
+                        Back
+                    </button>
+                </div>
+            ) : (
+                <div>
+                    <div className='end-px'>
+
+                        <div className='flex inline-flex '>
+                            <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                                <input
+                                    type="radio"
+                                    id="all"
+                                    name="search"
+                                    value="all"
+                                    className='scale-200 ml-8'
+                                    onChange={handleRadioChange}
                                     defaultChecked
                                 />
-                                <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
+                                <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
 
                                 <input
-                                    type="checkbox"
-                                    id="Aided"
-                                    name="Aided"
+                                    type="radio"
+                                    id="in-progress"
+                                    name="search"
+                                    value="in-progress"
                                     className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
+                                    onChange={handleRadioChange}
+
 
                                 />
-                                <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
-
-                                <input
-                                    type="checkbox"
-                                    id="SFM"
-                                    name="SFM"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-
-                                />
-                                <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
-
-                                <input
-                                    type="checkbox"
-                                    id="SFW"
-                                    name="SFW"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
-
-                                <input
-                                    type="checkbox"
-                                    id="DM"
-                                    name="DM"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
-                                <input
-                                    type="checkbox"
-                                    id="DW"
-                                    name="DW"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
-
-                                <input
-                                    type="checkbox"
-                                    id="MM"
-                                    name="MM"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
-
-                                <input
-                                    type="checkbox"
-                                    id="MW"
-                                    name="MW"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
-                                <input
-                                    type="checkbox"
-                                    id="COE"
-                                    name="COE"
-                                    className='scale-200 ml-4'
-                                    onChange={handleStaffverifyChange}
-                                />
-                                <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
+                                <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
                             </div>
+                            <div className='flex inline-flex px-4'></div>
+                            {radioValue === 'in-progress' && (
+                                <div>
+                                    <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                        <input
+                                            type="checkbox"
+                                            id="All"
+                                            name="All"
+                                            className='scale-200 ml-2'
+                                            onChange={handleStaffverifyChange}
+                                            defaultChecked
+                                        />
+                                        <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="Aided"
+                                            name="Aided"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+
+                                        />
+                                        <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="SFM"
+                                            name="SFM"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+
+                                        />
+                                        <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="SFW"
+                                            name="SFW"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="DM"
+                                            name="DM"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
+                                        <input
+                                            type="checkbox"
+                                            id="DW"
+                                            name="DW"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="MM"
+                                            name="MM"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
+
+                                        <input
+                                            type="checkbox"
+                                            id="MW"
+                                            name="MW"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
+                                        <input
+                                            type="checkbox"
+                                            id="COE"
+                                            name="COE"
+                                            className='scale-200 ml-4'
+                                            onChange={handleStaffverifyChange}
+                                        />
+                                        <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                {radioValue === 'all' && (
-                    <div className=''>
-                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
-                            <input
-                                type="radio"
-                                id="all"
-                                name="acceptreject"
-                                value="allar"
-                                className='scale-200 ml-8'
-                                onChange={handleAcceptrejectChange}
+                        {radioValue === 'all' && (
+                            <div className=''>
+                                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
+                                    <input
+                                        type="radio"
+                                        id="all"
+                                        name="acceptreject"
+                                        value="allar"
+                                        className='scale-200 ml-8'
+                                        onChange={handleAcceptrejectChange}
 
-                            />
-                            <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
-                            <input
-                                type="radio"
-                                id="accept"
-                                name="acceptreject"
-                                value="1"
-                                className='scale-200 ml-4'
-                                onChange={handleAcceptrejectChange}
-                                checked={acceptreject === '1'}
-                            />
-                            <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Accept</label>
+                                    />
+                                    <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
+                                    <input
+                                        type="radio"
+                                        id="accept"
+                                        name="acceptreject"
+                                        value="1"
+                                        className='scale-200 ml-4'
+                                        onChange={handleAcceptrejectChange}
+                                        checked={acceptreject === '1'}
+                                    />
+                                    <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Accept</label>
 
-                            <input
-                                type="radio"
-                                id="reject"
-                                name="acceptreject"
-                                value="2"
-                                className='scale-200 ml-4'
-                                onChange={handleAcceptrejectChange}
-                                checked={acceptreject === '2'}
-                            />
-                            <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
-                        </div>
+                                    <input
+                                        type="radio"
+                                        id="reject"
+                                        name="acceptreject"
+                                        value="2"
+                                        className='scale-200 ml-4'
+                                        onChange={handleAcceptrejectChange}
+                                        checked={acceptreject === '2'}
+                                    />
+                                    <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
+                                </div>
 
-                    </div>
+                            </div>
 
-                )}
-                {radioValue === 'in-progress' && (
-                    <div className=''>
-                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
-                            <input
-                                type="radio"
-                                id="all-progress"
-                                name="progress"
-                                value="all"
-                                className='scale-200 ml-8'
-                                onChange={handleProgressRadioChange}
-                                checked={progressRadioValue === 'all'}
-                            />
-                            <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
+                        )}
+                        {radioValue === 'in-progress' && (
+                            <div className=''>
+                                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                                    <input
+                                        type="radio"
+                                        id="all-progress"
+                                        name="progress"
+                                        value="all"
+                                        className='scale-200 ml-8'
+                                        onChange={handleProgressRadioChange}
+                                        checked={progressRadioValue === 'all'}
+                                    />
+                                    <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>All</label>
 
-                            <input
-                                type="radio"
-                                id="fresher"
-                                name="progress"
-                                value="Fresher"
-                                className='scale-200 ml-4'
-                                onChange={handleProgressRadioChange}
-                                checked={progressRadioValue === 'fresher'}
-                            />
-                            <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
+                                    <input
+                                        type="radio"
+                                        id="fresher"
+                                        name="progress"
+                                        value="Fresher"
+                                        className='scale-200 ml-4'
+                                        onChange={handleProgressRadioChange}
+                                        checked={progressRadioValue === 'fresher'}
+                                    />
+                                    <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
 
-                            <input
-                                type="radio"
-                                id="renewal"
-                                name="progress"
-                                value="renewal"
-                                className='scale-200 ml-4'
-                                onChange={handleProgressRadioChange}
-                                checked={progressRadioValue === 'renewal'}
-                            />
-                            <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
-                        </div>
-                        <div className='flex inline-flex px-4'></div>
-                        <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                            <input
-                                type="checkbox"
-                                id="muaddin"
-                                name="muaddin"
-                                className='scale-200 ml-2'
-                                onChange={handleSpecialCategoryChange}
-                            />
-                            <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
+                                    <input
+                                        type="radio"
+                                        id="renewal"
+                                        name="progress"
+                                        value="renewal"
+                                        className='scale-200 ml-4'
+                                        onChange={handleProgressRadioChange}
+                                        checked={progressRadioValue === 'renewal'}
+                                    />
+                                    <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                                </div>
+                                <div className='flex inline-flex px-4'></div>
+                                <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                    <input
+                                        type="checkbox"
+                                        id="muaddin"
+                                        name="muaddin"
+                                        className='scale-200 ml-2'
+                                        onChange={handleSpecialCategoryChange}
+                                    />
+                                    <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
 
-                            <input
-                                type="checkbox"
-                                id="hazrath"
-                                name="hazrath"
-                                className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
-                            />
-                            <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>Hazrath</label>
+                                    <input
+                                        type="checkbox"
+                                        id="hazrath"
+                                        name="hazrath"
+                                        className='scale-200 ml-4'
+                                        onChange={handleSpecialCategoryChange}
+                                    />
+                                    <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>Hazrath</label>
 
-                            <input
-                                type="checkbox"
-                                id="fathermotherseparated"
-                                name="fathermotherseparated"
-                                className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
-                            />
-                            <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Parent Separated</label>
+                                    <input
+                                        type="checkbox"
+                                        id="fathermotherseparated"
+                                        name="fathermotherseparated"
+                                        className='scale-200 ml-4'
+                                        onChange={handleSpecialCategoryChange}
+                                    />
+                                    <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Parent Separated</label>
 
-                            <input
-                                type="checkbox"
-                                id="fatherExpired"
-                                name="fatherExpired"
-                                className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
-                            />
-                            <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>Father Expired</label>
-                            <input
-                                type="checkbox"
-                                id="singleparent"
-                                name="singleparent"
-                                className='scale-200 ml-4'
-                                onChange={handleSpecialCategoryChange}
-                            />
-                            <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
-                        </div>
-                        {/* <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                    <input
+                                        type="checkbox"
+                                        id="fatherExpired"
+                                        name="fatherExpired"
+                                        className='scale-200 ml-4'
+                                        onChange={handleSpecialCategoryChange}
+                                    />
+                                    <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>Father Expired</label>
+                                    <input
+                                        type="checkbox"
+                                        id="singleparent"
+                                        name="singleparent"
+                                        className='scale-200 ml-4'
+                                        onChange={handleSpecialCategoryChange}
+                                    />
+                                    <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
+                                </div>
+                                {/* <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
                                 id="All"
@@ -980,56 +1140,55 @@ function Action() {
                             />
                             <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
                         </div> */}
+                            </div>
+
+                        )}
                     </div>
-
-                )}
-
-
-
-
-            </div>
-            <div className='mt-6 pl-0'>
-                <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {filterUsers.length}</div>
-                <div className="grid grid-cols-4 w-auto bg-amber-200">
-                    <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
-                    <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
-                    <div className="font-bold border border-white text-center py-3">ACTION</div>
-                </div>
-
-                {filterUsers.map((user, index) => (
-                    <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-100">
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                        <div className="font-bold border  border-white text-center uppercase py-3">
-                            <button
-                                type="button"
-                                onClick={() => handleViewClick(user)}
-                                className="bg-blue-500 text-white py-1 px-4 hover:bg-black rounded-lg"
-                            >
-                                View
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleAccept(user)}
-                                className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
-                                disabled={user.action !== 0}
-                            >
-                                Accept
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => handleReject(user)}
-                                className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
-                                disabled={user.action !== 0}
-                            >
-                                Reject
-                            </button>
+                    <div className='mt-6 pl-0'>
+                        <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {filterUsers.length}</div>
+                        <div className="grid grid-cols-4 w-auto bg-amber-200">
+                            <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
+                            <div className="font-bold border border-white text-center py-3">NAME</div>
+                            <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
+                            <div className="font-bold border border-white text-center py-3">ACTION</div>
                         </div>
+
+                        {filterUsers.map((user, index) => (
+                            <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-100">
+                                <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
+                                <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
+                                <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
+                                <div className="font-bold border  border-white text-center uppercase py-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => handleViewClick(user)}
+                                        className="bg-blue-500 text-white py-1 px-4 hover:bg-black rounded-lg"
+                                    >
+                                        View
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleAccept(user)}
+                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                        disabled={user.action !== 0}
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => handleReject(user)}
+                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
+                                        disabled={user.action !== 0}
+                                    >
+                                        Reject
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
-                {/* <div>
+                </div>
+            )}
+            {/* <div>
                     {rusers.map((user) => (
                         <div key={user.registerNo} className="grid grid-cols-5 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
                             <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
@@ -1061,7 +1220,7 @@ function Action() {
                             </div>
                         </div>
                     ))}</div> */}
-            </div>
+
             <div className=' text-white flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
                 <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
                     <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>

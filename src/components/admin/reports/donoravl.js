@@ -216,7 +216,7 @@ function Donoravl(){
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.balance)}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathbal)}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathbal || 0)}</div>
                         {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
                     </div>
                 ))}

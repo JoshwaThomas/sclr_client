@@ -1207,10 +1207,12 @@ const ScholarshipForm = () => {
                 value={password.conpass}
                 onChange={handleChange}
               />
-            </div>
-            {isConpassTyped && error && (
+               
+               {isConpassTyped && error && (
               <div style={{ color: "red" }}>{error}</div>
-            )}
+            )} 
+            </div>
+           
           </div>
           {/* Education Details section */}
 

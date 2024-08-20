@@ -2,7 +2,7 @@ import { useEffect, useState, React } from 'react';
 import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 function Allreport() {
 
@@ -40,7 +40,8 @@ function Allreport() {
             'FATHER_OCCUPATION',
             'ANNUAL_INCOME',
             'AWARDED AMOUNT',
-            'PAN OR DONOR ID',
+            'PAN',
+            'DONOR ID',
             'SCHOLARSHIP TYPE',
             'SCHOLAR DONOR NAME',
             'SCHOLAR DONOR MOBILE'
@@ -49,7 +50,7 @@ function Allreport() {
 
         // Add headers to the beginning of the data array
         const dataWithHeaders = [headers, ...users.map(user => [
-            formatDate(user.amtdate),
+            new Date(user.amtdate).toLocaleDateString(),
             user.fresherOrRenewal,
             user.registerNo,
             user.name,
@@ -65,6 +66,7 @@ function Allreport() {
             user.annualIncome,
             user.scholamt,
             user.pan,
+            user.did,
             user.scholtype,
             user.donarName,
             user.mobileNo
@@ -81,9 +83,9 @@ function Allreport() {
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
     };
-    const formatDate = (dateString) => {
-        return dayjs(dateString).format('DD-MM-YYYY');
-    };
+    // const formatDate = (dateString) => {
+    //     return dayjs(dateString).format('DD-MM-YYYY');
+    // };
 
 
 
@@ -98,36 +100,24 @@ function Allreport() {
                 >
                     Download Excel
                 </button>
-                {/* <div className='mt-6 grid grid-cols-12 w-auto bg-amber-300'>
-                    <div className="font-bold border border-white text-center">DATE</div>
-                    <div className="font-bold border border-white text-center">Reg. No</div>
-                    <div className="font-bold border border-white text-center">Dept</div>
-                    <div className="font-bold border border-white text-center">NAME</div>
-                    <div className="font-bold border border-white text-center">MOBILE</div>
-                    <div className="font-bold border border-white text-center">PAN</div>
-                    <div className="font-bold border border-white text-center">ADDRESS</div>
-                    <div className='font-bold border border-white text-center'>SCHOLARSHIP TYPE</div>
-                    <div className='font-bold border border-white text-center'>AMOUNT</div>
-                    <div className='font-bold border border-white text-center'>SCHOLAR DONAR</div>
-                    <div className="font-bold border border-white text-center">MOBILE</div>
-                    <div className="font-bold border border-white text-center">MOBILE</div>
-                </div>
+                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200 '>
+                    <div className="font-bold border border-white text-center py-3">DATE</div>
+                    <div className="font-bold border border-white text-center py-3">Reg. No</div>
+                    <div className="font-bold border border-white text-center py-3">Name</div>
+                    <div className="font-bold border border-white text-center py-3">Donor ID</div>
+                    <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
+                    <div className='font-bold border border-white text-center py-3'>SCHOLARSHIP TYPE</div>
+                  </div>
                 {users.map((user, index) => (
-                    <div key={index} className="grid grid-cols-12 bg-amber-200">
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.scholdate}</div>
+                    <div key={index} className="grid grid-cols-6 bg-amber-100">
+                        <div className="font-bold border border-white text-center uppercase py-3">{new Date(user.amtdate).toLocaleDateString()}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.smobileNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.address}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholamt}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.donarName}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.mobileNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.specialCategory}</div>
                     </div>
-                ))} */}
+                ))}
 
             </div>
         </div>

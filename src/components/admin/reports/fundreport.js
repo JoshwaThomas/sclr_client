@@ -201,14 +201,14 @@ function FundReport(){
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-7 w-auto bg-amber-200'>
+                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
                 <div className="font-bold border border-white text-center py-3">Academic Year</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">AMOUNT</div>
                     <div className="font-bold border border-white text-center py-3">ZAKKATH</div>
-                    <div className="font-bold border border-white text-center py-3">Pan</div>
+                    {/* <div className="font-bold border border-white text-center py-3">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (
                     <div key={index} className="grid grid-cols-6 w-auto bg-amber-100">
@@ -218,7 +218,7 @@ function FundReport(){
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount || 0)}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathamt || 0) }</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
+                        {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
                     </div>
                 
                 ))}

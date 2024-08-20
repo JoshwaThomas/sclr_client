@@ -39,7 +39,7 @@ function Status() {
     const [submittedData, setSubmittedData] = useState([]);
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
-
+    const [password, setPassword] = useState('');
 
     const fetchDonars = () => {
         return axios.get('http://localhost:3001/api/admin/donar')
@@ -135,6 +135,7 @@ function Status() {
                 setState(result.data.state)
                 setDistrict(result.data.district)
                 setPin(result.data.pin)
+                
                 setShowModal(true);
             }
         } catch (err) {
@@ -183,7 +184,7 @@ function Status() {
                 setState(result.data.state)
                 setDistrict(result.data.district)
                 setPin(result.data.pin)
-
+                setPassword(result.data.password)
                 setShowModifyModal(true); // Show modify modal when student data is fetched
             }
         } catch (err) {
@@ -198,7 +199,7 @@ function Status() {
             await axios.post('http://localhost:3001/api/admin/student/update', {
                 fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section,
                 religion, procategory, specialCategory, hostel, mobileNo, fatherName, fatherNo,
-                fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, semPercentage
+                fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, semPercentage, password,
             });
             setShowModifyModal(false);
             window.alert("Details modified successfully.");
@@ -615,8 +616,7 @@ function Status() {
                     </div>
                 )
                 }
-                {
-                    showModifyModal && (
+                {showModifyModal && (
 
                         <div className="fixed inset-0  flex items-center justify-center  bg-black bg-opacity-50">
                             <div className="bg-white w-3/4 h-3/4 rounded-lg overflow-auto p-6">
@@ -981,7 +981,7 @@ function Status() {
                                                         required
                                                     >
                                                         <option value="">Select</option>
-                                                        <option value="none">None</option>
+                                                        <option value="General">General</option>
                                                         <option value="Muaddin">Mu-addin</option>
                                                         <option value="Hazrath">Hazrath</option>
                                                         <option value="FatherMotherSeparated">Father & Mother Separated</option>
@@ -1250,6 +1250,17 @@ function Status() {
                                                             name="deeniyathPer"
                                                             value={deeniyathPer}
                                                             onChange={(e) => setDeeniyathPer(e.target.value)}
+                                                            className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
+                                                            required
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block mb-1">Password:</label>
+                                                        <input
+                                                            type="text"
+                                                            name="password"
+                                                            value={password}
+                                                            onChange={(e) => setPassword(e.target.value)}
                                                             className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
                                                             required
                                                         />
