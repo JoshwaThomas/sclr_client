@@ -177,7 +177,7 @@ function Status() {
                                                             >
                                                                 Close
                                                             </button>
-                                                            <div className="text-green-900 font-bold w-full mt-4">
+                                                            <div className="text-green-900 font-bold w-full mt-4 ">
                                                                 Your Application Selected. Contact Scholarship Office / ERP .
                                                             </div>
                                                         </div>
@@ -190,7 +190,7 @@ function Status() {
                                                             >
                                                                 Close
                                                             </button>
-                                                            <div className="text-red-500 font-bold mt-4">
+                                                            <div className="text-red-500 font-bold mt-4 ">
                                                                 Your Application Rejected. Contact Scholarship Office {student.reason}
                                                             </div>
                                                         </div>

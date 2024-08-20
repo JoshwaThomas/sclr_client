@@ -54,6 +54,7 @@ function Action() {
     const [classAttendance, setClassAttendance] = useState('');
     const [moralAttendance, setMoralAttendance] = useState('');
     const [mark, setMark] = useState('');
+    const [arrear, setArrear] = useState('');
 
 
     // const [donorMapping, setDonorMapping] = useState({});
@@ -158,12 +159,15 @@ function Action() {
         if (mark) {
             filteredUsers = filteredUsers.filter(user => user.semPercentage < Number(mark));
         }
+        if (arrear) {
+            filteredUsers = filteredUsers.filter(user => user.arrear >= Number(arrear));
+        }
 
         const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
         setQuickRejectList(quickRejectUsers);
         // console.log('Filtered Users:', filteredUsers);
         setFilterUsers(filteredUsers);
-    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark]);
+    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark, arrear]);
 
     useEffect(() => {
         // Set default values for filters on initial render
@@ -664,10 +668,10 @@ function Action() {
             .then(response => {
                 if (response.data.success) {
                     const acyear = response.data.acyear.acyear;
-    
+
                     // Filter out users without a rejectReason
                     const filteredRejectList = quickRejectList.filter(user => user.rejectReason && user.rejectReason.trim() !== '');
-    
+
                     const rejectRequests = filteredRejectList.map(user => {
                         return axios.post('http://localhost:3001/api/admin/reject', {
                             fresherOrRenewal: user.fresherOrRenewal,
@@ -682,7 +686,7 @@ function Action() {
                             });
                         });
                     });
-    
+
                     Promise.all(rejectRequests)
                         .then(() => {
                             window.alert("All selected users were rejected successfully");
@@ -750,33 +754,42 @@ function Action() {
                     <h3 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>Quick Rejection List</h3>
                     <div className="overflow-auto">
                         <div>
-                            <div className="mt-6">
-                                <label className="font-bold text-gray-700">Class Attendance:</label>
-                                <input
-                                    type="text"
-                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
-                                    value={classAttendance}
-                                    onChange={(e) => setClassAttendance(e.target.value)}
-                                />
-                        
-                                <label className="font-bold ml-5 text-gray-700">Deeniyath / Moral Attendance:</label>
-                                <input
-                                    type="text"
-                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
-                                    value={moralAttendance}
-                                    onChange={(e) => setMoralAttendance(e.target.value)}
-                                />
+                            <div className=' '>
+                                <div className="mt-6 grid grid-cols-4">
+                                    <label className="font-bold text-right mt-2 text-gray-700">Class Attendance:</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        value={classAttendance}
+                                        onChange={(e) => setClassAttendance(e.target.value)}
+                                    />
 
-                                <label className="font-bold ml-5 text-gray-700">Mark:</label>
-                                <input
-                                    type="text"
-                                    className="border ml-3 rounded-md w-32 p-2 mt-1"
-                                    value={mark}
-                                    onChange={(e) => setMark(e.target.value)}
-                                />
+                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath / Moral Attendance:</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        value={moralAttendance}
+                                        onChange={(e) => setMoralAttendance(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Mark:</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={mark}
+                                        onChange={(e) => setMark(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Arrear:</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={arrear}
+                                        onChange={(e) => setArrear(e.target.value)}
+                                    />
+                                </div>
                             </div>
-
-                            <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {quickRejectList.length}</div>
+                            <div className="text-right font-bold text-xl mr-40 mt-10 text-white">No of Students :  {quickRejectList.length}</div>
                             <div className="grid grid-cols-4  bg-amber-200">
                                 <div className="font-bold border border-white text-center py-3">Register No</div>
                                 <div className="font-bold border border-white text-center py-3">Name</div>
@@ -803,20 +816,20 @@ function Action() {
                             ))}
                         </div>
                     </div>
-                    <button
+                     <button
                         type="button"
-                        className="bg-red-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4"
-                        onClick={handleQuickRejectSubmit}
-                    >
-                        Submit All Rejections
-                    </button>
-                    <button
-                        type="button"
-                        className="bg-blue-500 text-white py-2 px-4 hover:bg-black rounded-lg mt-4 ml-2"
+                        className="bg-blue-500 text-white py-2 px-4 hover:bg-blue-700 rounded-lg mt-4 ml-2"
                         onClick={() => setQuickRejectMode(false)}
                     >
                         Back
                     </button>
+                    <button
+                        type="button"
+                        className="bg-red-500 text-white py-2 px-4 hover:bg-red-700 rounded-lg mt-4 ml-5"
+                        onClick={handleQuickRejectSubmit}
+                    >
+                        Submit All Rejections
+                    </button>       
                 </div>
             ) : (
                 <div>
@@ -829,7 +842,7 @@ function Action() {
                                     id="all"
                                     name="search"
                                     value="all"
-                                    className='scale-200 ml-8'
+                                    className='scale-200 ml-5'
                                     onChange={handleRadioChange}
                                     defaultChecked
                                 />
@@ -944,7 +957,7 @@ function Action() {
                                         id="all"
                                         name="acceptreject"
                                         value="allar"
-                                        className='scale-200 ml-8'
+                                        className='scale-200 ml-5'
                                         onChange={handleAcceptrejectChange}
 
                                     />
@@ -983,11 +996,11 @@ function Action() {
                                         id="all-progress"
                                         name="progress"
                                         value="all"
-                                        className='scale-200 ml-8'
+                                        className='scale-200 ml-5'
                                         onChange={handleProgressRadioChange}
                                         checked={progressRadioValue === 'all'}
                                     />
-                                    <label htmlFor="all-progress" className='form-radio text-lg'>All</label>
+                                    <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>Both</label>
 
                                     <input
                                         type="radio"
