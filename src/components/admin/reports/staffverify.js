@@ -56,6 +56,24 @@ return(
                          <div className="font-bold border border-white text-center py-3">{data.wCompleted}</div>
                          <div className="font-bold border border-white text-center py-3">{data.dwTotal}</div>
          </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">Moral Men</div>
+                         <div className="font-bold border border-white text-center py-3">{data.mamCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.maCompleted}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.mamTotal}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">Moral Women</div>
+                         <div className="font-bold border border-white text-center py-3">{data.mwCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.mwCompleted}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.mwTotal}</div>
+         </div>
+         <div className='grid grid-cols-4 w-auto bg-amber-100'>
+                     <div className="font-bold border border-white text-center py-3">COE</div>
+                         <div className="font-bold border border-white text-center py-3">{data.semCount}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.semComplete}</div>
+                         <div className="font-bold border border-white text-center py-3">{data.totalApplicants}</div>
+         </div>
          </div>
       )
     }
