@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+// import { useParams } from 'react-router-dom';
 
 const ScholarshipForm = () => {
 
+  // const { staffId } = useParams();
   const [student, setStudent] = useState(null);
   const [deeniyath, setDeeniyath] = useState();
   const [ugOrPg, setUgOrPg] = useState('')
@@ -97,7 +99,7 @@ const ScholarshipForm = () => {
     try {
       const result = await axios.get(`http://localhost:3001/api/admin/students`, {
         params: {
-          registerNo: registerNo,
+          registerNo: registerNo.toUpperCase(),
           mobileNo: mobileNo
         }
       });
@@ -222,7 +224,7 @@ const ScholarshipForm = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className='  '>
             <div>
-              <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Application</h3>
+              <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Renewal Application</h3>
 
               <div className="space-x-4 inline-flex border p-10 rounded-xl">
                 <div>
@@ -281,7 +283,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
             <div>
-              <label className="block mb-1">Programme Category:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+              <label className="block mb-1">Programme  Stream:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
                 <div>
                   <input
@@ -379,32 +381,42 @@ const ScholarshipForm = () => {
                   />
                   <label htmlFor="IV Semester" className=' form-radio ml-2 text-lg'> IV </label>
                 </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="VSemester"
-                    name="semester"
-                    value="V"
-                    className=' scale-200'
-                    checked={semester === 'V'}
-                    onChange={(e) => setSemester(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="V" className=' form-radio ml-2 text-lg'> V </label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="VIsemester"
-                    name="semester"
-                    value="VI"
-                    className=' scale-200'
-                    checked={semester === 'VI'}
-                    onChange={(e) => setSemester(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="VI" className=' form-radio ml-2 text-lg'> VI </label>
-                </div>
+                {ugOrPg !== 'PG' && (
+                  <div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="V"
+                        name="semester"
+                        value="V "
+                        className=" scale-200"
+                        checked={semester === "V "}
+                        onChange={(e) => setSemester(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="V" className=" form-radio ml-2 text-lg">
+
+                        V
+                      </label>
+                  
+                      <input
+                        type="radio"
+                        id="VI"
+                        name="semester"
+                        value="VI "
+                        className=" ml-4 scale-200"
+                        checked={semester === "VI "}
+                        onChange={(e) => setSemester(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="VI" className=" form-radio ml-2 text-lg">
+
+                        VI
+                      </label>
+                    </div>
+                  </div>
+                )
+                }
               </div>
             </div>
             <div>
@@ -608,6 +620,7 @@ const ScholarshipForm = () => {
                     onChange={(e) => setLastCreditedAmt(e.target.value)}
                     className="w-48 p-2 appearance-auto border rounded-md text-slate-950"
                     required
+                    readOnly
                   />
                 </div>
                 {/* <div>
@@ -860,7 +873,7 @@ const ScholarshipForm = () => {
 
                 {/* Jamath section */}
                 <div>
-                  <label className="block mb-1 mt-2 w-auto">Jamath Letter:</label>
+                  <label className="block mb-1 mt-2 w-auto">Jamath / Self Declaration Letter:</label>
                   <input
                     type="file"
                     name="jamath"

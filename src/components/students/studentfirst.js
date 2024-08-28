@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,18 @@ import Stud1 from '../../assets/stud1.gif'
 
 function Studentfirst() {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchDates = async () => { 
+      const response = await axios.get('http://localhost:3001/api/admin/dates');
+      const { startDate, endDate } = response.data;
+      const today = new Date();
+      setIsOpen(today >= new Date(startDate) && today <= new Date(endDate));
+    };
+    fetchDates();
+  }, []);
+
 
   return (
     <div className=" w-screen h-screen flex flex-col space-x-4  overflow-hidden justify-center items-center p-10 bg-blue-500">
@@ -29,23 +42,42 @@ function Studentfirst() {
         </div>
         <div className='flex flex-col justify-evenly rounded-lg ml-16'>
           <div className='grid grid-cols-2 gap-14 ml-16'>
-            <button
-              onClick={() => navigate('/freshstudent/application/fresh')}
-              className="bg-amber-50 text-black font-bold text-2xl shadow-2xl   px-4 py-4 peer-hover:  hover:shadow-yellow-400 hover:bg-amber-200 hover:text-slate-500 rounded-lg  "
-            >
-              Register
-            </button>
-            <button
+          {isOpen ? (
+              <button
+                onClick={() => navigate('/freshstudent/application/fresh')}
+                className="bg-amber-50 text-black font-bold text-2xl shadow-2xl px-4 py-4 hover:shadow-yellow-400 hover:bg-amber-200 hover:text-slate-500 rounded-lg"
+              >
+                Register
+              </button>
+            ) : null}
+          
+          {/* <button
+            onClick={() => navigate('/freshstudent/application/fresh')}
+            className="bg-amber-50 text-black font-bold text-2xl shadow-2xl   px-4 py-4 peer-hover:  hover:shadow-yellow-400 hover:bg-amber-200 hover:text-slate-500 rounded-lg  "
+          >
+            Register
+          </button> */}
+           
+           <div>
+           <button
               onClick={() => navigate('/login')}
-              className=" bg-amber-50 text-black font-bold text-2xl shadow-2xl  px-4 py-4 hover:bg-amber-200 hover:shadow-yellow-400 hover:text-slate-500 rounded-lg"
+              className="bg-amber-50 text-black font-bold text-2xl shadow-2xl px-4 py-4 hover:shadow-yellow-400 hover:bg-amber-200 hover:text-slate-500 rounded-lg"
             >
-                Login   
+              Login
             </button>
+           </div>
+           
+            <div >
+            {!isOpen && (
+              <p className="text-lg text-red-600 text-center mt-20 -ml-80 "> Fresher application Closed</p>
+            )}
+            </div>
+           
 
-          </div>
         </div>
       </div>
     </div>
+    </div >
 
   );
 }

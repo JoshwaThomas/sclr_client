@@ -20,6 +20,12 @@ function Setting() {
                 >
                    Academic Year
                 </button>
+                <button
+                    onClick={() => navigate('/admin/setting/date')}
+                    className="px-4 py-9 ml-2 bg-cyan-500 text-white text-2xl mt-32 hover:bg-black rounded-lg"
+                >
+                    Application Date 
+                </button>
             </div>
         </div>
     )

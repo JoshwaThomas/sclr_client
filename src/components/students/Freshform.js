@@ -7,6 +7,7 @@ const ScholarshipForm = () => {
   // const navigate = useNavigate();
   // const [fresherOrRenewal, setFresherOrRenewal] = useState()
   const [deeniyath, setDeeniyath] = useState();
+  const [scholarship, setScholarship] = useState();
   const [ugOrPg, setUgOrPg] = useState();
   const [semester, setSemester] = useState();
   const [name, setName] = useState();
@@ -82,14 +83,14 @@ const ScholarshipForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPassword((prevPassword) => ({
-        ...prevPassword,
-        [name]: value,
+      ...prevPassword,
+      [name]: value,
     }));
 
     if (name === "conpass") {
-        setIsConpassTyped(true);
+      setIsConpassTyped(true);
     }
-};
+  };
 
 
   //pop display close
@@ -216,6 +217,18 @@ const ScholarshipForm = () => {
   //     });
   // };
 
+  //religion and deeniyath
+  const handleReligionChange = (e) => {
+    const selectedReligion = e.target.value;
+    setReligion(selectedReligion);
+
+    if (selectedReligion === "ISLAM") {
+      setDeeniyath("Yes");
+    } else {
+      setDeeniyath("No");
+    }
+  };
+
   const Submit = (e) => {
     e.preventDefault();
 
@@ -229,6 +242,7 @@ const ScholarshipForm = () => {
           // Create a new FormData object
           const formData = new FormData();
           formData.append("deeniyath", deeniyath);
+          formData.append("scholarship", scholarship);
           formData.append("ugOrPg", ugOrPg);
           formData.append("semester", semester);
           formData.append("name", name);
@@ -258,7 +272,7 @@ const ScholarshipForm = () => {
           formData.append("siblingsIncome", siblingsIncome);
           formData.append("acyear", acyear);
           formData.append("jamath", jamath);
-          formData.append("password", password.pass); 
+          formData.append("password", password.pass);
 
           for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -273,7 +287,7 @@ const ScholarshipForm = () => {
                 console.log(result)
                 setTimeout(() => {
                   window.location.reload();
-              }, 6000);
+                }, 6000);
               } else if (result.data.message === "Register No. Already Existing") {
                 alert("Register No. Already Existing");
               } else {
@@ -362,7 +376,8 @@ const ScholarshipForm = () => {
                     <option value="Orphan">Orphan</option>
                   </select>
                 </div>
-                <div>
+                {/* Deeniyath and moral data get manual */}
+                {/* <div>
                   <label className="block mb-1">
                     Education
                     <span className=" text-red-500 text-lg">
@@ -406,7 +421,47 @@ const ScholarshipForm = () => {
                       </label>
                     </div>
                   </div>
+                </div> */}
+                <div>
+              <label className="block mb-1">
+              If you have applied for any other scholarships:
+                <span className=" text-red-500 text-lg">
+                  <sup>*</sup>
+                </span>
+              </label>
+              <div className=" space-x-7 inline-flex">
+                <div>
+                  <input
+                    type="radio"
+                    id="scholarship"
+                    name="scholarship"
+                    value="Yes"
+                    className=" scale-200"
+                    checked={scholarship === "Yes"}
+                    onChange={(e) => setScholarship(e.target.value)}
+                    required
+                  />
+                  <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
+                    Yes
+                  </label>
                 </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="scholarship"
+                    name="scholarship"
+                    value="No"
+                    className=" scale-200"
+                    checked={scholarship === "No"}
+                    onChange={(e) => setScholarship(e.target.value)}
+                    required
+                  />
+                  <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
               </div>
             </div>
           </div>
@@ -459,7 +514,7 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">
-                Programme Category
+              Programme  Stream
                 <span className=" text-red-500 text-lg">
                   <sup>*</sup>
                 </span>
@@ -587,7 +642,43 @@ const ScholarshipForm = () => {
                     IV
                   </label>
                 </div>
-                <div>
+                {ugOrPg !== 'PG' && (
+                  <div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="V"
+                        name="semester"
+                        value="V "
+                        className=" scale-200"
+                        checked={semester === "V "}
+                        onChange={(e) => setSemester(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="V" className=" form-radio ml-2 text-lg">
+
+                        V
+                      </label>
+                  
+                      <input
+                        type="radio"
+                        id="VI"
+                        name="semester"
+                        value="VI "
+                        className=" ml-4 scale-200"
+                        checked={semester === "VI "}
+                        onChange={(e) => setSemester(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="VI" className=" form-radio ml-2 text-lg">
+
+                        VI
+                      </label>
+                    </div>
+                  </div>
+                )
+                }
+                {/* <div>
                   <input
                     type="radio"
                     id="V"
@@ -618,7 +709,7 @@ const ScholarshipForm = () => {
 
                     VI
                   </label>
-                </div>
+                </div> */}
               </div>
             </div>
             <div>
@@ -793,7 +884,7 @@ const ScholarshipForm = () => {
               <select
                 name="religion"
                 value={religion}
-                onChange={(e) => setReligion(e.target.value)}
+                onChange={handleReligionChange}
                 className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 required
               >
@@ -1168,7 +1259,7 @@ const ScholarshipForm = () => {
             </div>
 
             <div>
-              <label className="block mb-1 mt-2 w-auto">Jamath Letter:</label>
+              <label className="block mb-1 mt-2 w-auto">Jamath / Self Declaration Letter:</label>
               <input
                 type="file"
                 name="jamath"
@@ -1207,12 +1298,12 @@ const ScholarshipForm = () => {
                 value={password.conpass}
                 onChange={handleChange}
               />
-               
-               {isConpassTyped && error && (
-              <div style={{ color: "red" }}>{error}</div>
-            )} 
+
+              {isConpassTyped && error && (
+                <div style={{ color: "red" }}>{error}</div>
+              )}
             </div>
-           
+
           </div>
           {/* Education Details section */}
 

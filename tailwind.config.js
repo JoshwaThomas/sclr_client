@@ -15,6 +15,10 @@ module.exports = {
       margin: {
         '-15': '-3.75rem', // 3.75rem equals 60px
       },
+      screens: {
+        'md1': '1024px',
+        'lg1': '1440px',
+      },
     },
   },
   variants: {

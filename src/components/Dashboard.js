@@ -128,66 +128,64 @@ const Dashboard = () => {
     const barColors = [" bg-fuchsia-500", "bg-green-900", "bg-blue-500", "bg-teal-500", "bg-orange-500"];
     
     return (
-        <div className="container mx-auto p-4">
-            <div className="grid grid-cols-4 gap-4 mb-8  " >
-                <div className="bg-gray-100 p-4 py-4 rounded shadow text-center text-xl font-bold">
-                    <FontAwesomeIcon icon={faUsers} size="2x" />
-                    <div>Total Applicants</div>
-                    <div>{data.totalApplicants}</div>
-                </div>
-                <div className="bg-gray-100 p-4 py-4 rounded shadow text-center text-xl font-bold">
-                    <FontAwesomeIcon icon={faGraduationCap} size="2x" />
-                    <div>Students Benefitted</div>
-                    <div>{data.totalBenefit}</div>
-                </div>
-                <div className="bg-gray-100 p-4 py-4 rounded shadow text-center text-xl font-bold">
-                    <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
-                    <div>Scholarship Awarded</div>
-                    <div>{formatCurrency(totalamount)}</div>
-                </div>
-                <div className="bg-gray-100 p-4 py-4 rounded shadow text-center text-xl font-bold">
-                    <FontAwesomeIcon icon={faHandsHelping} size="2x" />
-                    <div>Generous Donors</div>
-                    <div>{data.totalDonars}</div>
-                </div>
-            </div>
-            <div className="grid grid-cols-3 pb-4 gap-6 h-30">
-                <div className="bg-gray-100 p-4 rounded shadow">
-                    <Pie data={pieData} />
-                </div>
-                <div className="bg-gray-100 p-4 rounded shadow">
-                    <Pie data={pieData1} />
-                </div>
-                <div className="bg-gray-100 p-4 rounded shadow">
-                    <Pie data={pieData2} />
-                </div>
-            </div>
-            <div className="grid grid-cols-1 gap-6 h-30">
-                {/* <div className="bg-white p-4 rounded shadow h-80 w-full">
-                    <div className="relative h-72 w-full">
-                        <Bar data={barData} options={options} />
-                    </div>
-                </div> */}
-                <div className="bg-gray-100 p-4 rounded shadow w-full">
-                    {barData.labels.map((label, index) => (
-                        <div key={label} className="mb-4">
-                            <div className="flex justify-between mb-1">
-                                <span className="text-base font-medium text-gray-700">{label}</span>
-                                <span className="text-base font-medium text-gray-700">
-                                    {((barData.datasets[0].data[index] / totalApplicants) * 100).toFixed(2)}%
-                                </span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-5">
-                                <div
-                                     className={`${barColors[index % barColors.length]} h-5 rounded-full`}
-                                    style={{ width: `${(barData.datasets[0].data[index] / totalApplicants) * 100}%` }}
-                                ></div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
+        <div className="container mx-auto p-4  2xl:w-screen">
+      {/* Statistics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 2xl:gap-10">
+        <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
+          <FontAwesomeIcon icon={faUsers} size="2x" />
+          <div>Total Applicants</div>
+          <div>{data.totalApplicants}</div>
         </div>
+        <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
+          <FontAwesomeIcon icon={faGraduationCap} size="2x" />
+          <div>Students Benefitted</div>
+          <div>{data.totalBenefit}</div>
+        </div>
+        <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
+          <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
+          <div>Scholarship Awarded</div>
+          <div>{formatCurrency(totalamount)}</div>
+        </div>
+        <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
+          <FontAwesomeIcon icon={faHandsHelping} size="2x" />
+          <div>Generous Donors</div>
+          <div>{data.totalDonars}</div>
+        </div>
+      </div>
+
+      {/* Pie Charts */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 ">
+        <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
+          <Pie data={pieData} />
+        </div>
+        <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
+          <Pie data={pieData1} />
+        </div>
+        <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
+          <Pie data={pieData2} />
+        </div>
+      </div>
+
+      {/* Bar Charts */}
+      <div className="bg-gray-100 p-4 rounded shadow">
+        {barData.labels.map((label, index) => (
+          <div key={label} className="mb-4">
+            <div className="flex justify-between mb-1 ">
+              <span className="text-base font-medium text-gray-700 2xl:text-3xl">{label}</span>
+              <span className="text-base font-medium text-gray-700 2xl:text-3xl">
+                {((barData.datasets[0].data[index] / data.totalApplicants) * 100).toFixed(2)}%
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-5">
+              <div
+                className={`${barColors[index % barColors.length]} h-5 rounded-full`}
+                style={{ width: `${(barData.datasets[0].data[index] / totalApplicants) * 100}%` }}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
     );
 };
 

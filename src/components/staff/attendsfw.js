@@ -3,7 +3,7 @@ import axios from "axios";
 
 function AttendSfw() {
     const [users, setUsers] = useState([]);
-    const [prevAttendancetot, setPrevattendancetot] = useState('');
+    // const [prevAttendancetot, setPrevattendancetot] = useState('');
     const [currAttendancetot, setCurrattendancetot] = useState('');
     const [classAttendancePer, setClassAttendancePer] = useState({});
     // const [classAttendanceRem, setClassAttendanceRem] = useState({});
@@ -50,14 +50,14 @@ function AttendSfw() {
     useEffect(() => {
         const calculatePercentage = () => {
             const updatedAttendancePer = users.reduce((acc, user) => {
-                const prevAttendance = parseFloat(user.prevAttendance) || 0;
+                // const prevAttendance = parseFloat(user.prevAttendance) || 0;
                 const currAttendance = parseFloat(user.currAttendance) || 0;
-                const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
+                // const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
 
-                if (totalPrevAttendance + totalCurrAttendance > 0) {
-                    const percentage = ((prevAttendance + currAttendance) /
-                        (totalPrevAttendance + totalCurrAttendance)) * 100;
+                if (totalCurrAttendance > 0) {
+                    const percentage = (currAttendance /
+                         totalCurrAttendance) * 100;
                     acc[user.registerNo] = percentage.toFixed(2);
                 } else {
                     acc[user.registerNo] = '0';
@@ -68,7 +68,7 @@ function AttendSfw() {
         };
 
         calculatePercentage();
-    }, [users, prevAttendancetot, currAttendancetot]);
+    }, [users, currAttendancetot]);
 
     const updateAttendance = async (e) => {
         e.preventDefault();
@@ -77,7 +77,11 @@ function AttendSfw() {
         const remarks = {};
         
         users.forEach(user => {
-            updates[user.registerNo] = classAttendancePer[user.registerNo];
+            updates[user.registerNo] ={
+                prevAttendance: user.prevAttendance,
+                classAttendancePer: classAttendancePer[user.registerNo],
+                // classAttendanceRem: user.classAttendanceRem
+            };
             remarks[user.registerNo] = user.classAttendanceRem;
         });
 
@@ -103,7 +107,7 @@ function AttendSfw() {
                 <div className='ml-10 '>Pending:  {users.length}</div>
             </div>
             <div className='flex inline-flex text-white mt-10'>
-                <div className="w-auto ">
+                {/* <div className="w-auto ">
                 <label className='text-lg font-bold'>Previous Semester Working Days</label>
                     <input
                         type='text'
@@ -112,7 +116,7 @@ function AttendSfw() {
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
                     />
-                </div>
+                </div> */}
                 <div className="w-auto  ml-5">
                 <label className='text-lg font-bold'>Current Semester Working Days</label>
                     <input
@@ -129,17 +133,17 @@ function AttendSfw() {
                 <div className="font-bold border border-white text-center py-3">Register No.</div>
                 <div className="font-bold border border-white text-center py-3">Name</div>
                 <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center w-28 py-3">Previous Sem</div>
-                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Current Sem</div>
-                <div className="font-bold border border-white text-center w-30 -ml-20 py-3">Sem Percentage</div>
-                <div className="font-bold border border-white text-center w-66 -ml-28 py-3">Remark</div>
+                <div className="font-bold border border-white text-center py-3">Previous Sem</div>
+                <div className="font-bold border border-white text-center py-3">Current Sem</div>
+                <div className="font-bold border border-white text-center py-3">Sem Percentage</div>
+                <div className="font-bold border border-white text-center py-3">Remark</div>
             </div>
             {users.map((user, index) => (
                 <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
                     <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                    <div className="font-bold border border-white text-center uppercase w-28 py-3">
+                    <div className="font-bold border border-white text-center uppercase py-3">
                         <input
                             type='text'
                             name='prevAttendance'
@@ -148,7 +152,7 @@ function AttendSfw() {
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
+                    <div className="font-bold border border-white text-center py-3">
                         <input
                             type='text'
                             name='currAttendance'
@@ -157,10 +161,10 @@ function AttendSfw() {
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-30 -ml-20 py-3">
+                    <div className="font-bold border border-white text-center py-3">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white w-66 -ml-28 text-center">
+                    <div className="font-bold border border-white  text-center">
                         <input
                              type='textarea'
                              name='classAttendanceRem'

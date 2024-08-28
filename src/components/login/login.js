@@ -14,7 +14,7 @@ function TextBox() {
 
         console.log("Submitting form with:", { staffId, password });
 
-        axios.post("http://localhost:3001/api/admin/login", {
+        axios.post("http://localhost:3001/api/admin/login/", {
             staffId, password,
         })
             .then(res => {
@@ -27,7 +27,7 @@ function TextBox() {
                         navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
                     }
                     else if (staffId === `${role}`) {
-                        navigate('/student/dashboard', { state: { id: staffId } });
+                        navigate(`/student/${staffId}/dashboard`, { state: { id: staffId } });
                     }
                 } else if (res.data.status === 'wrong password') {
                     alert("Wrong Password");
@@ -177,8 +177,8 @@ function TextBox() {
                     </form>
                     </div>
                 </div>
-                 <span className="text-2xl absolute font-bold top-28 right-48 text-center ml-32 mt-20 text-white">Shows Us The Right Path</span>
-                <h2 className="text-2xl absolute bottom-0 ml-12 font-bold mb-4 text-center text-white">"Eleventing the Next Generation Through the Support of Our Esteemed Alumini Community"</h2>
+                 <span className="text-2xl absolute font-bold top-28 right-48 text-center ml-32 mt-20 text-white">Show Us The Right Path</span>
+                <h2 className="text-2xl absolute bottom-0 ml-12 font-bold mb-4 text-center text-white">"Elevating the Next Generation Through Alumni & Well-Wishers"</h2>
             </div>
 
 

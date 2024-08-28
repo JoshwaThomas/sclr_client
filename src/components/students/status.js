@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+// import { useParams } from 'react-router-dom';
 import PrintHeader from '../../assets/printHeader.jpg';
 
 function Status() {
@@ -8,6 +9,7 @@ function Status() {
     const [student, setStudent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const printRef = useRef();
+    // const { staffId } = useParams();
 
     const Submit = async (e) => {
         e.preventDefault();
@@ -55,6 +57,7 @@ function Status() {
                         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1">Application Status</h3>
                         <div className="grid grid-rows-2 md:grid-cols-1 gap-4">
                             <div>
+                            {/* <div className='text-white font-bold mt-5'>{staffId}</div> */}
                                 <label className="block mb-1">Register No:</label>
                                 <input
                                     type="text"

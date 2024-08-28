@@ -13,6 +13,7 @@ import Status from './components/students/status';
 import Action from './components/admin/setting';
 import Accyear from './components/admin/Setting/accyearset';
 import Staffmang from './components/admin/Setting/staffmaint'; 
+import Date from './components/admin/Setting/date';
 import Report from './components/admin/report';
 import Stureport from './components/admin/reports/stureport';
 import Catreport from './components/admin/reports/studaward';
@@ -53,11 +54,11 @@ function App() {
             <Route path="application/fresh" element={<Fresh />} />
           </Route>
           <Route path='login' element={<Login />} />
-            <Route path='/student' element={<Layout />} >
+            <Route path='/student/:staffId/*' element={<Layout />} >
               <Route path='dashboard' element={<Dashboard />} />
-              <Route path="/student/application/renewal" element={<Renewal />} />
-              <Route path="/student/guidelines" element={<Guide />} />
-              <Route path='/student/status' element={<Status />} />
+              <Route path="application/renewal" element={<Renewal />} />
+              <Route path="guidelines" element={<Guide />} />
+              <Route path='status' element={<Status />} />
             </Route>
           {/* <Route path='login' element={<Login />} /> */}
             <Route path="/admin" element={<Admin />} >
@@ -66,6 +67,7 @@ function App() {
               <Route path='/admin/action' element={<Action />} />
               <Route path='/admin/setting/accyears' element={<Accyear />} />
               <Route path='/admin/setting/staffmang' element={<Staffmang />} />
+              <Route path='/admin/setting/date' element={<Date />} />
               <Route path='/admin/report' element={<Report />} />
               <Route path='/admin/donormenu' element={<DonorMenu />} />
               <Route path='/admin/donor' element={<DonorForm />} />

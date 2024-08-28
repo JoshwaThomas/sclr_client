@@ -740,7 +740,7 @@ function Action() {
                     <button
                         type="button"
                         onClick={handleQuickRejection}
-                        className="bg-orange-500 text-white py-3 px-5 ml-96 hover:bg-black rounded-lg mt-1 font-bold  "
+                        className="bg-orange-500 text-white py-4 px-6 text-xl ml-72 shadow-black shadow-lg hover:bg-black rounded-lg mt-1 font-bold  "
                     >
                         Quick Rejection
                     </button>
@@ -863,7 +863,7 @@ function Action() {
                             <div className='flex inline-flex px-4'></div>
                             {radioValue === 'in-progress' && (
                                 <div>
-                                    <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                    <div className='end-px text-white border  border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                                         <input
                                             type="checkbox"
                                             id="All"
