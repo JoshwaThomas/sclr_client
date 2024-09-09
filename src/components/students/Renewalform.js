@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+// const apiUrl = process.env.REACT_APP_API_URL;
 
 const ScholarshipForm = () => {
 
-  // const { staffId } = useParams();
+  const { staffId } = useParams();
   const [student, setStudent] = useState(null);
   const [deeniyath, setDeeniyath] = useState();
   const [ugOrPg, setUgOrPg] = useState('')
@@ -92,47 +94,97 @@ const ScholarshipForm = () => {
     setShowPopup(false);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+        if (!staffId) return; // Ensure staffId (registerNo) is provided
 
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            console.log('API URL:', apiUrl); // Log base URL
 
-  const handleData = async (e) => {
-    e.preventDefault();
-    try {
-      const result = await axios.get(`http://localhost:3001/api/admin/students`, {
-        params: {
-          registerNo: registerNo.toUpperCase(),
-          mobileNo: mobileNo
+            const result = await axios.get(`${apiUrl}/api/admin/students`, {
+                params: {
+                    registerNo: staffId.toUpperCase() // Use staffId as registerNo
+                }
+            });
+
+            console.log('API response:', result.data);
+
+            setStudent(result.data);
+            setRegisterNo(result.data.registerNo);
+            setMobileNo(result.data.mobileNo);
+            setName(result.data.name);
+            setDept(result.data.dept);
+            setSection(result.data.section);
+            setReligion(result.data.religion);
+            setAadhar(result.data.aadhar);
+            setFatherName(result.data.fatherName);
+            setFatherNo(result.data.fatherNo);
+            setFatherOccupation(result.data.fatherOccupation);
+            setAnnualIncome(result.data.annualIncome);
+            setAddress(result.data.address);
+            setState(result.data.state);
+            setDistrict(result.data.district);
+            setPin(result.data.pin);
+            setSiblings(result.data.siblings);
+            setSiblingsNo(result.data.siblingsNo);
+            setSiblingsOccupation(result.data.siblingsOccupation);
+            setSiblingsIncome(result.data.siblingsIncome);
+            setDeeniyath(result.data.deeniyath);
+            setLastCreditedAmt(result.data.scholamt);
+        } catch (err) {
+            console.error('Error fetching student data:', err.response ? err.response.data : err);
+            setStudent(null);
+            alert('Student not found');
         }
-      });
+    };
 
-      console.log('API response:', result.data);
+    fetchData(); 
+}, [staffId]); 
 
-      setStudent(result.data);
-      setName(result.data.name);
-      setDept(result.data.dept);
-      setSection(result.data.section);
-      setReligion(result.data.religion);
-      setAadhar(result.data.aadhar);
-      setFatherName(result.data.fatherName);
-      setFatherNo(result.data.fatherNo);
-      setFatherOccupation(result.data.fatherOccupation);
-      setAnnualIncome(result.data.annualIncome);
-      setAddress(result.data.address);
-      setState(result.data.state);
-      setDistrict(result.data.district);
-      setPin(result.data.pin);
-      setSiblings(result.data.siblings);
-      setSiblingsNo(result.data.siblingsNo);
-      setSiblingsOccupation(result.data.siblingsOccupation);
-      setSiblingsIncome(result.data.siblingsIncome);
-      setDeeniyath(result.data.deeniyath);
-      setLastCreditedAmt(result.data.scholamt);
 
-    } catch (err) {
-      console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
-      setStudent(null);
-      alert('Student not found');
-    }
-  }
+  // const handleData = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const apiUrl = process.env.REACT_APP_API_URL;
+  //     console.log('API URL:', apiUrl); // Check that this outputs the correct base URL
+  
+  //     const result = await axios.get(`${apiUrl}/api/admin/students`, {
+  //       params: {
+  //         registerNo: registerNo.toUpperCase(),
+  //         mobileNo: mobileNo
+  //       }
+  //     });
+  
+  //     console.log('API response:', result.data);
+  
+  //     setStudent(result.data);
+  //     setName(result.data.name);
+  //     setDept(result.data.dept);
+  //     setSection(result.data.section);
+  //     setReligion(result.data.religion);
+  //     setAadhar(result.data.aadhar);
+  //     setFatherName(result.data.fatherName);
+  //     setFatherNo(result.data.fatherNo);
+  //     setFatherOccupation(result.data.fatherOccupation);
+  //     setAnnualIncome(result.data.annualIncome);
+  //     setAddress(result.data.address);
+  //     setState(result.data.state);
+  //     setDistrict(result.data.district);
+  //     setPin(result.data.pin);
+  //     setSiblings(result.data.siblings);
+  //     setSiblingsNo(result.data.siblingsNo);
+  //     setSiblingsOccupation(result.data.siblingsOccupation);
+  //     setSiblingsIncome(result.data.siblingsIncome);
+  //     setDeeniyath(result.data.deeniyath);
+  //     setLastCreditedAmt(result.data.scholamt);
+  
+  //   } catch (err) {
+  //     console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
+  //     setStudent(null);
+  //     alert('Student not found');
+  //   }
+  // };
 
 
 
@@ -188,7 +240,10 @@ const ScholarshipForm = () => {
               }, 6000);
             } else if (result.data.message === 'Register No. Already Existing') {
               alert("Register No. Already Existing");
-            } else {
+            } else if (result.data.message === 'Already You Applied Fresher Application') {
+              alert("Already You Applied Fresher Application");
+            }  
+            else {
               console.error('Backend error:', result.data.error);
               alert('Something went wrong: ' + result.data.error.message || 'Unknown error');
             }
@@ -459,7 +514,7 @@ const ScholarshipForm = () => {
                 id="registerNo"
                 name="registerNo"
                 value={registerNo}
-                onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
+                onChange={(e) => setRegisterNo(e.target.value)}
 
                 className="w-52 p-2 uppercase border rounded-md text-slate-950"
                 required
@@ -479,10 +534,10 @@ const ScholarshipForm = () => {
                 required
               />
             </div>
-            <div>
+            {/* <div>
               <button onClick={handleData} className='bg-blue-500 text-white py-2 px-6 -ml-2 hover:bg-black rounded-lg mt-7'>
                 Get</button>
-            </div>
+            </div> */}
 
           </div>
           {student && (
@@ -1034,7 +1089,7 @@ const ScholarshipForm = () => {
         {/* Instructions */}
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-red-400 w-3/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
+            <div className="bg-red-400 w-2/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
               <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>
               <p className="mb-4">
                 <span className="font-bold ">1. Register Number as Username</span> <br />

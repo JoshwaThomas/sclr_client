@@ -15,7 +15,7 @@ const Date = () => {
 
     return (
         <div>
-            <h1>Admin Page</h1>
+            <h1>Set Application Date Limitation</h1>
             <form>
                 <div>
                     <label>Start Date:</label>

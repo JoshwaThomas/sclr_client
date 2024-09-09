@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png'; 
 // import Jmc from '../../assets/jmc_whitefont.png';
-import { TiThMenuOutline, TiPower, } from "react-icons/ti";
+import { TiThMenuOutline, TiClipboard, TiCogOutline, TiPower, } from "react-icons/ti";
 import { LuLayoutDashboard } from "react-icons/lu";
 
 
@@ -24,18 +24,13 @@ function StudentLayout() {
   let menus = [
     { icon: < LuLayoutDashboard className="text-white text-2xl 2xl:text-5xl" />,
     name: 'Dashboard', 
-    path: `/${staffId}/dashboard` 
+    path: `/student/${staffId}/status`
    },
-    { icon: 'add-circle', 
+    { icon: <TiClipboard className="text-white text-2xl 2xl:text-5xl" />, 
     name: 'Application', 
     path: `/student/${staffId}/application/renewal`
    },
-    { icon: 'people', 
-    name: 'Status', 
-    path: `/student/${staffId}/status`
-   },
-
-   { icon: 'add-circle', 
+   { icon:<TiCogOutline className="text-white text-2xl 2xl:text-5xl " />, 
     name: 'GuideLines', 
     path: `/student/${staffId}/guidelines`
    },

@@ -2,13 +2,14 @@ import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
 // import Jmc from '../../assets/jmc_whitefont.png';
+import { TiClipboard} from "react-icons/ti";
 
 function StudentLayout() {
     const navigate = useNavigate();
 
     let menus = [
         {
-            icon: 'add-circle',
+            icon:  <TiClipboard className="text-white text-2xl 2xl:text-5xl" />, 
             name: 'Application',
             path: '/freshstudent/application/fresh'
         },

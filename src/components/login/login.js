@@ -27,7 +27,7 @@ function TextBox() {
                         navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
                     }
                     else if (staffId === `${role}`) {
-                        navigate(`/student/${staffId}/dashboard`, { state: { id: staffId } });
+                        navigate(`/student/${staffId}/status`, { state: { id: staffId } });
                     }
                 } else if (res.data.status === 'wrong password') {
                     alert("Wrong Password");
@@ -42,22 +42,13 @@ function TextBox() {
     };
 
     const topContainerStyle = {
-        // position: 'absolute',
-        // top: 0,
-        // left: 0,
-        // padding: '20px',
         display: 'flex',
-        // backgroundColor:'red',
         marginBottom:'5px'
 
     };
 
     const bottomContainerStyle = {
-        // position: 'absolute',
-        // top: 0,
-        // left: 0,
-        // padding: '20px',
-        display: 'flex',
+      display: 'flex',
         borderRadius:'15px 15px 15px 15px'
     };
 

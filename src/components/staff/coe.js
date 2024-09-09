@@ -117,6 +117,15 @@ function Coe() {
                     <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
+                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3">
+                        <input
+                            type='text'
+                            name='semarrear'
+                            className="w-14 border rounded-md"
+                            value={user.semarrear || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
+                        />
+                    </div>
                     <div className="font-bold border border-white text-center uppercase w-28  py-3">
                         <input
                             type='text'
@@ -138,15 +147,7 @@ function Coe() {
                     <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
                         {semPercentage[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3">
-                        <input
-                            type='text'
-                            name='semarrear'
-                            className="w-14 border rounded-md"
-                            value={user.semarrear || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
-                        />
-                    </div>
+                    
                     <div className="font-bold border border-white text-center w-53 -ml-20">
                         <input
                             type='textarea'

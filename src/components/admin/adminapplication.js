@@ -62,30 +62,42 @@ function Action() {
 
     useEffect(() => {
         // console.log('useEffect triggered');
-        const fetchFreshUsers = async () => {
+        const fetchYear = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/fresh');
-                setUsers(response.data);
-                setFilterUsers(prev => [...prev, ...response.data]);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+                const acyear = await axios.get('http://localhost:3001/api/admin/current-acyear')
+                const curacyear = acyear.data.acyear;
+                console.log('academic Year:', curacyear.acyear)
+                const fetchFreshUsers = async () => {
+                    try {
+                        const response = await axios.get('http://localhost:3001/fresh');
+                        setUsers(response.data.filter(user => user.acyear === curacyear.acyear));
+                        setFilterUsers(prev => [...prev, ...response.data]);
+                    } catch (error) {
+                        console.log(error);
+                    }
 
-        const fetchRenewalUsers = async () => {
-            try {
-                const response = await axios.get('http://localhost:3001/renewal');
-                console.log('Renewal Users:', response.data); // L
-                setRusers(response.data);
-                setFilterUsers(prev => [...prev, ...response.data]);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+                };
 
-        fetchFreshUsers();
-        fetchRenewalUsers();
+                const fetchRenewalUsers = async () => {
+                    try {
+                        const response = await axios.get('http://localhost:3001/renewal');
+                        console.log('Renewal Users:', response.data);
+                        setRusers(response.data.filter(user => user.acyear === curacyear));
+                        setFilterUsers(prev => [...prev, ...response.data]);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                };
+                fetchFreshUsers();
+                fetchRenewalUsers();
+            }
+            catch (error) {
+                console.log('Academic Year:', error)
+            }
+        }
+        fetchYear();
     }, []);
+
 
     // Use Effect to Filter Users
     useEffect(() => {
@@ -816,7 +828,7 @@ function Action() {
                             ))}
                         </div>
                     </div>
-                     <button
+                    <button
                         type="button"
                         className="bg-blue-500 text-white py-2 px-4 hover:bg-blue-700 rounded-lg mt-4 ml-2"
                         onClick={() => setQuickRejectMode(false)}
@@ -829,7 +841,7 @@ function Action() {
                         onClick={handleQuickRejectSubmit}
                     >
                         Submit All Rejections
-                    </button>       
+                    </button>
                 </div>
             ) : (
                 <div>
