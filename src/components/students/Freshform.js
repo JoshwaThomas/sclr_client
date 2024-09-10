@@ -321,7 +321,7 @@ const ScholarshipForm = () => {
                 Fresher Application
               </h3>
 
-              <div className="space-x-4 inline-flex border p-10 rounded-xl">
+              <div className="space-x-4 grid grid-cols-1 md:grid-cols-2 gap-4 inline-flex border p-10 rounded-xl ">
                 {/* <div>
                   <input
                     type="radio"
@@ -361,7 +361,7 @@ const ScholarshipForm = () => {
                     name="specialCategory"
                     value={specialCategory}
                     onChange={(e) => setSpecialCategory(e.target.value)}
-                    className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-40  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                     required
                   >
                     <option value="">Select</option>
@@ -1628,7 +1628,7 @@ const ScholarshipForm = () => {
         {/* Instructions */}
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-red-400 w-3/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
+            <div className="bg-red-400 w-3/5 h-96 rounded-lg shadow-lg overflow-auto p-6">
               <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>
               <p className="mb-4">
                 <span className="font-bold ">1. Register Number as Username</span> <br />

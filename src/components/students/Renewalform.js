@@ -241,7 +241,10 @@ const ScholarshipForm = () => {
             } else if (result.data.message === 'Register No. Already Existing') {
               alert("Register No. Already Existing");
             } else if (result.data.message === 'Already You Applied Fresher Application') {
-              alert("Already You Applied Fresher Application");
+              alert("Already You Applied");
+            }  
+            else if (result.data.message === 'Already You Applied Renewal Application') {
+              alert("Already You Applied");
             }  
             else {
               console.error('Backend error:', result.data.error);
