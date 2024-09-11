@@ -178,7 +178,7 @@ function AttendSfm() {
         <button onClick={updateAttendance} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
     
         {/* Display message on mobile view */}
-        <div className="md:hidden bg-red-500 text-white p-4 text-center font-bold">
+        <div className="md:hidden bg-red-500 text-white p-4 text-center font-bold mt-5">
             Open desktop view only
         </div>
     </div>

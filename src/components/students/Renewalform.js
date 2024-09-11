@@ -554,7 +554,7 @@ const ScholarshipForm = () => {
 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-72 p-2 uppercase border rounded-md text-slate-950"
+                    className="w-52 p-2 uppercase border rounded-md text-slate-950"
                     readOnly
                   />
                 </div>
@@ -564,7 +564,7 @@ const ScholarshipForm = () => {
                     name="dept"
                     value={dept}
                     onChange={(e) => setDept(e.target.value)}
-                    className="w-72 p-2 border  rounded-md text-slate-950"
+                    className="w-52 p-2 border  rounded-md text-slate-950"
                     required
                     readOnly
                   >
@@ -617,7 +617,7 @@ const ScholarshipForm = () => {
                     name="section"
                     value={section}
                     onChange={(e) => setSection(e.target.value)}
-                    className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-52 p-2 border rounded-md text-slate-950 lg:w-48"
                     required
                     readOnly
                   >
@@ -642,7 +642,7 @@ const ScholarshipForm = () => {
                     name="religion"
                     value={religion}
                     onChange={(e) => setReligion(e.target.value)}
-                    className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-52  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                     required
                   >
                     <option value="">Select</option>
@@ -676,7 +676,7 @@ const ScholarshipForm = () => {
                     name="lastCreditedAmount"
                     value={lastCreditedAmt}
                     onChange={(e) => setLastCreditedAmt(e.target.value)}
-                    className="w-48 p-2 appearance-auto border rounded-md text-slate-950"
+                    className="w-52 p-2 appearance-auto border rounded-md text-slate-950"
                     required
                     readOnly
                   />
@@ -701,7 +701,7 @@ const ScholarshipForm = () => {
                     maxlength="12"
                     value={aadhar}
                     onChange={(e) => setAadhar(e.target.value)}
-                    className="w-48 p-2 border rounded-md text-slate-950"
+                    className="w-52 p-2 border rounded-md text-slate-950"
                     required
                     readOnly
                   />
@@ -900,7 +900,7 @@ const ScholarshipForm = () => {
                         name="siblings"
                         value={siblingsNo}
                         onChange={(e) => setSiblingsNo(e.target.value)}
-                        className=" w-44 p-2 border rounded-md text-slate-950"
+                        className=" w-56 p-2 border rounded-md text-slate-950"
                         required
                       />
                     </div>
