@@ -14,7 +14,7 @@ function Status() {
     useEffect(() => {
         const fetchStudentData = async () => {
             try {
-                const res = await axios.get("http://localhost:3001/api/admin/studstatus", {
+                const res = await axios.get("http://localhost:3006/api/admin/studstatus", {
                     params: { registerNo: staffId }
                 });
                 console.log("Response from server:", res.data);

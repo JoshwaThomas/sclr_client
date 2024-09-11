@@ -7,7 +7,7 @@ function Accyears() {
 
     const Submit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3001/api/admin/acyear", { acyear })
+        axios.post("http://localhost:3006/api/admin/acyear", { acyear })
             .then(result => {
                 alert('Academic year set to active successfully.');
                 // fetchActiveAcademicYear(); // Update active academic year after setting

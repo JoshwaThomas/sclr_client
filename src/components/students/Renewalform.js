@@ -192,7 +192,7 @@ const ScholarshipForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.get('http://localhost:3001/api/admin/current-acyear')
+    axios.get('http://localhost:3006/api/admin/current-acyear')
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
@@ -228,7 +228,7 @@ const ScholarshipForm = () => {
           formData.append("jamath", jamath);
 
           axios
-          .post("http://localhost:3001/renewal", formData, {
+          .post("http://localhost:3006/renewal", formData, {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then(result => {

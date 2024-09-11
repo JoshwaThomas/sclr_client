@@ -14,7 +14,7 @@ function TextBox() {
 
         console.log("Submitting form with:", { staffId, password });
 
-        axios.post("http://localhost:3001/api/admin/login/", {
+        axios.post("http://localhost:3006/api/admin/login/", {
             staffId, password,
         })
             .then(res => {

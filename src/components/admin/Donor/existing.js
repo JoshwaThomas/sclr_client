@@ -62,7 +62,7 @@ function Existing() {
     useEffect(() => {
         const fetchScholTypes = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
+                const response = await axios.get('http://localhost:3006/api/admin/scholtypes');
                 setScholTypes(response.data);
             } catch (error) {
                 console.error('Error fetching scholarship types:', error);
@@ -83,7 +83,7 @@ function Existing() {
         }
 
         try {
-            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            const response = await axios.get('http://localhost:3006/api/admin/panlist');
             console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
@@ -155,7 +155,7 @@ function Existing() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get(`http://localhost:3001/api/admin/donor/${did}`);
+            const result = await axios.get(`http://localhost:3006/api/admin/donor/${did}`);
             setDonar(result.data);
             setName(result.data.name || '');
             setPan(result.data.pan || '');
@@ -223,7 +223,7 @@ function Existing() {
     const Submit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.get('http://localhost:3001/api/admin/current-acyear');
+            const response = await axios.get('http://localhost:3006/api/admin/current-acyear');
             if (response.data.success) {
                 const acyear = response.data.acyear.acyear;
                 const postData = {
@@ -245,7 +245,7 @@ function Existing() {
                     ...(zakkathamt && { zakkathamt }),
                     ...(zakkathbal && { zakkathbal })
                 };
-                const result = await axios.post('http://localhost:3001/api/admin/donar', postData);
+                const result = await axios.post('http://localhost:3006/api/admin/donar', postData);
                 console.log(result);
                 if (result) {
                     // handlePrint();

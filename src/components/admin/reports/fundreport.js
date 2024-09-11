@@ -73,7 +73,7 @@ function FundReport(){
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/donoracyear-report')
+        axios.get('http://localhost:3006/api/admin/donoracyear-report')
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);

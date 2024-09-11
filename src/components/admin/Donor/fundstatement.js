@@ -11,7 +11,7 @@ function Fundstatement() {
     const [filterUsers, setFilterUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/donardata')
+        axios.get('http://localhost:3006/api/admin/donardata')
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);

@@ -35,7 +35,7 @@ const Dashboard = () => {
     const [totalamount, setTotalAmount] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/dashboard/counts')
+        axios.get('http://localhost:3006/api/dashboard/counts')
             .then(response => {
                 setData(response.data);
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);

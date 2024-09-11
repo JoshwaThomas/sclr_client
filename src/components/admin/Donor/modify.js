@@ -24,7 +24,7 @@ function Modify() {
     useEffect(() => {
         const fetchScholTypes = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/admin/scholtypes');
+                const response = await axios.get('http://localhost:3006/api/admin/scholtypes');
                 setScholTypes(response.data);
             } catch (error) {
                 console.error('Error fetching scholarship types:', error);
@@ -44,7 +44,7 @@ function Modify() {
         }
 
         try {
-            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            const response = await axios.get('http://localhost:3006/api/admin/panlist');
             console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
@@ -89,7 +89,7 @@ function Modify() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get('http://localhost:3001/api/admin/donarUpdate', {
+            const result = await axios.get('http://localhost:3006/api/admin/donarUpdate', {
                 params: { did }
             });
             setDonar(result.data);
@@ -114,7 +114,7 @@ function Modify() {
     const Submit = (e) => {
 
         e.preventDefault();
-        axios.post('http://localhost:3001/api/admin/donarUpdate', {
+        axios.post('http://localhost:3006/api/admin/donarUpdate', {
             did, name, mobileNo, address, state, district, pin,
             scholtype, pan, donordept, donorbatch
         })

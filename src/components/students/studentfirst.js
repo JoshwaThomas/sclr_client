@@ -12,7 +12,7 @@ function Studentfirst() {
 
   useEffect(() => {
     const fetchDates = async () => { 
-      const response = await axios.get('http://localhost:3001/api/admin/dates');
+      const response = await axios.get('http://localhost:3006/api/admin/dates');
       const { startDate, endDate } = response.data;
       const today = new Date();
       setIsOpen(today >= new Date(startDate) && today <= new Date(endDate));

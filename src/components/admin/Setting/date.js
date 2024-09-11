@@ -6,7 +6,7 @@ const Date = () => {
     const [endDate, setEndDate] = useState('');
 
     const handleSaveDates = async () => {
-        await axios.post('http://localhost:3001/api/admin/dates', {
+        await axios.post('http://localhost:3006/api/admin/dates', {
             startDate,
             endDate,
         });

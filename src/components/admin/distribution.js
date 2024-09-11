@@ -28,8 +28,8 @@ function Action() {
     useEffect(() => {
         const fetchUsersAndDonors = async () => {
             try {
-                const usersResponse = await axios.get('http://localhost:3001/api/admin/freshamt');
-                const donorsResponse = await axios.get('http://localhost:3001/api/admin/donors');
+                const usersResponse = await axios.get('http://localhost:3006/api/admin/freshamt');
+                const donorsResponse = await axios.get('http://localhost:3006/api/admin/donors');
 
                 const usersData = usersResponse.data;
                 const donorsData = donorsResponse.data;
@@ -174,7 +174,7 @@ function Action() {
     // };
     // show the no of applicant in footer
     useEffect(() => {
-        axios.get('http://localhost:3001/api/dashboard/counts')
+        axios.get('http://localhost:3006/api/dashboard/counts')
             .then(response => {
                 setData(response.data)
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);

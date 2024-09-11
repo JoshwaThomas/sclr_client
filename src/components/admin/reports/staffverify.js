@@ -6,7 +6,7 @@ function StaffMaintanance(){
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/dashboard/counts')
+        axios.get('http://localhost:3006/api/dashboard/counts')
             .then(response => {
                 setData(response.data);
 

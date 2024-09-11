@@ -10,7 +10,7 @@ function Allreport() {
     // const [filterUsers, setFilterUsers] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/allreport')
+        axios.get('http://localhost:3006/api/admin/allreport')
             .then(response => {
                 setUsers(response.data);
 

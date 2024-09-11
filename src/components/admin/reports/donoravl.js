@@ -74,7 +74,7 @@ function Donoravl(){
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/donoravl')
+        axios.get('http://localhost:3006/api/admin/donoravl')
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);

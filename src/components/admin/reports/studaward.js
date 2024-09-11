@@ -75,7 +75,7 @@ function StudawardReport() {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/studawardreport')
+        axios.get('http://localhost:3006/api/admin/studawardreport')
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);

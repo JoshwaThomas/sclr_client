@@ -8,7 +8,7 @@ function Staffmang() {
     const [newPassword, setNewPassword] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/staffmang')
+        axios.get('http://localhost:3006/api/admin/staffmang')
             .then(response => {
                 setUsers(response.data);
             })
@@ -25,7 +25,7 @@ function Staffmang() {
     };
 
     const handleSubmit = () => {
-        axios.put(`http://localhost:3001/api/admin/staffmang/${selectedUser._id}`, { password: newPassword })
+        axios.put(`http://localhost:3006/api/admin/staffmang/${selectedUser._id}`, { password: newPassword })
             .then(response => {
                 setUsers(users.map(user => user._id === selectedUser._id ? { ...user, password: newPassword } : user));
                 setSelectedUser(null);

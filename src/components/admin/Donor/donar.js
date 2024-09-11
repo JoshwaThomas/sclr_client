@@ -49,7 +49,7 @@ const Donar = () => {
   useEffect(() => {
     const fetchLastDonorId = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/admin/last-donor-id');
+        const response = await axios.get('http://localhost:3006/api/admin/last-donor-id');
         const newDonorId = response.data.lastDid + 1;
         console.log('DonorId:', response.data.lastDid)
         console.log('New DonorId:', newDonorId)
@@ -86,12 +86,12 @@ const Donar = () => {
 
   const Submit = (e) => {
     e.preventDefault();
-    axios.get('http://localhost:3001/api/admin/current-acyear')
+    axios.get('http://localhost:3006/api/admin/current-acyear')
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
 
-          axios.post('http://localhost:3001/api/admin/donardata', {
+          axios.post('http://localhost:3006/api/admin/donardata', {
             did, name, mobileNo, address, state, district, pin, emailId,
             scholtype, amount, balance, scholdate, pan, receipt, acyear, donordept, donorbatch, zakkathamt, zakkathbal
           })

@@ -14,8 +14,8 @@ function AttendSfm() {
         const fetchUsers = async () => {
             try {
                 const [freshResponse, renewalResponse] = await Promise.all([
-                    axios.get('http://localhost:3001/fresh'),
-                    axios.get('http://localhost:3001/renewal')
+                    axios.get('http://localhost:3006/fresh'),
+                    axios.get('http://localhost:3006/renewal')
                 ]);
                 const SFM1 = freshResponse.data.filter(user => user.procategory === 'SFM');
                 const SFM2 = renewalResponse.data.filter(user => user.procategory === 'SFM');
@@ -85,7 +85,7 @@ function AttendSfm() {
         });
 
         try {
-            const response = await axios.put("http://localhost:3001/freshattSfmUpdate", { updates, remarks });
+            const response = await axios.put("http://localhost:3006/freshattSfmUpdate", { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
             } else {

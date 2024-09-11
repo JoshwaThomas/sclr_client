@@ -71,7 +71,7 @@ function StudentLayout() {
   }, []);
 
   const fetchActiveAcademicYear = () => {
-    axios.get("http://localhost:3001/api/admin/current-acyear")
+    axios.get("http://localhost:3006/api/admin/current-acyear")
       .then(response => {
         if (response.data.success) {
           setActiveAcYear(response.data.acyear.acyear);

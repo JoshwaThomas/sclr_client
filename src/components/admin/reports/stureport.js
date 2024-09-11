@@ -112,7 +112,7 @@ function StuReport() {
     //check donardetails
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/admin/studreport')
+        axios.get('http://localhost:3006/api/admin/studreport')
             .then(response => {
                 setUsers(response.data);
     

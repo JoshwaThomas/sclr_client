@@ -42,7 +42,7 @@ function Setting( )  {
           return;
         }
         try {
-          await axios.put(`http://localhost:3001/api/admin/staffsetting/${staffId}`, { password: password.pass });
+          await axios.put(`http://localhost:3006/api/admin/staffsetting/${staffId}`, { password: password.pass });
           window.alert('Password updated successfully');
         } catch (err) {
           window.alert('Failed to update password');

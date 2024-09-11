@@ -9,7 +9,7 @@ function Coe() {
     const [totaldata, setTotaldata] = useState(0);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/dashboard/counts')
+        axios.get('http://localhost:3006/api/dashboard/counts')
             .then(response => {
                 setTotaldata(response.data.totalApplicants)
             })
@@ -20,8 +20,8 @@ function Coe() {
         const fetchUsers = async () => {
             try {
                 const [freshResponse, renewalResponse] = await Promise.all([
-                    axios.get('http://localhost:3001/fresh'),
-                    axios.get('http://localhost:3001/renewal')
+                    axios.get('http://localhost:3006/fresh'),
+                    axios.get('http://localhost:3006/renewal')
                 ]);
 
                 const freshAided = freshResponse.data.filter(user => user.semPercentage === 0);
@@ -80,7 +80,7 @@ function Coe() {
         });
 
         try {
-            const response = await axios.put("http://localhost:3001/freshsemUpdate", { updates, remarks, arrears });
+            const response = await axios.put("http://localhost:3006/freshsemUpdate", { updates, remarks, arrears });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
             } else {

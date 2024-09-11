@@ -22,7 +22,7 @@ function DonarLetter() {
         }
 
         try {
-            const response = await axios.get('http://localhost:3001/api/admin/panlist');
+            const response = await axios.get('http://localhost:3006/api/admin/panlist');
             console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
@@ -67,7 +67,7 @@ function DonarLetter() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get('http://localhost:3001/api/admin/donarletter', {
+            const result = await axios.get('http://localhost:3006/api/admin/donarletter', {
                 params: { name, did }
             });
             if (result.data) {

@@ -64,12 +64,12 @@ function Action() {
         // console.log('useEffect triggered');
         const fetchYear = async () => {
             try {
-                const acyear = await axios.get('http://localhost:3001/api/admin/current-acyear')
+                const acyear = await axios.get('http://localhost:3006/api/admin/current-acyear')
                 const curacyear = acyear.data.acyear;
                 console.log('academic Year:', curacyear.acyear)
                 const fetchFreshUsers = async () => {
                     try {
-                        const response = await axios.get('http://localhost:3001/fresh');
+                        const response = await axios.get('http://localhost:3006/fresh');
                         setUsers(response.data.filter(user => user.acyear === curacyear.acyear));
                         setFilterUsers(prev => [...prev, ...response.data]);
                     } catch (error) {
@@ -80,7 +80,7 @@ function Action() {
 
                 const fetchRenewalUsers = async () => {
                     try {
-                        const response = await axios.get('http://localhost:3001/renewal');
+                        const response = await axios.get('http://localhost:3006/renewal');
                         console.log('Renewal Users:', response.data);
                         setRusers(response.data.filter(user => user.acyear === curacyear));
                         setFilterUsers(prev => [...prev, ...response.data]);
@@ -271,7 +271,7 @@ function Action() {
 
 
     const fetchDonars = () => {
-        return axios.get('http://localhost:3001/api/admin/donar')
+        return axios.get('http://localhost:3006/api/admin/donar')
             .then(response => response.data)
             .catch(err => {
                 console.error('Error fetching donors:', err);
@@ -280,7 +280,7 @@ function Action() {
     };
 
     const fetchScholtypes = () => {
-        return axios.get('http://localhost:3001/api/admin/scholtypes')
+        return axios.get('http://localhost:3006/api/admin/scholtypes')
             .then(response => {
                 console.log('Fetched Scholarship Types:', response.data); // Debugging log
                 return response.data;
@@ -535,7 +535,7 @@ function Action() {
 
         try {
             // Fetch current academic year
-            const acYearResponse = await axios.get('http://localhost:3001/api/admin/current-acyear');
+            const acYearResponse = await axios.get('http://localhost:3006/api/admin/current-acyear');
             if (!acYearResponse.data.success) {
                 throw new Error('Failed to fetch current academic year');
             }
@@ -543,7 +543,7 @@ function Action() {
             const balanceField = zakkath ? 'zakkathbal' : 'balance';
 
             // Update donor's balance
-            const donorResponse = await axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
+            const donorResponse = await axios.put(`http://localhost:3006/api/admin/donar/${scholdonar}`, {
                 amount: scholamt,
                 balanceField: balanceField
             });
@@ -553,7 +553,7 @@ function Action() {
             window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
 
             // Save scholarship amount in AmountModel
-            const saveAmountResponse = await axios.post('http://localhost:3001/api/admin/freshamt', {
+            const saveAmountResponse = await axios.post('http://localhost:3006/api/admin/freshamt', {
                 registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
             });
 
@@ -585,7 +585,7 @@ function Action() {
 
     const Submit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3001/api/admin/action', {
+        axios.post('http://localhost:3006/api/admin/action', {
             registerNo
         })
             .then(result => {
@@ -602,17 +602,17 @@ function Action() {
 
     const submitReject = (e) => {
         e.preventDefault();
-        axios.get('http://localhost:3001/api/admin/current-acyear')
+        axios.get('http://localhost:3006/api/admin/current-acyear')
             .then(response => {
                 if (response.data.success) {
                     const acyear = response.data.acyear.acyear;
-                    axios.post('http://localhost:3001/api/admin/reject', {
+                    axios.post('http://localhost:3006/api/admin/reject', {
                         fresherOrRenewal, registerNo, name, dept, reason, acyear
                     })
                         .then(result => {
                             console.log(result);
                             // Update the action value in the applicant model
-                            return axios.post('http://localhost:3001/api/admin/actionreject', {
+                            return axios.post('http://localhost:3006/api/admin/actionreject', {
                                 registerNo
                             });
                         })
@@ -650,7 +650,7 @@ function Action() {
 
     //show the no of applicant in footer
     useEffect(() => {
-        axios.get('http://localhost:3001/api/dashboard/counts')
+        axios.get('http://localhost:3006/api/dashboard/counts')
             .then(response => {
                 setData(response.data)
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
@@ -676,7 +676,7 @@ function Action() {
     };
 
     const handleQuickRejectSubmit = () => {
-        axios.get('http://localhost:3001/api/admin/current-acyear')
+        axios.get('http://localhost:3006/api/admin/current-acyear')
             .then(response => {
                 if (response.data.success) {
                     const acyear = response.data.acyear.acyear;
@@ -685,7 +685,7 @@ function Action() {
                     const filteredRejectList = quickRejectList.filter(user => user.rejectReason && user.rejectReason.trim() !== '');
 
                     const rejectRequests = filteredRejectList.map(user => {
-                        return axios.post('http://localhost:3001/api/admin/reject', {
+                        return axios.post('http://localhost:3006/api/admin/reject', {
                             fresherOrRenewal: user.fresherOrRenewal,
                             registerNo: user.registerNo,
                             name: user.name,
@@ -693,7 +693,7 @@ function Action() {
                             reason: user.rejectReason,
                             acyear
                         }).then(() => {
-                            return axios.post('http://localhost:3001/api/admin/actionreject', {
+                            return axios.post('http://localhost:3006/api/admin/actionreject', {
                                 registerNo: user.registerNo
                             });
                         });
