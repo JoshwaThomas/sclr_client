@@ -143,6 +143,9 @@ function StaffLayout() {
           </label>
         </button>
       </div>
+      <div className='top-0 bg-cyan-600 h-10 w-screen absolute'>
+        <p className='text-right'>hello</p>
+      </div>
 
       {/* mobile view */}
       <div className="lg:hidden p-3 fixed top-0 left-0 z-50">

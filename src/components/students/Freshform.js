@@ -1037,7 +1037,7 @@ const ScholarshipForm = () => {
                   <sup>*</sup>
                 </span>
               </label>
-              <div className=" p-2 bg-slate-50 border rounded-md ">
+              <div className="w-48 p-2 bg-slate-50 border rounded-md ">
                 <input
                   type="radio"
                   id="sibyes"
@@ -1264,7 +1264,7 @@ const ScholarshipForm = () => {
                 type="file"
                 name="jamath"
                 onChange={(e) => setJamath(e.target.files[0])}
-                className=" mt-1 border rounded-md p-2 text-slate-950"
+                className=" w-48 mt-1 border rounded-md p-2 text-slate-950 md:w-96"
               />
             </div>
             <div></div>
