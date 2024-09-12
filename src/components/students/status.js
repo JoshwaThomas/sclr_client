@@ -10,11 +10,12 @@ function Status() {
     const [showModal, setShowModal] = useState(false);
     // const printRef = useRef();
     const { staffId } = useParams();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchStudentData = async () => {
             try {
-                const res = await axios.get("http://localhost:3006/api/admin/studstatus", {
+                const res = await axios.get(`${apiUrl}/api/admin/studstatus`, {
                     params: { registerNo: staffId }
                 });
                 console.log("Response from server:", res.data);
@@ -37,7 +38,7 @@ function Status() {
         if (staffId) {
             fetchStudentData();
         }
-    }, [staffId]);
+    }, [staffId, apiUrl]);
 
     // const Submit = async (e) => {
     //     e.preventDefault();

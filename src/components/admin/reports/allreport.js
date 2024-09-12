@@ -8,15 +8,16 @@ function Allreport() {
 
     const [users, setUsers] = useState([]);
     // const [filterUsers, setFilterUsers] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/allreport')
+        axios.get(`${apiUrl}/api/admin/allreport`)
             .then(response => {
                 setUsers(response.data);
 
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

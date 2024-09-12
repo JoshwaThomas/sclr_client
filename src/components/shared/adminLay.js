@@ -9,6 +9,7 @@ function StudentLayout() {
   // const [acyear, setAcYear] = useState('');
   const [activeAcYear, setActiveAcYear] = useState('');
   // const [alertMessage, setAlertMessage] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const menus = [
     {
@@ -66,23 +67,42 @@ function StudentLayout() {
   };
 
   useEffect(() => {
+    const fetchActiveAcademicYear = () => {
+      axios.get(`${apiUrl}/api/admin/current-acyear`)
+        .then(response => {
+          if (response.data.success) {
+            setActiveAcYear(response.data.acyear.acyear);
+          } else {
+            setActiveAcYear('');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching current academic year:', error);
+        });
+    };
+  
     // Fetch current active academic year on component mount
     fetchActiveAcademicYear();
-  }, []);
+  }, [apiUrl]);
+  
+  // useEffect(() => {
+  //   // Fetch current active academic year on component mount
+  //   fetchActiveAcademicYear();
+  // }, [apiUrl, fetchActiveAcademicYear]);
 
-  const fetchActiveAcademicYear = () => {
-    axios.get("http://localhost:3006/api/admin/current-acyear")
-      .then(response => {
-        if (response.data.success) {
-          setActiveAcYear(response.data.acyear.acyear);
-        } else {
-          setActiveAcYear('');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching current academic year:', error);
-      });
-  };
+  // const fetchActiveAcademicYear = () => {
+  //   axios.get(`${apiUrl}/api/admin/current-acyear`)
+  //     .then(response => {
+  //       if (response.data.success) {
+  //         setActiveAcYear(response.data.acyear.acyear);
+  //       } else {
+  //         setActiveAcYear('');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching current academic year:', error);
+  //     });
+  // };
 
   // const Submit = (e) => {
   //   e.preventDefault();

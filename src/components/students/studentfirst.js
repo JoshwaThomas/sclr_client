@@ -9,16 +9,17 @@ import Stud1 from '../../assets/stud1.gif'
 function Studentfirst() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchDates = async () => { 
-      const response = await axios.get('http://localhost:3006/api/admin/dates');
+      const response = await axios.get(`${apiUrl}/api/admin/dates`);
       const { startDate, endDate } = response.data;
       const today = new Date();
       setIsOpen(today >= new Date(startDate) && today <= new Date(endDate));
     };
     fetchDates();
-  }, []);
+  }, [apiUrl]);
 
 
   return (

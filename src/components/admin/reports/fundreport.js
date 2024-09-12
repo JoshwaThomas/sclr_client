@@ -14,6 +14,7 @@ function FundReport(){
     //     fatherSeparated: false,
     //     hazrath: false
     // });
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
     const handleSearch = (e) => {
@@ -73,7 +74,7 @@ function FundReport(){
 
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/donoracyear-report')
+        axios.get(`${apiUrl}/api/admin/donoracyear-report`)
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);
@@ -82,7 +83,7 @@ function FundReport(){
                 setDepartments(['All', ...uniqueDepartments]);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
 
 

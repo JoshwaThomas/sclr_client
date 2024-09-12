@@ -9,13 +9,14 @@ function AttendDeeniyath() {
     // const [classAttendanceRem, setClassAttendanceRem] = useState({});
     const [totalwork, setTotalwork] = useState(0);
     const [totaldata, setTotaldata] = useState(0);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const [freshResponse, renewalResponse] = await Promise.all([
-                    axios.get('http://localhost:3006/fresh'),
-                    axios.get('http://localhost:3006/renewal')
+                    axios.get(`${apiUrl}/fresh`),
+                    axios.get(`${apiUrl}/renewal`)
                 ]);
 
                 const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory === 'SFW');
@@ -39,7 +40,7 @@ function AttendDeeniyath() {
         };
 
         fetchUsers();
-    }, []);
+    }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
         setUsers(users.map(user =>
@@ -82,7 +83,7 @@ function AttendDeeniyath() {
         });
 
         try {
-            const response = await axios.put("http://localhost:3006/freshdeeniyathUpdate", { updates, remarks });
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
             } else {

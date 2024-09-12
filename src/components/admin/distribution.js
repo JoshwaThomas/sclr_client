@@ -22,14 +22,14 @@ function Action() {
     // const [dept, setDept] = useState('');
     // const [fresherOrRenewal, setFresherOrRenewal] = useState('');
     // const [scholdonar, setScholdonar] = useState([]);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
     useEffect(() => {
         const fetchUsersAndDonors = async () => {
             try {
-                const usersResponse = await axios.get('http://localhost:3006/api/admin/freshamt');
-                const donorsResponse = await axios.get('http://localhost:3006/api/admin/donors');
+                const usersResponse = await axios.get(`${apiUrl}/api/admin/freshamt`);
+                const donorsResponse = await axios.get(`${apiUrl}/api/admin/donors`);
 
                 const usersData = usersResponse.data;
                 const donorsData = donorsResponse.data;
@@ -47,7 +47,7 @@ function Action() {
             }
         };
         fetchUsersAndDonors();
-    }, []);
+    }, [apiUrl]);
 
     // useEffect(() => {
     //     axios.get('http://localhost:3001/renewal')
@@ -174,7 +174,7 @@ function Action() {
     // };
     // show the no of applicant in footer
     useEffect(() => {
-        axios.get('http://localhost:3006/api/dashboard/counts')
+        axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data)
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
@@ -183,7 +183,7 @@ function Action() {
                 setDonaramt(total1);
             })
             .catch(err => console.log('Error fetching data:', err))
-    }, []);
+    }, [apiUrl]);
 
     if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 

@@ -9,6 +9,7 @@ function Setting( )  {
     const [error, setError] = useState('');
     // const [message, setMessage] = useState('');
     const { staffId } = useParams();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     
 
@@ -42,7 +43,7 @@ function Setting( )  {
           return;
         }
         try {
-          await axios.put(`http://localhost:3006/api/admin/staffsetting/${staffId}`, { password: password.pass });
+          await axios.put(`${apiUrl}/api/admin/staffsetting/${staffId}`, { password: password.pass });
           window.alert('Password updated successfully');
         } catch (err) {
           window.alert('Failed to update password');

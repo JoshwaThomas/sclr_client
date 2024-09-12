@@ -55,6 +55,7 @@ const ScholarshipForm = () => {
   const [error, setError] = useState("");
   const [jamath, setJamath] = useState("");
   const [showPopup, setShowPopup] = useState(true);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
 
   useEffect(() => {
@@ -233,7 +234,7 @@ const ScholarshipForm = () => {
     e.preventDefault();
 
     axios
-      .get("http://localhost:3006/api/admin/current-acyear")
+      .get(`${apiUrl}/api/admin/current-acyear`)
       .then((response) => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
@@ -278,7 +279,7 @@ const ScholarshipForm = () => {
             console.log(pair[0] + ': ' + pair[1]);
           }
           axios
-            .post("http://localhost:3006/fresh", formData, {
+            .post(`${apiUrl}/fresh`, formData, {
               headers: { "Content-Type": "multipart/form-data" },
             })
             .then((result) => {

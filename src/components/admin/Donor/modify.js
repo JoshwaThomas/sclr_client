@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 
 function Modify() {
@@ -20,11 +20,62 @@ function Modify() {
     const dropdownRef = useRef(null);
     const [donordept, setDonordept] = useState()
     const [donorbatch, setDonorbatch] = useState()
+    const apiUrl = process.env.REACT_APP_API_URL;
 
+    // useEffect(() => {
+    //     const fetchScholTypes = async () => {
+    //         try {
+    //             const response = await axios.get(`${apiUrl}/api/admin/scholtypes`);
+    //             setScholTypes(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching scholarship types:', error);
+    //         }
+    //     };
+
+    //     fetchScholTypes();
+
+    // }, [apiUrl]);
+
+    // useEffect(() => {
+    //     fetchPanList();
+    // }, []);
+
+    // const fetchPanList = async (e) => {
+    //     if (e) {
+    //         e.preventDefault();
+    //     }
+
+    //     try {
+    //         const response = await axios.get(`${apiUrl}/api/admin/panlist`);
+    //         console.log('Fetched Donors:', response.data);
+    //         setPanList(response.data);
+    //     } catch (error) {
+    //         console.error('Error fetching donors:', error);
+    //         setPanList([]);
+    //     }
+    // };
+
+    // Define fetchPanList before using it in useEffect
+    const fetchPanList = useCallback(async (e) => {
+        if (e) {
+            e.preventDefault();
+        }
+
+        try {
+            const response = await axios.get(`${apiUrl}/api/admin/panlist`);
+            console.log('Fetched Donors:', response.data);
+            setPanList(response.data);
+        } catch (error) {
+            console.error('Error fetching donors:', error);
+            setPanList([]);
+        }
+    }, [apiUrl]); // Memoize with useCallback to avoid re-creation on every render
+
+    // Fetch scholarship types
     useEffect(() => {
         const fetchScholTypes = async () => {
             try {
-                const response = await axios.get('http://localhost:3006/api/admin/scholtypes');
+                const response = await axios.get(`${apiUrl}/api/admin/scholtypes`);
                 setScholTypes(response.data);
             } catch (error) {
                 console.error('Error fetching scholarship types:', error);
@@ -32,26 +83,12 @@ function Modify() {
         };
 
         fetchScholTypes();
-    }, []);
+    }, [apiUrl]);
 
+    // Fetch pan list
     useEffect(() => {
         fetchPanList();
-    }, []);
-
-    const fetchPanList = async (e) => {
-        if (e) {
-            e.preventDefault();
-        }
-
-        try {
-            const response = await axios.get('http://localhost:3006/api/admin/panlist');
-            console.log('Fetched Donors:', response.data);
-            setPanList(response.data);
-        } catch (error) {
-            console.error('Error fetching donors:', error);
-            setPanList([]);
-        }
-    };
+    }, [fetchPanList]);
 
     // const filteredPanList = panList.filter(panItem =>
     //     panItem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -89,7 +126,7 @@ function Modify() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get('http://localhost:3006/api/admin/donarUpdate', {
+            const result = await axios.get(`${apiUrl}/api/admin/donarUpdate`, {
                 params: { did }
             });
             setDonar(result.data);
@@ -114,7 +151,7 @@ function Modify() {
     const Submit = (e) => {
 
         e.preventDefault();
-        axios.post('http://localhost:3006/api/admin/donarUpdate', {
+        axios.post(`${apiUrl}/api/admin/donarUpdate`, {
             did, name, mobileNo, address, state, district, pin,
             scholtype, pan, donordept, donorbatch
         })
@@ -477,7 +514,7 @@ function Modify() {
                                             value={donordept}
                                             onChange={(e) => setDonordept(e.target.value)}
                                             className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
-                                            
+
                                         />
                                     </div>
                                     <div></div>
@@ -491,7 +528,7 @@ function Modify() {
                                             value={donorbatch}
                                             onChange={(e) => setDonorbatch(e.target.value)}
                                             className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
-                                            
+
                                         />
                                     </div>
                                     <div>

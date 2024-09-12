@@ -49,7 +49,8 @@ const ScholarshipForm = () => {
   const [siblingsIncome, setSiblingsIncome] = useState()
   const [showPopup, setShowPopup] = useState(true);
   const [jamath, setJamath] = useState("");
-
+  const apiUrl = process.env.REACT_APP_API_URL;
+  
   // useEffect(() => {
   //   const calculateSemPercentage = () => {
   //     if (mark && maxMark) {
@@ -99,7 +100,6 @@ const ScholarshipForm = () => {
         if (!staffId) return; // Ensure staffId (registerNo) is provided
 
         try {
-            const apiUrl = process.env.REACT_APP_API_URL;
             console.log('API URL:', apiUrl); // Log base URL
 
             const result = await axios.get(`${apiUrl}/api/admin/students`, {
@@ -140,7 +140,7 @@ const ScholarshipForm = () => {
     };
 
     fetchData(); 
-}, [staffId]); 
+}, [staffId, apiUrl]); 
 
 
   // const handleData = async (e) => {
@@ -192,7 +192,7 @@ const ScholarshipForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.get('http://localhost:3006/api/admin/current-acyear')
+    axios.get(`${apiUrl}/api/admin/current-acyear`)
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
@@ -228,7 +228,7 @@ const ScholarshipForm = () => {
           formData.append("jamath", jamath);
 
           axios
-          .post("http://localhost:3006/renewal", formData, {
+          .post(`${apiUrl}/renewal`, formData, {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then(result => {

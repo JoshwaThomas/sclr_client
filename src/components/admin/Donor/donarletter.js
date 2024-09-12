@@ -11,6 +11,7 @@ function DonarLetter() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const [printData, setPrintData] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         fetchPanList();
@@ -22,7 +23,7 @@ function DonarLetter() {
         }
 
         try {
-            const response = await axios.get('http://localhost:3006/api/admin/panlist');
+            const response = await axios.get(`${apiUrl}/api/admin/panlist`);
             console.log('Fetched Donors:', response.data);
             setPanList(response.data);
         } catch (error) {
@@ -67,7 +68,7 @@ function DonarLetter() {
     const handleData = async (e) => {
         e.preventDefault();
         try {
-            const result = await axios.get('http://localhost:3006/api/admin/donarletter', {
+            const result = await axios.get(`${apiUrl}/api/admin/donarletter`, {
                 params: { name, did }
             });
             if (result.data) {

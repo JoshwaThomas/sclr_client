@@ -28,6 +28,7 @@ const Donar = () => {
   // const printSectionRef = useRef(null);
   // const [printData, setPrintData] = useState([]);
   const printRef = useRef();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleCheckboxChange = () => {
     setZakkath(!zakkath);
@@ -49,7 +50,7 @@ const Donar = () => {
   useEffect(() => {
     const fetchLastDonorId = async () => {
       try {
-        const response = await axios.get('http://localhost:3006/api/admin/last-donor-id');
+        const response = await axios.get(`${apiUrl}/api/admin/last-donor-id`);
         const newDonorId = response.data.lastDid + 1;
         console.log('DonorId:', response.data.lastDid)
         console.log('New DonorId:', newDonorId)
@@ -60,7 +61,7 @@ const Donar = () => {
     };
 
     fetchLastDonorId();
-  }, []);
+  }, [apiUrl]);
 
 
   const handlePrint = () => {
@@ -86,12 +87,12 @@ const Donar = () => {
 
   const Submit = (e) => {
     e.preventDefault();
-    axios.get('http://localhost:3006/api/admin/current-acyear')
+    axios.get(`${apiUrl}/api/admin/current-acyear`)
       .then(response => {
         if (response.data.success) {
           const acyear = response.data.acyear.acyear;
 
-          axios.post('http://localhost:3006/api/admin/donardata', {
+          axios.post(`${apiUrl}/api/admin/donardata`, {
             did, name, mobileNo, address, state, district, pin, emailId,
             scholtype, amount, balance, scholdate, pan, receipt, acyear, donordept, donorbatch, zakkathamt, zakkathbal
           })

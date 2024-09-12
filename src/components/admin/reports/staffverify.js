@@ -4,15 +4,16 @@ import Loading from '../../../assets/Pulse.svg';
 
 function StaffMaintanance(){
     const [data, setData] = useState(null);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/dashboard/counts')
+        axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data);
 
             })
             .catch(err => console.log('Error fetching data:', err));
-    }, []);
+    }, [apiUrl]);
 
     if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 

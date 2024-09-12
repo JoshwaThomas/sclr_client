@@ -40,48 +40,93 @@ function Status() {
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
     const [password, setPassword] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
 
-    const fetchDonars = () => {
-        return axios.get('http://localhost:3006/api/admin/donar')
-            .then(response => response.data)
-            .catch(err => {
-                console.error('Error fetching donors:', err);
-                return [];
-            });
-    };
-
-    const fetchScholtypes = () => {
-        return axios.get('http://localhost:3006/api/admin/scholtypes')
-            .then(response => {
-                console.log('Fetched Scholarship Types:', response.data); // Debugging log
-                return response.data;
-            })
-            .catch(err => {
-                console.error('Error fetching scholarship types:', err);
-                return [];
-            });
-    };
 
     useEffect(() => {
         if (showAcceptModal) {
-            fetchDonars()
-                .then(data => {
-                    console.log('Fetched Donors:', data); // Debugging log
-                    setDonars(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching donors:', error);
-                });
-
-            fetchScholtypes()
-                .then(data => {
-                    setScholtypes(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching scholarship types:', error);
-                });
+          const fetchDonars = () => {
+            return axios.get(`${apiUrl}/api/admin/donar`)
+              .then(response => response.data)
+              .catch(err => {
+                console.error('Error fetching donors:', err);
+                return [];
+              });
+          };
+    
+          const fetchScholtypes = () => {
+            return axios.get(`${apiUrl}/api/admin/scholtypes`)
+              .then(response => {
+                console.log('Fetched Scholarship Types:', response.data); // Debugging log
+                return response.data;
+              })
+              .catch(err => {
+                console.error('Error fetching scholarship types:', err);
+                return [];
+              });
+          };
+    
+          fetchDonars()
+            .then(data => {
+              console.log('Fetched Donors:', data); // Debugging log
+              setDonars(data);
+            })
+            .catch(error => {
+              console.error('Error fetching donors:', error);
+            });
+    
+          fetchScholtypes()
+            .then(data => {
+              setScholtypes(data);
+            })
+            .catch(error => {
+              console.error('Error fetching scholarship types:', error);
+            });
         }
-    }, [showAcceptModal]);
+      }, [showAcceptModal, apiUrl]);
+    
+
+    // const fetchDonars = () => {
+    //     return axios.get(`${apiUrl}/api/admin/donar`)
+    //         .then(response => response.data)
+    //         .catch(err => {
+    //             console.error('Error fetching donors:', err);
+    //             return [];
+    //         });
+    // };
+
+    // const fetchScholtypes = () => {
+    //     return axios.get(`${apiUrl}/api/admin/scholtypes`)
+    //         .then(response => {
+    //             console.log('Fetched Scholarship Types:', response.data); // Debugging log
+    //             return response.data;
+    //         })
+    //         .catch(err => {
+    //             console.error('Error fetching scholarship types:', err);
+    //             return [];
+    //         });
+    // };
+
+    // useEffect(() => {
+    //     if (showAcceptModal) {
+    //         fetchDonars()
+    //             .then(data => {
+    //                 console.log('Fetched Donors:', data); // Debugging log
+    //                 setDonars(data);
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching donors:', error);
+    //             });
+
+    //         fetchScholtypes()
+    //             .then(data => {
+    //                 setScholtypes(data);
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error fetching scholarship types:', error);
+    //             });
+    //     }
+    // }, [showAcceptModal]);
 
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
@@ -105,7 +150,7 @@ function Status() {
         }
 
         try {
-            const result = await axios.get(`http://localhost:3006/api/admin/status/${registerNo}`);
+            const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
                 alert('Student Not Found');
                 setStudent(null);
@@ -152,7 +197,7 @@ function Status() {
         }
 
         try {
-            const result = await axios.get(`http://localhost:3006/api/admin/status/${registerNo}`);
+            const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
                 alert('Student Not Found');
                 setStudent(null);
@@ -196,7 +241,7 @@ function Status() {
     const SubmitModify = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3006/api/admin/student/update', {
+            await axios.post(`${apiUrl}/api/admin/student/update`, {
                 fresherOrRenewal, ugOrPg, semester, name, registerNo, dept, section,
                 religion, procategory, specialCategory, hostel, mobileNo, fatherName, fatherNo,
                 fatherOccupation, annualIncome, siblings, deeniyathPer, classAttendancePer, preSemester, semPercentage, password,
@@ -230,7 +275,7 @@ function Status() {
 
     const ScholSubmit = (e) => {
         e.preventDefault();
-        axios.get('http://localhost:3006/api/admin/current-acyear')
+        axios.get(`${apiUrl}/api/admin/current-acyear`)
             .then(response => {
                 if (response.data.success) {
                     const acyear = response.data.acyear.acyear;
@@ -238,7 +283,7 @@ function Status() {
                     const balanceField = zakkath ? 'zakkathbal' : 'balance';
 
                     // Check the donor details and balance amount before saving to freshamt
-                    axios.put(`http://localhost:3006/api/admin/donar/${scholdonar}`, {
+                    axios.put(`${apiUrl}/api/admin/donar/${scholdonar}`, {
                         amount: scholamt,
                         balanceField: balanceField
                     })
@@ -247,7 +292,7 @@ function Status() {
                             const updatedBalance = result.data.updatedBalance;
                             window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
 
-                            return axios.post('http://localhost:3006/api/admin/freshamt', {
+                            return axios.post(`${apiUrl}/api/admin/freshamt`, {
                                 fresherOrRenewal, registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
                             });
                         })
@@ -294,7 +339,7 @@ function Status() {
     const SubmitAccept = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3006/api/admin/action', { registerNo: student.registerNo });
+            await axios.post(`${apiUrl}/api/admin/action`, { registerNo: student.registerNo });
             window.location.reload();
         } catch (err) {
             console.log(err);

@@ -8,13 +8,14 @@ function TextBox() {
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const Submit = (e) => {
         e.preventDefault();
-
+        console.log('API URL:', apiUrl);
         console.log("Submitting form with:", { staffId, password });
 
-        axios.post("http://localhost:3006/api/admin/login/", {
+        axios.post(`${apiUrl}/api/admin/login/`, {
             staffId, password,
         })
             .then(res => {

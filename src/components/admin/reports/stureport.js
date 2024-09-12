@@ -17,7 +17,7 @@ function StuReport() {
         fatherExpired: false,
         singleparent: false,
     });
-
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
     const handleSearch = (e) => {
@@ -112,7 +112,7 @@ function StuReport() {
     //check donardetails
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/studreport')
+        axios.get(`${apiUrl}/api/admin/studreport`)
             .then(response => {
                 setUsers(response.data);
     
@@ -122,7 +122,7 @@ function StuReport() {
                 setFilterUsers(response.data);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
     useEffect(() => {
         setFilterUsers(users);

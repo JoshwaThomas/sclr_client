@@ -15,6 +15,7 @@ function StudawardReport() {
     //     fatherSeparated: false,
     //     hazrath: false
     // });
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
     const handleSearch = (e) => {
@@ -75,7 +76,7 @@ function StudawardReport() {
 
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/studawardreport')
+        axios.get(`${apiUrl}/api/admin/studawardreport`)
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);
@@ -84,7 +85,7 @@ function StudawardReport() {
                 setDepartments(['All', ...uniqueDepartments]);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

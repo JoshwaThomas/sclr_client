@@ -9,13 +9,14 @@ function AttendSfw() {
     // const [classAttendanceRem, setClassAttendanceRem] = useState({});
     const [totalwork, setTotalwork] = useState(0);
     const [totaldata, setTotaldata] = useState(0);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const [freshResponse, renewalResponse] = await Promise.all([
-                    axios.get('http://localhost:3006/fresh'),
-                    axios.get('http://localhost:3006/renewal')
+                    axios.get(`${apiUrl}/fresh`),
+                    axios.get(`${apiUrl}/renewal`)
                 ]);
 
                 const SFM1 = freshResponse.data.filter(user => user.procategory === 'SFW');
@@ -39,7 +40,7 @@ function AttendSfw() {
         };
 
         fetchUsers();
-    }, []);
+    }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
         setUsers(users.map(user =>
@@ -86,7 +87,7 @@ function AttendSfw() {
         });
 
         try {
-            const response = await axios.put("http://localhost:3006/freshattSfmUpdate", { updates, remarks });
+            const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
             } else {

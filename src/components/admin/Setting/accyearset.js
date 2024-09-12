@@ -4,10 +4,11 @@ import axios from 'axios';
 function Accyears() {
 
     const [acyear, setAcYear] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const Submit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:3006/api/admin/acyear", { acyear })
+        axios.post(`${apiUrl}/api/admin/acyear`, { acyear })
             .then(result => {
                 alert('Academic year set to active successfully.');
                 // fetchActiveAcademicYear(); // Update active academic year after setting

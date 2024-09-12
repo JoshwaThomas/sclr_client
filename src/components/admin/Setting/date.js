@@ -4,9 +4,10 @@ import axios from 'axios';
 const Date = () => {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleSaveDates = async () => {
-        await axios.post('http://localhost:3006/api/admin/dates', {
+        await axios.post(`${apiUrl}/api/admin/dates`, {
             startDate,
             endDate,
         });

@@ -14,6 +14,7 @@ function Donoravl(){
     //     fatherSeparated: false,
     //     hazrath: false
     // });
+    const apiUrl = process.env.REACT_APP_API_URL;
 
 
     const handleSearch = (e) => {
@@ -74,7 +75,7 @@ function Donoravl(){
 
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/donoravl')
+        axios.get(`${apiUrl}/api/admin/donoravl`)
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);
@@ -83,7 +84,7 @@ function Donoravl(){
                 // setDepartments(['All', ...uniqueDepartments]);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
     const handleDownload = () => {
         const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

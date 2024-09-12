@@ -9,15 +9,16 @@ function Fundstatement() {
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        axios.get('http://localhost:3006/api/admin/donardata')
+        axios.get(`${apiUrl}/api/admin/donardata`)
             .then(response => {
                 setUsers(response.data);
                 setFilterUsers(response.data);
             })
             .catch(err => console.log(err));
-    }, []);
+    }, [apiUrl]);
 
     // const handleSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
