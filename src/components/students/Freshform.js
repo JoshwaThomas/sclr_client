@@ -2,6 +2,18 @@ import React, { useState, useEffect } from "react";
 // import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
+const Notification = ({ message, type, onClose }) => {
+  if (!message) return null;
+
+  return (
+    <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
+      type === 'success' ? ' text-green-700' : 'text-red-500'
+    }`}>
+      {message}
+      <button onClick={onClose} className="ml-4 text-white underline">Close</button>
+    </div>
+  );
+};
 
 const ScholarshipForm = () => {
   // const navigate = useNavigate();
@@ -57,6 +69,14 @@ const ScholarshipForm = () => {
   const [showPopup, setShowPopup] = useState(true);
   const apiUrl = process.env.REACT_APP_API_URL;
 
+  const [notification, setNotification] = useState({ message: '', type: '' });
+  
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 6000); // Automatically hide after 3 seconds
+  };
 
   useEffect(() => {
     const calculatePercentage = () => {
@@ -237,6 +257,7 @@ const ScholarshipForm = () => {
       .get(`${apiUrl}/api/admin/current-acyear`)
       .then((response) => {
         if (response.data.success) {
+
           const acyear = response.data.acyear.acyear;
 
 
@@ -284,21 +305,25 @@ const ScholarshipForm = () => {
             })
             .then((result) => {
               if (result.data.success) {
-                window.alert("Your Application Submitted Successfully");
+               showNotification("Your Application Submitted Successfully", "success");
+                // window.alert("Your Application Submitted Successfully");
                 console.log(result)
                 setTimeout(() => {
                   window.location.reload();
                 }, 6000);
               } else if (result.data.message === "Register No. Already Existing") {
-                alert("Register No. Already Existing");
+                // alert("Register No. Already Existing");
+                showNotification("Register No. Already Existing", "error");
               } else {
-                alert("Something went wrong");
+                // alert("Something went wrong");
+                showNotification("Something went wrong", "error");
                 console.log("Something went wrong")
               }
             })
             .catch((err) => {
               console.error("Error submitting application:", err);
-              window.alert("Something Went Wrong");
+              showNotification("Something went wrong", "error");
+              // window.alert("Something Went Wrong");
             });
         } else {
           console.error("Failed to fetch current academic year");
@@ -307,7 +332,7 @@ const ScholarshipForm = () => {
       })
       .catch((error) => {
         console.error("Error fetching current academic year:", error);
-        window.alert("Error fetching current academic year");
+        // window.alert("Error fetching current academic year");
       });
   };
 
@@ -315,6 +340,7 @@ const ScholarshipForm = () => {
   return (
     <div>
       <div className="container mx-auto p-8">
+       <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
         <form onSubmit={Submit} className="space-y-4" id="">
           <div className=" ">
             <div>
@@ -1656,8 +1682,6 @@ const ScholarshipForm = () => {
             </div>
           </div>
         )}
-
-
       </div>
     </div>
   );

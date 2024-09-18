@@ -2,6 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg'
 
+const Notification = ({ message, type, onClose }) => {
+    if (!message) return null;
+  
+    return (
+      <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
+      type === 'success' ? ' text-green-700' : 'text-red-500'
+      }`}>
+        {message}
+        <button onClick={onClose} className="ml-4 text-white underline">Close</button>
+      </div>
+    );
+  };
+
 function Action() {
 
     const [users, setUsers] = useState([]);
@@ -56,6 +69,14 @@ function Action() {
     const [mark, setMark] = useState('');
     const [arrear, setArrear] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
+    const [notification, setNotification] = useState({ message: '', type: '' });
+  
+    const showNotification = (message, type) => {
+      setNotification({ message, type });
+      setTimeout(() => {
+        setNotification({ message: '', type: '' });
+      }, 5000); 
+    };
 
 
     // const [donorMapping, setDonorMapping] = useState({});
@@ -596,7 +617,11 @@ function Action() {
 
             console.log(donorResponse);
             const updatedBalance = donorResponse.data.updatedBalance;
-            window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
+            showNotification(`Submitted Successfully. Available balance for donor: ${updatedBalance}`, "success");
+            // setTimeout(() => {
+            //   window.location.reload();
+            // }, 10000);
+            // window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
 
             // Save scholarship amount in AmountModel
             const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
@@ -616,12 +641,24 @@ function Action() {
             // Specific error handling
             if (err.response && err.response.status === 400) {
                 if (err.response.data.message === 'Insufficient balance') {
-                    window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
+                    showNotification(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`, "error");
+                    // setTimeout(() => {
+                    //   window.location.reload();
+                    // }, 10000);
+                    // window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
                 } else {
-                    window.alert("Server Not Response!");
+                    showNotification("I am Dull Try Later", "error");
+                    // setTimeout(() => {
+                    //   window.location.reload();
+                    // }, 10000);
+                    // window.alert("Server Not Response!");
                 }
             } else {
-                window.alert("I am Dull Try Later");
+                showNotification("Server Not Response!", "error");
+                // setTimeout(() => {
+                //   window.location.reload();
+                // }, 10000);
+                // window.alert("I am Dull Try Later");
             }
 
             // Optionally, you could add additional logging or actions here
@@ -666,16 +703,28 @@ function Action() {
                             console.log(result);
 
                             if (result.data.success) {
-                                window.alert("Your Data Rejected Successfully");
+                                showNotification("The Application Rejected Successfully", "error");
+                                // setTimeout(() => {
+                                //   window.location.reload();
+                                // }, 10000);
+                                // window.alert("Your Data Rejected Successfully");
                             }
                             else {
-                                alert('Something went worng')
+                                showNotification("Something went worng", "error");
+                                // setTimeout(() => {
+                                //   window.location.reload();
+                                // }, 10000);
+                                // alert('Something went worng')
                             }
                             window.location.reload();
                         })
                         .catch(err => {
                             console.log(err);
-                            window.alert("Submission failed!");
+                            showNotification("Submission failed!", "error");
+                            // setTimeout(() => {
+                            //   window.location.reload();
+                            // }, 10000);
+                            // window.alert("Submission failed!");
                             window.location.reload();
                         });
                     // axios.put(`http://localhost:3001/freshaction/${registerNo}`, {
@@ -684,12 +733,20 @@ function Action() {
                 }
                 else {
                     console.error('Failed to fetch current academic year');
-                    window.alert('Failed to fetch current academic year');
+                    showNotification("'Failed to fetch current academic year", "error");
+                    // setTimeout(() => {
+                    //   window.location.reload();
+                    // }, 10000);
+                    // window.alert('Failed to fetch current academic year');
                 }
             })
             .catch(error => {
                 console.error('Error fetching current academic year:', error);
-                window.alert('Error fetching current academic year');
+                showNotification("Error fetching current academic year", "error");
+                // setTimeout(() => {
+                //   window.location.reload();
+                // }, 10000);
+                // window.alert('Error fetching current academic year');
             });
     };
 
@@ -747,6 +804,7 @@ function Action() {
 
                     Promise.all(rejectRequests)
                         .then(() => {
+
                             window.alert("All selected users were rejected successfully");
                             window.location.reload();
                         })
@@ -781,7 +839,7 @@ function Action() {
     return (
         <div>
             <div className='end-px'>
-                <div>
+                 <div>
                     <input
                         type='text'
                         placeholder='Search text here'
@@ -1550,6 +1608,7 @@ function Action() {
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                      <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                     <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
                         <form onSubmit={Submit} className='border border-white gap-1'>
                             <div className='grid grid-cols-4     mt-10 text-xl w-auto p-4'>
@@ -1675,6 +1734,7 @@ function Action() {
             {
                 showModalReject && selectedUser && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                          <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                         <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
                             <form onSubmit={submitReject} className='border border-white gap-1 h-3/4 mt-12'>
                                 <div className='grid grid-cols-4 w-auto p-4 text-xl text-center'>

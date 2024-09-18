@@ -24,9 +24,9 @@ function Studentfirst() {
 
   return (
     <div className="w-screen h-screen flex flex-col  justify-center items-center p-4 bg-blue-500 overflow-hidden">
-      <div className="flex flex-col lg:flex-row justify-center items-center rounded-lg bg-blue-500 space-y-6">
+      <div className="flex flex-col lg:flex-row justify-center items-center rounded-lg p-5 bg-blue-500">
         {/* Left Side with Images and Text */}
-        <div className=" w-full lg:w-2/3 h-full 2xl:w-2/3 relative flex flex-col justify-center items-center">
+        <div className=" w-full border border-red-900 lg:w-2/3 h-full 2xl:relative flex flex-col justify-center items-center">
 
           <div className='flex  flex-col justify-center w-full h-4/5 items-center'>
             <img
@@ -47,9 +47,9 @@ function Studentfirst() {
             <img
               src={Stud1}
               alt=""
-              className="absolute -top-30 md:-top-28  w-24 h-24 md:w-36 md:h-36 lg:w-52 lg:h-60"
+              className="border border-red-900 absolute -top-30 md:-top-28  w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-60"
             />
-            <h2 className="text-amber-300 font-bold text-center text-lg md:text-2xl lg:text-3xl  mx-20 font-serif ">
+            <h2 className="border border-red-900 text-amber-300 font-bold text-center text-lg md:text-2xl lg:text-3xl  mx-20 font-serif ">
               "Jamal &#8211; Empowering your FUTURE with Education and Scholarship."
             </h2>
 
@@ -57,8 +57,8 @@ function Studentfirst() {
         </div>
 
         {/* Right Side with Buttons */}
-        <div className="flex flex-col justify-center justify-items-center lg: items-center">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14">
+        <div className="flex flex-col justify-center border w-full border-red-900 justify-items-center lg:w-1/3 h-full items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 border border-red-900 gap-8 lg:gap-14">
             {isOpen && (
               <button
                 onClick={() => navigate('/freshstudent/application/fresh')}
@@ -74,10 +74,9 @@ function Studentfirst() {
               Login
             </button>
           </div>
-
           {/* Conditional Message */}
           {!isOpen && (
-            <p className="text-lg text-red-600 text-center mt-4 lg:mt-10">
+            <p className="text-lg text-red-600 border border-red-900 text-center mt-4 lg:mt-10">
               Fresher application Closed
             </p>
           )}

@@ -16,30 +16,35 @@ const Date = () => {
 
     return (
         <div>
-            <h1>Set Application Date Limitation</h1>
-            <form>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Set Application Date Limitation</h3>
+            <div className='flex gap-10 border border-white p-10 rounded-lg w-2/3 mt-10 mb-10'>
                 <div>
-                    <label>Start Date:</label>
+                    <label className='mr-5 font-bold text-lg'>Start Date:</label>
                     <input
                         type="date"
                         value={startDate}
+                        className='p-2 rounded-md'
                         onChange={(e) => setStartDate(e.target.value)}
                     />
                 </div>
                 <div>
-                    <label>End Date:</label>
+                    <label className='mr-5 font-bold text-lg'>End Date:</label>
                     <input
                         type="date"
                         value={endDate}
+                        className='p-2 rounded-md'
                         onChange={(e) => setEndDate(e.target.value)}
                     />
                 </div>
-                <button type="button" onClick={handleSaveDates}>
-                    Save Dates
-                </button>
-            </form>
+            </div>
+            <button type="button"
+                onClick={handleSaveDates}
+                className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
+            >
+                Save Date
+            </button>
         </div>
     );
 };
 
-export default Date;
+export default Date;
