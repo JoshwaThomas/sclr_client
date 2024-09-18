@@ -270,93 +270,93 @@ function Action() {
         setShowModalReject(true);
     }
 
-    useEffect(() => {
-        if (showModals) {
-          const fetchDonars = () => {
-            return axios.get(`${apiUrl}/api/admin/donars`)
-              .then(response => {
-                console.log('Fetched Donors:', response.data); // Debugging log
-                return response.data;
-              })
-              .catch(err => {
-                console.error('Error fetching donors:', err);
-                return [];
-              });
-          };
-      
-          const fetchScholtypes = () => {
-            return axios.get(`${apiUrl}/api/admin/scholtypes`)
-              .then(response => {
-                console.log('Fetched Scholarship Types:', response.data); // Debugging log
-                return response.data;
-              })
-              .catch(err => {
-                console.error('Error fetching scholarship types:', err);
-                return [];
-              });
-          };
-      
-          fetchDonars()
-            .then(data => {
-              console.log('Fetched Donors:', data); // Debugging log
-              setDonars(data);
-            })
-            .catch(error => {
-              console.error('Error fetching donors:', error);
-            });
-      
-          fetchScholtypes()
-            .then(data => {
-              setScholtypes(data);
-            })
-            .catch(error => {
-              console.error('Error fetching scholarship types:', error);
-            });
-        }
-      }, [showModals, apiUrl]);
-
-//11/09/2024
-    // const fetchDonars = () => {
-    //     return axios.get(`${apiUrl}/api/admin/donar`)
-    //         .then(response => response.data)
-    //         .catch(err => {
-    //             console.error('Error fetching donors:', err);
-    //             return [];
-    //         });
-    // };
-
-    // const fetchScholtypes = () => {
-    //     return axios.get(`${apiUrl}/api/admin/scholtypes`)
-    //         .then(response => {
-    //             console.log('Fetched Scholarship Types:', response.data); // Debugging log
-    //             return response.data;
-    //         })
-    //         .catch(err => {
-    //             console.error('Error fetching scholarship types:', err);
-    //             return [];
-    //         });
-    // };
-
     // useEffect(() => {
     //     if (showModals) {
-    //         fetchDonars()
-    //             .then(data => {
-    //                 console.log('Fetched Donors:', data); // Debugging log
-    //                 setDonars(data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching donors:', error);
-    //             });
-
-    //         fetchScholtypes()
-    //             .then(data => {
-    //                 setScholtypes(data);
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error fetching scholarship types:', error);
-    //             });
+    //       const fetchDonars = () => {
+    //         return axios.get(`${apiUrl}/api/admin/donars`)
+    //           .then(response => {
+    //             console.log('Fetched Donors:', response.data); // Debugging log
+    //             return response.data;
+    //           })
+    //           .catch(err => {
+    //             console.error('Error fetching donors:', err);
+    //             return [];
+    //           });
+    //       };
+      
+    //       const fetchScholtypes = () => {
+    //         return axios.get(`${apiUrl}/api/admin/scholtypes`)
+    //           .then(response => {
+    //             console.log('Fetched Scholarship Types:', response.data); // Debugging log
+    //             return response.data;
+    //           })
+    //           .catch(err => {
+    //             console.error('Error fetching scholarship types:', err);
+    //             return [];
+    //           });
+    //       };
+      
+    //       fetchDonars()
+    //         .then(data => {
+    //           console.log('Fetched Donors:', data); // Debugging log
+    //           setDonars(data);
+    //         })
+    //         .catch(error => {
+    //           console.error('Error fetching donors:', error);
+    //         });
+      
+    //       fetchScholtypes()
+    //         .then(data => {
+    //           setScholtypes(data);
+    //         })
+    //         .catch(error => {
+    //           console.error('Error fetching scholarship types:', error);
+    //         });
     //     }
-    // }, [showModals, apiUrl]);
+    //   }, [showModals, apiUrl]);
+
+//11/09/2024
+    const fetchDonars = () => {
+        return axios.get(`${apiUrl}/api/admin/donar`)
+            .then(response => response.data)
+            .catch(err => {
+                console.error('Error fetching donors:', err);
+                return [];
+            });
+    };
+
+    const fetchScholtypes = () => {
+        return axios.get(`${apiUrl}/api/admin/scholtypes`)
+            .then(response => {
+                console.log('Fetched Scholarship Types:', response.data); // Debugging log
+                return response.data;
+            })
+            .catch(err => {
+                console.error('Error fetching scholarship types:', err);
+                return [];
+            });
+    };
+
+    useEffect(() => {
+        if (showModals) {
+            fetchDonars()
+                .then(data => {
+                    console.log('Fetched Donors:', data); // Debugging log
+                    setDonars(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching donors:', error);
+                });
+
+            fetchScholtypes()
+                .then(data => {
+                    setScholtypes(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching scholarship types:', error);
+                });
+        }
+    }, [showModals, apiUrl]);
 
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
@@ -865,7 +865,7 @@ function Action() {
                                                 type="text"
                                                 placeholder="Enter rejection reason"
                                                 className="border rounded-md w-full h-full"
-                                                value={user.rejectReason || ''}
+                                                value={user.rejectReason || ''} //value={rejectReason}
                                                 onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
                                             />
                                         </div>
