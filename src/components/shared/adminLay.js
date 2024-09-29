@@ -55,15 +55,10 @@ function StudentLayout() {
   ];
 
   const handleLogout = () => {
-    // Clear authentication state (e.g., localStorage, cookies)
     localStorage.removeItem('authToken');
-    // Redirect to login page
-    navigate('/login', { replace: true });
-    // Prevent back navigation to authenticated pages
+    localStorage.removeItem('token');
+    navigate('/login');
     window.history.pushState(null, null, '/login');
-    window.addEventListener('popstate', function (event) {
-      navigate('/login', { replace: true });
-    });
   };
 
   useEffect(() => {

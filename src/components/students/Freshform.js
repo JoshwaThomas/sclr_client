@@ -10,7 +10,7 @@ const Notification = ({ message, type, onClose }) => {
       type === 'success' ? ' text-green-700' : 'text-red-500'
     }`}>
       {message}
-      <button onClick={onClose} className="ml-4 text-white underline">Close</button>
+      <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
     </div>
   );
 };
@@ -316,8 +316,7 @@ const ScholarshipForm = () => {
                 showNotification("Register No. Already Existing", "error");
               } else {
                 // alert("Something went wrong");
-                showNotification("Something went wrong", "error");
-                console.log("Something went wrong")
+                showNotification("Check Your Details and Fill Properly", "error");
               }
             })
             .catch((err) => {
@@ -762,7 +761,6 @@ const ScholarshipForm = () => {
                     htmlFor="hostelYes"
                     className=" form-radio ml-2 text-lg"
                   >
-
                     Yes
                   </label>
                 </div>
@@ -799,6 +797,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="registerNo"
+                placeholder="23MCAxxx"
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
                 className=" w-48 md:w-72 p-2 border rounded-md text-slate-950"
@@ -815,6 +814,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="name"
+                 placeholder="Name as per Id-Card"
                 value={name}
                 onChange={(e) => setName(e.target.value.toUpperCase())}
                 className="w-48 md:w-72 p-2 border rounded-md text-slate-950"
@@ -952,6 +952,7 @@ const ScholarshipForm = () => {
                 type="text"
                 maxLength="10"
                 name="mobileNo"
+                placeholder=""
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
                 className="w-48  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
@@ -1033,6 +1034,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherOccupation"
+                 placeholder="eg. Daily Wages"
                 value={fatherOccupation}
                 onChange={(e) =>
                   setFatherOccupation(e.target.value.toUpperCase())
@@ -1051,6 +1053,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="annualIncome"
+                 placeholder="eg. 100000"
                 value={annualIncome}
                 onChange={(e) => setAnnualIncome(e.target.value)}
                 className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
@@ -1103,6 +1106,7 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="siblingsNo"
+                     placeholder="eg.2"
                     value={siblingsNo}
                     onChange={(e) => setSiblingsNo(e.target.value)}
                     className="w-48 md:w-44 p-2 border rounded-md text-slate-950"
@@ -1114,6 +1118,7 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="siblingsNo"
+                     placeholder="eg. Student,Employee"
                     value={siblingsOccupation}
                     onChange={(e) => setSiblingsOccupation(e.target.value)}
                     className="w-48 md:w-44 p-2 border rounded-md text-slate-950"
@@ -1121,7 +1126,7 @@ const ScholarshipForm = () => {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1 ">Siblings Annual Income</label>
+                  <label className="block mb-1 ">Family Annual Income</label>
                   <input
                     type="text"
                     name="siblingsNo"
@@ -1369,6 +1374,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="yearOfPassing"
+                         placeholder="2023"
                         value={yearOfPassing}
                         onChange={(e) => setYearOfPassing(e.target.value)}
                         className="w-48  md:w-96 ml-40 p-2 border rounded-md text-slate-950"
@@ -1385,6 +1391,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="maximumMarkSchool"
+                         placeholder="eg. 600"
                         value={maximumMarkSchool}
                         onChange={(e) => setMaximumMarkSchool(e.target.value)}
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
@@ -1420,6 +1427,7 @@ const ScholarshipForm = () => {
                           setPercentageOfMarkSchool(e.target.value)
                         }
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+                        disabled
                       />
                     </div>
                   </div>
@@ -1459,6 +1467,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="yearOfPassing"
+                         placeholder="2023"
                         value={yearOfPassing}
                         onChange={(e) => setYearOfPassing(e.target.value)}
                         className="w-48  md:w-96 p-2 ml-40 border rounded-md text-slate-950"
@@ -1475,6 +1484,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="maximumMarkSchool"
+                         placeholder="eg. 2400"
                         value={maximumMarkSchool}
                         onChange={(e) => setMaximumMarkSchool(e.target.value)}
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
@@ -1510,6 +1520,7 @@ const ScholarshipForm = () => {
                           setPercentageOfMarkSchool(e.target.value)
                         }
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
+                        disabled
                       />
                     </div>
                   </div>

@@ -229,7 +229,7 @@ function Status() {
                                                         <label className='font-bold text-lg uppercase'> {student.siblingsNo} </label><br />
                                                         <label className="">Siblings Occupation: </label> <br />
                                                         <label className='font-bold text-lg uppercase'> {student.siblingsOccupation} </label><br />
-                                                        <label className="">Siblings Annual Income: </label> <br />
+                                                        <label className="">Family Annual Income: </label> <br />
                                                         <label className='font-bold text-lg uppercase'> {student.siblingsIncome} </label>
                                                     </div>
                                                 )}
@@ -303,7 +303,7 @@ function Status() {
                                                         <div className="font-bold border border-black text-left py-3 px-5">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
                                                         <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
                                                         <div className="font-bold border border-black text-left py-3 px-5"> {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
+                                                        <div className="font-bold border border-black text-left py-3 px-5">Deeniyath / Moral Percentage</div>
                                                         <div className="font-bold border border-black text-left py-3 px-5">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
                                                     </div>
 

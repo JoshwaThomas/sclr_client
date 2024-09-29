@@ -8,11 +8,12 @@ import Renewal from './components/students/Renewalform';
 import First from './components/start/first';
 import Guide from './components/students/Guide';
 import Login from './components/login/login';
+import Forgot from './components/login/forgotpass';
 import Admin from './/components/shared/adminLay';
 import Status from './components/students/status';
 import Action from './components/admin/setting';
 import Accyear from './components/admin/Setting/accyearset';
-import Staffmang from './components/admin/Setting/staffmaint'; 
+import Staffmang from './components/admin/Setting/staffmaint';
 import Date from './components/admin/Setting/date';
 import Report from './components/admin/report';
 import Stureport from './components/admin/reports/stureport';
@@ -41,6 +42,7 @@ import Coe from './components/staff/coe';
 import Staffset from './components/staff/pasw';
 import Allreport from './components/admin/reports/allreport';
 import GuideLine from './components/admin/guide';
+import ProtectedRoute from './components/login/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -49,54 +51,55 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<First />} />
+          <Route path="/forgotPassword" element={<Forgot />} />
           <Route path='reglog' element={<Studfirst />} />
           <Route path='/freshstudent' element={<FLayout />} >
             <Route path="application/fresh" element={<Fresh />} />
           </Route>
           <Route path='login' element={<Login />} />
-            <Route path='/student/:staffId/*' element={<Layout />} >
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path="application/renewal" element={<Renewal />} />
-              <Route path="guidelines" element={<Guide />} />
-              <Route path='status' element={<Status />} />
-            </Route>
+          <Route path='/student/:staffId/*' element={<Layout />} >
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path="application/renewal" element={<Renewal />} />
+            <Route path="guidelines" element={<Guide />} />
+            <Route path='status' element={<Status />} />
+          </Route>
           {/* <Route path='login' element={<Login />} /> */}
-            <Route path="/admin" element={<Admin />} >
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path='/admin/application' element={<AdminApplication />} />
-              <Route path='/admin/action' element={<Action />} />
-              <Route path='/admin/setting/accyears' element={<Accyear />} />
-              <Route path='/admin/setting/staffmang' element={<Staffmang />} />
-              <Route path='/admin/setting/date' element={<Date />} />
-              <Route path='/admin/report' element={<Report />} />
-              <Route path='/admin/donormenu' element={<DonorMenu />} />
-              <Route path='/admin/donor' element={<DonorForm />} />
-              <Route path='/admin/existing' element={<DonorExisting />} />
-              <Route path='/admin/donor/modify' element={<DonarModify />} />
-              <Route path='/admin/fundreport' element={<DonorFundStatement />} />
-              <Route path='/admin/getLetter' element={<GetLetter />} />
-              <Route path='/admin/distribution_statement' element={<Distribute />} />
-              <Route path='/admin/status' element={<Adstatus />} />
-              <Route path='/admin/report/allreport' element={<Allreport />} />
-              <Route path='/admin/report/stureport' element={<Stureport />} />
-              <Route path='/admin/report/studawardreport' element={<Catreport />} />
-              <Route path='/admin/report/fundavl' element={<Accrej />} />
-              <Route path='/admin/report/fundreport' element={<Fundreport />} />
-              <Route path='/admin/report/staffmaint' element={<Staffverify />} />
-              <Route path='/admin/guidelines' element={<GuideLine />} />
-            </Route>
-            <Route path="/staff/:staffId/*" element={<Staff />}>
-              <Route path='dashboard' element={<Dashboard />} />
-              <Route path='attendance' element={<Attend />} />
-              <Route path='attendance/sfm' element={<AttendSfm />} />
-              <Route path='attendance/sfw' element={<AttendSfw />} />
-              <Route path='deeniyath' element={ <Deeniyath />} /> 
-              <Route path='moral' element={< Moral />} />
-              <Route path='deeniyathsfw' element={ <DeeniyathSfw />} /> 
-              <Route path='moralsfw' element={< MoralSfw />} />
-              <Route path='coe' element={< Coe />} />
-              <Route path='settingstaff' element={<Staffset />} />
-            </Route> 
+          <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} >
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='/admin/application' element={<AdminApplication />} />
+            <Route path='/admin/action' element={<Action />} />
+            <Route path='/admin/setting/accyears' element={<Accyear />} />
+            <Route path='/admin/setting/staffmang' element={<Staffmang />} />
+            <Route path='/admin/setting/date' element={<Date />} />
+            <Route path='/admin/report' element={<Report />} />
+            <Route path='/admin/donormenu' element={<DonorMenu />} />
+            <Route path='/admin/donor' element={<DonorForm />} />
+            <Route path='/admin/existing' element={<DonorExisting />} />
+            <Route path='/admin/donor/modify' element={<DonarModify />} />
+            <Route path='/admin/fundreport' element={<DonorFundStatement />} />
+            <Route path='/admin/getLetter' element={<GetLetter />} />
+            <Route path='/admin/distribution_statement' element={<Distribute />} />
+            <Route path='/admin/status' element={<Adstatus />} />
+            <Route path='/admin/report/allreport' element={<Allreport />} />
+            <Route path='/admin/report/stureport' element={<Stureport />} />
+            <Route path='/admin/report/studawardreport' element={<Catreport />} />
+            <Route path='/admin/report/fundavl' element={<Accrej />} />
+            <Route path='/admin/report/fundreport' element={<Fundreport />} />
+            <Route path='/admin/report/staffmaint' element={<Staffverify />} />
+            <Route path='/admin/guidelines' element={<GuideLine />} />
+          </Route>
+          <Route path="/staff/:staffId/*" element={<ProtectedRoute><Staff /></ProtectedRoute>}>
+            <Route path='dashboard' element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
+            <Route path='attendance' element={<Attend />} />
+            <Route path='attendance/sfm' element={<AttendSfm />} />
+            <Route path='attendance/sfw' element={<AttendSfw />} />
+            <Route path='deeniyath' element={<Deeniyath />} />
+            <Route path='moral' element={<Moral />} />
+            <Route path='deeniyathsfw' element={<DeeniyathSfw />} />
+            <Route path='moralsfw' element={<MoralSfw />} />
+            <Route path='coe' element={<Coe />} />
+            <Route path='settingstaff' element={<Staffset />} />
+          </Route>
 
         </Routes>
       </Router>

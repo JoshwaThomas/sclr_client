@@ -10,24 +10,59 @@ function TextBox() {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
 
+    // const Submit = (e) => {
+    //     e.preventDefault();
+    //     console.log('API URL:', apiUrl);
+    //     console.log("Submitting form with:", { staffId, password });
+
+    //     axios.post(`${apiUrl}/api/admin/login/`, {
+    //         staffId, password,
+    //     })
+    //         .then(res => {
+    //             console.log("Response from server:", res.data);
+    //             if (res.data.status === 'exist') {
+    //                 const role = res.data.role;
+    //                 if (role === 1) {
+    //                     navigate('/admin/dashboard', { state: { id: staffId, role } });
+    //                 } else if (role === 2) {
+    //                     navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
+    //                 }
+    //                 else if (staffId === `${role}`) {
+    //                     navigate(`/student/${staffId}/status`, { state: { id: staffId } });
+    //                 }
+    //             } else if (res.data.status === 'wrong password') {
+    //                 alert("Wrong Password");
+    //             } else if (res.data.status === 'not exist') {
+    //                 alert("User does not exist");
+    //             }
+    //         })
+    //         .catch(e => {
+    //             alert("An error occurred. Please try again.");
+    //             console.log(e);
+    //         });
+    // };
+
     const Submit = (e) => {
         e.preventDefault();
         console.log('API URL:', apiUrl);
         console.log("Submitting form with:", { staffId, password });
 
         axios.post(`${apiUrl}/api/admin/login/`, {
-            staffId, password,
+            staffId,
+            password,
         })
             .then(res => {
                 console.log("Response from server:", res.data);
                 if (res.data.status === 'exist') {
-                    const role = res.data.role;
+                    const { role, token } = res.data; // Extract role and token
+                    // Store the token in localStorage
+                    localStorage.setItem('token', token);
+
                     if (role === 1) {
                         navigate('/admin/dashboard', { state: { id: staffId, role } });
                     } else if (role === 2) {
                         navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
-                    }
-                    else if (staffId === `${role}`) {
+                    } else if (staffId === `${role}`) {
                         navigate(`/student/${staffId}/status`, { state: { id: staffId } });
                     }
                 } else if (res.data.status === 'wrong password') {
@@ -42,137 +77,61 @@ function TextBox() {
             });
     };
 
-    const topContainerStyle = {
-        display: 'flex',
-        marginBottom:'5px'
-
-    };
-
-    const bottomContainerStyle = {
-      display: 'flex',
-        borderRadius:'15px 15px 15px 15px'
-    };
-
-    const logoStyle = {
-        width: '150px',
-        height: '170px',
-        marginRight: '10px'
-    };
-    const leftcontainerfile={
-        height:'480px',
-        width:'500px',
-
-    };
-    const logincontainer={
-        height:'480px',
-        width:'400px'
-        
-    };
-    const loginbg={
-        backgroundColor:'white',
-        height:'320px',
-        width:'330px',
-        borderRadius:'15px 15px 15px 15px'
-    };
-
-    const sclimg = {
-        width: '500px',
-        height: '300px',
-        alignItems: 'left',
-
-    };
-    const jmctext1={
-        fontWeight:'bolder',
-        fontSize:'250%',
-
-        
-    }
-    const jmctext2={
-        fontWeight:'bold',
-          fontSize:'35px',
-          marginTop:'8px',
-          marginLeft:'5px'
-    }
-    const jmctext3={
-        fontWeight:'bold',
-        fontSize:'25px',
-        marginTop:'0px'
-        
-        
-
-    }
-    const jmctext4={
-        fontWeight:'bold',
-        fontSize:'150%',
-        marginTop:'5px'
-    }
-
-    const jmccontent = {
-        display:'flex'
-    }
     return (
 
         <div>
-
-            <div style={topContainerStyle} className=' -mt-5'>
-                <div>
-                    <img src={jmc} alt='LOGO' style={logoStyle} className='mt-2 ml-52 ' />
-                </div>
-                <div  className='mt-3 mr-32 w-3/4 text-center '>
-
-                <div style={jmccontent}>
-                    <div>
-                    <p className="ml-16 " style={jmctext1}>JAMAL MOHAMED COLLEGE</p>
-                    </div>
-                    <div></div>
-                    <p className="" style={jmctext2}>(Autonomous)<br /></p>
-                    </div>
-                    <p className="" style={jmctext3}>TIRUCHIRAPPALLI - 620 020<br /></p>
-                    <p className="-ml-10" style={jmctext4}>College Sponsored Application Form for Poor and Meritorious Students<br /></p>
+            <div className="flex flex-col lg:flex-row justify-center items-center py-8">
+                <img src={jmc} alt="LOGO" className="w-24 h-24 lg:w-36 lg:h-36" />
+                <div className="flex flex-col justify-center items-center lg:ml-8 text-center">
+                    <p className="text-2xl lg:text-5xl font-extrabold">JAMAL MOHAMED COLLEGE</p>
+                    <p className="text-xl font-bold">(Autonomous)</p>
+                    <p className="text-xl font-bold">TIRUCHIRAPPALLI - 620 020</p>
+                    <p className="text-lg lg:text-xl font-bold">College Sponsored Application Form for Poor and Meritorious Students</p>
                 </div>
             </div>
 
-            <div style={bottomContainerStyle} className='bg-orange-500  ml-24 mr-24'>
-                <div style={leftcontainerfile} className=''>
-                <img src={Map} alt='LOGO' style={sclimg} className='mt-10 ml-10'/>
-                <span className="text-2xl font-bold text-center ml-28 mt-28 text-white  animate-pulse">Jamalians Around The World</span><br></br><br></br>
-               
-           
-          
-                </div>
-                <div style={logincontainer} className='mr-24 py-32 px-32 mr-24'>
-                    <div style={loginbg} className='-mt-12 ml-36'>
-                <form onSubmit={Submit}>
-                        <h1 className="text-2xl mb-8 font-bold pl-32 pt-8">LOGIN</h1>
-                        <div className='pl-10'>
-                            <input
-                                type="text"
-                                value={staffId}
-                                onChange={(e) => setStaffId(e.target.value)}
-                                className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
-                                placeholder="Username"
-                                style={{ width: '250px', color: 'black' }}
-                            />
+            <div className="flex justify-center items-center px-5">
+                <div className="bg-orange-500 flex flex-col lg:flex-row rounded-xl lg:w-5/6 p-3">
+                    <div className="lg:w-2/3 h-96 ">
+                        <img src={Map} alt="World Map" className="px-10 h-72" />
+                        <p className="text-lg lg:text-2xl font-bold text-center text-white animate-pulse mt-4 mb-4">
+                            Jamalians Around The World
+                        </p>
+                        <h2 className=" text-center text-sm lg:text-xl font-bold text-white">
+                            "Elevating the Next Generation Through Alumni & Well-Wishers"
+                        </h2>
+                    </div>
+                    <div className=''>
+                        <div className="text-lg text-center lg:text-2xl font-bold text-white">
+                            Show Us The Right Path
                         </div>
-                        <div className='pl-10'>
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="placeholder-gray-500 border font-mono mb-6 px-4 py-2 rounded-md"
-                                placeholder="Password"
-                                style={{ width: '250px', color: 'black' }}
-                            />
+                        <div className="lg:w-80 bg-white rounded-lg p-6 flex flex-col justify-center mt-10">
+                            <form onSubmit={Submit} className="space-y-4">
+                                <h1 className="text-lg lg:text-2xl font-bold text-center">LOGIN</h1>
+                                <input
+                                    type="text"
+                                    value={staffId}
+                                    onChange={(e) => setStaffId(e.target.value)}
+                                    className="w-full border px-4 py-2 rounded-md placeholder-gray-500"
+                                    placeholder="Username"
+                                />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full border px-4 py-2 rounded-md placeholder-gray-500"
+                                    placeholder="Password"
+                                />
+                                <span className=' cursor-pointer text-sm hover:text-red-500 ' onClick={() => navigate('/forgotPassword')}>Forgot Password?</span>
+                                <div className="flex justify-between">
+                                    <button type='submit' className="rounded-full px-6 py-2 bg-orange-500 hover:bg-black text-white font-bold" >Login</button>
+                                    <button type='button' className="rounded-full px-6 py-2 bg-orange-500 hover:bg-black text-white font-bold" onClick={() => navigate('/')}>Back</button>
+                                </div>
+                            </form>
                         </div>
-                        <button type='submit' className="rounded-full font-mono px-4 py-2 mt-5 ml-10 bg-orange-500  hover:bg-black text-white font-bold">Login</button>
-                        <button type='button' className="rounded-full font-mono px-5 py-2 ml-24 bg-orange-500  hover:bg-black text-white font-bold" onClick={() => navigate('/')}>Back</button>
-                    </form>
                     </div>
                 </div>
-                 <span className="text-2xl absolute font-bold top-28 right-48 text-center ml-32 mt-20 text-white">Show Us The Right Path</span>
-                <h2 className="text-2xl absolute bottom-0 ml-12 font-bold mb-4 text-center text-white">"Elevating the Next Generation Through Alumni & Well-Wishers"</h2>
             </div>
-
 
 
         </div>

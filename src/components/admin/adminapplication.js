@@ -4,16 +4,15 @@ import Loading from '../../assets/Pulse.svg'
 
 const Notification = ({ message, type, onClose }) => {
     if (!message) return null;
-  
+
     return (
-      <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
-      type === 'success' ? ' text-green-700' : 'text-red-500'
-      }`}>
-        {message}
-        <button onClick={onClose} className="ml-4 text-white underline">Close</button>
-      </div>
+        <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'
+            }`}>
+            {message}
+            <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
+        </div>
     );
-  };
+};
 
 function Action() {
 
@@ -68,14 +67,15 @@ function Action() {
     const [moralAttendance, setMoralAttendance] = useState('');
     const [mark, setMark] = useState('');
     const [arrear, setArrear] = useState('');
+    const [siblingsIncome, setSiblingsIncome] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
     const [notification, setNotification] = useState({ message: '', type: '' });
-  
+
     const showNotification = (message, type) => {
-      setNotification({ message, type });
-      setTimeout(() => {
-        setNotification({ message: '', type: '' });
-      }, 5000); 
+        setNotification({ message, type });
+        setTimeout(() => {
+            setNotification({ message: '', type: '' });
+        }, 5000);
     };
 
 
@@ -92,8 +92,9 @@ function Action() {
                 const fetchFreshUsers = async () => {
                     try {
                         const response = await axios.get(`${apiUrl}/fresh`);
-                        setUsers(response.data.filter(user => user.acyear === curacyear.acyear));
-                        setFilterUsers(prev => [...prev, ...response.data]);
+                        const freshUsers = response.data.filter(user => user.acyear === curacyear.acyear);
+                        setUsers(freshUsers);
+                        setFilterUsers(prev => [...prev, ...freshUsers]);
                     } catch (error) {
                         console.log(error);
                     }
@@ -104,14 +105,16 @@ function Action() {
                     try {
                         const response = await axios.get(`${apiUrl}/renewal`);
                         console.log('Renewal Users:', response.data);
-                        setRusers(response.data.filter(user => user.acyear === curacyear));
-                        setFilterUsers(prev => [...prev, ...response.data]);
+                        const renewalUsers = response.data.filter(user => user.acyear === curacyear.acyear);
+                        setRusers(renewalUsers);
+                        setFilterUsers(prev => [...prev, ...renewalUsers]);
                     } catch (error) {
                         console.log(error);
                     }
                 };
                 fetchFreshUsers();
                 fetchRenewalUsers();
+                console.log("filterUsers:", filterUsers)
             }
             catch (error) {
                 console.log('Academic Year:', error)
@@ -124,7 +127,7 @@ function Action() {
     // Use Effect to Filter Users
     useEffect(() => {
         let combinedUsers = [...users, ...rusers];
-        // console.log('Combined Users:', combinedUsers);
+        console.log('Combined Users:', combinedUsers);
 
         let filteredUsers = combinedUsers;
 
@@ -184,6 +187,9 @@ function Action() {
             }
         }
 
+        setFilterUsers(filteredUsers);
+        console.log(filteredUsers)
+
         if (classAttendance) {
             filteredUsers = filteredUsers.filter(user => user.classAttendancePer < Number(classAttendance));
         }
@@ -196,12 +202,17 @@ function Action() {
         if (arrear) {
             filteredUsers = filteredUsers.filter(user => user.arrear >= Number(arrear));
         }
+        if (siblingsIncome) {
+            console.log(siblingsIncome)
+            filteredUsers = filteredUsers.filter(user => user.siblingsIncome >= Number(siblingsIncome));
+            console.log(filteredUsers)
+        }
 
         const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
         setQuickRejectList(quickRejectUsers);
         // console.log('Filtered Users:', filteredUsers);
-        setFilterUsers(filteredUsers);
-    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark, arrear]);
+
+    }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark, arrear, siblingsIncome]);
 
     useEffect(() => {
         // Set default values for filters on initial render
@@ -266,6 +277,9 @@ function Action() {
     //     setProgressRadioValue(value);
     // };
 
+    const otherReason = (e) => {
+        setReason(e.target.value)
+    }
 
     const handleViewClick = (user) => {
         setSelectedUser(user);
@@ -304,7 +318,7 @@ function Action() {
     //             return [];
     //           });
     //       };
-      
+
     //       const fetchScholtypes = () => {
     //         return axios.get(`${apiUrl}/api/admin/scholtypes`)
     //           .then(response => {
@@ -316,7 +330,7 @@ function Action() {
     //             return [];
     //           });
     //       };
-      
+
     //       fetchDonars()
     //         .then(data => {
     //           console.log('Fetched Donors:', data); // Debugging log
@@ -325,7 +339,7 @@ function Action() {
     //         .catch(error => {
     //           console.error('Error fetching donors:', error);
     //         });
-      
+
     //       fetchScholtypes()
     //         .then(data => {
     //           setScholtypes(data);
@@ -336,7 +350,7 @@ function Action() {
     //     }
     //   }, [showModals, apiUrl]);
 
-//11/09/2024
+    //11/09/2024
     const fetchDonars = () => {
         return axios.get(`${apiUrl}/api/admin/donar`)
             .then(response => response.data)
@@ -694,7 +708,6 @@ function Action() {
                     })
                         .then(result => {
                             console.log(result);
-                            // Update the action value in the applicant model
                             return axios.post(`${apiUrl}/api/admin/actionreject`, {
                                 registerNo
                             });
@@ -839,7 +852,7 @@ function Action() {
     return (
         <div>
             <div className='end-px'>
-                 <div>
+                <div>
                     <input
                         type='text'
                         placeholder='Search text here'
@@ -903,6 +916,13 @@ function Action() {
                                         value={arrear}
                                         onChange={(e) => setArrear(e.target.value)}
                                     />
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Family Income:</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={siblingsIncome}
+                                        onChange={(e) => setSiblingsIncome(e.target.value)}
+                                    />
                                 </div>
                             </div>
                             <div className="text-right font-bold text-xl mr-40 mt-10 text-white">No of Students :  {quickRejectList.length}</div>
@@ -923,7 +943,7 @@ function Action() {
                                                 type="text"
                                                 placeholder="Enter rejection reason"
                                                 className="border rounded-md w-full h-full"
-                                                value={user.rejectReason || ''} //value={rejectReason}
+                                                value={user.rejectReason || ''}
                                                 onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
                                             />
                                         </div>
@@ -1608,7 +1628,7 @@ function Action() {
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                      <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
+                    <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                     <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
                         <form onSubmit={Submit} className='border border-white gap-1'>
                             <div className='grid grid-cols-4     mt-10 text-xl w-auto p-4'>
@@ -1734,9 +1754,9 @@ function Action() {
             {
                 showModalReject && selectedUser && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                          <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-                        <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
-                            <form onSubmit={submitReject} className='border border-white gap-1 h-3/4 mt-12'>
+                        <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
+                        <div className="bg-red-400 w-3/4 text-black rounded-lg overflow-auto p-6">
+                            <form onSubmit={submitReject} className='border border-white gap-1 p-3'>
                                 <div className='grid grid-cols-4 w-auto p-4 text-xl text-center'>
                                     <div className='uppercase font-bold'>
                                         {/* <label className="block mb-1">Register No.:</label> */}
@@ -1753,27 +1773,38 @@ function Action() {
                                     <div className='uppercase font-bold'>
                                         <label className="block mb-1"></label>{selectedUser.specialCategory}
                                     </div>
-                                    <div className='ml-10 mt-10 font-bold'>
+                                    <div className='ml-20 mt-10 font-bold flex items-center'>
                                         <label>Reason</label>
-
                                         <select
                                             name="ScholarshipCategory"
                                             value={reason}
                                             onChange={(e) => setReason(e.target.value)}
-                                            className="ml-3 mt-10 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                            className="ml-3 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                                             required
                                         >
                                             <option value="">Select</option>
-                                            <option value="Reason1">Reason1</option>
-                                            <option value="Reason2">Reason2</option>
-                                            <option value="Reason3">Reason3</option>
-
+                                            <option value="Reappear">Reappear</option>
+                                            <option value="Low Percentage of Marks">Low Percentage of Marks</option>
+                                            <option value="Missing Document">Missing Document</option>
+                                            <option value="Redo">Redo</option>
+                                            <option value="Shortage of Attendance">Shortage of Attendance</option>
+                                            <option value="Shortage of Deeniyath Attendance">Shortage of Deeniyath Attendance</option>
+                                            <option value="Shortage of the moralAttendance">Shortage of the moralAttendance</option>
+                                            <option value="others">others</option>
 
                                         </select>
+                                        {reason === 'others' && (
+                                            <input
+                                                type="text"
+                                                placeholder="Enter custom reason"
+                                                onChange={otherReason}
+                                                className="ml-3 mt-3 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                            />
+                                        )}
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="mt-4 flex justify-end">
+                                    <div className="flex justify-end">
                                         <button
                                             type="submit"
                                             className="bg-green-500 text-white py-1 px-4 rounded-lg hover:bg-black"
