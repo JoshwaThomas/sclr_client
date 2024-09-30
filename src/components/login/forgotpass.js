@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import jmc from '../login/jmclogo.png';
 import axios from "axios";
 
+const Notification = ({ message, type, onClose }) => {
+    if (!message) return null;
+  
+    return (
+      <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
+        type === 'success' ? ' text-green-700' : 'text-red-500'
+      }`}>
+        {message}
+        <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
+      </div>
+    );
+  };
+
 function Forgotpass() {
     const [registerNo, setRegisterNo] = useState();
     const [mobileNo, setMobileNo] = useState();
@@ -10,6 +23,15 @@ function Forgotpass() {
     const [isConpassTyped, setIsConpassTyped] = useState(false);
     const [error, setError] = useState("");
     const apiUrl = process.env.REACT_APP_API_URL;
+    const [notification, setNotification] = useState({ message: '', type: '' });
+  
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 6000); // Automatically hide after 3 seconds
+  };
+
 
     useEffect(() => {
         if (isConpassTyped && password.pass !== password.conpass) {
@@ -45,17 +67,19 @@ function Forgotpass() {
                 password: password.pass,
             });
             if (response.data.success) {
-                // showNotification("Password updated successfully!", "success");
-                 window.alert("Password updated successfully!");
+                //  window.alert("Password updated successfully!");
+                 showNotification("Your Application Submitted Successfully", "success");
                } else if (response.data.message === "Aadhar number mismatched") {
                 console.log(response.data.message)
-                 window.alert("Register No. Already Existing");
-                //  showNotification("Register No. Already Existing", "error");
+                //  window.alert("Register No. Already Existing");
+                 showNotification("Aadhar number mismatched", "error");
                } else if (response.data.message ===  "Mobile number mismatched"){
-                 window.alert("Mobile number mismatched");
+                //  window.alert("Mobile number mismatched");
+                showNotification("Mobile number mismatched", "error");
                  console.log(response.data.message)
                }else{
-                window.alert("Data Not Found")
+                // window.alert("Data Not Found")
+                showNotification("Data Not Found", "error");
                 console.log(response.data.message)
                }
             
@@ -76,6 +100,7 @@ function Forgotpass() {
                 </div>
             </div>
             <div className='flex flex-col justify-center items-center h-2/3'>
+            <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                 <div className='p-10 bg-slate-200 shadow-xl rounded-md'>
                     <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
                         <input
