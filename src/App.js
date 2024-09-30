@@ -57,7 +57,7 @@ function App() {
             <Route path="application/fresh" element={<Fresh />} />
           </Route>
           <Route path='login' element={<Login />} />
-          <Route path='/student/:staffId/*' element={<Layout />} >
+          <Route path='/student/:staffId/*' element={<ProtectedRoute><Layout /></ProtectedRoute>} >
             <Route path='dashboard' element={<Dashboard />} />
             <Route path="application/renewal" element={<Renewal />} />
             <Route path="guidelines" element={<Guide />} />
@@ -89,7 +89,7 @@ function App() {
             <Route path='/admin/guidelines' element={<GuideLine />} />
           </Route>
           <Route path="/staff/:staffId/*" element={<ProtectedRoute><Staff /></ProtectedRoute>}>
-            <Route path='dashboard' element={<ProtectedRoute> <Dashboard /> </ProtectedRoute>} />
+            <Route path='dashboard' element={<Dashboard />} />
             <Route path='attendance' element={<Attend />} />
             <Route path='attendance/sfm' element={<AttendSfm />} />
             <Route path='attendance/sfw' element={<AttendSfw />} />

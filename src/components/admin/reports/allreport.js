@@ -14,7 +14,7 @@ function Allreport() {
         axios.get(`${apiUrl}/api/admin/allreport`)
             .then(response => {
                 setUsers(response.data);
-
+                console.log(response.data)
             })
             .catch(err => console.log(err));
     }, [apiUrl]);
@@ -26,6 +26,7 @@ function Allreport() {
 
         // Define headers for Excel
         const headers = [
+            'ACADEMIC YEAR',
             'DATE',
             'FRESHER/RENEWAL',
             'REGISTER NO',
@@ -51,6 +52,7 @@ function Allreport() {
 
         // Add headers to the beginning of the data array
         const dataWithHeaders = [headers, ...users.map(user => [
+            user.acyear,
             new Date(user.amtdate).toLocaleDateString(),
             user.fresherOrRenewal,
             user.registerNo,

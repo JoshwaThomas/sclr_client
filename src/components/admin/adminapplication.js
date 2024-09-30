@@ -639,7 +639,7 @@ function Action() {
 
             // Save scholarship amount in AmountModel
             const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
-                registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
+                registerNo, name, dept, scholtype, scholdonar, scholamt, acyear, fresherOrRenewal,
             });
 
             console.log('Amount saved in AmountModel:', saveAmountResponse);
