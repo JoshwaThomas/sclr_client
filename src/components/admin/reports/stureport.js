@@ -208,7 +208,7 @@ function StuReport() {
 
     return (
         <div>
-            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENT REPORTS</h1>
+            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STUDENTS APPLICATION REPORTS</h1>
             <div>
                 <div className='end-px '>
                     <input

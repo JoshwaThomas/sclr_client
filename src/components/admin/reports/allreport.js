@@ -1,3 +1,4 @@
+
 import { useEffect, useState, React } from 'react';
 import axios from "axios";
 import * as XLSX from 'xlsx';
@@ -118,7 +119,7 @@ function Allreport() {
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholamt}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.specialCategory}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{user.fresherOrRenewal}</div>
                     </div>
                 ))}
 

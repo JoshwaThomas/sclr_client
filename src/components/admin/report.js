@@ -42,7 +42,7 @@ function Report() {
                     onClick={() => navigate('/admin/report/staffmaint')}
                     className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
                 >
-                    Staff Verify
+                    Record Verification
                 </button>
                 {/* <button
                     onClick={() => navigate('/admin/report/stureport')}

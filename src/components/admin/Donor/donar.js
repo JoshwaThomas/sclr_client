@@ -194,7 +194,7 @@ const Donar = () => {
                     value={donordept}
                     onChange={(e) => setDonordept(e.target.value)}
                     className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
-                    required
+                    // required
                   />
                 </div>
                 <div></div>
@@ -208,7 +208,7 @@ const Donar = () => {
                     value={donorbatch}
                     onChange={(e) => setDonorbatch(e.target.value)}
                     className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
-                    required
+                    // required
                   />
                 </div>
                 <div>
@@ -257,7 +257,7 @@ const Donar = () => {
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
+                // required
               />
             </div>
             <div>
@@ -279,7 +279,7 @@ const Donar = () => {
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
+                // required
               />
             </div>
             <div>
@@ -291,7 +291,7 @@ const Donar = () => {
                 onChange={(e) => setAddress(e.target.value.toUpperCase())}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 placeholder='Door No & Street'
-                required
+                // required
               />
             </div>
             <div>
@@ -301,7 +301,7 @@ const Donar = () => {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
+                // required
               >
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -350,7 +350,7 @@ const Donar = () => {
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
+                // required
               >
                 <option value="">Select District</option>
                 <option value="Ariyalur">Ariyalur</option>
@@ -403,7 +403,7 @@ const Donar = () => {
                 onChange={(e) => setPin(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 placeholder='Pincode'
-                required
+                // required
               />
             </div>
 
@@ -444,7 +444,7 @@ const Donar = () => {
                 value={receipt}
                 onChange={(e) => setReceipt(e.target.value.toUpperCase())}
                 className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                required
+                // required
               />
             </div>
 

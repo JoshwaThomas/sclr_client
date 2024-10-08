@@ -20,7 +20,7 @@ function StaffMaintanance(){
 
 return(
         <div>
-         <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >STAFF VERIFY REPORTS</h1>
+         <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >VERIFICATION OF RECORDS</h1>
          <div className='mt-6 grid grid-cols-4 w-auto bg-amber-200'>
                      <div className="font-bold border border-white text-center py-3">Particulars</div>
                          <div className="font-bold border border-white text-center py-3">Pending</div>

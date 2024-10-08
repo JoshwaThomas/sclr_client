@@ -39,6 +39,8 @@ const Dashboard = () => {
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data);
+                console.log(response.data)
+
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
                 setTotalAmount(total);
             })
@@ -76,7 +78,7 @@ const Dashboard = () => {
     // };
 
     const pieData = {
-        labels: ['FRESHERS', 'RENEWALS',],
+        labels: [`FRESHERS ${data.ugCount} `,`RENEWALS ${data.pgCount}`,],
         datasets: [
             {
 
@@ -89,11 +91,11 @@ const Dashboard = () => {
         ],
     };
     const pieData1 = {
-        labels: ['SF Men', 'SF Women', 'Aided'],
+        labels: [`SF Women ${data.sfwCount + data.rsfwCount}`, `SF Men ${data.sfmCount + data.rsfmCount}`, `Aided ${data.amCount + data.ramCount}`],
         datasets: [
             {
 
-                data: [data.sfmPercent, data.sfwPercent, data.amPercent],
+                data: [data.sfwCount + data.rsfwCount / data.totalApplication *100, data.sfmCount + data.rsfmCount / data.totalApplication *100, data.amCount + data.ramCount / data.totalApplication *100],
                 backgroundColor: [
                     'rgb(6,95,70)',
                     'rgb(99,102,241)',
@@ -103,11 +105,11 @@ const Dashboard = () => {
         ],
     };
     const pieData2 = {
-        labels: ['Men', 'Women',],
+        labels: [`Men ${data.amCount + data.ramCount + data.sfmCount + data.rsfmCount }`, `Women ${data.sfwCount + data.rsfwCount}`,],
         datasets: [
             {
 
-                data: [data.mensTotal, data.sfwPercent],
+                data: [data.mensTotal, data.sfwCount + data.rsfwCount],
                 backgroundColor: [
                     'rgb(99,102,241)',
                     'rgb(251,79,20)',
@@ -135,7 +137,7 @@ const Dashboard = () => {
         <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
           <FontAwesomeIcon icon={faUsers} size="2x" />
           <div>Total Applicants</div>
-          <div>{data.totalApplicants}</div>
+          <div>{data.totalApplication}</div>
         </div>
         <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
           <FontAwesomeIcon icon={faGraduationCap} size="2x" />
@@ -157,6 +159,7 @@ const Dashboard = () => {
       {/* Pie Charts */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 ">
         <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
+          <span></span>
           <Pie data={pieData} />
         </div>
         <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">

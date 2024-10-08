@@ -3,7 +3,7 @@ import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function FundReport(){
+function FundReport() {
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
@@ -19,13 +19,13 @@ function FundReport(){
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-    
+
         const filteredUsers = users.filter((user) =>
             (user.did?.toLowerCase() || '').includes(searchText) ||
             (user.name?.toLowerCase() || '').includes(searchText) ||
             (user.pan?.toLowerCase() || '').includes(searchText)
         );
-    
+
         setFilterUsers(filteredUsers);
     };
 
@@ -70,7 +70,7 @@ function FundReport(){
 
         setFilterUsers(filteredUsers);
     };
-   
+
 
 
     useEffect(() => {
@@ -100,8 +100,8 @@ function FundReport(){
             'NAME',
             'Amount',
             'Pan'
-            
-           
+
+
 
         ];
 
@@ -114,7 +114,7 @@ function FundReport(){
             user.name,
             user.amount,
             user.pan
-        
+
         ])];
 
         // Convert data to sheet format
@@ -135,6 +135,9 @@ function FundReport(){
             minimumFractionDigits: 2,
         }).format(amount);
     };
+
+    const totalGeneral = filterUsers.reduce((sum, user) => sum + (user.amount || 0), 0);
+    const totalZakat = filterUsers.reduce((sum, user) => sum + (user.zakkathamt || 0), 0);
 
     return (
         <div>
@@ -202,13 +205,15 @@ function FundReport(){
                 >
                     Download Excel
                 </button>
+                <div className="text-lg font-bold mb-4">Overall Fund:</div>
+                <div className='text-lg font-bold mb-4'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
-                <div className="font-bold border border-white text-center py-3">Academic Year</div>
+                    <div className="font-bold border border-white text-center py-3">Academic Year</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">AMOUNT</div>
-                    <div className="font-bold border border-white text-center py-3">ZAKKATH</div>
+                    <div className="font-bold border border-white text-center py-3">General</div>
+                    <div className="font-bold border border-white text-center py-3">ZAKAT</div>
                     {/* <div className="font-bold border border-white text-center py-3">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (
@@ -218,10 +223,10 @@ function FundReport(){
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount || 0)}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathamt || 0) }</div>
+                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathamt || 0)}</div>
                         {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
                     </div>
-                
+
                 ))}
 
             </div>

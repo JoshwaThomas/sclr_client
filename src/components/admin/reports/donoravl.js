@@ -3,7 +3,7 @@ import axios from "axios";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function Donoravl(){
+function Donoravl() {
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
@@ -19,14 +19,14 @@ function Donoravl(){
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-    
+
         const filteredUsers = users.filter((user) =>
             (user.dept?.toLowerCase() || '').includes(searchText) ||
             (user.registerNo?.toLowerCase() || '').includes(searchText) ||
             (user.name?.toLowerCase() || '').includes(searchText) ||
             (user.fresherOrRenewal?.toLowerCase() || '').includes(searchText)
         );
-    
+
         setFilterUsers(filteredUsers);
     };
 
@@ -71,7 +71,7 @@ function Donoravl(){
 
     //     setFilterUsers(filteredUsers);
     // };
-   
+
 
 
     useEffect(() => {
@@ -99,8 +99,8 @@ function Donoravl(){
             'NAME',
             'Balance',
             'Zakkath'
-            
-           
+
+
 
         ];
 
@@ -112,8 +112,8 @@ function Donoravl(){
             user.name,
             user.balance,
             user.zakkathbal
-          
-        
+
+
         ])];
 
         // Convert data to sheet format
@@ -134,6 +134,9 @@ function Donoravl(){
             minimumFractionDigits: 2,
         }).format(amount);
     };
+
+    const totalGeneral = filterUsers.reduce((sum, user) => sum + (user.balance || 0), 0);
+    const totalZakat = filterUsers.reduce((sum, user) => sum + (user.zakkathbal || 0), 0);
 
     return (
         <div>
@@ -201,13 +204,17 @@ function Donoravl(){
                 >
                     Download Excel
                 </button>
+                <div className=' justify-end flex flex-col'>
+                    <div className="text-lg font-bold mb-4 text-white text-right ">Overall Fund:</div>
+                    <div className='text-lg font-bold mb-4 text-white text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
+                </div>
                 <div className='mt-6 grid grid-cols-5 w-auto bg-amber-200'>
 
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">Amount</div>
-                    <div className="font-bold border border-white text-center py-3">Zakkath</div>
+                    <div className="font-bold border border-white text-center py-3">General</div>
+                    <div className="font-bold border border-white text-center py-3">Zakat</div>
                     {/* <div className="font-bold border border-white text-center">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (
