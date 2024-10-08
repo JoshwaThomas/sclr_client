@@ -110,7 +110,7 @@ function Allreport() {
                     <div className="font-bold border border-white text-center py-3">Name</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
-                    <div className='font-bold border border-white text-center py-3'>SCHOLARSHIP TYPE</div>
+                    <div className='font-bold border border-white text-center py-3'>APPLICATION TYPE</div>
                   </div>
                 {users.map((user, index) => (
                     <div key={index} className="grid grid-cols-6 bg-amber-100">
