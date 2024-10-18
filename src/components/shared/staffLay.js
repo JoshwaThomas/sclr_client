@@ -30,61 +30,61 @@ function StaffLayout() {
       icon: < LuLayoutDashboard className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Dashboard',
       path: `/staff/${staffId}/dashboard`,
-      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
+      show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Attendance',
       path: `/staff/${staffId}/attendance`,
-      show: staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Attendance SFM',
       path: `/staff/${staffId}/attendance/sfm`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Attendance SFW',
       path: `/staff/${staffId}/attendance/sfw`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Deeniyath',
       path: `/staff/${staffId}/deeniyath`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Deeniyath SFW',
       path: `/staff/${staffId}/deeniyathsfw`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCmm' && staffId !== 'JMCcoe' && staffId !== 'JMCdm' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Moral',
       path: `/staff/${staffId}/moral`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Moral SFW',
       path: `/staff/${staffId}/moralsfw`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCcoe' && staffId !== 'JMCdw' && staffId !== 'JMCmm'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMM'
     },
     {
       icon: <TiClipboard className="text-white text-2xl 2xl:text-5xl" />,
       name: 'COE',
       path: `/staff/${staffId}/coe`,
-      show: staffId !== 'JMCraa' && staffId !== 'JMCras' && staffId !== 'JMCraw' && staffId !== 'JMCdm' && staffId !== 'JMCmm' && staffId !== 'JMCdw' && staffId !== 'JMCmw'
+      show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
       icon: <TiCogOutline className="text-white text-2xl 2xl:text-5xl" />,
       name: 'Setting',
       path: `/staff/${staffId}/settingstaff`,
-      show: staffId === 'JMCras' || staffId === 'JMCraw' || staffId === 'JMCmm' || staffId === 'JMCcoe' || staffId === 'JMCdm' || staffId === 'JMCraa' || staffId === 'JMCdw' || staffId === 'JMCmw'
+      show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
     },
     {
       icon: <TiCogOutline className="text-white text-2xl 2xl:text-5xl " />,

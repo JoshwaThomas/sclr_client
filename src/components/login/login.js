@@ -7,43 +7,14 @@ import axios from 'axios';
 function TextBox() {
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    // const Submit = (e) => {
-    //     e.preventDefault();
-    //     console.log('API URL:', apiUrl);
-    //     console.log("Submitting form with:", { staffId, password });
-
-    //     axios.post(`${apiUrl}/api/admin/login/`, {
-    //         staffId, password,
-    //     })
-    //         .then(res => {
-    //             console.log("Response from server:", res.data);
-    //             if (res.data.status === 'exist') {
-    //                 const role = res.data.role;
-    //                 if (role === 1) {
-    //                     navigate('/admin/dashboard', { state: { id: staffId, role } });
-    //                 } else if (role === 2) {
-    //                     navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
-    //                 }
-    //                 else if (staffId === `${role}`) {
-    //                     navigate(`/student/${staffId}/status`, { state: { id: staffId } });
-    //                 }
-    //             } else if (res.data.status === 'wrong password') {
-    //                 alert("Wrong Password");
-    //             } else if (res.data.status === 'not exist') {
-    //                 alert("User does not exist");
-    //             }
-    //         })
-    //         .catch(e => {
-    //             alert("An error occurred. Please try again.");
-    //             console.log(e);
-    //         });
-    // };
 
     const Submit = (e) => {
         e.preventDefault();
+        setLoading(true)
         console.log('API URL:', apiUrl);
         console.log("Submitting form with:", { staffId, password });
 
@@ -52,10 +23,11 @@ function TextBox() {
             password,
         })
             .then(res => {
+                setLoading(false)
                 console.log("Response from server:", res.data);
                 if (res.data.status === 'exist') {
-                    const { role, token } = res.data; // Extract role and token
-                    // Store the token in localStorage
+                    const { role, token } = res.data; 
+                    
                     localStorage.setItem('token', token);
 
                     if (role === 1) {
@@ -78,7 +50,6 @@ function TextBox() {
     };
 
     return (
-
         <div>
             <div className="flex flex-col lg:flex-row justify-center items-center py-8">
                 <img src={jmc} alt="LOGO" className="w-24 h-24 lg:w-36 lg:h-36" />
@@ -111,7 +82,7 @@ function TextBox() {
                                 <input
                                     type="text"
                                     value={staffId}
-                                    onChange={(e) => setStaffId(e.target.value)}
+                                    onChange={(e) => setStaffId(e.target.value.toUpperCase())}
                                     className="w-full border px-4 py-2 rounded-md placeholder-gray-500"
                                     placeholder="Username"
                                 />
@@ -124,7 +95,7 @@ function TextBox() {
                                 />
                                 <span className=' cursor-pointer text-sm hover:text-red-500 ' onClick={() => navigate('/forgotPassword')}>Forgot Password?</span>
                                 <div className="flex justify-between">
-                                    <button type='submit' className="rounded-full px-6 py-2 bg-orange-500 hover:bg-black text-white font-bold" >Login</button>
+                                    <button type='submit' className="rounded-full px-6 py-2 bg-orange-500 hover:bg-black text-white font-bold" disabled={loading}    > {loading ? 'Loading...' : 'Login'}</button>
                                     <button type='button' className="rounded-full px-6 py-2 bg-orange-500 hover:bg-black text-white font-bold" onClick={() => navigate('/')}>Back</button>
                                 </div>
                             </form>
@@ -132,13 +103,7 @@ function TextBox() {
                     </div>
                 </div>
             </div>
-
-
         </div>
-
-
-
-
     );
 }
 

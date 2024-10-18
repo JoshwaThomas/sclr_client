@@ -205,15 +205,15 @@ function FundReport() {
                 >
                     Download Excel
                 </button>
-                <div className="text-lg font-bold mb-4">Overall Fund:</div>
-                <div className='text-lg font-bold mb-4'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
+                <div className="text-lg font-bold mb-4 text-white text-right">Overall Fund:</div>
+                <div className='text-lg font-bold mb-4 text-white text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
                     <div className="font-bold border border-white text-center py-3">Academic Year</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>
                     <div className="font-bold border border-white text-center py-3">General</div>
-                    <div className="font-bold border border-white text-center py-3">ZAKAT</div>
+                    <div className="font-bold border border-white text-center py-3">Zakat</div>
                     {/* <div className="font-bold border border-white text-center py-3">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (

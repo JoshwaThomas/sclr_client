@@ -926,7 +926,7 @@ function Action() {
                                 </div>
                             </div>
                             <div className="text-right font-bold text-xl mr-40 mt-10 text-white">No of Students :  {quickRejectList.length}</div>
-                            <div className="grid grid-cols-4  bg-amber-200">
+                            <div className="grid grid-cols-4  bg-amber-200 ">
                                 <div className="font-bold border border-white text-center py-3">Register No</div>
                                 <div className="font-bold border border-white text-center py-3">Name</div>
                                 <div className="font-bold border border-white text-center py-3">Special Categories</div>
@@ -1470,7 +1470,7 @@ function Action() {
                                             <label className='font-bold text-lg uppercase'> {selectedUser.siblingsNo} </label><br />
                                             <label className="">Siblings Occupation: </label> <br />
                                             <label className='font-bold text-lg uppercase'> {selectedUser.siblingsOccupation} </label><br />
-                                            <label className="">Siblings Annual Income: </label> <br />
+                                            <label className="">Family Income: </label> <br />
                                             <label className='font-bold text-lg uppercase'> {selectedUser.siblingsIncome} </label>
                                         </div>
                                     )}
@@ -1592,8 +1592,8 @@ function Action() {
                                     <div>
                                         <label className=""></label>
                                         {/* {selectedUser.jamath} */}
-                                        {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
                                         <img src={selectedUser.jamath} alt="Jamath" />
+                                        {/* <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" /> */}
                                     </div>
                                 </div>
                             </div>

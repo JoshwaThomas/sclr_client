@@ -18,14 +18,16 @@ function Attendaided() {
                     axios.get(`${apiUrl}/fresh`),
                     axios.get(`${apiUrl}/renewal`)
                 ]);
+                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
+                const curacyear = acyear.data.acyear;
 
-                const aided1 = freshResponse.data.filter(user => user.procategory === 'Aided');
-                const aided2 = renewalResponse.data.filter(user => user.procategory === 'Aided');
+                const aided1 = freshResponse.data.filter(user => user.procategory === 'Aided' && user.action === 0 && user.acyear === curacyear.acyear);
+                const aided2 = renewalResponse.data.filter(user => user.procategory === 'Aided' && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalaided = aided1.length + aided2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
-                const renewalAided = renewalResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0);
+                const freshAided = freshResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0 && user.action === 0 && user.acyear === curacyear.acyear);
+                const renewalAided = renewalResponse.data.filter(user => user.procategory === 'Aided' && user.classAttendancePer === 0 && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalfilter = freshAided.length + renewalAided.length;
                 const work = totalaided - totalfilter;

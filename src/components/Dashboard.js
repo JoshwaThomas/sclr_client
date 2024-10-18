@@ -50,10 +50,10 @@ const Dashboard = () => {
     if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
     const barData = {
-        labels: ['First Year UG', 'Second Year UG', 'Third Year UG', 'First Year PG', 'Second Year PG'],
+        labels: [`First Year UG ${data.firstYear}/${data.ugCount}`, `Second Year UG ${data.secYear}/${data.ugCount}`, `Third Year UG ${data.thirdYear}/${data.ugCount}`, `First Year PG ${data.pgfirstYear}/${data.ugCount}`, `Second Year PG' ${data.pgsecYear}/${data.ugCount}`],
         datasets: [
             {
-                label: 'Applicants',
+                label: `'Applicants'`,
                 data: [data.firstYear, data.secYear, data.thirdYear, data.pgfirstYear, data.pgsecYear],
                 backgroundColor: ['rgb(34,139,34)', 'rgb(251,79,20)', 'rgb(30,144,255)', 'rgb(34,139,34)', 'rgb(99,102,241)'],
                 borderWidth: 1,
@@ -77,6 +77,20 @@ const Dashboard = () => {
     //     },
     // };
 
+    const pieOptions = {
+      plugins: {
+          legend: {
+              labels: {
+                  font: {
+                      size: 16, 
+                  },
+                  color: '#333', 
+              },
+              position: 'top', 
+          },
+      },
+  };
+
     const pieData = {
         labels: [`FRESHERS ${data.ugCount} `,`RENEWALS ${data.pgCount}`,],
         datasets: [
@@ -91,11 +105,11 @@ const Dashboard = () => {
         ],
     };
     const pieData1 = {
-        labels: [`SF Women ${data.sfwCount + data.rsfwCount}`, `SF Men ${data.sfmCount + data.rsfmCount}`, `Aided ${data.amCount + data.ramCount}`],
+        labels: [ `Aided ${data.amCount + data.ramCount}`, `SF Men ${data.sfmCount + data.rsfmCount}`, `SF Women ${data.sfwCount + data.rsfwCount}`],
         datasets: [
             {
 
-                data: [data.sfwCount + data.rsfwCount / data.totalApplication *100, data.sfmCount + data.rsfmCount / data.totalApplication *100, data.amCount + data.ramCount / data.totalApplication *100],
+                data: [ data.amCount + data.ramCount / data.totalApplication *100, data.sfmCount + data.rsfmCount / data.totalApplication *100, data.sfwCount + data.rsfwCount / data.totalApplication *100],
                 backgroundColor: [
                     'rgb(6,95,70)',
                     'rgb(99,102,241)',
@@ -160,13 +174,13 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 ">
         <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
           <span></span>
-          <Pie data={pieData} />
+          <Pie options={pieOptions} data={pieData}  />
         </div>
         <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
-          <Pie data={pieData1} />
+          <Pie options={pieOptions} data={pieData1} />
         </div>
         <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
-          <Pie data={pieData2} />
+          <Pie options={pieOptions} data={pieData2} />
         </div>
       </div>
 

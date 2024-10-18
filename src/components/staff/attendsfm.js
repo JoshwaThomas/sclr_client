@@ -15,16 +15,19 @@ function AttendSfm() {
         const fetchUsers = async () => {
             try {
                 const [freshResponse, renewalResponse] = await Promise.all([
-                    axios.get(`${apiUrl}fresh`),
+                    axios.get(`${apiUrl}/fresh`),
                     axios.get(`${apiUrl}/renewal`)
                 ]);
-                const SFM1 = freshResponse.data.filter(user => user.procategory === 'SFM');
-                const SFM2 = renewalResponse.data.filter(user => user.procategory === 'SFM');
+                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
+                const curacyear = acyear.data.acyear;
+
+                const SFM1 = freshResponse.data.filter(user => user.procategory === 'SFM' && user.action === 0 && user.acyear === curacyear.acyear);
+                const SFM2 = renewalResponse.data.filter(user => user.procategory === 'SFM' && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalsfm = SFM1.length + SFM2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.procategory === 'SFM' && user.classAttendancePer === 0);
-                const renewalAided = renewalResponse.data.filter(user => user.procategory === 'SFM' && user.classAttendancePer === 0);
+                const freshAided = freshResponse.data.filter(user => user.procategory === 'SFM' && user.classAttendancePer === 0 && user.action === 0 && user.acyear === curacyear.acyear);
+                const renewalAided = renewalResponse.data.filter(user => user.procategory === 'SFM' && user.classAttendancePer === 0 && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalfilter = freshAided.length + renewalAided;
                 const work = totalsfm - totalfilter;

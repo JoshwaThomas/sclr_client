@@ -24,9 +24,11 @@ function Coe() {
                     axios.get(`${apiUrl}/fresh`),
                     axios.get(`${apiUrl}/renewal`)
                 ]);
+                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
+                const curacyear = acyear.data.acyear;
 
-                const freshAided = freshResponse.data.filter(user => user.semPercentage === 0);
-                const renewalAided = renewalResponse.data.filter(user => user.semPercentage === 0);
+                const freshAided = freshResponse.data.filter(user => user.semPercentage === 0 && user.action === 0 && user.semester !== 'I' && user.acyear === curacyear.acyear);
+                const renewalAided = renewalResponse.data.filter(user => user.semPercentage === 0 && user.action === 0 && user.semester !== 'I');
                 const totalfilter = freshAided.length + renewalAided.length;
                 const work = totaldata - totalfilter;
                 setTotalwork(work);
@@ -118,15 +120,7 @@ function Coe() {
                     <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3">
-                        <input
-                            type='text'
-                            name='semarrear'
-                            className="w-14 border rounded-md"
-                            value={user.semarrear || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
-                        />
-                    </div>
+                   
                     <div className="font-bold border border-white text-center uppercase w-28  py-3">
                         <input
                             type='text'
@@ -148,7 +142,15 @@ function Coe() {
                     <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
                         {semPercentage[user.registerNo] || ''}
                     </div>
-                    
+                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3">
+                        <input
+                            type='text'
+                            name='semarrear'
+                            className="w-14 border rounded-md"
+                            value={user.semarrear || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
+                        />
+                    </div>
                     <div className="font-bold border border-white text-center w-53 -ml-20">
                         <input
                             type='textarea'

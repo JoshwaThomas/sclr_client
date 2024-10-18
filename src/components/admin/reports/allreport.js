@@ -100,18 +100,18 @@ function Allreport() {
                 <button
                     type="button"
                     className="bg-green-500 text-white py-6 px-6 mt-10 hover:bg-black rounded-lg "
-                    onClick={handleDownload} 
+                    onClick={handleDownload}
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200 '>
+                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
                     <div className="font-bold border border-white text-center py-3">DATE</div>
                     <div className="font-bold border border-white text-center py-3">Reg. No</div>
                     <div className="font-bold border border-white text-center py-3">Name</div>
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
                     <div className='font-bold border border-white text-center py-3'>APPLICATION TYPE</div>
-                  </div>
+                </div>
                 {users.map((user, index) => (
                     <div key={index} className="grid grid-cols-6 bg-amber-100">
                         <div className="font-bold border border-white text-center uppercase py-3">{new Date(user.amtdate).toLocaleDateString()}</div>

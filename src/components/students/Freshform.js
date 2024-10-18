@@ -6,9 +6,8 @@ const Notification = ({ message, type, onClose }) => {
   if (!message) return null;
 
   return (
-    <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
-      type === 'success' ? ' text-green-700' : 'text-red-500'
-    }`}>
+    <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'
+      }`}>
       {message}
       <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
     </div>
@@ -67,10 +66,11 @@ const ScholarshipForm = () => {
   const [error, setError] = useState("");
   const [jamath, setJamath] = useState("");
   const [showPopup, setShowPopup] = useState(true);
+  const [fileName, setFileName] = useState("");
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const [notification, setNotification] = useState({ message: '', type: '' });
-  
+
   const showNotification = (message, type) => {
     setNotification({ message, type });
     setTimeout(() => {
@@ -250,6 +250,25 @@ const ScholarshipForm = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Check if the file is a JPEG
+      if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
+        // Check if the file size is between 30 KB and 50 KB
+        const fileSizeInKB = file.size / 1024;
+        if (fileSizeInKB >= 30 && fileSizeInKB <= 100) {
+          setJamath(file);
+          setFileName(file.name);
+        } else {
+          showNotification("File size must be between 30KB and 100KB.", "error");
+        }
+      } else {
+        showNotification("Please upload a JPEG/JPG/PNG file.", "error");
+      }
+    }
+  };
+
   const Submit = (e) => {
     e.preventDefault();
 
@@ -305,7 +324,7 @@ const ScholarshipForm = () => {
             })
             .then((result) => {
               if (result.data.success) {
-               showNotification("Your Application Submitted Successfully", "success");
+                showNotification("Your Application Submitted Successfully", "success");
                 // window.alert("Your Application Submitted Successfully");
                 console.log(result)
                 setTimeout(() => {
@@ -339,7 +358,7 @@ const ScholarshipForm = () => {
   return (
     <div>
       <div className="container mx-auto p-8">
-       <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
+        <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
         <form onSubmit={Submit} className="space-y-4" id="">
           <div className=" ">
             <div>
@@ -449,45 +468,45 @@ const ScholarshipForm = () => {
                   </div>
                 </div> */}
                 <div>
-              <label className="block mb-1">
-              If you have applied for any other scholarships:
-                <span className=" text-red-500 text-lg">
-                  <sup>*</sup>
-                </span>
-              </label>
-              <div className=" space-x-7 inline-flex">
-                <div>
-                  <input
-                    type="radio"
-                    id="scholarship"
-                    name="scholarship"
-                    value="Yes"
-                    className=" scale-200"
-                    checked={scholarship === "Yes"}
-                    onChange={(e) => setScholarship(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
-                    Yes
+                  <label className="block mb-1">
+                    If you have applied for any other scholarships:
+                    <span className=" text-red-500 text-lg">
+                      <sup>*</sup>
+                    </span>
                   </label>
+                  <div className=" space-x-7 inline-flex">
+                    <div>
+                      <input
+                        type="radio"
+                        id="scholarship"
+                        name="scholarship"
+                        value="Yes"
+                        className=" scale-200"
+                        checked={scholarship === "Yes"}
+                        onChange={(e) => setScholarship(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
+                        Yes
+                      </label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="scholarship"
+                        name="scholarship"
+                        value="No"
+                        className=" scale-200"
+                        checked={scholarship === "No"}
+                        onChange={(e) => setScholarship(e.target.value)}
+                        required
+                      />
+                      <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
+                        No
+                      </label>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="scholarship"
-                    name="scholarship"
-                    value="No"
-                    className=" scale-200"
-                    checked={scholarship === "No"}
-                    onChange={(e) => setScholarship(e.target.value)}
-                    required
-                  />
-                  <label htmlFor="scholarship" className=" form-radio ml-2 text-lg">
-                    No
-                  </label>
-                </div>
-              </div>
-            </div>
               </div>
             </div>
           </div>
@@ -540,7 +559,7 @@ const ScholarshipForm = () => {
             </div>
             <div>
               <label className="block mb-1">
-              Programme  Stream
+                Programme  Stream
                 <span className=" text-red-500 text-lg">
                   <sup>*</sup>
                 </span>
@@ -685,7 +704,7 @@ const ScholarshipForm = () => {
 
                         V
                       </label>
-                  
+
                       <input
                         type="radio"
                         id="VI"
@@ -814,7 +833,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="name"
-                 placeholder="Name as per Id-Card"
+                placeholder="Name as per Id-Card"
                 value={name}
                 onChange={(e) => setName(e.target.value.toUpperCase())}
                 className="w-48 md:w-72 p-2 border rounded-md text-slate-950"
@@ -1034,7 +1053,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="fatherOccupation"
-                 placeholder="eg. Daily Wages"
+                placeholder="eg. Daily Wages"
                 value={fatherOccupation}
                 onChange={(e) =>
                   setFatherOccupation(e.target.value.toUpperCase())
@@ -1053,7 +1072,7 @@ const ScholarshipForm = () => {
               <input
                 type="text"
                 name="annualIncome"
-                 placeholder="eg. 100000"
+                placeholder="eg. 100000"
                 value={annualIncome}
                 onChange={(e) => setAnnualIncome(e.target.value)}
                 className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
@@ -1106,7 +1125,7 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="siblingsNo"
-                     placeholder="eg.2"
+                    placeholder="eg.2"
                     value={siblingsNo}
                     onChange={(e) => setSiblingsNo(e.target.value)}
                     className="w-48 md:w-44 p-2 border rounded-md text-slate-950"
@@ -1118,7 +1137,7 @@ const ScholarshipForm = () => {
                   <input
                     type="text"
                     name="siblingsNo"
-                     placeholder="eg. Student,Employee"
+                    placeholder="eg. Student,Employee"
                     value={siblingsOccupation}
                     onChange={(e) => setSiblingsOccupation(e.target.value)}
                     className="w-48 md:w-44 p-2 border rounded-md text-slate-950"
@@ -1291,13 +1310,17 @@ const ScholarshipForm = () => {
             </div>
 
             <div>
-              <label className="block mb-1 mt-2 w-auto">Jamath / Self Declaration Letter:</label>
+              <label className="block mb-1 mt-2 w-48 md:w-96">Jamath / Self Declaration Letter:</label>
               <input
                 type="file"
                 name="jamath"
-                onChange={(e) => setJamath(e.target.files[0])}
+                // onChange={(e) => setJamath(e.target.files[0])}
+                onChange={handleFileChange}
                 className=" w-48 mt-1 border rounded-md p-2 text-slate-950 md:w-96"
               />
+              {fileName && (
+                <p className="mt-2 text-sm w-48 md:w-96">Selected file: {fileName}</p>
+              )}
             </div>
             <div></div>
 
@@ -1374,7 +1397,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="yearOfPassing"
-                         placeholder="2023"
+                        placeholder="2023"
                         value={yearOfPassing}
                         onChange={(e) => setYearOfPassing(e.target.value)}
                         className="w-48  md:w-96 ml-40 p-2 border rounded-md text-slate-950"
@@ -1391,7 +1414,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="maximumMarkSchool"
-                         placeholder="eg. 600"
+                        placeholder="eg. 600"
                         value={maximumMarkSchool}
                         onChange={(e) => setMaximumMarkSchool(e.target.value)}
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"
@@ -1467,7 +1490,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="yearOfPassing"
-                         placeholder="2023"
+                        placeholder="2023"
                         value={yearOfPassing}
                         onChange={(e) => setYearOfPassing(e.target.value)}
                         className="w-48  md:w-96 p-2 ml-40 border rounded-md text-slate-950"
@@ -1484,7 +1507,7 @@ const ScholarshipForm = () => {
                       <input
                         type="text"
                         name="maximumMarkSchool"
-                         placeholder="eg. 2400"
+                        placeholder="eg. 2400"
                         value={maximumMarkSchool}
                         onChange={(e) => setMaximumMarkSchool(e.target.value)}
                         className="w-48  md:w-56 p-2 border rounded-md text-slate-950"

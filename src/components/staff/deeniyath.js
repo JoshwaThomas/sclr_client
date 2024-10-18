@@ -18,14 +18,16 @@ function AttendDeeniyath() {
                     axios.get(`${apiUrl}/fresh`),
                     axios.get(`${apiUrl}/renewal`)
                 ]);
+                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
+                const curacyear = acyear.data.acyear;
 
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' );
-                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW');
+                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear );
+                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalsfm = SFM1.length + SFM2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' );
-                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW');
+                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
+                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
  
                 const totalfilter = freshAided.length + renewalAided;
                 const work = totalsfm - totalfilter;
