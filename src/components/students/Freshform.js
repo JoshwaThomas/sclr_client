@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const Notification = ({ message, type, onClose }) => {
@@ -15,7 +15,7 @@ const Notification = ({ message, type, onClose }) => {
 };
 
 const ScholarshipForm = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [fresherOrRenewal, setFresherOrRenewal] = useState()
   const [deeniyath, setDeeniyath] = useState();
   const [scholarship, setScholarship] = useState();
@@ -261,7 +261,7 @@ const ScholarshipForm = () => {
           setJamath(file);
           setFileName(file.name);
         } else {
-          showNotification("File size must be between 30KB and 100KB.", "error");
+          showNotification("File size must be between 30KB and 200KB.", "error");
         }
       } else {
         showNotification("Please upload a JPEG/JPG/PNG file.", "error");
@@ -328,8 +328,8 @@ const ScholarshipForm = () => {
                 // window.alert("Your Application Submitted Successfully");
                 console.log(result)
                 setTimeout(() => {
-                  window.location.reload();
-                }, 6000);
+                  navigate('/reglog')
+                }, 4000);
               } else if (result.data.message === "Register No. Already Existing") {
                 // alert("Register No. Already Existing");
                 showNotification("Register No. Already Existing", "error");
@@ -359,7 +359,7 @@ const ScholarshipForm = () => {
     <div>
       <div className="container mx-auto p-8">
         <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-        <form onSubmit={Submit} className="space-y-4" id="">
+        <form className="space-y-4" id="">
           <div className=" ">
             <div>
               <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">
@@ -660,9 +660,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="III"
                     name="semester"
-                    value="III "
+                    value="III"
                     className=" scale-200"
-                    checked={semester === "III "}
+                    checked={semester === "III"}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -676,9 +676,9 @@ const ScholarshipForm = () => {
                     type="radio"
                     id="IV"
                     name="semester"
-                    value="IV "
+                    value="IV"
                     className=" scale-200"
-                    checked={semester === "IV "}
+                    checked={semester === "IV"}
                     onChange={(e) => setSemester(e.target.value)}
                     required
                   />
@@ -694,9 +694,9 @@ const ScholarshipForm = () => {
                         type="radio"
                         id="V"
                         name="semester"
-                        value="V "
+                        value="V"
                         className=" scale-200"
-                        checked={semester === "V "}
+                        checked={semester === "V"}
                         onChange={(e) => setSemester(e.target.value)}
                         required
                       />
@@ -709,9 +709,9 @@ const ScholarshipForm = () => {
                         type="radio"
                         id="VI"
                         name="semester"
-                        value="VI "
+                        value="VI"
                         className=" ml-4 scale-200"
-                        checked={semester === "VI "}
+                        checked={semester === "VI"}
                         onChange={(e) => setSemester(e.target.value)}
                         required
                       />
@@ -1316,7 +1316,8 @@ const ScholarshipForm = () => {
                 name="jamath"
                 // onChange={(e) => setJamath(e.target.files[0])}
                 onChange={handleFileChange}
-                className=" w-48 mt-1 border rounded-md p-2 text-slate-950 md:w-96"
+                className="mt-1 border rounded-md p-2 text-slate-950 w-48 md:w-96"
+                required
               />
               {fileName && (
                 <p className="mt-2 text-sm w-48 md:w-96">Selected file: {fileName}</p>
@@ -1681,6 +1682,11 @@ const ScholarshipForm = () => {
             <button
               type="submit"
               className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
+              onClick={(e) => {
+                if (window.confirm("Are you sure you want to submit the application?")) {
+                  Submit(e);
+                }
+              }}
             >
               Submit
             </button>

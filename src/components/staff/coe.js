@@ -109,11 +109,11 @@ function Coe() {
                 <div className="font-bold border border-white text-center py-3">Register No.</div>
                 <div className="font-bold border border-white text-center py-3">Name</div>
                 <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center w-28  py-3">Mark Secured</div>
-                <div className="font-bold border border-white text-center w-28 -ml-5 py-3">Maximum Mark</div>
-                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Percentage</div>
-                <div className="font-bold border border-white text-center w-28 -ml-15 py-3">No of Arrear</div>
-                <div className="font-bold border border-white text-center w-53 -ml-20 py-3">Remark</div>
+                <div className="font-bold border border-white text-center w-28  py-3 2xl:w-auto">Mark Secured</div>
+                <div className="font-bold border border-white text-center w-28 -ml-5 py-3 2xl:-ml-0 2xl:w-auto">Maximum Mark</div>
+                <div className="font-bold border border-white text-center w-28 -ml-10 py-3 2xl:-ml-0 2xl:w-auto">Percentage</div>
+                <div className="font-bold border border-white text-center w-28 -ml-15 py-3 2xl:-ml-0 2xl:w-auto">No of Arrear</div>
+                <div className="font-bold border border-white text-center w-53 -ml-20 py-3 2xl:-ml-0 2xl:w-auto">Remark</div>
             </div>
             {users.map((user, index) => (
                 <div key={`${user._id}-${index}`} className="grid grid-cols-8 w-auto bg-amber-100">
@@ -121,7 +121,7 @@ function Coe() {
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
                    
-                    <div className="font-bold border border-white text-center uppercase w-28  py-3">
+                    <div className="font-bold border border-white text-center uppercase w-28  py-3 2xl:w-auto">
                         <input
                             type='text'
                             name='markSecure'
@@ -130,7 +130,7 @@ function Coe() {
                             onChange={(e) => handleInputChange(user.registerNo, 'markSecure', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-5  py-3">
+                    <div className="font-bold border border-white text-center w-28 -ml-5 py-3 2xl:-ml-0 2xl:w-auto">
                         <input
                             type='text'
                             name='maxMark'
@@ -139,10 +139,10 @@ function Coe() {
                             onChange={(e) => handleInputChange(user.registerNo, 'maxMark', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
+                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3 2xl:-ml-0 2xl:w-auto">
                         {semPercentage[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3">
+                    <div className="font-bold border border-white text-center w-28 -ml-15  py-3 2xl:-ml-0 2xl:w-auto">
                         <input
                             type='text'
                             name='semarrear'
@@ -151,7 +151,7 @@ function Coe() {
                             onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-53 -ml-20">
+                    <div className="font-bold border border-white text-center w-53 -ml-20 2xl:-ml-0 2xl:w-auto">
                         <input
                             type='textarea'
                             name='semRem'

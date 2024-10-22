@@ -23,17 +23,17 @@ function StudentLayout() {
 
   let menus = [
     {
-      icon: < LuLayoutDashboard className="text-white text-2xl 2xl:text-5xl" />,
+      icon: < LuLayoutDashboard className="text-white text-2xl" />,
       name: 'Dashboard',
       path: `/student/${staffId}/status`
     },
     {
-      icon: <TiClipboard className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <TiClipboard className="text-white text-2xl" />,
       name: 'Application',
       path: `/student/${staffId}/application/renewal`
     },
     {
-      icon: <TiCogOutline className="text-white text-2xl 2xl:text-5xl " />,
+      icon: <TiCogOutline className="text-white text-2xl" />,
       name: 'GuideLines',
       path: `/student/${staffId}/guidelines`
     },
@@ -96,7 +96,7 @@ function StudentLayout() {
           <TiThMenuOutline />
         </button>
       </div>
-      <div className="p-4 flex-1 overflow-auto overflow-scroll">
+      <div className="p-4 flex-1 overflow-auto overflow-scroll scrollbar-hide">
         <div className="mt-4">
           <Outlet />
         </div>

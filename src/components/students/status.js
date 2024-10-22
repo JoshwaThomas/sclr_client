@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import Loading from '../../assets/24.gif'
+import Loading from '../../assets/Pulse.svg'
 import PrintHeader from '../../assets/printHeader.jpg';
 
 function Status() {
@@ -51,12 +51,25 @@ function Status() {
         document.body.innerHTML = originalContent;
     };
 
-    if (!student) return <div className=''><center><img src={Loading} alt="" className="" /></center></div>;
+    useEffect(() => {
+        const handleKeydown = (event) => {
+          if (event.ctrlKey && event.key === 'p') {
+            event.preventDefault(); 
+            handlePrint(event);
+          }
+        };
+        window.addEventListener('keydown', handleKeydown);
+          return () => {
+          window.removeEventListener('keydown', handleKeydown);
+        };
+      }, []);
+
+    if (!student) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
     return (
         <div>
             <div className="container mx-auto p-8">
-                <form className="space-y-4">
+                <form className="space-y-4 scrollbar-hide">
                     <div className="text-white">
                         {showModal && student && (
                             <div className="fixed inset-0  flex items-center justify-center  ">
@@ -265,7 +278,11 @@ function Status() {
                                                     <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" />
                                                     {/* <img src={student.jamath} alt="Jamath" /> */}
                                                 </div>
-                                                <div className="text-right mb-4">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div className="text-right">
                                                     <button
                                                         onClick={handlePrint}
                                                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
@@ -291,6 +308,7 @@ function Status() {
                 <div>
                     {showModal && student && (
                         <div className="border border-black mt-10">
+                            <div className=' text-center text-2xl font-bold'>Scholarship Application({student.fresherOrRenewal})</div>
                             <div className="flex items-center justify-center flex-col p-3">
                             <h3 className="text-xl font-bold text-black">Student Details</h3>
                             <div className="grid grid-cols-3 gap-10 border w-full border-black p-10 rounded-xl">

@@ -138,26 +138,26 @@ function Attendaided() {
                 <div className="font-bold border border-white text-center py-3">Register No.</div>
                 <div className="font-bold border border-white text-center py-3">Name</div>
                 <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center w-28 py-3">Previous Semester</div>
-                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Current Semester</div>
-                <div className="font-bold border border-white text-center w-30 -ml-20 py-3">Percentage</div>
-                <div className="font-bold border border-white text-center w-66 -ml-28 py-3">Remark</div>
+                <div className="font-bold border border-white text-center w-28 py-3 md:w-auto">Previous Semester</div>
+                <div className="font-bold border border-white text-center w-28 -ml-10 py-3 2xl:-ml-0 2xl:w-auto">Current Semester</div>
+                <div className="font-bold border border-white text-center w-30 -ml-20 py-3 2xl:-ml-0 2xl:w-auto">Percentage</div>
+                <div className="font-bold border border-white text-center w-66 -ml-28 py-3 2xl:-ml-0 2xl:w-auto">Remark</div>
             </div>
             {users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
                 <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
                     <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                    <div className="font-bold border border-white text-center w-28 uppercase py-3">
+                    <div className="font-bold border border-white text-center w-28 uppercase py-3 2xl:w-auto">
                         <input
                             type='text'
                             name='prevAttendance'
-                            className="w-14 border rounded-md text-right"
+                            className="w-14 border rounded-md text-right "
                             value={user.prevAttendance || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
+                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3 2xl:-ml-0 2xl:w-auto">
                         <input
                             type='text'
                             name='currAttendance'
@@ -166,10 +166,10 @@ function Attendaided() {
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-30 -ml-20 py-3">
+                    <div className="font-bold border border-white text-center w-30 -ml-20 py-3 2xl:-ml-0 2xl:w-auto">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center w-66 -ml-28 ">
+                    <div className="font-bold border border-white text-center w-66 -ml-28 2xl:-ml-0 2xl:w-auto">
                         <input
                             type='textarea'
                             name='classAttendanceRem'

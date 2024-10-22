@@ -27,67 +27,67 @@ function StaffLayout() {
 
   const menus = [
     {
-      icon: < LuLayoutDashboard className="text-white text-2xl 2xl:text-5xl" />,
+      icon: < LuLayoutDashboard className="text-white text-2xl" />,
       name: 'Dashboard',
       path: `/staff/${staffId}/dashboard`,
       show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Attendance',
       path: `/staff/${staffId}/attendance`,
       show: staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Attendance SFM',
       path: `/staff/${staffId}/attendance/sfm`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Attendance SFW',
       path: `/staff/${staffId}/attendance/sfw`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Deeniyath',
       path: `/staff/${staffId}/deeniyath`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Deeniyath SFW',
       path: `/staff/${staffId}/deeniyathsfw`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Moral',
       path: `/staff/${staffId}/moral`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <SlNotebook className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <SlNotebook className="text-white text-2xl" />,
       name: 'Moral SFW',
       path: `/staff/${staffId}/moralsfw`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMM'
     },
     {
-      icon: <TiClipboard className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <TiClipboard className="text-white text-2xl" />,
       name: 'COE',
       path: `/staff/${staffId}/coe`,
       show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
     },
     {
-      icon: <TiCogOutline className="text-white text-2xl 2xl:text-5xl" />,
+      icon: <TiCogOutline className="text-white text-2xl" />,
       name: 'Setting',
       path: `/staff/${staffId}/settingstaff`,
       show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
     },
     {
-      icon: <TiCogOutline className="text-white text-2xl 2xl:text-5xl " />,
+      icon: <TiCogOutline className="text-white text-2xl" />,
       name: 'GuideLines',
       path: `/staff/${staffId}/guidelines`
     }

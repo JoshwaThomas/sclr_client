@@ -160,7 +160,7 @@ function Action() {
                         (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
                         (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
                         (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
-                        (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                        (specialCategories.fatherexpired && specialCategory.includes('fatherexpired')) ||
                         (specialCategories.singleparent && specialCategory.includes('singleparent'))
                     );
                 });
@@ -1592,7 +1592,7 @@ function Action() {
                                     <div>
                                         <label className=""></label>
                                         {/* {selectedUser.jamath} */}
-                                        <img src={selectedUser.jamath} alt="Jamath" />
+                                        <img src={selectedUser.jamath} alt="Jamath" /> 
                                         {/* <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" /> */}
                                     </div>
                                 </div>
