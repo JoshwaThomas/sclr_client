@@ -2,7 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
-// const apiUrl = process.env.REACT_APP_API_URL;
+const Notification = ({ message, type, onClose }) => {
+  if (!message) return null;
+
+  return (
+    <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'
+      }`}>
+      {message}
+      <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
+    </div>
+  );
+};
 
 const ScholarshipForm = () => {
 
@@ -50,7 +60,15 @@ const ScholarshipForm = () => {
   const [showPopup, setShowPopup] = useState(true);
   const [jamath, setJamath] = useState("");
   const apiUrl = process.env.REACT_APP_API_URL;
-  
+
+  const [notification, setNotification] = useState({ message: '', type: '' });
+  const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 6000); // Automatically hide after 3 seconds
+  };
+
   // useEffect(() => {
   //   const calculateSemPercentage = () => {
   //     if (mark && maxMark) {
@@ -97,50 +115,51 @@ const ScholarshipForm = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-        if (!staffId) return; // Ensure staffId (registerNo) is provided
+      if (!staffId) return; // Ensure staffId (registerNo) is provided
 
-        try {
-            console.log('API URL:', apiUrl); // Log base URL
+      try {
+        console.log('API URL:', apiUrl); // Log base URL
 
-            const result = await axios.get(`${apiUrl}/api/admin/students`, {
-                params: {
-                    registerNo: staffId.toUpperCase() // Use staffId as registerNo
-                }
-            });
+        const result = await axios.get(`${apiUrl}/api/admin/students`, {
+          params: {
+            registerNo: staffId.toUpperCase() // Use staffId as registerNo
+          }
+        });
 
-            console.log('API response:', result.data);
+        console.log('API response:', result.data);
 
-            setStudent(result.data);
-            setRegisterNo(result.data.registerNo);
-            setMobileNo(result.data.mobileNo);
-            setName(result.data.name);
-            setDept(result.data.dept);
-            setSection(result.data.section);
-            setReligion(result.data.religion);
-            setAadhar(result.data.aadhar);
-            setFatherName(result.data.fatherName);
-            setFatherNo(result.data.fatherNo);
-            setFatherOccupation(result.data.fatherOccupation);
-            setAnnualIncome(result.data.annualIncome);
-            setAddress(result.data.address);
-            setState(result.data.state);
-            setDistrict(result.data.district);
-            setPin(result.data.pin);
-            setSiblings(result.data.siblings);
-            setSiblingsNo(result.data.siblingsNo);
-            setSiblingsOccupation(result.data.siblingsOccupation);
-            setSiblingsIncome(result.data.siblingsIncome);
-            setDeeniyath(result.data.deeniyath);
-            setLastCreditedAmt(result.data.scholamt);
-        } catch (err) {
-            console.error('Error fetching student data:', err.response ? err.response.data : err);
-            setStudent(null);
-            alert('Student not found');
-        }
+        setStudent(result.data);
+        setRegisterNo(result.data.registerNo);
+        setMobileNo(result.data.mobileNo);
+        setName(result.data.name);
+        setDept(result.data.dept);
+        setSection(result.data.section);
+        setReligion(result.data.religion);
+        setAadhar(result.data.aadhar);
+        setFatherName(result.data.fatherName);
+        setFatherNo(result.data.fatherNo);
+        setFatherOccupation(result.data.fatherOccupation);
+        setAnnualIncome(result.data.annualIncome);
+        setAddress(result.data.address);
+        setState(result.data.state);
+        setDistrict(result.data.district);
+        setPin(result.data.pin);
+        setSiblings(result.data.siblings);
+        setSiblingsNo(result.data.siblingsNo);
+        setSiblingsOccupation(result.data.siblingsOccupation);
+        setSiblingsIncome(result.data.siblingsIncome);
+        setDeeniyath(result.data.deeniyath);
+        setLastCreditedAmt(result.data.scholamt);
+      } catch (err) {
+        console.error('Error fetching student data:', err.response ? err.response.data : err);
+        setStudent(null);
+        alert('Student not found');
+        showNotification("Student not found", "error");
+      }
     };
 
-    fetchData(); 
-}, [staffId, apiUrl]); 
+    fetchData();
+  }, [staffId, apiUrl]);
 
 
   // const handleData = async (e) => {
@@ -148,16 +167,16 @@ const ScholarshipForm = () => {
   //   try {
   //     const apiUrl = process.env.REACT_APP_API_URL;
   //     console.log('API URL:', apiUrl); // Check that this outputs the correct base URL
-  
+
   //     const result = await axios.get(`${apiUrl}/api/admin/students`, {
   //       params: {
   //         registerNo: registerNo.toUpperCase(),
   //         mobileNo: mobileNo
   //       }
   //     });
-  
+
   //     console.log('API response:', result.data);
-  
+
   //     setStudent(result.data);
   //     setName(result.data.name);
   //     setDept(result.data.dept);
@@ -178,7 +197,7 @@ const ScholarshipForm = () => {
   //     setSiblingsIncome(result.data.siblingsIncome);
   //     setDeeniyath(result.data.deeniyath);
   //     setLastCreditedAmt(result.data.scholamt);
-  
+
   //   } catch (err) {
   //     console.error('Error fetching student data:', err.response ? err.response.data : err); // Log the error
   //     setStudent(null);
@@ -228,41 +247,41 @@ const ScholarshipForm = () => {
           formData.append("jamath", jamath);
 
           axios
-          .post(`${apiUrl}/renewal`, formData, {
-            headers: { "Content-Type": "multipart/form-data" },
-          })
-          .then(result => {
-            if (result.data.success) {
-              window.alert("Your Application Submitted Successfully");
-              console.log(result);
-              setTimeout(() => {
-                window.location.reload();
-              }, 6000);
-            } else if (result.data.message === 'Register No. Already Existing') {
-              alert("Register No. Already Existing");
-            } else if (result.data.message === 'Already You Applied Fresher Application') {
-              alert("Already You Applied");
-            }  
-            else if (result.data.message === 'Already You Applied Renewal Application') {
-              alert("Already You Applied");
-            }  
-            else {
-              console.error('Backend error:', result.data.error);
-              alert('Something went wrong: ' + result.data.error.message || 'Unknown error');
-            }
-          })
-          .catch(err => {
-            console.error('Error posting data:', err);
-            window.alert("Something Went Wrong");
-          });
-          } else {
+            .post(`${apiUrl}/renewal`, formData, {
+              headers: { "Content-Type": "multipart/form-data" },
+            })
+            .then(result => {
+              if (result.data.success) {
+                // window.alert("Your Application Submitted Successfully");
+                showNotification("Your Application Submitted Successfully", "success");
+                console.log(result);
+                setTimeout(() => {
+                  window.location.reload();
+                }, 6000);
+              } else if (result.data.message === 'Register No. Already Existing') {
+                // alert("Register No. Already Existing");
+                showNotification("Register No. Already Existing", "error");
+              } else if (result.data.message === 'Already You Applied Fresher Application') {
+                alert("Already You Applied");
+                showNotification("Already You Applied Fresher Application in this year", "error");
+              }
+              else if (result.data.message === 'Already You Applied Renewal Application') {
+                alert("Already You Applied");
+                showNotification("Already You Applied Renewal Application", "error");
+              }
+              else {
+                console.error('Backend error:', result.data.error);
+              }
+            })
+            .catch(err => {
+              console.error('Error posting data:', err);
+            });
+        } else {
           console.error('Failed to fetch current academic year');
-          window.alert('Failed to fetch current academic year');
         }
       })
       .catch(error => {
         console.error('Error fetching current academic year:', error);
-        window.alert('Error fetching current academic year');
       });
 
     // const formData = {
@@ -278,7 +297,7 @@ const ScholarshipForm = () => {
   return (
     <div>
       <div className="container mx-auto p-8">
-        {/* Regno put and get the data */}
+        <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className='  '>
             <div>
@@ -456,7 +475,7 @@ const ScholarshipForm = () => {
 
                         V
                       </label>
-                  
+
                       <input
                         type="radio"
                         id="VI"

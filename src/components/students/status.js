@@ -53,16 +53,16 @@ function Status() {
 
     useEffect(() => {
         const handleKeydown = (event) => {
-          if (event.ctrlKey && event.key === 'p') {
-            event.preventDefault(); 
-            handlePrint(event);
-          }
+            if (event.ctrlKey && event.key === 'p') {
+                event.preventDefault();
+                handlePrint(event);
+            }
         };
         window.addEventListener('keydown', handleKeydown);
-          return () => {
-          window.removeEventListener('keydown', handleKeydown);
+        return () => {
+            window.removeEventListener('keydown', handleKeydown);
         };
-      }, []);
+    }, []);
 
     if (!student) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
@@ -310,163 +310,160 @@ function Status() {
                         <div className="border border-black mt-10">
                             <div className=' text-center text-2xl font-bold'>Scholarship Application({student.fresherOrRenewal})</div>
                             <div className="flex items-center justify-center flex-col p-3">
-                            <h3 className="text-xl font-bold text-black">Student Details</h3>
-                            <div className="grid grid-cols-3 gap-10 border w-full border-black p-10 rounded-xl">
-                                <div className="space-y-4">
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Register No.:</label>
-                                        <label className="text-lg font-bold uppercase">{student.registerNo}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Name:</label>
-                                        <label className="text-lg font-bold uppercase">{student.name}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Department:</label>
-                                        <label className="text-lg font-bold uppercase">{student.dept}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Section:</label>
-                                        <label className="text-lg font-bold uppercase">{student.section}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">UG or PG:</label>
-                                        <label className="text-lg font-bold uppercase">{student.ugOrPg}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Programme Category:</label>
-                                        <label className="text-lg font-bold uppercase">{student.procategory}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Semester:</label>
-                                        <label className="text-lg font-bold uppercase">{student.semester}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Mobile No.:</label>
-                                        <label className="text-lg font-bold uppercase">{student.mobileNo}</label>
-                                    </div>
-                                </div>
-                                <div className="space-y-4">
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">S/O, D/O:</label>
-                                        <label className="text-lg font-bold uppercase">{student.fatherName}</label>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Father's Contact No.:</label>
-                                        <label className="text-lg font-bold uppercase">{student.fatherNo}</label>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Father's Occupation:</label>
-                                        <label className="text-lg font-bold uppercase">{student.fatherOccupation}</label>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Annual Income:</label>
-                                        <label className="text-lg font-bold uppercase">{student.annualIncome}</label>
-                                    </div>
-
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Siblings:</label>
-                                        <label className="text-lg font-bold uppercase">{student.siblings}</label>
-                                    </div>
-
-                                    {student.siblings === 'Yes' && (
-                                        <div className="space-y-2">
-                                            <div className="flex justify-between">
-                                                <label className="font-semibold">No. of Siblings:</label>
-                                                <label className="text-lg font-bold uppercase">{student.siblingsNo}</label>
-                                            </div>
-
-                                            <div className="flex justify-between">
-                                                <label className="font-semibold">Siblings' Occupation:</label>
-                                                <label className="text-lg font-bold uppercase">{student.siblingsOccupation}</label>
-                                            </div>
-
-                                            <div className="flex justify-between">
-                                                <label className="font-semibold">Family Annual Income:</label>
-                                                <label className="text-lg font-bold uppercase">{student.siblingsIncome}</label>
-                                            </div>
+                                <h3 className="text-xl font-bold text-black">Student Details</h3>
+                                <div className="grid grid-cols-3 gap-10 border w-full border-black p-10 rounded-xl">
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Register No.:</label>
+                                            <label className="text-lg font-bold uppercase">{student.registerNo}</label>
                                         </div>
-                                    )}
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Name:</label>
+                                            <label className="text-lg font-bold uppercase">{student.name}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Department:</label>
+                                            <label className="text-lg font-bold uppercase">{student.dept}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Section:</label>
+                                            <label className="text-lg font-bold uppercase">{student.section}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">UG or PG:</label>
+                                            <label className="text-lg font-bold uppercase">{student.ugOrPg}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Programme Category:</label>
+                                            <label className="text-lg font-bold uppercase">{student.procategory}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Semester:</label>
+                                            <label className="text-lg font-bold uppercase">{student.semester}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Mobile No.:</label>
+                                            <label className="text-lg font-bold uppercase">{student.mobileNo}</label>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">S/O, D/O:</label>
+                                            <label className="text-lg font-bold uppercase">{student.fatherName}</label>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Father's Contact No.:</label>
+                                            <label className="text-lg font-bold uppercase">{student.fatherNo}</label>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Father's Occupation:</label>
+                                            <label className="text-lg font-bold uppercase">{student.fatherOccupation}</label>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Annual Income:</label>
+                                            <label className="text-lg font-bold uppercase">{student.annualIncome}</label>
+                                        </div>
+
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Siblings:</label>
+                                            <label className="text-lg font-bold uppercase">{student.siblings}</label>
+                                        </div>
+
+                                        {student.siblings === 'Yes' && (
+                                            <div className="space-y-2">
+                                                <div className="flex justify-between">
+                                                    <label className="font-semibold">No. of Siblings:</label>
+                                                    <label className="text-lg font-bold uppercase">{student.siblingsNo}</label>
+                                                </div>
+
+                                                <div className="flex justify-between">
+                                                    <label className="font-semibold">Siblings' Occupation:</label>
+                                                    <label className="text-lg font-bold uppercase">{student.siblingsOccupation}</label>
+                                                </div>
+
+                                                <div className="flex justify-between">
+                                                    <label className="font-semibold">Family Annual Income:</label>
+                                                    <label className="text-lg font-bold uppercase">{student.siblingsIncome}</label>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Hostel:</label>
+                                            <label className="text-lg font-bold uppercase">{student.hostel}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Special Category:</label>
+                                            <label className="text-lg font-bold uppercase">{student.specialCategory}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Religion:</label>
+                                            <label className="text-lg font-bold uppercase">{student.religion}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Permanent Address:</label>
+                                            <label className="text-lg font-bold uppercase">{student.address}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">State:</label>
+                                            <label className="text-lg font-bold uppercase">{student.state}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">District:</label>
+                                            <label className="text-lg font-bold uppercase">{student.district}</label>
+                                        </div>
+                                        <div className="flex justify-between">
+                                            <label className="font-semibold">Pincode:</label>
+                                            <label className="text-lg font-bold uppercase">{student.pin}</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Hostel:</label>
-                                        <label className="text-lg font-bold uppercase">{student.hostel}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Special Category:</label>
-                                        <label className="text-lg font-bold uppercase">{student.specialCategory}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Religion:</label>
-                                        <label className="text-lg font-bold uppercase">{student.religion}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Permanent Address:</label>
-                                        <label className="text-lg font-bold uppercase">{student.address}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">State:</label>
-                                        <label className="text-lg font-bold uppercase">{student.state}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">District:</label>
-                                        <label className="text-lg font-bold uppercase">{student.district}</label>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <label className="font-semibold">Pincode:</label>
-                                        <label className="text-lg font-bold uppercase">{student.pin}</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <h3 className="text-xl font-bold p-2 mt-5 text-black">Education Details</h3>
-                            <div className="border border-black p-10 w-full rounded-xl">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {student.semester === 'I' && (
+                                <h3 className="text-xl font-bold p-2 mt-5 text-black">Education Details</h3>
+                                <div className="border border-black p-10 w-full rounded-xl">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        {student.semester === 'I' && (
+                                            <div className="grid grid-cols-2">
+                                                <div className="font-semibold">Last School Name:</div>
+                                                <div className="text-lg font-bold uppercase">{student.schoolName}</div>
+                                                <div className="font-semibold">Percentage of Mark:</div>
+                                                <div className="text-lg font-bold uppercase">{student.percentageOfMarkSchool}</div>
+                                                <div className="font-semibold">Year of Passing:</div>
+                                                <div className="text-lg font-bold uppercase">{student.yearOfPassing}</div>
+                                            </div>
+                                        )}
                                         <div className="grid grid-cols-2">
-                                            <div className="font-semibold">Last School Name:</div>
-                                            <div className="text-lg font-bold uppercase">{student.schoolName}</div>
-                                            <div className="font-semibold">Percentage of Mark:</div>
-                                            <div className="text-lg font-bold uppercase">{student.percentageOfMarkSchool}</div>
-                                            <div className="font-semibold">Year of Passing:</div>
-                                            <div className="text-lg font-bold uppercase">{student.yearOfPassing}</div>
+                                            <div className="font-bold border border-black py-2 px-4">Percentage of Mark</div>
+                                            <div className="font-bold border border-black py-2 px-4">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
+                                            <div className="font-bold border border-black py-2 px-4">Class Attendance Percentage</div>
+                                            <div className="font-bold border border-black py-2 px-4">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
+                                            <div className="font-bold border border-black py-2 px-4">Deeniyath / Moral Percentage</div>
+                                            <div className="font-bold border border-black py-2 px-4">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
                                         </div>
-                                    )}
-                                    <div className="grid grid-cols-2">
-                                        <div className="font-bold border border-black py-2 px-4">Percentage of Mark</div>
-                                        <div className="font-bold border border-black py-2 px-4">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
-                                        <div className="font-bold border border-black py-2 px-4">Class Attendance Percentage</div>
-                                        <div className="font-bold border border-black py-2 px-4">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                        <div className="font-bold border border-black py-2 px-4">Deeniyath / Moral Percentage</div>
-                                        <div className="font-bold border border-black py-2 px-4">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
                                     </div>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-                                    {student.arrear !== 0 && (
-                                        <div className="flex justify-between">
-                                            <label className="font-semibold">No. Of Arrears:</label>
-                                            <label className="font-bold text-lg">{student.arrear}</label>
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+                                        {student.arrear !== 0 && (
+                                            <div className="flex justify-between">
+                                                <label className="font-semibold">No. Of Arrears:</label>
+                                                <label className="font-bold text-lg">{student.arrear}</label>
+                                            </div>
+                                        )}
+                                        {student.fresherOrRenewal === 'Renewal' && (
+                                            <div className="flex justify-between">
+                                                <label className="font-semibold">Last Time Credited Amount:</label>
+                                                <label className="font-bold text-lg">{student.lastCreditedAmt}</label>
+                                            </div>
+                                        )}
+                                        <div>
+                                            <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg border border-black" />
                                         </div>
-                                    )}
-                                    {student.fresherOrRenewal === 'Renewal' && (
-                                        <div className="flex justify-between">
-                                            <label className="font-semibold">Last Time Credited Amount:</label>
-                                            <label className="font-bold text-lg">{student.lastCreditedAmt}</label>
-                                        </div>
-                                    )}
-                                    <div>
-                                        <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg border border-black" />
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            <div className='w-full flex justify-between items-center mt-20'>
-                                <h1 className='text-xl font-bold p-5'>Parent or Guardian Signature</h1>
-                                <p className='text-xl font-bold p-5 text-right'>Student Signature</p>
-                            </div>
+
                         </div>
                     )}
                 </div>

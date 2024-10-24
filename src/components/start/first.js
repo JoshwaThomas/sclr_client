@@ -2,7 +2,6 @@ import React from 'react';
 import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
-// import Stud from '../../assets/stud.mp4';
 import Stud1 from '../../assets/stud1.gif'
 
 
@@ -45,7 +44,7 @@ function LandingPage() {
         </div>
 
         {/* Right Section with Buttons */}
-        <div className="  flex flex-col justify-items-center items-center border border-red-950  rounded-lg w-full lg:w-1/3 h-full  ">
+        <div className="  flex flex-col justify-items-center items-center rounded-lg w-full lg:w-1/3 h-full  ">
           <div>
             <div className="grid grid-cols-2 gap-6  lg:gap-6 w-full mt-36 lg:mb-20 mx-auto 2xl:grid-cols-3 2xl:mt-96">
               {/* Buttons */}

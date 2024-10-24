@@ -54,17 +54,17 @@ function TextBox() {
             <div className="flex flex-col lg:flex-row justify-center items-center py-8">
                 <img src={jmc} alt="LOGO" className="w-24 h-24 lg:w-36 lg:h-36" />
                 <div className="flex flex-col justify-center items-center lg:ml-8 text-center">
-                    <p className="text-2xl lg:text-5xl font-extrabold">JAMAL MOHAMED COLLEGE</p>
-                    <p className="text-xl font-bold">(Autonomous)</p>
-                    <p className="text-xl font-bold">TIRUCHIRAPPALLI - 620 020</p>
-                    <p className="text-lg lg:text-xl font-bold">College Sponsored Application Form for Poor and Meritorious Students</p>
+                    <p className="text-xl md:text-2xl lg:text-5xl font-extrabold"> JAMAL MOHAMED COLLEGE</p>
+                    <p className="text-lg md:text-xl font-bold">(Autonomous)</p>
+                    <p className="text-lg md:text-xl font-bold">TIRUCHIRAPPALLI - 620 020</p>
+                    <p className="text-lg md:text-lg lg:text-xl font-bold">College Sponsored Application Form for Poor and Meritorious Students</p>
                 </div>
             </div>
 
             <div className="flex justify-center items-center px-5">
                 <div className="bg-orange-500 flex flex-col lg:flex-row rounded-xl lg:w-5/6 p-3">
-                    <div className="lg:w-2/3 h-96 ">
-                        <img src={Map} alt="World Map" className="px-10 h-72" />
+                    <div className="h-56 lg:w-2/3 md:h-96 ">
+                        <img src={Map} alt="World Map" className="px-10 h-32 md:h-72" />
                         <p className="text-lg lg:text-2xl font-bold text-center text-white animate-pulse mt-4 mb-4">
                             Jamalians Around The World
                         </p>

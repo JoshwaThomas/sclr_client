@@ -50,7 +50,7 @@ const Dashboard = () => {
     if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
     const barData = {
-        labels: [`First Year UG ${data.firstYear}/${data.ugCount}`, `Second Year UG ${data.secYear}/${data.ugCount}`, `Third Year UG ${data.thirdYear}/${data.ugCount}`, `First Year PG ${data.pgfirstYear}/${data.ugCount}`, `Second Year PG' ${data.pgsecYear}/${data.ugCount}`],
+        labels: [`First Year UG ${data.firstYear} / ${data.ugCount}`, `Second Year UG ${data.secYear} / ${data.ugCount}`, `Third Year UG ${data.thirdYear} / ${data.ugCount}`, `First Year PG ${data.pgfirstYear} / ${data.ugCount}`, `Second Year PG ${data.pgsecYear} / ${data.ugCount}`],
         datasets: [
             {
                 label: `'Applicants'`,
@@ -108,8 +108,9 @@ const Dashboard = () => {
         labels: [ `Aided ${data.amCount + data.ramCount}`, `SF Men ${data.sfmCount + data.rsfmCount}`, `SF Women ${data.sfwCount + data.rsfwCount}`],
         datasets: [
             {
+                
+                data: [ (data.amCount + data.ramCount) / data.totalApplication *100, (data.sfmCount + data.rsfmCount) / data.totalApplication *100, (data.sfwCount + data.rsfwCount) / data.totalApplication *100],
 
-                data: [ data.amCount + data.ramCount / data.totalApplication *100, data.sfmCount + data.rsfmCount / data.totalApplication *100, data.sfwCount + data.rsfwCount / data.totalApplication *100],
                 backgroundColor: [
                     'rgb(6,95,70)',
                     'rgb(99,102,241)',
@@ -123,7 +124,7 @@ const Dashboard = () => {
         datasets: [
             {
 
-                data: [data.mensTotal, data.sfwCount + data.rsfwCount],
+                data: [(data.amCount + data.ramCount + data.sfmCount + data.rsfmCount)/data.totalApplication *100, (data.sfwCount + data.rsfwCount)/data.totalApplication *100],
                 backgroundColor: [
                     'rgb(99,102,241)',
                     'rgb(251,79,20)',
