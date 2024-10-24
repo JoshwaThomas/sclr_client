@@ -21,7 +21,7 @@ function StudentLayout() {
 
     let menus = [
         {
-            icon: <TiClipboard className="text-white text-2xl 2xl:text-5xl" />,
+            icon: <TiClipboard className="text-white text-2xl" />,
             name: 'Application',
             path: '/freshstudent/application/fresh'
         },
@@ -36,14 +36,14 @@ function StudentLayout() {
     return (
         <div className="flex flex-row bg-slate-400 h-screen w-screen ">
             <div className={`bg-emerald-700 w-64 p-3  h-screen flex flex-col text-black transition-transform transform lg:translate-x-0 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-                } lg:static fixed z-50 2xl:w-1/4 p-6 `}>
-                <div className=' flex flex-col mb-10 place-items-center'>
-                    <img src={Jmclogo} alt="" className=" w-36 h-40  " />
+        } lg:static fixed z-50`}>
+        <div className='flex flex-col mb-10 place-items-center'>
+          <img src={Jmclogo} alt="" className="w-36 h-40" />
                     {/* <img src={Jmc} alt="" className=" w-60 " /> */}
                     <div className='mt-2 text-white'>
-                        <span className="text-sm font-extrabold text-center 2xl:text-4xl">JAMAL MOHAMED COLLEGE<br /></span>
-                        <span className="text-sm font-bold ml-12 text-center 2xl:text-4xl 2xl:ml-28">(Autonomous)<br /></span>
-                        <span className="text-sm font-bold text-center 2xl:text-4xl">TIRUCHIRAPPALLI - 620 020<br /></span>
+                        <span className="text-sm font-extrabold text-center">JAMAL MOHAMED COLLEGE<br /></span>
+                        <span className="text-sm font-bold ml-12 text-center">(Autonomous)<br /></span>
+                        <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
                     </div>
                 </div>
                 {menus.map((item, index) => (
@@ -68,7 +68,7 @@ function StudentLayout() {
                     className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
                 >
                     <ion-icon name="log-out"></ion-icon>
-                    <label className="space-x-4 text-center cursor-pointer font-medium text-base text-white relative z-10 2xl:text-4xl">
+                    <label className="space-x-4 text-center cursor-pointer font-medium text-base text-white relative z-10">
                         Back
                     </label>
                 </button>

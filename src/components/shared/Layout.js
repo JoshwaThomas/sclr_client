@@ -34,7 +34,7 @@ function StudentLayout() {
     },
     {
       icon: <TiCogOutline className="text-white text-2xl" />,
-      name: 'GuideLines',
+      name: 'Guidelines',
       path: `/student/${staffId}/guidelines`
     },
 

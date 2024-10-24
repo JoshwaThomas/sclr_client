@@ -458,7 +458,7 @@ function Status() {
                                             </div>
                                         )}
                                         <div>
-                                            <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg border border-black" />
+                                            <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-1/2 rounded-lg border border-black" />
                                         </div>
                                     </div>
                                 </div>

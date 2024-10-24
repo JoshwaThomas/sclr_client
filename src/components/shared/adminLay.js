@@ -49,7 +49,7 @@ function StudentLayout() {
     },
     {
       icon: 'add-circle',
-      name: 'GuideLines',
+      name: 'Guidelines',
       path: '/admin/guidelines'
     },
   ];
