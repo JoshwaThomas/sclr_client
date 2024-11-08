@@ -3,6 +3,16 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
 // import Jmc from '../../assets/jmc_whitefont.png';
 import axios from 'axios';
+import { RiDashboardHorizontalLine } from "react-icons/ri";
+// import { FaHandsHelping } from "react-icons/fa";
+import { FaHandHoldingHeart } from "react-icons/fa6";
+import { FaStackOverflow } from "react-icons/fa";
+import { FaIdCard } from "react-icons/fa6";
+import { FaScrewdriverWrench } from "react-icons/fa6";
+import { GoDiscussionClosed } from "react-icons/go";
+import { GoReport } from "react-icons/go";
+import { FaMapSigns } from "react-icons/fa";
+import { TiPower } from "react-icons/ti";
 
 function StudentLayout() {
   const navigate = useNavigate();
@@ -13,42 +23,42 @@ function StudentLayout() {
 
   const menus = [
     {
-      icon: 'menu',
+      icon: <RiDashboardHorizontalLine className="text-white text-2xl" />,
       name: 'Dashboard',
       path: 'dashboard'
     },
     {
-      icon: 'add-circle',
+      icon: <FaHandHoldingHeart className="text-white text-2xl" />,
       name: 'Donor',
       path: '/admin/donormenu'
     },
     {
-      icon: 'add-circle',
+      icon: <FaStackOverflow className="text-white text-2xl" />,
       name: 'Application',
       path: '/admin/application'
     },
     {
-      icon: 'people',
+      icon: <FaIdCard className="text-white text-2xl" />,
       name: 'Status',
       path: '/admin/status'
     },
     {
-      icon: 'add-circle',
+      icon: <FaScrewdriverWrench className="text-white text-2xl" />,
       name: 'Settings',
       path: '/admin/action'
     },
     {
-      icon: 'add-circle',
+      icon: <GoDiscussionClosed className="text-white text-2xl" />,
       name: 'Distribution Statement',
       path: '/admin/distribution_statement'
     },
     {
-      icon: 'add-circle',
+      icon: <GoReport className="text-white text-2xl" />,
       name: 'Reports',
       path: '/admin/report'
     },
     {
-      icon: 'add-circle',
+      icon: <FaMapSigns className="text-white text-2xl" />,
       name: 'Guidelines',
       path: '/admin/guidelines'
     },
@@ -164,7 +174,7 @@ function StudentLayout() {
               }`
             }
           >
-            <ion-icon name={item.icon}></ion-icon>
+             {item.icon}
             <label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
               {item.name}
             </label>
@@ -174,7 +184,7 @@ function StudentLayout() {
           onClick={handleLogout}
           className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
         >
-          <ion-icon name="log-out"></ion-icon>
+          <TiPower className="text-white text-2xl " />
           <label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
             Logout
           </label>

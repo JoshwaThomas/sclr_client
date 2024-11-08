@@ -101,7 +101,7 @@ function StaffLayout() {
   };
 
   return (
-    <div className="flex flex-row bg-slate-500 h-screen w-screen ">
+    <div className="flex flex-row bg-slate-400 h-screen w-screen ">
       <div className={`bg-emerald-700 w-64 p-3  h-screen flex flex-col text-black transition-transform transform lg:translate-x-0 ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:static fixed z-50`}>

@@ -167,36 +167,6 @@ function Modify() {
             });
     }
 
-    // const AddSubmit = (e) => {
-
-    //     e.preventDefault();
-    //     axios.post('http://localhost:3001/api/admin/scholtype', {
-    //         scholtype
-    //     })
-    //         .then(result => {
-    //             if (result.data.success) {
-    //                 window.alert("ScholarType Added Successfully");
-    //                 window.location.reload();
-    //               }
-    //               else if (result.data.message === 'ScholarType Already Existing') {
-    //                 alert("ScholarType Already Existing")
-    //                 window.location.reload();
-    //               }
-    //               else {
-    //                 alert('Something went worng')
-    //                 window.location.reload();
-    //               }
-    //             console.log(result);
-
-
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             window.alert("Submission failed!");
-    //             window.location.reload();
-    //         });
-    // }
-
     return (
         <div>
             <div>
@@ -308,7 +278,7 @@ function Modify() {
                                 )} */}
 
                                     {/* </div> */}
-                                    <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                                    <button onClick={handleData} className='bg-blue-500 text-white font-b py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
                                         Get
                                     </button>
                                 </div>
@@ -536,12 +506,15 @@ function Modify() {
 
                                 </div>
                             )}
+                            <div></div>
+                            <div></div>
+                            <div className='text-right'>
+                                <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
+                            </div>
                         </div>
+
                     )}
 
-
-
-                    <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
                 </form>
             </div>
             {/* <div className='mt-10'>

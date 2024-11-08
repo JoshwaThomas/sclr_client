@@ -9,15 +9,13 @@ const ProtectedRoute = ({ children }) => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        // Moved inside useEffect
         const token = localStorage.getItem('token');
         let activityTimeout;
 
-        // Refresh token if it is about to expire within 60 seconds
         const refreshToken = async () => {
             try {
                 const response = await axios.post(`${apiUrl}/api/admin/refresh-token`, {
-                    token: localStorage.getItem('token'), // You don't need to re-declare `token`
+                    token: localStorage.getItem('token'),
                 });
                 if (response.data.status === 'success') {
                     localStorage.setItem('token', response.data.newToken);
@@ -31,29 +29,25 @@ const ProtectedRoute = ({ children }) => {
             }
         };
 
-        // Handle user activity (mouse movement or key press)
         const handleUserActivity = () => {
             clearTimeout(activityTimeout);
 
-            // Check token expiration and refresh if needed
             if (token) {
                 const decoded = jwtDecode(token);
                 const currentTime = Date.now() / 1000;
-                
-                // If token expires in less than 60 seconds, refresh it
+
                 if (decoded.exp - currentTime < 60) {
                     refreshToken();
                 }
             }
 
-            // Set a timeout to log out the user after 5 minutes of inactivity
+            // Reset the timeout on user activity
             activityTimeout = setTimeout(() => {
                 localStorage.removeItem('token');
                 navigate('/login');
-            }, 5 * 60 * 1000);
+            }, 30 * 60 * 1000); // 30 minutes inactivity timeout
         };
 
-        // Validate token existence and expiration
         const validateToken = () => {
             if (!token) {
                 navigate('/login');
@@ -64,13 +58,11 @@ const ProtectedRoute = ({ children }) => {
                 const decoded = jwtDecode(token);
                 const currentTime = Date.now() / 1000;
 
-                // Check if token has expired
                 if (decoded.exp < currentTime) {
                     localStorage.removeItem('token');
                     navigate('/login');
                 } else {
                     setIsAuthenticated(true);
-                    // Add event listeners for user activity
                     document.addEventListener('mousemove', handleUserActivity);
                     document.addEventListener('keydown', handleUserActivity);
                 }
@@ -81,13 +73,12 @@ const ProtectedRoute = ({ children }) => {
 
         validateToken();
 
-        // Cleanup event listeners on component unmount
         return () => {
             clearTimeout(activityTimeout);
             document.removeEventListener('mousemove', handleUserActivity);
             document.removeEventListener('keydown', handleUserActivity);
         };
-    }, [navigate, apiUrl]);  // Removed `token` from the dependencies
+    }, [navigate, apiUrl]);
 
     if (!isAuthenticated) {
         return null;

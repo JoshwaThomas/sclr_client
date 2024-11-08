@@ -127,7 +127,7 @@ const Donar = () => {
     <div>
       <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">NEW DONOR </h3>
       <form onSubmit={Submit} >
-        <div className=" border p-10 rounded-xl text-lg">
+        <div className=" border p-10 rounded-xl text-lg ">
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <div>
               <label className="block mb-1">Donor ID</label>
@@ -193,13 +193,13 @@ const Donar = () => {
                     name='donordept'
                     value={donordept}
                     onChange={(e) => setDonordept(e.target.value)}
-                    className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
-                    // required
+                    className="w-72 p-2  border rounded-md text-slate-950 lg:w-48 lg:-ml-2"
+                  // required
                   />
                 </div>
                 <div></div>
                 <div>
-                  <label className="block mb-1 w-80 ml-24">
+                  <label className="block mb-1 w-80 ml-28">
                     Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
                   </label>
                   <input
@@ -207,8 +207,8 @@ const Donar = () => {
                     name='donorbatch'
                     value={donorbatch}
                     onChange={(e) => setDonorbatch(e.target.value)}
-                    className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
-                    // required
+                    className="w-72 ml-28 p-2 border rounded-md text-slate-950 lg:w-48"
+                  // required
                   />
                 </div>
                 <div>
@@ -257,7 +257,7 @@ const Donar = () => {
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                // required
+              // required
               />
             </div>
             <div>
@@ -279,7 +279,7 @@ const Donar = () => {
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                // required
+              // required
               />
             </div>
             <div>
@@ -291,7 +291,7 @@ const Donar = () => {
                 onChange={(e) => setAddress(e.target.value.toUpperCase())}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 placeholder='Door No & Street'
-                // required
+              // required
               />
             </div>
             <div>
@@ -301,7 +301,7 @@ const Donar = () => {
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                // required
+              // required
               >
                 <option value="">Select State</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
@@ -350,7 +350,7 @@ const Donar = () => {
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                // required
+              // required
               >
                 <option value="">Select District</option>
                 <option value="Ariyalur">Ariyalur</option>
@@ -403,7 +403,7 @@ const Donar = () => {
                 onChange={(e) => setPin(e.target.value)}
                 className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
                 placeholder='Pincode'
-                // required
+              // required
               />
             </div>
 
@@ -444,7 +444,7 @@ const Donar = () => {
                 value={receipt}
                 onChange={(e) => setReceipt(e.target.value.toUpperCase())}
                 className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                // required
+              // required
               />
             </div>
 
@@ -464,21 +464,23 @@ const Donar = () => {
             </div>
 
           </div>
-          <button
-            type='submit'
-            className=' p-2 border  ml-96 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'
+          <div className='text-right'>
+            <button
+              type='submit'
+              className=' p-2 border mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'
 
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
-            onClick={handlePrint}
-          // disabled={!isPrint}
-          >
-            Print
-          </button>
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              className="bg-blue-500 hover:bg-black p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
+              onClick={handlePrint}
+            >
+              Print
+            </button>
+          </div>
+
         </div>
 
 

@@ -111,7 +111,7 @@ function Fundstatement() {
                 />
                 <button
                     type="button"
-                    className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
+                    className="bg-blue-500 text-white py-1 px-3 font-bold hover:bg-black rounded-lg mt-1"
                 >
                     Search
                 </button>
@@ -146,37 +146,36 @@ function Fundstatement() {
          <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label> */}
                 <button
                     type="button"
-                    className="bg-green-500 text-white py-1 px-3 hover:bg-black rounded-lg ml-3 mt-1"
+                    className="bg-green-500 text-white py-3 px-3 font-bold hover:bg-black rounded-lg ml-3 mt-1"
                     onClick={handleDownload} // Call handleDownload on button click
                 >
                     Download Excel
                 </button>
             </div>
-            <div className='mt-6 grid grid-cols-6  w-auto bg-amber-200'>
+            <div className='mt-6 grid grid-cols-8  w-auto bg-amber-200'>
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
-                <div className="font-bold border border-white text-center py-3">DATE</div>
-                {/* <div className="font-bold border border-white text-center py-3"></div> */}
-                <div className="font-bold border border-white text-center w-60 py-3">NAME</div>
-                <div className="font-bold border border-white text-center ml-16  w-28 py-3 xl: ml-auto ">MOBILE</div>
-                <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
-                <div className='font-bold border border-white text-center py-3'>PAN</div>
-                <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">DATE</div>
+                <div className="font-bold border border-white text-center py-3 col-span-3">NAME</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">MOBILE</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">SCHOLARSHIP TYPE</div>
+                <div className='font-bold border border-white text-center py-3 col-span-1'>PAN</div>
+                <div className='font-bold border border-white text-center py-3 col-span-1'>AMOUNT</div>
                 {/* <div className='font-bold border border-white text-center'> Balance </div> */}
                 {/* <div className="font-bold border border-white text-center">Action</div> */}
 
             </div>
             {filterUsers.map((user) => (
-                <div key={user.pan} className="grid grid-cols-6 bg-amber-100">
+                <div key={user.pan} className="grid grid-cols-8 bg-amber-100">
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3"> {formatDate(user.scholdate)}</div>
-                    <div className="font-bold border border-white text-center text-wrap w-60 uppercase py-3 ">{user.name}</div>
-                    <div className="font-bold border border-white text-center w-28  ml-16 uppercase py-3 xl: ml-auto">{user.mobileNo || '-'}</div>
+                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3 col-span-1"> {formatDate(user.scholdate)}</div>
+                    <div className="font-bold border border-white text-center text-wrap uppercase py-3 col-span-3">{user.name}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.mobileNo || '-'}</div>
                     {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.amount || user.zakkathamt || 0)}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.scholtype}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.pan}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{formatCurrency(user.amount || user.zakkathamt || 0)}</div>
                     {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
 
                 </div>

@@ -30,14 +30,14 @@ function LandingPage() {
               Show Us The Right Path
             </h1>
           </div>
-          <div className="relative z-10 h-30 w-full  flex flex-col justify-end">
+          <div className="relative z-10 h-30 w-full  flex flex-col justify-end ">
             <img
               src={Stud1}
               alt=""
-              className="absolute -top-30 md:-top-28  w-24 h-24 md:w-36 md:h-36 lg:w-52 lg:h-60"
+              className="absolute -top-30 md:-top-28  w-24 h-24 md:w-36 md:h-36 lg:w-52 lg:h-60 "
             />
             <h2 className="text-amber-300 font-bold text-center text-lg md:text-2xl lg:text-3xl  mx-20 font-serif ">
-              "Jamal &#8211; Empowering your FUTURE with Education and Scholarship."
+              &nbsp;&nbsp; "Jamal &#8211; Empowering your FUTURE with Education and Scholarship."
             </h2>
 
           </div>
@@ -91,10 +91,10 @@ function LandingPage() {
           {/* <div className="w-full flex items-center border border-red-950 justify-center relative"> */}
           <div>
             <div className="flex flex-col  text-center animate-pulse">
-              <p className="font-medium text-white text-xs md:text-lg lg:text-xl 2xl:text-2xl">
+              <p className="font-semibold text-white text-xs md:text-lg lg:text-xl 2xl:text-2xl">
                 Developed By T. Joshwa Anand, <span className="text-xs">II MCA</span>
               </p>
-              <p className="font-semibold text-white text-xs md:text-lg lg:text-xl 2xl:text-2xl">
+              <p className="font-bold text-white text-xs md:text-lg lg:text-xl 2xl:text-2xl">
                 Guided By Dr. O.S. Abdul Qadir, <span className="text-xs">Asst. COE</span>
               </p>
               {/* </div> */}

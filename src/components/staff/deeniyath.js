@@ -21,14 +21,14 @@ function AttendDeeniyath() {
                 const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
                 const curacyear = acyear.data.acyear;
 
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear );
+                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
                 const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
 
                 const totalsfm = SFM1.length + SFM2.length;
 
                 const freshAided = freshResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
                 const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'Yes' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
- 
+
                 const totalfilter = freshAided.length + renewalAided;
                 const work = totalsfm - totalfilter;
                 setTotalwork(work)
@@ -78,7 +78,7 @@ function AttendDeeniyath() {
 
         const updates = {};
         const remarks = {};
-        
+
         users.forEach(user => {
             updates[user.registerNo] = deeniyathPer[user.registerNo];
             remarks[user.registerNo] = user.deeniyathRem;
@@ -107,7 +107,7 @@ function AttendDeeniyath() {
             </div>
             <div className='flex inline-flex text-white mt-10'>
                 <div className="w-auto ">
-                <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
                     <input
                         type='text'
                         name='prevAttendancetot'
@@ -117,7 +117,7 @@ function AttendDeeniyath() {
                     />
                 </div>
                 <div className="w-auto  ml-5">
-                <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <label className='text-lg font-bold'>Current Semester Working Days</label>
                     <input
                         type='text'
                         name='currAttendancetot'
@@ -128,46 +128,47 @@ function AttendDeeniyath() {
                 </div>
                 <div className="text-right font-bold text-xl ml-28 text-white">No of Students:  {users.length}</div>
             </div>
-            <div className="grid grid-cols-7 w-auto mt-7 bg-amber-200">
-                <div className="font-bold border border-white text-center py-3">Register No.</div>
-                <div className="font-bold border border-white text-center py-3">Name</div>
-                <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center w-28 py-3">Previous Sem</div>
-                <div className="font-bold border border-white text-center w-28 -ml-10 py-3">Current Sem</div>
-                <div className="font-bold border border-white text-center w-30 -ml-20 py-3">Sem Percentage</div>
-                <div className="font-bold border border-white text-center w-66 -ml-28 py-3">Remark</div>
+            <div className="grid grid-cols-10 w-full mt-7 bg-amber-200">
+                <div className="font-bold border border-white text-center py-3 col-span-1">Register No.</div>
+                <div className="font-bold border border-white text-center py-3 col-span-3">Name</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Department</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Previous Sem</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Current Sem</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Sem Percentage</div>
+                <div className="font-bold border border-white text-center py-3 col-span-2">Remark</div>
             </div>
+
             {users.map((user, index) => (
-                <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                    <div className="font-bold border border-white text-center uppercase w-28 py-3">
+                <div key={`${user._id}-${index}`} className="grid grid-cols-10 w-full bg-amber-100">
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.registerNo}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-3">{user.name}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.dept}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">
                         <input
-                            type='text'
-                            name='prevAttendance'
-                            className="w-14 text-right border rounded-md"
+                            type="text"
+                            name="prevAttendance"
+                            className="text-right border rounded-md w-full"
                             value={user.prevAttendance || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-28 -ml-10 py-3">
+                    <div className="border border-white text-center py-3 col-span-1">
                         <input
-                            type='text'
-                            name='currAttendance'
-                            className="w-14 text-right border rounded-md"
+                            type="text"
+                            name="currAttendance"
+                            className="text-right border rounded-md w-full"
                             value={user.currAttendance || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center w-30 -ml-20 py-3">
+                    <div className="border border-white text-center py-3 col-span-1">
                         {deeniyathPer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white w-66 -ml-28">
+                    <div className="font-bold border border-white col-span-2">
                         <input
-                            type='text'
-                            name='deeniyathRem'
-                            className="w-66 h-full  border rounded-md"
+                            type="text"
+                            name="deeniyathRem"
+                            className="w-full h-full border rounded-md"
                             value={user.deeniyathRem || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'deeniyathRem', e.target.value)}
                         />

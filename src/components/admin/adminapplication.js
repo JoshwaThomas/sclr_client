@@ -49,7 +49,7 @@ function Action() {
     });
     //variable declare
     const [staffverify, setStaffverify] = useState({
-        All: true,
+        All: false,
         Aided: false,
         SFM: false,
         SFW: false,
@@ -68,6 +68,7 @@ function Action() {
     const [mark, setMark] = useState('');
     const [arrear, setArrear] = useState('');
     const [siblingsIncome, setSiblingsIncome] = useState('');
+    const [isSubmitEnabled, setSubmitEnabled] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
     const [notification, setNotification] = useState({ message: '', type: '' });
 
@@ -142,7 +143,7 @@ function Action() {
             }
 
         } else if (radioValue === 'in-progress') {
-            filteredUsers = combinedUsers.filter(user => user.action === 0);
+            filteredUsers = combinedUsers.filter(user => user.action === 0 );
             // console.log('Filtered Users after action check:', filteredUsers);
 
             if (progressRadioValue !== 'all') {
@@ -264,6 +265,7 @@ function Action() {
     const handleStaffverifyChange = (e) => {
         const { name, checked } = e.target;
         setStaffverify(prevState => ({ ...prevState, [name]: checked }))
+        // console.log("staff",staffverify)
     }
 
     const handleAcceptrejectChange = (e) => {
@@ -648,6 +650,7 @@ function Action() {
             const newSubmission = { scholtype, scholdonar, scholamt };
             setSubmittedData(prevData => [...prevData, newSubmission]);
             refreshInputs();
+            setSubmitEnabled(true);
 
         } catch (err) {
             console.error('Error during submission:', err);
@@ -851,7 +854,7 @@ function Action() {
 
     return (
         <div>
-            <div className='end-px'>
+            <div className='end-px flex'>
                 <div>
                     <input
                         type='text'
@@ -865,18 +868,20 @@ function Action() {
                     >
                         Search
                     </button>
-                    <span className='ml-56'></span>
-                    <button
-                        type="button"
-                        onClick={handleQuickRejection}
-                        className="bg-orange-500 text-white py-4 px-6 text-xl ml-72 shadow-black shadow-lg hover:bg-black rounded-lg mt-1 font-bold  "
-                    >
-                        Quick Rejection
-                    </button>
-
                 </div>
+            </div>
+            <div className='text-right -mt-10'>
+
+                <button
+                    type="button"
+                    onClick={handleQuickRejection}
+                    className="bg-orange-500 text-white py-4 px-6 text-xl shadow-black shadow-lg hover:bg-black rounded-lg mt-1 font-bold  "
+                >
+                    Quick Rejection
+                </button>
 
             </div>
+
 
             {quickRejectMode ? (
                 <div>
@@ -991,22 +996,21 @@ function Action() {
                                     value="in-progress"
                                     className='scale-200 ml-4'
                                     onChange={handleRadioChange}
-
-
                                 />
                                 <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
                             </div>
                             <div className='flex inline-flex px-4'></div>
                             {radioValue === 'in-progress' && (
                                 <div>
+                                   
                                     <div className='end-px text-white border  border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                    <label htmlFor="" className='form-radio ml-2 text-white text-lg'>Progress Status :&nbsp; </label>
                                         <input
                                             type="checkbox"
                                             id="All"
                                             name="All"
                                             className='scale-200 ml-2'
                                             onChange={handleStaffverifyChange}
-                                            defaultChecked
                                         />
                                         <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
 
@@ -1016,6 +1020,7 @@ function Action() {
                                             name="Aided"
                                             className='scale-200 ml-4'
                                             onChange={handleStaffverifyChange}
+                                            
 
                                         />
                                         <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
@@ -1294,7 +1299,7 @@ function Action() {
                         )}
                     </div>
                     <div className='mt-6 pl-0'>
-                        <div className="text-right font-bold text-xl mr-40 text-white">No of Students :  {filterUsers.length}</div>
+                        <div className="text-right font-bold text-xl mb-3 text-white">No of Students :  {filterUsers.length}</div>
                         <div className="grid grid-cols-4 w-auto bg-amber-200">
                             <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
                             <div className="font-bold border border-white text-center py-3">NAME</div>
@@ -1318,7 +1323,7 @@ function Action() {
                                     <button
                                         type="button"
                                         onClick={() => handleAccept(user)}
-                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
+                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action === 1 ? 'bg-green-400 text-green-700' : user.action === 0 ? 'bg-green-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
                                         disabled={user.action !== 0}
                                     >
                                         Accept
@@ -1326,7 +1331,7 @@ function Action() {
                                     <button
                                         type="button"
                                         onClick={() => handleReject(user)}
-                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
+                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action === 2 ? 'bg-red-400 text-red-700' : user.action === 0 ? 'bg-red-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
                                         disabled={user.action !== 0}
                                     >
                                         Reject
@@ -1373,7 +1378,7 @@ function Action() {
             <div className=' text-white flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
                 <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
                     <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
-                    <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
+                    <div className=' w-72 ml-7' > Number of Students Benefitted </div><div className='ml-16'> :   {data.totalBenefit} </div>
                 </div>
                 <div className='border border-white rounded-lg   p-4 grid grid-cols-2 bg-blue-600 '>
                     <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
@@ -1559,15 +1564,16 @@ function Action() {
                                                 </div>
                                             </div>
                                         )}
-
-                                        <div className="grid grid-cols-2 w-auto ">
-                                            <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
-                                            <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}</div>
-                                            <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
-                                            <div className="font-bold border border-black text-left py-3 px-5"> {selectedUser.classAttendancePer === 0 ? 'Pending' : selectedUser.classAttendancePer}</div>
-                                            <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
-                                            <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
-                                        </div>
+                                        {selectedUser.semester !== 'I' && (
+                                            <div className="grid grid-cols-2 w-auto ">
+                                                <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
+                                                <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}</div>
+                                                <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
+                                                <div className="font-bold border border-black text-left py-3 px-5"> {selectedUser.classAttendancePer === 0 ? 'Pending' : selectedUser.classAttendancePer}</div>
+                                                <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
+                                                <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
+                                            </div>
+                                        )}
 
                                     </div>
 
@@ -1592,7 +1598,7 @@ function Action() {
                                     <div>
                                         <label className=""></label>
                                         {/* {selectedUser.jamath} */}
-                                        <img src={selectedUser.jamath} alt="Jamath" /> 
+                                        <img src={selectedUser.jamath} alt="Jamath" />
                                         {/* <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" /> */}
                                     </div>
                                 </div>
@@ -1732,7 +1738,9 @@ function Action() {
 
                                 <button
                                     type="submit"
-                                    className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
+                                    disabled={!isSubmitEnabled}
+                                    className={`bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black ${!isSubmitEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    // className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
                                 >
                                     Submit
                                 </button>

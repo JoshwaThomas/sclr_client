@@ -126,33 +126,6 @@ function Existing() {
         };
     }, []);
 
-    // const handlePanChange = (e) => {
-    //     setPan(e.target.value.toUpperCase());
-    // };
-
-
-    // const handleData = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const result = await axios.get(`http://localhost:3001/api/admin/donor/${name}`);
-    //         setDonar(result.data);
-    //         setName(result.data.name);
-    //         setPan(result.data.pan);
-    //         setDid(result.data.did);
-    //         setMobileNo(result.data.mobileNo);
-    //         setEmailId(result.data.emailId)
-    //         setAddress(result.data.address);
-    //         setState(result.data.state);
-    //         setDistrict(result.data.district);
-    //         setPin(result.data.pin);
-    //         setScholType(result.data.scholtype);
-
-    //     } catch (err) {
-    //         setDonar(null);
-    //         alert('Donor Data not found');
-    //     }
-    // }
-
     const handleData = async (e) => {
         e.preventDefault();
         try {
@@ -178,35 +151,6 @@ function Existing() {
         }
     };
 
-    // const Submit = (e) => {
-
-    //     e.preventDefault();
-    //     axios.get('http://localhost:3001/api/admin/current-acyear')
-    //         .then(response => {
-    //             if (response.data.success) {
-    //                 const acyear = response.data.acyear.acyear;
-
-    //                 axios.post('http://localhost:3001/api/admin/donar', {
-    //                     name, mobileNo, address, state, district, pin, emailId,
-    //                     scholtype, amount, balance, scholdate, pan, acyear, did, zakkathamt, zakkathbal
-    //                 })
-    //                     .then(result => {
-    //                         console.log(result);
-    //                         window.alert("Your Application Updated Successfully");
-    //                         // window.location.reload();
-    //                     })
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                         window.alert("Submission failed!");
-    //                         // window.location.reload();
-    //                     });
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching current academic year:', error);
-    //             window.alert('Error fetching current academic year');
-    //         });
-    // }
 
     const handlePrint = () => {
         const printWindow = window.open('', '', 'height=600,width=800');
@@ -342,49 +286,15 @@ function Existing() {
                                     </ul>
                                 )}
                             </div>
-                            {/* DID */}
-                            <div className=' '>
-                                {/* <label className="block mb-1 ml-16 ">PAN</label>
-                                <div className='flex inline-flex'>
-                                <input
-                                    type="text"
-                                    value={panSearchTerm}
-                                    onChange={(e) => {
-                                        setPanSearchTerm(e.target.value);
-                                        setIsDropdownOpen(true);
-                                    }}
-                                    onClick={() => setIsDropdownOpen(true)}
-                                    className="w-72 p-2 border rounded-md text-slate-950 ml-16 lg:w-20"
-                                    placeholder="Search DID"
-                                    required
-                                />
-                                {isDropdownOpen && (
-                                    <ul className="absolute z-10 w-72 p-2 border rounded-md bg-white lg:w-20 ml-16 mt-11 max-h-60 overflow-y-auto">
-                                        {filteredPanList.length > 0 ? (
-                                            filteredPanList.map((panItem) => (
-                                                <li
-                                                    key={panItem.pan}
-                                                    onClick={() => handleSelect(panItem.name, panItem.pan)}
-                                                    className="p-2 cursor-pointer hover:bg-gray-200"
-                                                >
-                                                    {panItem.pan}
-                                                </li>
-                                            ))
-                                        ) : (
-                                            <li className="p-2">No results found</li>
-                                        )}
-                                    </ul>
-                                )} */}
 
-                                {/* </div> */}
-                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                            <div className=' '>
+                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 font-bold hover:bg-black rounded-lg mt-7'>
                                     Get
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div>
-
                     </div>
                     <div className='flex inline-flex mt-10'>
                         <input
@@ -438,18 +348,19 @@ function Existing() {
                             required
                         />
                     </div>
-                    <div className=' '>
+                    <div></div>
+                    <div className='text-right'>
                         <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
                         <button
-                        type="button"
-                        className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
-                        onClick={handlePrint} 
-                    // disabled={!isPrint}
-                    >
-                        Print
-                    </button>
+                            type="button"
+                            className="bg-blue-500 p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black "
+                            onClick={handlePrint}
+                        // disabled={!isPrint}
+                        >
+                            Print
+                        </button>
                     </div>
-                    
+
                 </div>
                 {donar && (
                     <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>

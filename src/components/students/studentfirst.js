@@ -4,7 +4,7 @@ import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
 // import Stud from '../../assets/stud.mp4';
-import Loading from '../../assets/Pulse.svg'
+// import Loading from '../../assets/Pulse.svg'
 import Stud1 from '../../assets/stud1.gif'
 
 function Studentfirst() {
@@ -22,7 +22,7 @@ function Studentfirst() {
     fetchDates();
   }, [apiUrl]);
 
-  if (!isOpen) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
+  // if (!isOpen) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
   return (
     <div className="w-screen h-screen flex flex-col  justify-center items-center p-4 bg-blue-500 overflow-hidden">

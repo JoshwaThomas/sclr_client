@@ -3,6 +3,7 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
 // import Jmc from '../../assets/jmc_whitefont.png';
 import { TiClipboard, TiThMenuOutline } from "react-icons/ti";
+import { TiArrowBack } from "react-icons/ti";
 
 function StudentLayout() {
     const navigate = useNavigate();
@@ -67,7 +68,7 @@ function StudentLayout() {
                     onClick={handleLogout}
                     className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
                 >
-                    <ion-icon name="log-out"></ion-icon>
+                    <TiArrowBack className="text-white text-2xl" />
                     <label className="space-x-4 text-center cursor-pointer font-medium text-base text-white relative z-10">
                         Back
                     </label>

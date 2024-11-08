@@ -50,11 +50,11 @@ const Dashboard = () => {
     if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
     const barData = {
-        labels: [`First Year UG ${data.firstYear} / ${data.ugCount}`, `Second Year UG ${data.secYear} / ${data.ugCount}`, `Third Year UG ${data.thirdYear} / ${data.ugCount}`, `First Year PG ${data.pgfirstYear} / ${data.ugCount}`, `Second Year PG ${data.pgsecYear} / ${data.ugCount}`],
+        labels: [`First Year UG ${data.firstYear + data.rfirstYear} / ${data.totalApplication}`, `Second Year UG ${data.secYear + data.rsecYear} / ${data.totalApplication}`, `Third Year UG ${data.thirdYear + data.rthirdYear} / ${data.totalApplication}`, `First Year PG ${data.pgfirstYear + data.rpgfirstYear} / ${data.totalApplication}`, `Second Year PG ${data.pgsecYear + data.rpgsecYear} / ${data.totalApplication}`],
         datasets: [
             {
                 label: `'Applicants'`,
-                data: [data.firstYear, data.secYear, data.thirdYear, data.pgfirstYear, data.pgsecYear],
+                data: [data.firstYear + data.rfirstYear, data.secYear + data.rsecYear, data.thirdYear + data.rthirdYear, data.pgfirstYear + data.rpgfirstYear, data.pgsecYear + data.rpgsecYear],
                 backgroundColor: ['rgb(34,139,34)', 'rgb(251,79,20)', 'rgb(30,144,255)', 'rgb(34,139,34)', 'rgb(99,102,241)'],
                 borderWidth: 1,
             },

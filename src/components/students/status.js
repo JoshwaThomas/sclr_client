@@ -246,16 +246,16 @@ function Status() {
                                                             </div>
                                                         </div>
                                                     )}
-
-                                                    <div className="grid grid-cols-2 w-auto ">
-                                                        <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5"> {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5">Deeniyath / Moral Percentage</div>
-                                                        <div className="font-bold border border-black text-left py-3 px-5">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
-                                                    </div>
-
+                                                    {student.semester !== 'I' && (
+                                                        <div className="grid grid-cols-2 w-auto ">
+                                                            <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
+                                                            <div className="font-bold border border-black text-left py-3 px-5">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
+                                                            <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
+                                                            <div className="font-bold border border-black text-left py-3 px-5"> {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
+                                                            <div className="font-bold border border-black text-left py-3 px-5">Deeniyath / Moral Percentage</div>
+                                                            <div className="font-bold border border-black text-left py-3 px-5">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
+                                                        </div>
+                                                    )}
                                                 </div>
 
                                             </div>
@@ -435,14 +435,16 @@ function Status() {
                                                 <div className="text-lg font-bold uppercase">{student.yearOfPassing}</div>
                                             </div>
                                         )}
-                                        <div className="grid grid-cols-2">
-                                            <div className="font-bold border border-black py-2 px-4">Percentage of Mark</div>
-                                            <div className="font-bold border border-black py-2 px-4">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
-                                            <div className="font-bold border border-black py-2 px-4">Class Attendance Percentage</div>
-                                            <div className="font-bold border border-black py-2 px-4">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                            <div className="font-bold border border-black py-2 px-4">Deeniyath / Moral Percentage</div>
-                                            <div className="font-bold border border-black py-2 px-4">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
-                                        </div>
+                                        {student.semester !== 'I' && (
+                                            <div className="grid grid-cols-2">
+                                                <div className="font-bold border border-black py-2 px-4">Percentage of Mark</div>
+                                                <div className="font-bold border border-black py-2 px-4">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
+                                                <div className="font-bold border border-black py-2 px-4">Class Attendance Percentage</div>
+                                                <div className="font-bold border border-black py-2 px-4">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
+                                                <div className="font-bold border border-black py-2 px-4">Deeniyath / Moral Percentage</div>
+                                                <div className="font-bold border border-black py-2 px-4">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
                                         {student.arrear !== 0 && (

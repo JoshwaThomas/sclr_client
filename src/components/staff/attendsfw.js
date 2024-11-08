@@ -132,21 +132,21 @@ function AttendSfw() {
                 </div>
                 <div className="text-right font-bold text-xl ml-28 text-white">No of Students:  {users.length}</div>
             </div>
-            <div className="grid grid-cols-7 w-auto mt-7 bg-amber-200">
-                <div className="font-bold border border-white text-center py-3">Register No.</div>
-                <div className="font-bold border border-white text-center py-3">Name</div>
-                <div className="font-bold border border-white text-center py-3">Department</div>
-                <div className="font-bold border border-white text-center py-3">Previous Sem</div>
-                <div className="font-bold border border-white text-center py-3">Current Sem</div>
-                <div className="font-bold border border-white text-center py-3">Sem Percentage</div>
-                <div className="font-bold border border-white text-center py-3">Remark</div>
+            <div className="grid grid-cols-10 w-auto mt-7 bg-amber-200">
+                <div className="font-bold border border-white text-center py-3 col-span-1">Register No.</div>
+                <div className="font-bold border border-white text-center py-3 col-span-3">Name</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Department</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Previous Sem</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Current Sem</div>
+                <div className="font-bold border border-white text-center py-3 col-span-1">Sem Percentage</div>
+                <div className="font-bold border border-white text-center py-3 col-span-2">Remark</div>
             </div>
             {users.map((user, index) => (
                 <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3">
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.registerNo}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-3">{user.name}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.dept}</div>
+                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">
                         <input
                             type='text'
                             name='prevAttendance'
@@ -155,7 +155,7 @@ function AttendSfw() {
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center py-3">
+                    <div className="font-bold border border-white text-center py-3 col-span-1">
                         <input
                             type='text'
                             name='currAttendance'
@@ -164,10 +164,10 @@ function AttendSfw() {
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center py-3">
+                    <div className="font-bold border border-white text-center py-3 col-span-1">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white  text-center">
+                    <div className="font-bold border border-white  text-center col-span-2">
                         <input
                              type='textarea'
                              name='classAttendanceRem'
