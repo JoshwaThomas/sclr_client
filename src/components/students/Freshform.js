@@ -257,7 +257,7 @@ const ScholarshipForm = () => {
       if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
         // Check if the file size is between 30 KB and 50 KB
         const fileSizeInKB = file.size / 1024;
-        if (fileSizeInKB >= 30 && fileSizeInKB <= 100) {
+        if (fileSizeInKB >= 30 && fileSizeInKB <= 210) {
           setJamath(file);
           setFileName(file.name);
         } else {
