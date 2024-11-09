@@ -14,6 +14,7 @@ import {
     PointElement,
     LineElement,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faGraduationCap, faMoneyCheckAlt, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
 
@@ -26,7 +27,8 @@ ChartJS.register(
     Legend,
     ArcElement,
     PointElement,
-    LineElement
+    LineElement,
+    ChartDataLabels
 );
 
 const Dashboard = () => {
@@ -88,6 +90,14 @@ const Dashboard = () => {
               },
               position: 'top', 
           },
+          datalabels: {
+            color: '#FFFFFF',
+            formatter: (value) => value.toFixed(2) + '%',
+            font: {
+                weight: 'bold',
+                size: 14,
+            },
+        },
       },
   };
 
@@ -105,7 +115,7 @@ const Dashboard = () => {
         ],
     };
     const pieData1 = {
-        labels: [ `Aided ${data.amCount + data.ramCount}`, `SF Men ${data.sfmCount + data.rsfmCount}`, `SF Women ${data.sfwCount + data.rsfwCount}`],
+        labels: [ [`Aided ${data.amCount + data.ramCount}`], [`SF Men ${data.sfmCount + data.rsfmCount}`], [`SF Women ${data.sfwCount + data.rsfwCount}`]],
         datasets: [
             {
                 
