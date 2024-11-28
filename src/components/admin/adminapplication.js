@@ -143,7 +143,7 @@ function Action() {
             }
 
         } else if (radioValue === 'in-progress') {
-            filteredUsers = combinedUsers.filter(user => user.action === 0 );
+            filteredUsers = combinedUsers.filter(user => user.action === 0);
             // console.log('Filtered Users after action check:', filteredUsers);
 
             if (progressRadioValue !== 'all') {
@@ -191,29 +191,52 @@ function Action() {
         setFilterUsers(filteredUsers);
         console.log(filteredUsers)
 
-        if (classAttendance) {
-            filteredUsers = filteredUsers.filter(user => user.classAttendancePer < Number(classAttendance));
-        }
-        if (moralAttendance) {
-            filteredUsers = filteredUsers.filter(user => user.deeniyathPer < Number(moralAttendance));
-        }
-        if (mark) {
-            filteredUsers = filteredUsers.filter(user => user.semPercentage < Number(mark));
-        }
-        if (arrear) {
-            filteredUsers = filteredUsers.filter(user => user.arrear >= Number(arrear));
-        }
-        if (siblingsIncome) {
-            console.log(siblingsIncome)
-            filteredUsers = filteredUsers.filter(user => user.siblingsIncome >= Number(siblingsIncome));
-            console.log(filteredUsers)
-        }
+        // if (classAttendance) {
+        //     filteredUsers = filteredUsers.filter(user => user.classAttendancePer <= Number(classAttendance));
+        // }
+        // if (moralAttendance) {
+        //     filteredUsers = filteredUsers.filter(user => user.deeniyathPer <= Number(moralAttendance));
+        // }
+        // if (mark) {
+        //     filteredUsers = filteredUsers.filter(user => user.semPercentage <= Number(mark));
+        // }
+        // if (arrear) {
+        //     filteredUsers = filteredUsers.filter(user => user.arrear >= Number(arrear));
+        // }
+        // if (siblingsIncome) {
+        //     console.log(siblingsIncome)
+        //     filteredUsers = filteredUsers.filter(user => user.siblingsIncome >= Number(siblingsIncome));
+        //     console.log(filteredUsers)
+        // }
 
-        const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
+        // const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
+        let quickRejectUsers = filteredUsers.filter(user =>
+            user.action === 0 && (
+                (classAttendance && user.classAttendancePer <= Number(classAttendance)) ||
+                (moralAttendance && user.deeniyathPer <= Number(moralAttendance)) ||
+                (mark && user.semPercentage <= Number(mark)) ||
+                (arrear && user.arrear >= Number(arrear)) ||
+                (siblingsIncome && user.siblingsIncome >= Number(siblingsIncome))
+            )
+        );
+
         setQuickRejectList(quickRejectUsers);
         // console.log('Filtered Users:', filteredUsers);
 
     }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark, arrear, siblingsIncome]);
+    const handleFilter = () => {
+        let quickRejectUsers = filterUsers.filter(user =>
+            user.action === 0 && user.semester !== 'I' && (
+                (classAttendance && user.classAttendancePer <= Number(classAttendance)) ||
+                (moralAttendance && user.deeniyathPer <= Number(moralAttendance)) ||
+                (mark && user.semPercentage <= Number(mark)) ||
+                (arrear && user.arrear >= Number(arrear)) ||
+                (siblingsIncome && user.siblingsIncome >= Number(siblingsIncome))
+            )
+        );
+
+        setQuickRejectList(quickRejectUsers);
+    };
 
     useEffect(() => {
         // Set default values for filters on initial render
@@ -885,11 +908,11 @@ function Action() {
 
             {quickRejectMode ? (
                 <div>
-                    <h3 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>Quick Rejection List</h3>
+                    <h3 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>Quick Rejection List (A student will be rejected if they meet any of the following conditions):</h3>
                     <div className="overflow-auto">
                         <div>
                             <div className=' '>
-                                <div className="mt-6 grid grid-cols-4">
+                                {/* <div className="mt-6 grid grid-cols-4">
                                     <label className="font-bold text-right mt-2 text-gray-700">Class Attendance:</label>
                                     <input
                                         type="text"
@@ -921,14 +944,68 @@ function Action() {
                                         value={arrear}
                                         onChange={(e) => setArrear(e.target.value)}
                                     />
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Family Income:</label>
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Annual Income:</label>
                                     <input
                                         type="text"
                                         className="border ml-3 rounded-md w-32 p-2 mt-10"
                                         value={siblingsIncome}
                                         onChange={(e) => setSiblingsIncome(e.target.value)}
                                     />
+                                </div> */}
+                                <div className="mt-6 grid grid-cols-4 gap-4">
+                                    <label className="font-bold text-right mt-2 text-gray-700">Class Attendance (&lt;=):</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        value={classAttendance}
+                                        onChange={(e) => setClassAttendance(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath /<br/> Moral Attendance (&lt;=):</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        value={moralAttendance}
+                                        onChange={(e) => setMoralAttendance(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Mark (&lt;=):</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={mark}
+                                        onChange={(e) => setMark(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Arrear (&gt;=):</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={arrear}
+                                        onChange={(e) => setArrear(e.target.value)}
+                                    />
+
+                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Annual Income (&gt;=):</label>
+                                    <input
+                                        type="text"
+                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        value={siblingsIncome}
+                                        onChange={(e) => setSiblingsIncome(e.target.value)}
+                                    />
+                                    <div>
+
+                                    </div>
+                                    <div className='flex justify-end items-end '>
+                                        <button
+                                            className="bg-teal-600 text-white rounded-md px-2  shadow-black shadow-lg py-2 mt-4 "
+                                            onClick={handleFilter}
+                                        >
+                                            Apply Filters
+                                        </button>
+                                    </div>
                                 </div>
+
+
                             </div>
                             <div className="text-right font-bold text-xl mr-40 mt-10 text-white">No of Students :  {quickRejectList.length}</div>
                             <div className="grid grid-cols-4  bg-amber-200 ">
@@ -1002,9 +1079,9 @@ function Action() {
                             <div className='flex inline-flex px-4'></div>
                             {radioValue === 'in-progress' && (
                                 <div>
-                                   
+
                                     <div className='end-px text-white border  border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                                    <label htmlFor="" className='form-radio ml-2 text-white text-lg'>Progress Status :&nbsp; </label>
+                                        <label htmlFor="" className='form-radio ml-2 text-white text-lg'>Progress Status :&nbsp; </label>
                                         <input
                                             type="checkbox"
                                             id="All"
@@ -1020,7 +1097,7 @@ function Action() {
                                             name="Aided"
                                             className='scale-200 ml-4'
                                             onChange={handleStaffverifyChange}
-                                            
+
 
                                         />
                                         <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
@@ -1740,7 +1817,7 @@ function Action() {
                                     type="submit"
                                     disabled={!isSubmitEnabled}
                                     className={`bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black ${!isSubmitEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                    // className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
+                                // className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
                                 >
                                     Submit
                                 </button>

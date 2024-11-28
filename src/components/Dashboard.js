@@ -52,6 +52,7 @@ const Dashboard = () => {
     if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
     const barData = {
+      
         labels: [`First Year UG ${data.firstYear + data.rfirstYear} / ${data.totalApplication}`, `Second Year UG ${data.secYear + data.rsecYear} / ${data.totalApplication}`, `Third Year UG ${data.thirdYear + data.rthirdYear} / ${data.totalApplication}`, `First Year PG ${data.pgfirstYear + data.rpgfirstYear} / ${data.totalApplication}`, `Second Year PG ${data.pgsecYear + data.rpgsecYear} / ${data.totalApplication}`],
         datasets: [
             {
@@ -126,6 +127,7 @@ const Dashboard = () => {
     };
 
     const totalApplicants = barData.datasets[0].data.reduce((sum, value) => sum + value, 0);
+    console.log('totalapp', totalApplicants)
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
@@ -164,7 +166,7 @@ const Dashboard = () => {
             </div>
 
             {/* Pie Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-4 ">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8 gap-6">
                 <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
                     <Pie options={pieOptions} data={pieData} />
                 </div>
@@ -185,7 +187,7 @@ const Dashboard = () => {
                             <div className="flex justify-between mb-1">
                                 <span className="text-base font-medium text-gray-700 2xl:text-3xl">{label}</span>
                                 <span className="text-base font-medium text-gray-700 2xl:text-3xl">
-                                    {((barData.datasets[0].data[index] / data.totalApplicants) * 100).toFixed(2)}%
+                                    {((barData.datasets[0].data[index] / totalApplicants) * 100).toFixed(2)}%
                                 </span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-5">

@@ -142,7 +142,7 @@ function AttendSfw() {
                 <div className="font-bold border border-white text-center py-3 col-span-2">Remark</div>
             </div>
             {users.map((user, index) => (
-                <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
+                <div key={`${user._id}-${index}`} className="grid grid-cols-10 w-auto bg-amber-100">
                     <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.registerNo}</div>
                     <div className="font-bold border border-white text-center uppercase py-3 col-span-3">{user.name}</div>
                     <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.dept}</div>
