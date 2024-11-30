@@ -104,12 +104,12 @@ function AttendSfm() {
     return (
         <div className="container mx-auto p-4">
         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">SFM Attendance</h3>
-        <div className="flex flex-wrap font-bold text-xl text-white">
+        <div className="flex flex-wrap font-bold text-xl ">
             <div className="w-full lg:w-auto">Total No of Applicants: {totaldata}</div>
             <div className="w-full lg:w-auto lg:ml-10">Completed: {totalwork}</div>
             <div className="w-full lg:w-auto lg:ml-10">Pending: {users.length}</div>
         </div>
-        <div className="flex flex-wrap text-white mt-10">
+        <div className="flex flex-wrap  mt-10">
             {/* <div className="w-full lg:w-auto">
                 <label className="text-lg font-bold">Previous Semester Working Days</label>
                 <input

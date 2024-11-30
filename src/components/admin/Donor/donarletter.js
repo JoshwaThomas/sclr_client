@@ -100,11 +100,11 @@ function DonarLetter() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Gratitude Letter</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 border  border-black p-10 rounded-xl text-lg font-bold md:grid-cols-2 gap-4">
                 <div onChange={(e) => fetchPanList(e)} className=''>
                     <div ref={dropdownRef} className="relative grid grid-cols-2  gap-4">
                         <div>
-                            <label className="block mb-1 text-white">Name or ID</label>
+                            <label className="block mb-1">Donor Name or ID</label>
                             <input
                                 type="text"
                                 value={searchTerm}

@@ -57,7 +57,7 @@ function Setting( )  {
         <div>
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white"> Password Change </h3>
             <div className='mt-10 '>
-                <label className="block mb-1 mt-3 text-white">Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                <label className="block mb-1 mt-3">Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                     type='password'
                     name='pass'
@@ -68,7 +68,7 @@ function Setting( )  {
                 />
             </div>
             <div>
-                <label className="block mb-1 mt-3 text-white">Re-Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
+                <label className="block mb-1 mt-3 ">Re-Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                 <input
                     type='password'
                     name='conpass'

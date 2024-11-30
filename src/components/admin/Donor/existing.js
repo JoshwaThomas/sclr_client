@@ -214,8 +214,8 @@ function Existing() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">EXISTING DONOR DETAILS</h3>
-            <form onSubmit={Submit} >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+            <form onSubmit={Submit} className='font-bold'>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 border border-black p-10 rounded-xl">
                     <div onChange={(e) => fetchPanList(e)} className=''>
                         {/* <label className="block mb-1">PAN No</label>
                         <select

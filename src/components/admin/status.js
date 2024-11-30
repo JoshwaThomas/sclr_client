@@ -477,8 +477,8 @@ function Status() {
             <div className="container mx-auto p-8">
                 <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                 <form className="space-y-4">
-                    <div className='text-white'>
-                        <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1">Application Status</h3>
+                    <div className=''>
+                        <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1 text-white">Application Status</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block mb-1">Register No.:</label>

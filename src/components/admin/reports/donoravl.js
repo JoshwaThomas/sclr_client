@@ -205,8 +205,8 @@ function Donoravl() {
                     Download Excel
                 </button>
                 <div className=' justify-end flex flex-col'>
-                    <div className="text-lg font-bold mb-4 text-white text-right ">Overall Fund:</div>
-                    <div className='text-lg font-bold mb-4 text-white text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
+                    <div className="text-lg font-bold mb-4  text-right ">Overall Fund:</div>
+                    <div className='text-lg font-bold mb-4  text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 </div>
                 <div className='mt-6 grid grid-cols-5 w-auto bg-amber-200'>
 

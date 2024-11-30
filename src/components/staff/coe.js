@@ -98,12 +98,12 @@ function Coe() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Semester Mark</h3>
-            <div className='flex inline-flex font-bold text-xl text-white '>
+            <div className='flex inline-flex font-bold text-xl  '>
                 <div>Total No of Applicants: {totaldata}</div>
                 <div className='ml-10'>Completed: {totalwork}</div>
                 <div className='ml-10'>Pending:  {users.length}</div>
             </div>
-            <div className="text-right font-bold text-xl ml-28 text-white">No of Students:  {users.length}</div>
+            <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
 
             <div className="grid grid-cols-10 w-full mt-7 bg-amber-200">
                 <div className="font-bold border border-white text-center py-3 col-span-1">Register No.</div>

@@ -127,7 +127,7 @@ const Donar = () => {
     <div>
       <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">NEW DONOR </h3>
       <form onSubmit={Submit} >
-        <div className=" border p-10 rounded-xl text-lg ">
+        <div className=" border border-black p-10 rounded-xl text-lg font-bold">
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <div>
               <label className="block mb-1">Donor ID</label>
@@ -136,7 +136,7 @@ const Donar = () => {
                 name="ScholarshipCategory"
                 value={did}
                 onChange={(e) => setDid(e.target.value)}
-                className=" w-72 p-2 border rounded-md text-slate-950 bg-gray-300 lg:w-48"
+                className=" w-72 p-2 border border-black rounded-md text-slate-950 bg-gray-300 lg:w-48 "
                 required
                 readOnly
               />
@@ -150,7 +150,7 @@ const Donar = () => {
                 name="ScholarshipCategory"
                 value={scholtype}
                 onChange={(e) => setScholType(e.target.value)}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                 required
               >
                 <option value="">Select</option>
@@ -193,7 +193,7 @@ const Donar = () => {
                     name='donordept'
                     value={donordept}
                     onChange={(e) => setDonordept(e.target.value)}
-                    className="w-72 p-2  border rounded-md text-slate-950 lg:w-48 lg:-ml-2"
+                    className="w-72 p-2  border border-black rounded-md text-slate-950 lg:w-48 lg:-ml-2"
                   // required
                   />
                 </div>
@@ -207,7 +207,7 @@ const Donar = () => {
                     name='donorbatch'
                     value={donorbatch}
                     onChange={(e) => setDonorbatch(e.target.value)}
-                    className="w-72 ml-28 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-72 ml-28 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                   // required
                   />
                 </div>
@@ -244,7 +244,7 @@ const Donar = () => {
                 name="name"
                 value={name}
                 onChange={(e) => setName(e.target.value.toUpperCase())}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>
@@ -256,7 +256,7 @@ const Donar = () => {
                 name="mobileNo"
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
               // required
               />
             </div>
@@ -267,7 +267,7 @@ const Donar = () => {
                 name="ScholarshipCategory"
                 value={pan}
                 onChange={(e) => setPan(e.target.value.toUpperCase())}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
 
               />
             </div>
@@ -278,7 +278,7 @@ const Donar = () => {
                 name="emailId"
                 value={emailId}
                 onChange={(e) => setEmailId(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
               // required
               />
             </div>
@@ -289,7 +289,7 @@ const Donar = () => {
                 name="address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value.toUpperCase())}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                 placeholder='Door No & Street'
               // required
               />
@@ -300,7 +300,7 @@ const Donar = () => {
                 name="state"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
               // required
               >
                 <option value="">Select State</option>
@@ -349,7 +349,7 @@ const Donar = () => {
                 name="district"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
               // required
               >
                 <option value="">Select District</option>
@@ -401,7 +401,7 @@ const Donar = () => {
                 name="pin"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                 placeholder='Pincode'
               // required
               />
@@ -414,7 +414,7 @@ const Donar = () => {
                 name="dob"
                 value={scholdate}
                 onChange={(e) => setScholDate(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-600 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-600 lg:w-48"
                 required
               />
             </div>
@@ -443,7 +443,7 @@ const Donar = () => {
                 name="name"
                 value={receipt}
                 onChange={(e) => setReceipt(e.target.value.toUpperCase())}
-                className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
               // required
               />
             </div>
@@ -458,7 +458,7 @@ const Donar = () => {
                 name={zakkath ? "zakkathamt" : "amount"}
                 value={zakkath ? zakkathamt : amount}
                 onChange={(e) => zakkath ? setZakkathamt(e.target.value) : setAmount(e.target.value)}
-                className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                 required
               />
             </div>

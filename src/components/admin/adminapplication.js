@@ -882,7 +882,7 @@ function Action() {
                     <input
                         type='text'
                         placeholder='Search text here'
-                        className='uppercase py-1 rounded-md mr-2'
+                        className='uppercase py-1 rounded-md mr-2 border border-black'
                         onChange={handleSearch}
                     />
                     <button
@@ -1007,20 +1007,20 @@ function Action() {
 
 
                             </div>
-                            <div className="text-right font-bold text-xl mr-40 mt-10 text-white">No of Students :  {quickRejectList.length}</div>
+                            <div className="text-right font-bold text-xl mr-40 mt-10 ">No of Students :  {quickRejectList.length}</div>
                             <div className="grid grid-cols-4  bg-amber-200 ">
-                                <div className="font-bold border border-white text-center py-3">Register No</div>
-                                <div className="font-bold border border-white text-center py-3">Name</div>
-                                <div className="font-bold border border-white text-center py-3">Special Categories</div>
-                                <div className="font-bold border border-white text-center py-3">Rejection Reason</div>
+                                <div className="font-bold border border-black text-center py-3">Register No</div>
+                                <div className="font-bold border border-black text-center py-3">Name</div>
+                                <div className="font-bold border border-black text-center py-3">Special Categories</div>
+                                <div className="font-bold border border-black text-center py-3">Rejection Reason</div>
                             </div>
                             {quickRejectList.map((user, index) => (
                                 <React.Fragment key={user._id}>
                                     <div className="grid grid-cols-4 bg-amber-100">
-                                        <div className="font-bold border border-white text-center py-3">{user.registerNo}</div>
-                                        <div className="font-bold border border-white text-center py-3">{user.name}</div>
-                                        <div className="font-bold border border-white text-center py-3">{user.specialCategory}</div>
-                                        <div className="font-bold border border-white text-center py-3">
+                                        <div className="font-bold border border-black text-center py-3">{user.registerNo}</div>
+                                        <div className="font-bold border border-black text-center py-3">{user.name}</div>
+                                        <div className="font-bold border border-black text-center py-3">{user.specialCategory}</div>
+                                        <div className="font-bold border border-black text-center py-3">
                                             <input
                                                 type="text"
                                                 placeholder="Enter rejection reason"
@@ -1054,7 +1054,7 @@ function Action() {
                     <div className='end-px'>
 
                         <div className='flex inline-flex '>
-                            <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                            <div className='end-px border border-black w-72 mt-4 py-2 border-4 flex inline-flex'>
                                 <input
                                     type="radio"
                                     id="all"
@@ -1080,8 +1080,8 @@ function Action() {
                             {radioValue === 'in-progress' && (
                                 <div>
 
-                                    <div className='end-px text-white border  border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                                        <label htmlFor="" className='form-radio ml-2 text-white text-lg'>Progress Status :&nbsp; </label>
+                                    <div className='end-px border border-black w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                        <label htmlFor="" className='form-radio ml-2  text-lg'>Progress Status :&nbsp; </label>
                                         <input
                                             type="checkbox"
                                             id="All"
@@ -1169,7 +1169,7 @@ function Action() {
                         </div>
                         {radioValue === 'all' && (
                             <div className=''>
-                                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
+                                <div className='end-px border border-black w-72 mt-4 py-2 border-4'>
                                     <input
                                         type="radio"
                                         id="all"
@@ -1208,7 +1208,7 @@ function Action() {
                         )}
                         {radioValue === 'in-progress' && (
                             <div className=''>
-                                <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4 flex inline-flex'>
+                                <div className='end-px  border border-black w-72 mt-4 py-2 border-4 flex inline-flex'>
                                     <input
                                         type="radio"
                                         id="all-progress"
@@ -1243,7 +1243,7 @@ function Action() {
                                     <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
                                 </div>
                                 <div className='flex inline-flex px-4'></div>
-                                <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                <div className='end-px border border-black w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                                     <input
                                         type="checkbox"
                                         id="muaddin"
@@ -1288,7 +1288,7 @@ function Action() {
                                     />
                                     <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                                 </div>
-                                {/* <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                                {/* <div className='end-px border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                             <input
                                 type="checkbox"
                                 id="All"
@@ -1376,20 +1376,20 @@ function Action() {
                         )}
                     </div>
                     <div className='mt-6 pl-0'>
-                        <div className="text-right font-bold text-xl mb-3 text-white">No of Students :  {filterUsers.length}</div>
+                        <div className="text-right font-bold text-xl mb-3">No of Students :  {filterUsers.length}</div>
                         <div className="grid grid-cols-4 w-auto bg-amber-200">
-                            <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
-                            <div className="font-bold border border-white text-center py-3">NAME</div>
-                            <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
-                            <div className="font-bold border border-white text-center py-3">ACTION</div>
+                            <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
+                            <div className="font-bold border border-black text-center py-3">NAME</div>
+                            <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
+                            <div className="font-bold border border-black text-center py-3">ACTION</div>
                         </div>
 
                         {filterUsers.map((user, index) => (
                             <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-100">
-                                <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                                <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                                <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                                <div className="font-bold border  border-white text-center uppercase py-3">
+                                <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
+                                <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
+                                <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
+                                <div className="font-bold border border-black text-center uppercase py-3">
                                     <button
                                         type="button"
                                         onClick={() => handleViewClick(user)}

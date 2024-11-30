@@ -124,7 +124,7 @@ function StudentLayout() {
   // };
 
   return (
-    <div className="flex flex-row bg-slate-400 h-screen w-screen ">
+    <div className="flex flex-row bg-zinc-50 h-screen w-screen ">
       <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
         <div className='flex flex-col mb-10 place-items-center'>
           <img src={Jmclogo} alt="" className="w-36 h-40" />

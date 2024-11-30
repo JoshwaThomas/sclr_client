@@ -31,21 +31,22 @@ const ProtectedRoute = ({ children }) => {
 
         const handleUserActivity = () => {
             clearTimeout(activityTimeout);
-
+        
             if (token) {
                 const decoded = jwtDecode(token);
                 const currentTime = Date.now() / 1000;
-
-                if (decoded.exp - currentTime < 60) {
+        
+                // Check if token is close to expiry (e.g., less than 5 minutes remaining)
+                if (decoded.exp - currentTime < 300) { // 5 minutes buffer
                     refreshToken();
                 }
             }
-
-            // Reset the timeout on user activity
+        
+            // Reset the timeout for 30 minutes inactivity
             activityTimeout = setTimeout(() => {
                 localStorage.removeItem('token');
                 navigate('/login');
-            }, 30 * 60 * 1000); // 30 minutes inactivity timeout
+            }, 30 * 60 * 1000);
         };
 
         const validateToken = () => {

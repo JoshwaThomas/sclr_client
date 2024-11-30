@@ -233,7 +233,7 @@ function StuReport() {
                         ))}
                     </select>
                     <div className='grid grid-cols-2'>
-                        <div className='end-px text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
+                        <div className='end-px  border border-amber-100 w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -269,7 +269,7 @@ function StuReport() {
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
 
                         </div>
-                        <div className=' -ml-56 text-white border border-amber-100 w-72 mt-4 py-2 border-4'>
+                        <div className=' -ml-56 border border-amber-100 w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -404,7 +404,7 @@ function StuReport() {
 
                 </div>*/}
 
-                <div className='end-px text-white border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
+                <div className='end-px border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
                     <input
                         type="checkbox"
                         id="muaddin"

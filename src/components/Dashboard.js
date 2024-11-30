@@ -140,7 +140,7 @@ const Dashboard = () => {
     const barColors = [" bg-fuchsia-500", "bg-green-900", "bg-blue-500", "bg-teal-500", "bg-orange-500"];
     
     return (
-        <div className="container mx-auto p-4 2xl:w-screen">
+        <div className="container bg-gray-400 mx-auto p-4 2xl:w-screen">
             {/* Statistics Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 2xl:gap-10">
                 <div className="bg-gray-100 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
@@ -166,7 +166,7 @@ const Dashboard = () => {
             </div>
 
             {/* Pie Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 2xl:gap-10">
                 <div className="bg-gray-100 p-4 rounded shadow 2xl:text-3xl">
                     <Pie options={pieOptions} data={pieData} />
                 </div>
