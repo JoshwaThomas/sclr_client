@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { GoAlert } from "react-icons/go";
 
 const Notification = ({ message, type, onClose }) => {
     if (!message) return null;
@@ -497,9 +498,9 @@ function Status() {
             <div className="container mx-auto p-8">
                 <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
                 <form className="space-y-4">
-                    <div className=''>
+                    <div className='font-bold'>
                         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1 text-white">Application Status</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 p-10 rounded-xl border border-black md:grid-cols-2 gap-4">
                             <div>
                                 <label className="block mb-1">Register No.:</label>
                                 <input
@@ -508,7 +509,7 @@ function Status() {
                                     name="registerNo"
                                     value={registerNo}
                                     onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
-                                    className="w-72 p-2 uppercase border rounded-md text-slate-950"
+                                    className="w-72 p-2 uppercase border  border-black rounded-md text-slate-950"
 
                                     required
                                 />
@@ -1629,8 +1630,9 @@ function Status() {
                 }
                 {deleteCon && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="bg-white p-6 rounded shadow-lg w-80">
-                            <h4 className="text-lg font-bold mb-4">Are you Sure Delete the {registerNo} Data? </h4>
+                        <div className="bg-white p-6 rounded shadow-lg w-96">
+                            <h1 className='text-center text-3xl flex justify-center'><GoAlert className='text-red-500 text-center'/></h1>
+                            <h4 className="text-lg font-bold mb-4"> Are you Sure Delete the {registerNo} Data? </h4>
                             <div className="flex justify-end space-x-2">
                                 <button onClick={handleConDelete} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-red-500">Confirm</button>
                                 <button onClick={closeModifyModal} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-500">Cancel</button>
