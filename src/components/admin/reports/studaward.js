@@ -151,7 +151,7 @@ function StudawardReport() {
                     <input
                         type='text'
                         placeholder='Search text here'
-                        className='uppercase py-1 rounded-md mr-2'
+                        className='uppercase py-1 border border-black rounded-md mr-2'
                         onChange={handleSearch}
                     />
                     <button
@@ -161,7 +161,7 @@ function StudawardReport() {
                         Search
                     </button>
                     <select
-                        className='uppercase py-1 rounded-md ml-4 w-20'
+                        className='uppercase py-1 border border-black rounded-md ml-4 w-20'
                         onChange={handleDepartmentChange}
                         value={selectedDepartment}
                     >
@@ -209,9 +209,8 @@ function StudawardReport() {
                 >
                     Download Excel
                 </button>
-
+                <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
                 <div className='mt-6 grid grid-cols-6 w-auto text-white bg-emerald-500'>
-
                     <div className="font-bold border border-white text-center py-3">DATE</div>
                     <div className="font-bold border border-white text-center py-3">REGISTER No</div>
                     <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>

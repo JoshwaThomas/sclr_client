@@ -146,7 +146,7 @@ function Donoravl() {
                     <input
                         type='text'
                         placeholder='Search text here'
-                        className='uppercase py-1 rounded-md mr-2'
+                        className='uppercase py-1 border border-black rounded-md mr-2'
                         onChange={handleSearch}
                     />
                     <button
@@ -208,8 +208,8 @@ function Donoravl() {
                     <div className="text-lg font-bold mb-4  text-right ">Overall Fund:</div>
                     <div className='text-lg font-bold mb-4  text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 </div>
+                <div className="text-right font-bold text-xl ml-28 ">No of Donors:  {filterUsers.length}</div>
                 <div className='mt-6 grid grid-cols-5 w-auto bg-emerald-500'>
-
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
                     <div className="font-bold border border-white text-center py-3">NAME</div>

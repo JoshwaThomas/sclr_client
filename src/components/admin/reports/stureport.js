@@ -22,14 +22,14 @@ function StuReport() {
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-    
-        const filteredUsers = users.filter((user) => 
+
+        const filteredUsers = users.filter((user) =>
             (user.dept && user.dept.toLowerCase().includes(searchText)) ||
             (user.registerNo && user.registerNo.toLowerCase().includes(searchText)) ||
             (user.name && user.name.toLowerCase().includes(searchText)) ||
             (user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText))
         );
-        
+
         setFilterUsers(filteredUsers);
     };
 
@@ -47,7 +47,7 @@ function StuReport() {
     const handleRadioChange = (e) => {
         setRadioValue(e.target.value);
     };
-  
+
 
     const handleSpecialCategoryChange = (e) => {
         const { name, checked } = e.target;
@@ -108,14 +108,14 @@ function StuReport() {
 
         setFilterUsers(filteredUsers);
     };
-    
+
     //check donardetails
 
     useEffect(() => {
         axios.get(`${apiUrl}/api/admin/studreport`)
             .then(response => {
                 setUsers(response.data);
-    
+
                 const uniqueDepartments = Array.from(new Set(response.data.map(user => user.dept)));
                 setDepartments(['All', ...uniqueDepartments]);
 
@@ -214,17 +214,17 @@ function StuReport() {
                     <input
                         type='text'
                         placeholder='Search text here'
-                        className='uppercase py-1 rounded-md mr-2'
+                        className='uppercase py-1 border border-black rounded-md mr-2'
                         onChange={handleSearch}
                     />
                     <button
                         type="button"
-                        className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
+                        className="bg-blue-500 border border-black  text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
                     >
                         Search
                     </button>
                     <select
-                        className='uppercase py-1 rounded-md ml-4 w-20'
+                        className='uppercase py-1 border border-black rounded-md ml-4 w-20'
                         onChange={handleDepartmentChange}
                         value={selectedDepartment}
                     >
@@ -232,7 +232,7 @@ function StuReport() {
                             <option key={index} value={dept}>{dept}</option>
                         ))}
                     </select>
-                    <div className='grid grid-cols-2'>
+                    <div className='grid grid-cols-3'>
                         <div className='end-px  border border-black w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
@@ -269,7 +269,7 @@ function StuReport() {
                             <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
 
                         </div>
-                        <div className=' -ml-56 border border-black w-72 mt-4 py-2 border-4'>
+                        <div className='border border-black w-72 mt-4 py-2 border-4'>
                             <input
                                 type="radio"
                                 id="all"
@@ -301,7 +301,17 @@ function StuReport() {
                             />
                             <label htmlFor="reject" className='form-radio ml-2 text-lg'>Reject</label>
                         </div>
+                        <div>
+                            <button
+                                type="button"
+                                className="bg-green-500 text-white mt-4 py-3 px-3 hover:bg-black rounded-lg "
+                                onClick={handleDownload}
+                            >
+                                Download Excel
+                            </button>
+                        </div>
                     </div>
+
                 </div>
 
                 {/* <div>
@@ -450,15 +460,9 @@ function StuReport() {
                     <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
                 </div>
 
-                <button
-                    type="button"
-                    className="bg-green-500 text-white py-3 px-3 -mt-7 ml-3 hover:bg-black rounded-lg "
-                    onClick={handleDownload}
-                >
-                    Download Excel
-                </button>
 
 
+                <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
                 <div className='mt-6 grid grid-cols-5  w-auto bg-emerald-500'>
 
                     <div className="font-bold border border-white text-center py-3">Reg. No</div>
@@ -468,7 +472,7 @@ function StuReport() {
                     <div className="font-bold border border-white text-center py-3">ACTION</div>
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className={`grid grid-cols-8 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                    <div key={index} className={`grid grid-cols-5 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
 
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
