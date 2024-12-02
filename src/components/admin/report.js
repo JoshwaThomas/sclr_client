@@ -7,50 +7,49 @@ function Report() {
             <div className='grid grid-cols-3 gap-10 ml-3 mr-3 font-bold '>
                 <button
                     onClick={() => navigate('/admin/report/allreport')}
-                    className="px-3 py-12 bg-cyan-500 text-white mt-32 text-xl hover:bg-black rounded-lg"
+                    className="px-4 py-9 bg-orange-500 text-white text-2xl mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-orange-600 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
+                    
                 >
-                    ALL Reports in Excel Format
+                    ALL Reports 
                 </button>
 
                 <button
                     onClick={() => navigate('/admin/report/stureport')}
-                    className="px-3 py-12 ml-2 bg-cyan-500 text-white mt-32 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-9 bg-blue-500 text-white text-2xl mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-blue-600 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
                 >
                     Student Reports
                 </button>
+
                 <button
                     onClick={() => navigate('/admin/report/studawardreport')}
-                    className="px-4 py-9 ml-2 bg-cyan-500 text-white mt-32 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-9 bg-teal-500 text-white text-2xl mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-teal-600 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
+                    
                 >
-                    Student Awarded Reports
+                    Funds Recieved by Students
                 </button>
 
                 <button
                     onClick={() => navigate('/admin/report/fundavl')}
-                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-9 bg-green-500 text-2xl text-white mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-green-600 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
                 >
                     Funds Available
                 </button>
 
                 <button
                     onClick={() => navigate('/admin/report/fundreport')}
-                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-9 bg-purple-600 text-white text-2xl mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-purple-700 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
                 >
-                    Year wise Funds Reports
+                    Yearly Fund Reports
                 </button>
+
                 <button
                     onClick={() => navigate('/admin/report/staffmaint')}
-                    className="px-4 py-12 bg-cyan-500 text-white mt-16 hover:bg-black text-xl rounded-lg"
+                    className="px-4 py-9 bg-red-500 text-2xl text-white mt-32 border-8 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-red-600 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full w-80 h-32"
                 >
                     Record Verification
                 </button>
-                {/* <button
-                    onClick={() => navigate('/admin/report/stureport')}
-                    className="px-3 py-9 bg-cyan-500 text-white hover:bg-black rounded-lg"
-                    >
-                    Student Reports
-                </button> */}
-            </div>
+</div>
+
         </div>
     )
 }
