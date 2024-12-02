@@ -214,7 +214,7 @@ function Modify() {
 
                                         }}
                                         onClick={() => setIsDropdownOpen(true)}
-                                        className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
+                                        className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-44 "
                                         placeholder="Search Donor"
                                         required
                                     />
@@ -293,7 +293,7 @@ function Modify() {
                                     name="ScholarshipCategory"
                                     value={scholtype}
                                     onChange={(e) => setScholType(e.target.value)}
-                                    className=" w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                    className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                                     required
                                 >
                                     <option value="">Select</option>
@@ -309,7 +309,7 @@ function Modify() {
                                     name="name"
                                     value={name}
                                     onChange={(e) => setName(e.target.value.toUpperCase())}
-                                    className=" w-72 p-2 border rounded-md text-slate-950"
+                                    className=" w-72 p-2 border border-black rounded-md text-slate-950"
 
                                 />
                             </div>
@@ -320,7 +320,7 @@ function Modify() {
                                     name="did"
                                     value={did}
                                     onChange={(e) => setDid(e.target.value.toUpperCase())}
-                                    className=" w-72 p-2 border rounded-md text-slate-950"
+                                    className=" w-72 p-2 border border-black rounded-md text-slate-950"
 
                                 />
                             </div>
@@ -333,7 +333,7 @@ function Modify() {
                                     name="mobileNo"
                                     value={mobileNo}
                                     onChange={(e) => setMobileNo(e.target.value)}
-                                    className="w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                                    className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
 
                                 />
                             </div>
@@ -344,7 +344,7 @@ function Modify() {
                                     name="pan"
                                     value={pan}
                                     onChange={(e) => setPan(e.target.value.toUpperCase())}
-                                    className=" w-72 p-2 border rounded-md text-slate-950"
+                                    className=" w-72 p-2 border border-black rounded-md text-slate-950"
 
                                 />
                             </div>
@@ -355,7 +355,7 @@ function Modify() {
                                     name="address"
                                     value={address}
                                     onChange={(e) => setAddress(e.target.value.toUpperCase())}
-                                    className="w-72 p-2 border rounded-md text-slate-950"
+                                    className="w-72 p-2 border border-black rounded-md text-slate-950"
                                     placeholder='Door No & Street'
 
                                 />
@@ -366,7 +366,7 @@ function Modify() {
                                     name="state"
                                     value={state}
                                     onChange={(e) => setState(e.target.value)}
-                                    className="w-72 p-2 border rounded-md text-slate-950"
+                                    className="w-72 p-2 border border-black rounded-md text-slate-950"
 
                                 >
                                     <option value="">Select State</option>
@@ -415,7 +415,7 @@ function Modify() {
                                     name="district"
                                     value={district}
                                     onChange={(e) => setDistrict(e.target.value)}
-                                    className="w-72 p-2 border rounded-md text-slate-950"
+                                    className="w-72 p-2 border border-black rounded-md text-slate-950"
 
                                 >
                                     <option value="">Select District</option>
@@ -467,7 +467,7 @@ function Modify() {
                                     name="pin"
                                     value={pin}
                                     onChange={(e) => setPin(e.target.value)}
-                                    className="w-72 p-2 border rounded-md text-slate-950"
+                                    className="w-72 p-2 border border-black rounded-md text-slate-950"
                                     placeholder='Pincode'
 
                                 />
@@ -483,13 +483,13 @@ function Modify() {
                                             name='donordept'
                                             value={donordept}
                                             onChange={(e) => setDonordept(e.target.value)}
-                                            className="w-72 p-2  border rounded-md text-slate-950 lg:w-48"
+                                            className="w-72 p-2  border border-black rounded-md text-slate-950 lg:w-48"
 
                                         />
                                     </div>
                                     <div></div>
                                     <div>
-                                        <label className="block mb-1 w-80 ml-24">
+                                        <label className="block mb-1 w-80 ml-28">
                                             Studied Year: <span className='text-red-500 text-lg'><sup>*</sup></span>
                                         </label>
                                         <input
@@ -497,7 +497,7 @@ function Modify() {
                                             name='donorbatch'
                                             value={donorbatch}
                                             onChange={(e) => setDonorbatch(e.target.value)}
-                                            className="w-72 ml-24 p-2 border rounded-md text-slate-950 lg:w-48"
+                                            className="w-72 ml-28 p-2 border border-black rounded-md text-slate-950 lg:w-48"
 
                                         />
                                     </div>

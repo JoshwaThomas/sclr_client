@@ -55,6 +55,7 @@ function Status() {
     const [showModal, setShowModal] = useState(false);
     const [showAcceptModal, setShowAcceptModal] = useState(false);
     const [showModifyModal, setShowModifyModal] = useState(false);
+    const [deleteCon, setDeleteCon] = useState(false);
     const [scholamt, setScholamt] = useState('');
     const [scholdonar, setScholdonar] = useState('');
     const [donars, setDonars] = useState([]);
@@ -67,6 +68,7 @@ function Status() {
     const [password, setPassword] = useState('');
     const apiUrl = process.env.REACT_APP_API_URL;
     const [notification, setNotification] = useState({ message: '', type: '' });
+
 
     const showNotification = (message, type) => {
         setNotification({ message, type });
@@ -275,7 +277,7 @@ function Status() {
                 setPassword(result.data.password)
                 setJamath(result.data.jamath)
                 setShowModifyModal(true);
-                console.log(deeniyathPer, classAttendancePer, semPercentage, preSemester,'sh', result.data.scholarship, result.data.hostel)
+                console.log(deeniyathPer, classAttendancePer, semPercentage, preSemester, 'sh', result.data.scholarship, result.data.hostel)
             }
         } catch (err) {
             alert('An error occurred while fetching the student data');
@@ -456,7 +458,6 @@ function Status() {
             window.location.reload();
         } catch (err) {
             console.log(err);
-            // Handle error appropriately
         }
     };
 
@@ -469,8 +470,24 @@ function Status() {
     };
     const closeModifyModal = () => {
         setShowModifyModal(false);
+        setDeleteCon(false);
     };
+    const handleDelete = () => {
+        setDeleteCon(true);
+    }
+    const handleConDelete = async (e) => {
+        e.preventDefault();
+        try {
+            console.log("Delete", registerNo)
+            const res = await axios.post(`${apiUrl}/api/admin/delete/${registerNo}`,)
+            if (res) {
 
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+    }
 
     return (
         <div>
@@ -842,7 +859,7 @@ function Status() {
                                                             checked={ugOrPg === 'UG'}
                                                             onChange={(e) => setUgOrPg(e.target.value)}
                                                             required
-                                                            disabled
+
                                                         />
                                                         <label htmlFor="UG" className=' form-radio ml-2 text-lg'> UG</label>
                                                     </div>
@@ -856,7 +873,7 @@ function Status() {
                                                             checked={ugOrPg === 'PG'}
                                                             onChange={(e) => setUgOrPg(e.target.value)}
                                                             required
-                                                            disabled
+
                                                         />
                                                         <label htmlFor="PG" className=' form-radio ml-2 text-lg'> PG</label>
                                                     </div>
@@ -875,7 +892,7 @@ function Status() {
                                                             checked={procategory === 'Aided'}
                                                             onChange={(e) => setProcategory(e.target.value)}
                                                             required
-                                                            disabled
+
                                                         />
                                                         <label htmlFor="Aided" className=' form-radio ml-2 text-lg'> Aided</label>
                                                     </div>
@@ -889,7 +906,7 @@ function Status() {
                                                             checked={procategory === 'SFM'}
                                                             onChange={(e) => setProcategory(e.target.value)}
                                                             required
-                                                            disabled
+
                                                         />
                                                         <label htmlFor="SFM" className=' form-radio ml-2 text-lg'> SFM</label>
                                                     </div>
@@ -903,7 +920,7 @@ function Status() {
                                                             checked={procategory === 'SFW'}
                                                             onChange={(e) => setProcategory(e.target.value)}
                                                             required
-                                                            disabled
+
                                                         />
                                                         <label htmlFor="SFW" className=' form-radio ml-2 text-lg'> SFW </label>
                                                     </div>
@@ -976,7 +993,7 @@ function Status() {
                                                             name="semester"
                                                             value="III"
                                                             className=' scale-200'
-                                                            checked={semester === 'III '}
+                                                            checked={semester === 'III'}
                                                             onChange={(e) => setSemester(e.target.value)}
                                                             required
                                                         />
@@ -1512,7 +1529,7 @@ function Status() {
                                                     </div>
                                                 </div>)}
 
-                                                {/* <div>
+                                                <div>
                                                     <label className="block mb-1">Percentage of Mark:</label>
                                                     <input
                                                         type="text"
@@ -1544,7 +1561,7 @@ function Status() {
                                                         className="w-48 md:w-92 p-2 border rounded-md text-slate-950"
                                                         required
                                                     />
-                                                </div> */}
+                                                </div>
                                                 <div>
                                                     <label className="block mb-1">Password:</label>
                                                     <input
@@ -1593,6 +1610,13 @@ function Status() {
                                     >
                                         Close
                                     </button>
+                                    <button
+                                        type="button"
+                                        className="bg-red-500 text-white py-2 px-4 ml-2 rounded-md"
+                                        onClick={handleDelete}
+                                    >
+                                        Delete
+                                    </button>
 
                                 </div>
                             </form>
@@ -1600,6 +1624,17 @@ function Status() {
                     </div>
                 )
                 }
+                {deleteCon && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="bg-white p-6 rounded shadow-lg w-80">
+                            <h4 className="text-lg font-bold mb-4">Are you Sure Delete the {registerNo} Data? </h4>
+                            <div className="flex justify-end space-x-2">
+                                <button onClick={handleConDelete} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-red-500">Confirm</button>
+                                <button onClick={closeModifyModal} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-500">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
                 {/* {
                     showModifyModal && (

@@ -152,7 +152,7 @@ function Fundstatement() {
                     Download Excel
                 </button>
             </div>
-            <div className='mt-6 grid grid-cols-8  w-auto bg-amber-200'>
+            <div className='grid grid-cols-8 text-white w-auto bg-emerald-500 mt-6'>
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
@@ -166,8 +166,8 @@ function Fundstatement() {
                 {/* <div className="font-bold border border-white text-center">Action</div> */}
 
             </div>
-            {filterUsers.map((user) => (
-                <div key={user.pan} className="grid grid-cols-8 bg-amber-100">
+            {filterUsers.map((user, index) => (
+                <div key={user.pan} className={`grid grid-cols-8 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                     {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
                     <div className="font-bold border border-white text-center items-center align-middle uppercase py-3 col-span-1"> {formatDate(user.scholdate)}</div>
                     <div className="font-bold border border-white text-center text-wrap uppercase py-3 col-span-3">{user.name}</div>

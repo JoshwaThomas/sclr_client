@@ -94,7 +94,7 @@ function Action() {
                 
             </div>
             <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
-            <div className="grid grid-cols-6 w-auto bg-emerald-500 mt-4">
+            <div className="grid grid-cols-6 text-white w-auto bg-emerald-500 mt-4">
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}

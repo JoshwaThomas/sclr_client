@@ -208,7 +208,7 @@ function Donoravl() {
                     <div className="text-lg font-bold mb-4  text-right ">Overall Fund:</div>
                     <div className='text-lg font-bold mb-4  text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 </div>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-amber-200'>
+                <div className='mt-6 grid grid-cols-5 w-auto bg-emerald-500'>
 
                     <div className="font-bold border border-white text-center py-3">Donor ID</div>
                     <div className="font-bold border border-white text-center py-3">Scholar Type</div>
@@ -218,7 +218,7 @@ function Donoravl() {
                     {/* <div className="font-bold border border-white text-center">Pan</div> */}
                 </div>
                 {filterUsers.map((user, index) => (
-                    <div key={index} className="grid grid-cols-5 w-auto bg-amber-100">
+                    <div key={index} className={`grid grid-cols-5 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
 
                         <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>

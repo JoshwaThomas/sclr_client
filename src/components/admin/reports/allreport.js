@@ -104,7 +104,7 @@ function Allreport() {
                 >
                     Download Excel
                 </button>
-                <div className='mt-6 grid grid-cols-6 w-auto bg-amber-200'>
+                <div className='mt-6 grid grid-cols-6 w-auto text-white bg-emerald-500'>
                     <div className="font-bold border border-white text-center py-3">DATE</div>
                     <div className="font-bold border border-white text-center py-3">Reg. No</div>
                     <div className="font-bold border border-white text-center py-3">Name</div>
@@ -113,7 +113,7 @@ function Allreport() {
                     <div className='font-bold border border-white text-center py-3'>APPLICATION TYPE</div>
                 </div>
                 {users.map((user, index) => (
-                    <div key={index} className="grid grid-cols-6 bg-amber-100">
+                    <div key={index} className={`grid grid-cols-6 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                         <div className="font-bold border border-white text-center uppercase py-3">{new Date(user.amtdate).toLocaleDateString()}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
                         <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>

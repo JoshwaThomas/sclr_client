@@ -1008,7 +1008,7 @@ function Action() {
 
                             </div>
                             <div className="text-right font-bold text-xl mr-40 mt-10 ">No of Students :  {quickRejectList.length}</div>
-                            <div className="grid grid-cols-4  bg-amber-200 ">
+                            <div className="grid grid-cols-4 text-white bg-emerald-500 ">
                                 <div className="font-bold border border-black text-center py-3">Register No</div>
                                 <div className="font-bold border border-black text-center py-3">Name</div>
                                 <div className="font-bold border border-black text-center py-3">Special Categories</div>
@@ -1016,7 +1016,7 @@ function Action() {
                             </div>
                             {quickRejectList.map((user, index) => (
                                 <React.Fragment key={user._id}>
-                                    <div className="grid grid-cols-4 bg-amber-100">
+                                    <div className={`grid grid-cols-4  ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                                         <div className="font-bold border border-black text-center py-3">{user.registerNo}</div>
                                         <div className="font-bold border border-black text-center py-3">{user.name}</div>
                                         <div className="font-bold border border-black text-center py-3">{user.specialCategory}</div>
@@ -1377,7 +1377,7 @@ function Action() {
                     </div>
                     <div className='mt-6 pl-0'>
                         <div className="text-right font-bold text-xl mb-3">No of Students :  {filterUsers.length}</div>
-                        <div className="grid grid-cols-4 w-auto bg-amber-200">
+                        <div className="grid grid-cols-4 w-auto text-white bg-emerald-500">
                             <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
                             <div className="font-bold border border-black text-center py-3">NAME</div>
                             <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
@@ -1385,7 +1385,7 @@ function Action() {
                         </div>
 
                         {filterUsers.map((user, index) => (
-                            <div key={`${user._id}-${index}`} className="grid grid-cols-4 w-auto bg-amber-100">
+                            <div key={`${user._id}-${index}`} className={`grid grid-cols-4 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                                 <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
                                 <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
                                 <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>

@@ -113,7 +113,7 @@ function DonarLetter() {
                                     setIsDropdownOpen(true);
                                 }}
                                 onClick={() => setIsDropdownOpen(true)}
-                                className="w-72 p-2 border rounded-md text-slate-950 lg:w-44 "
+                                className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-44 "
                                 placeholder="Search Donor"
                                 required
                             />
