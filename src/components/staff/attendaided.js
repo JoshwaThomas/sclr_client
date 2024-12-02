@@ -33,7 +33,7 @@ function Attendaided() {
                 const work = totalaided - totalfilter;
                 setTotalwork(work)
                 setTotaldata(totalaided)
-                console.log('work',work)
+                console.log('work', work)
 
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
@@ -59,7 +59,7 @@ function Attendaided() {
                 // const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
 
-                if ( totalCurrAttendance > 0) {
+                if (totalCurrAttendance > 0) {
                     const percentage = (currAttendance /
                         totalCurrAttendance) * 100;
                     acc[user.registerNo] = percentage.toFixed(2);
@@ -106,7 +106,7 @@ function Attendaided() {
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Aided Attendance</h3>
             <div className='flex inline-flex font-bold text-xl '>
-            <div> Total No of Applicants: {totaldata}</div>
+                <div> Total No of Applicants: {totaldata}</div>
                 <div className='ml-10 '>Completed: {totalwork}</div>
                 <div className='ml-10 '>Pending:  {users.length}</div>
             </div>
@@ -127,28 +127,28 @@ function Attendaided() {
                     <input
                         type='text'
                         name='currAttendancetot'
-                        className="w-16 ml-4 border rounded-md text-right  text-slate-950"
+                        className="w-16 ml-4 border border-black rounded-md text-right  text-slate-950"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
                 </div>
                 <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
             </div>
-            <div className="grid grid-cols-10 w-auto mt-7 bg-amber-200">
-                <div className="font-bold border border-white text-center py-3 col-span-1">Register No.</div>
-                <div className="font-bold border border-white text-center py-3 col-span-3">Name</div>
-                <div className="font-bold border border-white text-center py-3 col-span-1">Department</div>
-                <div className="font-bold border border-white text-center py-3 col-span-1 ">Previous Semester</div>
-                <div className="font-bold border border-white text-center py-3 col-span-1">Current Semester</div>
-                <div className="font-bold border border-white text-center py-3 col-span-1">Percentage</div>
-                <div className="font-bold border border-white text-center py-3 col-span-2">Remark</div>
-            </div>                   
-             {users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
-                <div key={`${user._id}-${index}`} className="grid grid-cols-7 w-auto bg-amber-100">
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.registerNo}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-3">{user.name}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.dept}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">
+            <div className="grid grid-cols-10 w-auto mt-7 text-white bg-emerald-500">
+                <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
+                <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1 ">Previous Semester</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Current Semester</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
+                <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
+            </div>
+            {users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
+                <div key={`${user._id}-${index}`} className={`grid grid-cols-10 w-auto ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
+                    <div className="font-bold border border-black text-center uppercase py-3 col-span-3">{user.name}</div>
+                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
+                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">
                         <input
                             type='text'
                             name='prevAttendance'
@@ -157,7 +157,7 @@ function Attendaided() {
                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center py-3 col-span-1">
+                    <div className="font-bold border border-black text-center py-3 col-span-1">
                         <input
                             type='text'
                             name='currAttendance'
@@ -166,10 +166,10 @@ function Attendaided() {
                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                         />
                     </div>
-                    <div className="font-bold border border-white text-center py-3 col-span-1">
+                    <div className="font-bold border border-black text-center py-3 col-span-1">
                         {classAttendancePer[user.registerNo] || ''}
                     </div>
-                    <div className="font-bold border border-white text-center col-span-2">
+                    <div className="font-bold border border-black text-center col-span-2">
                         <input
                             type='textarea'
                             name='classAttendanceRem'
@@ -180,7 +180,9 @@ function Attendaided() {
                     </div>
                 </div>
             ))}
-            <button onClick={updateAttendance} className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4'>Submit</button>
+            <div className='text-right font-bold'>
+                <button onClick={updateAttendance} className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4'>Submit</button>
+            </div>
         </div>
     );
 }
