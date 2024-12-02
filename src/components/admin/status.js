@@ -186,7 +186,7 @@ function Status() {
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
-                alert('Student Not Found');
+                showNotification('Student Not Found','error');
                 setStudent(null);
             } else {
                 setStudent(result.data);
@@ -236,7 +236,7 @@ function Status() {
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
-                alert('Student Not Found');
+                showNotification('Student Not Found','error');
                 setStudent(null);
 
             }
@@ -479,9 +479,12 @@ function Status() {
         e.preventDefault();
         try {
             console.log("Delete", registerNo)
-            const res = await axios.post(`${apiUrl}/api/admin/delete/${registerNo}`,)
+            // rejectdata.js backend file
+            const res = await axios.delete(`${apiUrl}/api/admin/delete/${registerNo}`,)
             if (res) {
-
+                showNotification("Data Deleted Successfully", "error");
+                setShowModifyModal(false);
+                setDeleteCon(false)
             }
         } catch (err) {
             console.log(err);
