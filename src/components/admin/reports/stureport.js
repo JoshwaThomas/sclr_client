@@ -463,25 +463,24 @@ function StuReport() {
 
 
                 <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
-                <div className='mt-6 grid grid-cols-5  w-auto bg-emerald-500'>
-
-                    <div className="font-bold border border-white text-center py-3">Reg. No</div>
-                    <div className="font-bold border border-white text-center py-3">Dept</div>
-                    <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">MOBILE</div>
-                    <div className="font-bold border border-white text-center py-3">ACTION</div>
+                <div className='mt-6 grid grid-cols-5  w-auto bg-emerald-500 sticky top-0'>
+                    <div className="font-bold border border-black text-center py-3">Reg. No</div>
+                    <div className="font-bold border border-black text-center py-3">Dept</div>
+                    <div className="font-bold border border-black text-center py-3">NAME</div>
+                    <div className="font-bold border border-black text-center py-3">MOBILE</div>
+                    <div className="font-bold border border-black text-center py-3">ACTION</div>
                 </div>
-                {filterUsers.map((user, index) => (
-                    <div key={index} className={`grid grid-cols-5 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.mobileNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.action}</div>
-                    </div>
-                ))}
-
+                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                    {filterUsers.map((user, index) => (
+                        <div key={index} className={`grid grid-cols-5 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.mobileNo}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.action}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

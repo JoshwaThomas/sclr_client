@@ -210,27 +210,27 @@ function StudawardReport() {
                     Download Excel
                 </button>
                 <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
-                <div className='mt-6 grid grid-cols-6 w-auto text-white bg-emerald-500'>
-                    <div className="font-bold border border-white text-center py-3">DATE</div>
-                    <div className="font-bold border border-white text-center py-3">REGISTER No</div>
-                    <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
-                    <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">AMOUNT</div>
-                    <div className="font-bold border border-white text-center py-3">ACADEMIC</div>
+                <div className='mt-6 grid grid-cols-6 w-auto text-white bg-emerald-500 sticky top-0'>
+                    <div className="font-bold border border-black text-center py-3">DATE</div>
+                    <div className="font-bold border border-black text-center py-3">REGISTER No</div>
+                    <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
+                    <div className="font-bold border border-black text-center py-3">NAME</div>
+                    <div className="font-bold border border-black text-center py-3">AMOUNT</div>
+                    <div className="font-bold border border-black text-center py-3">ACADEMIC</div>
                 </div>
-                {filterUsers.map((user, index) => (
-                    <div key={index} className={`grid grid-cols-6 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                    {filterUsers.map((user, index) => (
+                        <div key={index} className={`grid grid-cols-6 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
 
-                        <div className="font-bold border border-white text-center uppercase py-3"> {new Date(user.amtdate).toLocaleDateString()} </div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.registerNo}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.dept}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.totalScholamt)}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.acyear}</div>
-                    </div>
-                ))}
-
+                            <div className="font-bold border border-black text-center uppercase py-3"> {new Date(user.amtdate).toLocaleDateString()} </div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.totalScholamt)}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.acyear}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

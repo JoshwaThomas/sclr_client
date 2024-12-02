@@ -22,7 +22,7 @@ function Fundstatement() {
 
     // const handleSearch = (e) => {
     //     const searchText = e.target.value.toLowerCase();
-    
+
     //     const filteredUsers = users.filter((user) => {
     //         return (
     //             (user.pan && user.pan.toLowerCase().includes(searchText)) ||
@@ -37,14 +37,14 @@ function Fundstatement() {
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-    
-        const filteredUsers = users.filter((user) => 
+
+        const filteredUsers = users.filter((user) =>
             (user.name && user.name.toLowerCase().includes(searchText)) ||
-            (user.pan && user.pan.toLowerCase().includes(searchText)) 
+            (user.pan && user.pan.toLowerCase().includes(searchText))
             // (user.name && user.name.toLowerCase().includes(searchText)) ||
             // (user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText))
         );
-        
+
         setFilterUsers(filteredUsers);
     };
 
@@ -87,11 +87,11 @@ function Fundstatement() {
         saveAs(data, fileName + fileExtension);
     };
 
-     const formatDate = (dateString) => {
+    const formatDate = (dateString) => {
         return dayjs(dateString).format('DD-MM-YYYY');
     };
-      
-      const formatCurrency = (amount) => {
+
+    const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
             style: 'currency',
             currency: 'INR',
@@ -106,7 +106,7 @@ function Fundstatement() {
                 <input
                     type='text'
                     placeholder='Search text here'
-                    className='uppercase py-1 rounded-md mr-2'
+                    className='uppercase py-1 border border-black rounded-md mr-2'
                     onChange={handleSearch}
                 />
                 <button
@@ -152,7 +152,7 @@ function Fundstatement() {
                     Download Excel
                 </button>
             </div>
-            <div className='grid grid-cols-8 text-white w-auto bg-emerald-500 mt-6'>
+            <div className='grid grid-cols-8 text-white w-auto bg-emerald-500 mt-6 sticky top-0'>
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
@@ -166,21 +166,22 @@ function Fundstatement() {
                 {/* <div className="font-bold border border-white text-center">Action</div> */}
 
             </div>
-            {filterUsers.map((user, index) => (
-                <div key={user.pan} className={`grid grid-cols-8 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                    {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center items-center align-middle uppercase py-3 col-span-1"> {formatDate(user.scholdate)}</div>
-                    <div className="font-bold border border-white text-center text-wrap uppercase py-3 col-span-3">{user.name}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.mobileNo || '-'}</div>
-                    {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.scholtype}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.pan}</div>
-                    <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{formatCurrency(user.amount || user.zakkathamt || 0)}</div>
-                    {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
+            <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                {filterUsers.map((user, index) => (
+                    <div key={user.pan} className={`grid grid-cols-8 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                        {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
+                        <div className="font-bold border border-white text-center items-center align-middle uppercase py-3 col-span-1"> {formatDate(user.scholdate)}</div>
+                        <div className="font-bold border border-white text-center text-wrap uppercase py-3 col-span-3">{user.name}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.mobileNo || '-'}</div>
+                        {/* <div className="font-bold border border-white text-center uppercase py-3">{user.}</div> */}
+                        <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.scholtype}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{user.pan}</div>
+                        <div className="font-bold border border-white text-center uppercase py-3 col-span-1">{formatCurrency(user.amount || user.zakkathamt || 0)}</div>
+                        {/* <div className="font-bold border border-white text-center uppercase">{user.balance}</div> */}
 
-                </div>
-            ))}
-
+                    </div>
+                ))}
+            </div>
         </div>
     )
 }

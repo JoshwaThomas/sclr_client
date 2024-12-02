@@ -209,26 +209,26 @@ function Donoravl() {
                     <div className='text-lg font-bold mb-4  text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
                 </div>
                 <div className="text-right font-bold text-xl ml-28 ">No of Donors:  {filterUsers.length}</div>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-emerald-500'>
-                    <div className="font-bold border border-white text-center py-3">Donor ID</div>
-                    <div className="font-bold border border-white text-center py-3">Scholar Type</div>
-                    <div className="font-bold border border-white text-center py-3">NAME</div>
-                    <div className="font-bold border border-white text-center py-3">General</div>
-                    <div className="font-bold border border-white text-center py-3">Zakat</div>
+                <div className='mt-6 grid grid-cols-5 w-auto bg-emerald-500 sticky top-0'>
+                    <div className="font-bold border border-black text-center py-3">Donor ID</div>
+                    <div className="font-bold border border-black text-center py-3">Scholar Type</div>
+                    <div className="font-bold border border-black text-center py-3">NAME</div>
+                    <div className="font-bold border border-black text-center py-3">General</div>
+                    <div className="font-bold border border-black text-center py-3">Zakat</div>
                     {/* <div className="font-bold border border-white text-center">Pan</div> */}
                 </div>
-                {filterUsers.map((user, index) => (
-                    <div key={index} className={`grid grid-cols-5 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.did}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.scholtype}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{user.name}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.balance)}</div>
-                        <div className="font-bold border border-white text-center uppercase py-3">{formatCurrency(user.zakkathbal || 0)}</div>
-                        {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
-                    </div>
-                ))}
-
+                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                    {filterUsers.map((user, index) => (
+                        <div key={index} className={`grid grid-cols-5 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.did}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.scholtype}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.balance)}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.zakkathbal || 0)}</div>
+                            {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

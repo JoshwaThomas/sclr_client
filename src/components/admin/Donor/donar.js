@@ -467,14 +467,14 @@ const Donar = () => {
           <div className='text-right'>
             <button
               type='submit'
-              className=' p-2 border mt-20 px-6 text-white font-bold rounded-md  hover:bg-black bg-orange-500'
+              className=' p-2 border mt-20 px-6 text-white font-bold rounded-md  hover:bg-orange-700 bg-orange-500'
 
             >
               Submit
             </button>
             <button
               type="button"
-              className="bg-blue-500 hover:bg-black p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md "
+              className="bg-blue-500 hover:bg-black p-2 border  ml-6 mt-20 px-6 text-white font-bold rounded-md hover:bg-blue-700"
               onClick={handlePrint}
             >
               Print

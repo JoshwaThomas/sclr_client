@@ -10,9 +10,9 @@ function Guide() {
             <div>
                 <div className="w-full flex flex-col font-medium overflow-y-auto">
                     <div class="overflow-auto">
-                        <div class="grid grid-cols-2 border w-auto mx-12 my-5 bg-cyan-300 text-center  border-black">
-                            <div className="font-bold text-xl text-center py-2 border border-black">Department Code</div>
-                            <div className="font-bold text-xl text-center py-2 border border-black">Department Name</div>
+                        <div class="grid grid-cols-2 font-bold border w-auto mx-12 my-5 bg-emerald-300 text-center  border-black">
+                            <div className="font-bold text-xl text-center py-2 border bg-emerald-500 text-white border-black ">Department Code</div>
+                            <div className="font-bold text-xl text-center py-2 border bg-emerald-500 text-white border-black">Department Name</div>
                             <div className='border border-black py-2 '>UAR</div>
                             <div className='border border-black py-2'>BA ARABIC</div>
                             <div className='border border-black py-2'>UBA</div>

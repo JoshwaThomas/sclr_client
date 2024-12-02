@@ -187,7 +187,7 @@ function Status() {
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
-                showNotification('Student Not Found','error');
+                showNotification('Student Not Found', 'error');
                 setStudent(null);
             } else {
                 setStudent(result.data);
@@ -237,7 +237,7 @@ function Status() {
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
             if (result.data.status === 'not exist') {
-                showNotification('Student Not Found','error');
+                showNotification('Student Not Found', 'error');
                 setStudent(null);
 
             }
@@ -1150,10 +1150,13 @@ function Status() {
                                                     readOnly
                                                 >
                                                     <option value="">Select</option>
+                                                    <option value="UAI">UAI</option>
+                                                    <option value="UAM">UAM</option>
                                                     <option value="UAR">UAR</option>
                                                     <option value="UBA">UBA</option>
                                                     <option value="UBO">UBO</option>
                                                     <option value="UBT">UBT</option>
+                                                    <option value="UCC">UCC</option>
                                                     <option value="UCO">UCO</option>
                                                     <option value="UCH">UCH</option>
                                                     <option value="UCA">UCA</option>
@@ -1164,6 +1167,8 @@ function Status() {
                                                     <option value="UHS">UHS</option>
                                                     <option value="UHM">UHM</option>
                                                     <option value="UIT">UIT</option>
+                                                    <option value="UIC">UIC</option>
+                                                    <option value="UIF">UIF</option>
                                                     <option value="UMA">UMA</option>
                                                     <option value="UMB">UMB</option>
                                                     <option value="UND">UND</option>
@@ -1186,6 +1191,7 @@ function Status() {
                                                     <option value="PMB">PMB</option>
                                                     <option value="PND">PND</option>
                                                     <option value="PPH">PPH</option>
+                                                    <option value="PSW">PSW</option>
                                                     <option value="PTA">PTA</option>
                                                     <option value="PZO">PZO</option>
                                                     <option value="MBA">MBA</option>
@@ -1631,7 +1637,7 @@ function Status() {
                 {deleteCon && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="bg-white p-6 rounded shadow-lg w-96">
-                            <h1 className='text-center text-3xl flex justify-center'><GoAlert className='text-red-500 text-center'/></h1>
+                            <h1 className='text-center text-3xl flex justify-center'><GoAlert className='text-red-500 text-center' /></h1>
                             <h4 className="text-lg font-bold mb-4"> Are you Sure Delete the {registerNo} Data? </h4>
                             <div className="flex justify-end space-x-2">
                                 <button onClick={handleConDelete} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-red-500">Confirm</button>

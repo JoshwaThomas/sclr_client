@@ -278,7 +278,7 @@ function Modify() {
                                 )} */}
 
                                     {/* </div> */}
-                                    <button onClick={handleData} className='bg-blue-500 text-white font-b py-2 px-4 ml-16 hover:bg-black rounded-lg mt-7'>
+                                    <button onClick={handleData} className='bg-blue-500 text-white font-b py-2 px-4 ml-14 hover:bg-black rounded-lg mt-7'>
                                         Get
                                     </button>
                                 </div>
@@ -286,14 +286,14 @@ function Modify() {
                         </div>
                     </div>
                     {donar && (
-                        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl'>
+                        <div className='grid grid-cols-1 md:grid-cols-3 gap-4 border border-black mt-2 p-10 rounded-xl'>
                             <div>
                                 <label className="block mb-1">Scholarship Type</label>
                                 <select
                                     name="ScholarshipCategory"
                                     value={scholtype}
                                     onChange={(e) => setScholType(e.target.value)}
-                                    className=" w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
+                                    className=" lg:w-72 p-2 border border-black rounded-md text-slate-950 md:w-48"
                                     required
                                 >
                                     <option value="">Select</option>
@@ -333,7 +333,7 @@ function Modify() {
                                     name="mobileNo"
                                     value={mobileNo}
                                     onChange={(e) => setMobileNo(e.target.value)}
-                                    className="w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
+                                    className="md:w-48 lg:w-72 p-2 border border-black rounded-md text-slate-950 "
 
                                 />
                             </div>
@@ -505,11 +505,20 @@ function Modify() {
                                     </div>
 
                                 </div>
+                                
                             )}
-                            <div></div>
-                            <div></div>
+                             {scholtype === 'Alumni' &&(
+                                <div></div>
+                            )}
+                             {scholtype !== 'Alumni' &&(
+                                <div></div>
+                            )}
+                            {scholtype !== 'Alumni' &&(
+                                <div></div>
+                            )}
+                            
                             <div className='text-right'>
-                                <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
+                                <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-orange-700 bg-orange-500'>Submit</button>
                             </div>
                         </div>
 

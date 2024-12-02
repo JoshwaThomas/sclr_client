@@ -24,14 +24,14 @@ function Accyears() {
         <div>
              <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Academic Year</h3>
 
-            <div>
+             <div className="grid grid-cols-1 p-10 rounded-xl border border-black md:grid-cols-2 gap-4">
                 <form onSubmit={Submit}>
                     {/* <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label> */}
                     <select
                         name="acyear"
                         value={acyear}
                         onChange={(e) => setAcYear(e.target.value)}
-                        className="w-28 p-1 border rounded-md text-slate-950 ml-4 mt-5"
+                        className="w-28 p-1 border border-black rounded-md text-slate-950 "
                         required
                     >
                         <option value="">Select</option>
@@ -47,7 +47,7 @@ function Accyears() {
                         <option value="2031-2032">2031-2032</option>
                         <option value="2032-2033">2032-2033</option>
                     </select>
-                    <button type='submit' className="p-1 border px-3 ml-3 rounded-md bg-orange-500">Set</button>
+                    <button type='submit' className="py-1 border px-4 font-bold ml-3 text-white rounded-md bg-orange-500 hover:bg-orange-700">Set</button>
 
                 </form>
             </div>

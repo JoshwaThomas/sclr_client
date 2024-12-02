@@ -956,15 +956,15 @@ function Action() {
                                     <label className="font-bold text-right mt-2 text-gray-700">Class Attendance (&lt;=):</label>
                                     <input
                                         type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        className="border ml-3  border-black rounded-md w-32 p-2 mt-1"
                                         value={classAttendance}
                                         onChange={(e) => setClassAttendance(e.target.value)}
                                     />
 
-                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath /<br/> Moral Attendance (&lt;=):</label>
+                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath /<br /> Moral Attendance (&lt;=):</label>
                                     <input
                                         type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
+                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-1"
                                         value={moralAttendance}
                                         onChange={(e) => setMoralAttendance(e.target.value)}
                                     />
@@ -972,7 +972,7 @@ function Action() {
                                     <label className="font-bold ml-5 text-right text-gray-700 mt-12">Mark (&lt;=):</label>
                                     <input
                                         type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
                                         value={mark}
                                         onChange={(e) => setMark(e.target.value)}
                                     />
@@ -980,7 +980,7 @@ function Action() {
                                     <label className="font-bold ml-5 text-right text-gray-700 mt-12">Arrear (&gt;=):</label>
                                     <input
                                         type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
                                         value={arrear}
                                         onChange={(e) => setArrear(e.target.value)}
                                     />
@@ -988,7 +988,7 @@ function Action() {
                                     <label className="font-bold ml-5 text-right text-gray-700 mt-12">Annual Income (&gt;=):</label>
                                     <input
                                         type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
+                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
                                         value={siblingsIncome}
                                         onChange={(e) => setSiblingsIncome(e.target.value)}
                                     />
@@ -1008,30 +1008,32 @@ function Action() {
 
                             </div>
                             <div className="text-right font-bold text-xl mr-40 mt-10 ">No of Students :  {quickRejectList.length}</div>
-                            <div className="grid grid-cols-4 text-white bg-emerald-500 ">
+                            <div className="grid grid-cols-4 text-white bg-emerald-500 sticky top-0 z-10">
                                 <div className="font-bold border border-black text-center py-3">Register No</div>
                                 <div className="font-bold border border-black text-center py-3">Name</div>
                                 <div className="font-bold border border-black text-center py-3">Special Categories</div>
                                 <div className="font-bold border border-black text-center py-3">Rejection Reason</div>
                             </div>
-                            {quickRejectList.map((user, index) => (
-                                <React.Fragment key={user._id}>
-                                    <div className={`grid grid-cols-4  ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                                        <div className="font-bold border border-black text-center py-3">{user.registerNo}</div>
-                                        <div className="font-bold border border-black text-center py-3">{user.name}</div>
-                                        <div className="font-bold border border-black text-center py-3">{user.specialCategory}</div>
-                                        <div className="font-bold border border-black text-center py-3">
-                                            <input
-                                                type="text"
-                                                placeholder="Enter rejection reason"
-                                                className="border rounded-md w-full h-full"
-                                                value={user.rejectReason || ''}
-                                                onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
-                                            />
+                            <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                                {quickRejectList.map((user, index) => (
+                                    <React.Fragment key={user._id}>
+                                        <div className={`grid grid-cols-4  ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                                            <div className="font-bold border border-black text-center py-3">{user.registerNo}</div>
+                                            <div className="font-bold border border-black text-center py-3">{user.name}</div>
+                                            <div className="font-bold border border-black text-center py-3">{user.specialCategory}</div>
+                                            <div className="font-bold border border-black text-center py-3">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Enter rejection reason"
+                                                    className="border rounded-md w-full h-full"
+                                                    value={user.rejectReason || ''}
+                                                    onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
+                                                />
+                                            </div>
                                         </div>
-                                    </div>
-                                </React.Fragment>
-                            ))}
+                                    </React.Fragment>
+                                ))}
+                            </div>
                         </div>
                     </div>
                     <button
@@ -1377,45 +1379,46 @@ function Action() {
                     </div>
                     <div className='mt-6 pl-0'>
                         <div className="text-right font-bold text-xl mb-3">No of Students :  {filterUsers.length}</div>
-                        <div className="grid grid-cols-4 w-auto text-white bg-emerald-500">
+                        <div className="grid grid-cols-4 w-auto text-white bg-emerald-500 sticky top-0">
                             <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
                             <div className="font-bold border border-black text-center py-3">NAME</div>
                             <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
                             <div className="font-bold border border-black text-center py-3">ACTION</div>
                         </div>
-
-                        {filterUsers.map((user, index) => (
-                            <div key={`${user._id}-${index}`} className={`grid grid-cols-4 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                                <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
-                                <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
-                                <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
-                                <div className="font-bold border border-black text-center uppercase py-3">
-                                    <button
-                                        type="button"
-                                        onClick={() => handleViewClick(user)}
-                                        className="bg-blue-500 text-white py-1 px-4 hover:bg-black rounded-lg"
-                                    >
-                                        View
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleAccept(user)}
-                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action === 1 ? 'bg-green-400 text-green-700' : user.action === 0 ? 'bg-green-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
-                                        disabled={user.action !== 0}
-                                    >
-                                        Accept
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleReject(user)}
-                                        className={`px-4 py-1 ml-1 rounded-lg ${user.action === 2 ? 'bg-red-400 text-red-700' : user.action === 0 ? 'bg-red-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
-                                        disabled={user.action !== 0}
-                                    >
-                                        Reject
-                                    </button>
+                        <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                            {filterUsers.map((user, index) => (
+                                <div key={`${user._id}-${index}`} className={`grid grid-cols-4 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                                    <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
+                                    <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
+                                    <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
+                                    <div className="font-bold border border-black text-center uppercase py-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleViewClick(user)}
+                                            className="bg-blue-500 text-white py-1 px-4 hover:bg-black rounded-lg"
+                                        >
+                                            View
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAccept(user)}
+                                            className={`px-4 py-1 ml-1 rounded-lg ${user.action === 1 ? 'bg-green-400 text-green-700' : user.action === 0 ? 'bg-green-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
+                                            disabled={user.action !== 0}
+                                        >
+                                            Accept
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleReject(user)}
+                                            className={`px-4 py-1 ml-1 rounded-lg ${user.action === 2 ? 'bg-red-400 text-red-700' : user.action === 0 ? 'bg-red-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
+                                            disabled={user.action !== 0}
+                                        >
+                                            Reject
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

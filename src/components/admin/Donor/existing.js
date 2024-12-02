@@ -288,7 +288,7 @@ function Existing() {
                             </div>
 
                             <div className=' '>
-                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 font-bold hover:bg-black rounded-lg mt-7'>
+                                <button onClick={handleData} className='bg-blue-500 text-white py-2 px-4 ml-16 font-bold hover:bg-blue-700 rounded-lg mt-7'>
                                     Get
                                 </button>
                             </div>
@@ -349,11 +349,11 @@ function Existing() {
                         />
                     </div>
                     <div></div>
-                    <div className='text-right'>
-                        <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-black bg-orange-500'>Submit</button>
+                    <div className='text-'>
+                        <button type='submit' className=' p-2 border mt-7 w-24 text-center text-white font-bold rounded-md  hover:bg-orange-700 bg-orange-500'>Submit</button>
                         <button
                             type="button"
-                            className="bg-blue-500 p-2 border   ml-6 mt-20 px-6 text-white font-bold rounded-md  hover:bg-black "
+                            className="bg-blue-500 p-2 border   ml-6 mt-20 px-6 text-white font-bold rounded-md  hover:bg-blue-700 "
                             onClick={handlePrint}
                         // disabled={!isPrint}
                         >
@@ -363,7 +363,7 @@ function Existing() {
 
                 </div>
                 {donar && (
-                    <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border p-10 rounded-xl'>
+                    <div className='grid grid-cols-1 md:grid-cols-4 gap-4 border border-black mt-2 p-10 rounded-xl'>
                         <div>
                             <label className="block mb-1">Scholarship Type</label>
                             <select

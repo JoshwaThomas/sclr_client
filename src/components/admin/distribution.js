@@ -37,7 +37,7 @@ function Action() {
         fetchUsersAndDonors();
     }, [apiUrl]);
 
-  
+
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
@@ -51,7 +51,7 @@ function Action() {
         );
         setFilterUsers(filteredUsers);
     };
-    
+
     // show the no of applicant in footer
     useEffect(() => {
         axios.get(`${apiUrl}/api/dashboard/counts`)
@@ -91,34 +91,36 @@ function Action() {
                 >
                     Search
                 </button>
-                
+
             </div>
             <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
-            <div className="grid grid-cols-6 text-white w-auto bg-emerald-500 mt-4">
+            <div className="grid grid-cols-6 text-white w-auto bg-emerald-500 mt-4 sticky top-0">
                 {/* <div className=""> */}
                 {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
                 {/* <div className="font-bold border border-white text-center">Application</div> */}
-                <div className="font-bold border border-white text-center py-3">REGISTER NO.</div>
-                <div className="font-bold border border-white text-center py-3">NAME</div>
-                <div className="font-bold border border-white text-center py-3">DEPARTMENT</div>
-                <div className="font-bold border border-white text-center py-3">SCHOLARSHIP TYPE</div>
-                <div className="font-bold border border-white text-center py-3">DONOR NAME</div>
-                <div className='font-bold border border-white text-center py-3'>AMOUNT</div>
+                <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
+                <div className="font-bold border border-black text-center py-3">NAME</div>
+                <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
+                <div className="font-bold border border-black text-center py-3">SCHOLARSHIP TYPE</div>
+                <div className="font-bold border border-black text-center py-3">DONOR NAME</div>
+                <div className='font-bold border border-black text-center py-3'>AMOUNT</div>
                 {/* <div className="font-bold border border-white text-center">Action</div> */}
 
             </div>
-            {filterUsers.map((user, index) => (
-                <div key={user.registerNo} className={`grid grid-cols-6 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                    {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                    <div className="font-bold border border-white text-center py-3 uppercase">{user.registerNo}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{user.name}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{user.dept}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{user.scholtype}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{donorMapping[user.scholdonar] || user.scholdonar}</div>
-                    <div className="font-bold border border-white text-center py-3 uppercase">{formatCurrency(user.scholamt)}</div>
-                    
-                </div>
-            ))}
+            <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
+                {filterUsers.map((user, index) => (
+                    <div key={user.registerNo} className={`grid grid-cols-6 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                        {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
+                        <div className="font-bold border border-black text-center py-3 uppercase">{user.registerNo}</div>
+                        <div className="font-bold border border-black text-center py-3 uppercase">{user.name}</div>
+                        <div className="font-bold border border-black text-center py-3 uppercase">{user.dept}</div>
+                        <div className="font-bold border border-black text-center py-3 uppercase">{user.scholtype}</div>
+                        <div className="font-bold border border-black text-center py-3 uppercase">{donorMapping[user.scholdonar] || user.scholdonar}</div>
+                        <div className="font-bold border border-black text-center py-3 uppercase">{formatCurrency(user.scholamt)}</div>
+
+                    </div>
+                ))}
+            </div>
             <div></div>
 
             <div className='flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
@@ -131,7 +133,7 @@ function Action() {
                     <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

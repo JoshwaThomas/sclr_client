@@ -588,10 +588,13 @@ const ScholarshipForm = () => {
                     readOnly
                   >
                     <option value="">Select</option>
+                    <option value="UAI">UAI</option>
+                    <option value="UAM">UAM</option>
                     <option value="UAR">UAR</option>
                     <option value="UBA">UBA</option>
                     <option value="UBO">UBO</option>
                     <option value="UBT">UBT</option>
+                    <option value="UCC">UCC</option>
                     <option value="UCO">UCO</option>
                     <option value="UCH">UCH</option>
                     <option value="UCA">UCA</option>
@@ -602,6 +605,8 @@ const ScholarshipForm = () => {
                     <option value="UHS">UHS</option>
                     <option value="UHM">UHM</option>
                     <option value="UIT">UIT</option>
+                    <option value="UIC">UIC</option>
+                    <option value="UIF">UIF</option>
                     <option value="UMA">UMA</option>
                     <option value="UMB">UMB</option>
                     <option value="UND">UND</option>
@@ -624,6 +629,7 @@ const ScholarshipForm = () => {
                     <option value="PMB">PMB</option>
                     <option value="PND">PND</option>
                     <option value="PPH">PPH</option>
+                    <option value="PSW">PSW</option>
                     <option value="PTA">PTA</option>
                     <option value="PZO">PZO</option>
                     <option value="MBA">MBA</option>

@@ -37,15 +37,15 @@ function Staffmang() {
 
     return (
         <div className=''>
-            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-1 text-white">Staffs</h3>
-            <div className='grid grid-cols-2 w-96 mt-7 bg-amber-200  justify-center'>
-                <div className="font-bold border border-white text-center py-3">User ID</div>
-                <div className="font-bold border border-white text-center py-3">Password</div>
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Staffs</h3>
+            <div className='grid grid-cols-2 w-96 mt-7 bg-emerald-500  justify-center'>
+                <div className="font-bold border border-black text-center py-3">User ID</div>
+                <div className="font-bold border border-black text-center py-3">Password</div>
             </div>
             {users.map((user, index) => (
-                <div key={index} className="grid grid-cols-2 w-96 bg-amber-100  justify-center">
-                    <div className="font-bold border border-white text-center  py-3">{user.staffId} </div>
-                    <div className="font-bold border border-white text-center  py-3">
+                <div key={index} className="grid grid-cols-2 w-96 bg-emerald-200  justify-center">
+                    <div className="font-bold border border-black text-center  py-3">{user.staffId} </div>
+                    <div className="font-bold border border-black text-center  py-3">
                         {user.password} <FaEdit className="inline cursor-pointer" onClick={() => handleEditClick(user)} />
                     </div>
                 </div>

@@ -166,7 +166,7 @@ function AttendMoral() {
                         <input
                             type='text'
                             name='deeniyathRem'
-                            className="w-66 h-full  border rounded-md"
+                            className="w-full h-full  border rounded-md"
                             value={user.deeniyathRem || ''}
                             onChange={(e) => handleInputChange(user.registerNo, 'deeniyathRem', e.target.value)}
                         />
