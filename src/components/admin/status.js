@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { GoAlert } from "react-icons/go";
 
 const Notification = ({ message, type, onClose }) => {
@@ -15,6 +16,7 @@ const Notification = ({ message, type, onClose }) => {
 };
 
 function Status() {
+    const navigate = useNavigate();
     const [registerNo, setRegisterNo] = useState('');
     const [name, setName] = useState()
     const [fresherOrRenewal, setFresherOrRenewal] = useState()
@@ -518,16 +520,23 @@ function Status() {
                         <button
                             type="button"
                             onClick={Submit}
-                            className="px-4 py-2 bg-blue-500 text-white rounded mt-10"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-900 text-white rounded mt-10"
                         >
                             Check Status
                         </button>
                         <button
                             type="button"
                             onClick={handleModifyClick}
-                            className="px-4 py-2 bg-green-500 text-white rounded mt-10 ml-3"
+                            className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded mt-10 ml-3"
                         >
                             Modify
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => navigate('/freshstudent/application/fresh')}
+                            className="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded mt-10 ml-3"
+                        >
+                            New Application
                         </button>
 
                     </div>
