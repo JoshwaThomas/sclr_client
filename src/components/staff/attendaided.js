@@ -134,15 +134,16 @@ function Attendaided() {
                 </div>
                 <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
             </div>
-            <div className="grid grid-cols-10 w-auto mt-7 text-white bg-emerald-500">
-                <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
-                <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1 ">Previous Semester</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Current Semester</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
-                <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
+            <div className="grid grid-cols-10 w-auto text-white bg-emerald-500 mt-7 sticky top-0">
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-1">Register No.</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-3">Name</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-1">Department</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-1 ">Previous Semester (%)</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-1">Current Semester</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-1">Percentage</div>
+                <div className="font-bold border flex items-center justify-center border-black text-center py-3 col-span-2">Remark</div>
             </div>
+            <div className='overflow-y-auto max-h-[500px] scrollbar-hide'>
             {users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
                 <div key={`${user._id}-${index}`} className={`grid grid-cols-10 w-auto ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                     <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
@@ -180,6 +181,8 @@ function Attendaided() {
                     </div>
                 </div>
             ))}
+            </div>
+         
             <div className='text-right font-bold'>
                 <button onClick={updateAttendance} className='bg-blue-500 text-white py-2 px-4 rounded-md mt-4'>Submit</button>
             </div>

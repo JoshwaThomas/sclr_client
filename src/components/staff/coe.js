@@ -105,7 +105,7 @@ function Coe() {
             </div>
             <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
 
-            <div className="grid grid-cols-10 w-full text-white mt-7 bg-emerald-500">
+            <div className="grid grid-cols-10 w-full text-white mt-7 bg-emerald-500 sticky top-0">
                 <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
                 <div className="font-bold border border-black text-center py-3 col-span-2">Name</div>
                 <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
@@ -115,52 +115,54 @@ function Coe() {
                 <div className="font-bold border border-black text-center py-3 col-span-1">No of Arrear</div>
                 <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
             </div>
-            {users.map((user, index) => (
-                <div key={`${user._id}-${index}`} className={`hidden md:grid grid-cols-10 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
-                    <div className="font-bold border border-black text-center uppercase py-3 col-span-2">{user.name}</div>
-                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
-                    <div className="font-bold border border-black text-center uppercase py-3 col-span-1">
-                        <input
-                            type='text'
-                            name='markSecure'
-                            className="w-14 border border-black rounded-md"
-                            value={user.markSecure || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'markSecure', e.target.value)}
-                        />
+            <div className='overflow-y-auto max-h-[500px] scrollbar-hide'>
+                {users.map((user, index) => (
+                    <div key={`${user._id}-${index}`} className={`hidden md:grid grid-cols-10 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-2">{user.name}</div>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">
+                            <input
+                                type='text'
+                                name='markSecure'
+                                className="w-14 border border-black rounded-md"
+                                value={user.markSecure || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'markSecure', e.target.value)}
+                            />
+                        </div>
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
+                            <input
+                                type='text'
+                                name='maxMark'
+                                className="w-14 border border-black rounded-md"
+                                value={user.maxMark || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'maxMark', e.target.value)}
+                            />
+                        </div>
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
+                            {semPercentage[user.registerNo] || ''}
+                        </div>
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
+                            <input
+                                type='text'
+                                name='semarrear'
+                                className="w-14 border border-black rounded-md"
+                                value={user.semarrear || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
+                            />
+                        </div>
+                        <div className="font-bold border border-black text-center col-span-2">
+                            <input
+                                type='textarea'
+                                name='semRem'
+                                className="w-full h-full border rounded-md"
+                                value={user.semRem || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'semRem', e.target.value)}
+                            />
+                        </div>
                     </div>
-                    <div className="font-bold border border-black text-center py-3 col-span-1">
-                        <input
-                            type='text'
-                            name='maxMark'
-                            className="w-14 border border-black rounded-md"
-                            value={user.maxMark || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'maxMark', e.target.value)}
-                        />
-                    </div>
-                    <div className="font-bold border border-black text-center py-3 col-span-1">
-                        {semPercentage[user.registerNo] || ''}
-                    </div>
-                    <div className="font-bold border border-black text-center py-3 col-span-1">
-                        <input
-                            type='text'
-                            name='semarrear'
-                            className="w-14 border border-black rounded-md"
-                            value={user.semarrear || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
-                        />
-                    </div>
-                    <div className="font-bold border border-black text-center col-span-2">
-                        <input
-                            type='textarea'
-                            name='semRem'
-                            className="w-full h-full border rounded-md"
-                            value={user.semRem || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'semRem', e.target.value)}
-                        />
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
             <div className='text-right font-bold'>
                 <button onClick={updateAttendance} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
             </div>

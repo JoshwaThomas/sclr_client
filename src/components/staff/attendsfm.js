@@ -59,7 +59,7 @@ function AttendSfm() {
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
 
                 if (totalCurrAttendance > 0) {
-                    const percentage = ( currAttendance /
+                    const percentage = (currAttendance /
                         totalCurrAttendance) * 100;
                     acc[user.registerNo] = percentage.toFixed(2);
                 } else {
@@ -103,14 +103,14 @@ function AttendSfm() {
 
     return (
         <div className="container mx-auto p-4">
-        <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">SFM Attendance</h3>
-        <div className="flex flex-wrap font-bold text-xl ">
-            <div className="w-full lg:w-auto">Total No of Applicants: {totaldata}</div>
-            <div className="w-full lg:w-auto lg:ml-10">Completed: {totalwork}</div>
-            <div className="w-full lg:w-auto lg:ml-10">Pending: {users.length}</div>
-        </div>
-        <div className="flex flex-wrap  mt-10">
-            {/* <div className="w-full lg:w-auto">
+            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">SFM Attendance</h3>
+            <div className="flex flex-wrap font-bold text-xl ">
+                <div className="w-full lg:w-auto">Total No of Applicants: {totaldata}</div>
+                <div className="w-full lg:w-auto lg:ml-10">Completed: {totalwork}</div>
+                <div className="w-full lg:w-auto lg:ml-10">Pending: {users.length}</div>
+            </div>
+            <div className="flex flex-wrap  mt-10">
+                {/* <div className="w-full lg:w-auto">
                 <label className="text-lg font-bold">Previous Semester Working Days</label>
                 <input
                     type="text"
@@ -120,74 +120,76 @@ function AttendSfm() {
                     onChange={(e) => setPrevattendancetot(e.target.value)}
                 />
             </div> */}
-            <div className="w-full lg:w-auto lg:ml-5">
-                <label className="text-lg font-bold">Current Semester Working Days</label>
-                <input
-                    type="text"
-                    name="currAttendancetot"
-                    className="w-16 ml-4 border border-black rounded-md text-slate-950"
-                    value={currAttendancetot}
-                    onChange={(e) => setCurrattendancetot(e.target.value)}
-                />
-            </div>
-            <div className="w-full text-right font-bold text-xl lg:ml-28 mt-4 lg:mt-0">No of Students: {users.length}</div>
-        </div>
-    
-        <div className="hidden md:grid grid-cols-10 text-white w-full mt-7 bg-emerald-500">
-            <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
-            <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
-            <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
-            <div className="font-bold border border-black text-center py-3 col-span-1">Previous Semester</div>
-            <div className="font-bold border border-black text-center py-3 col-span-1">Current Semester</div>
-            <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
-            <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
-        </div>
-        {users.map((user, index) => (
-            <div key={`${user._id}-${index}`} className={`hidden md:grid grid-cols-10 ${index%2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
-                <div className="font-bold border border-black text-center uppercase py-3 col-span-3">{user.name}</div>
-                <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">
+                <div className="w-full lg:w-auto lg:ml-5">
+                    <label className="text-lg font-bold">Current Semester Working Days</label>
                     <input
                         type="text"
-                        name="prevAttendance"
-                        className="w-14 border border-black rounded-md"
-                        value={user.prevAttendance || ''}
-                        onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                        name="currAttendancetot"
+                        className="w-16 ml-4 border border-black rounded-md text-slate-950"
+                        value={currAttendancetot}
+                        onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
                 </div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">
-                    <input
-                        type="text"
-                        name="currAttendance"
-                        className="w-14 border border-black rounded-md"
-                        value={user.currAttendance || ''}
-                        onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
-                    />
-                </div>
-                <div className="font-bold border border-black text-center  py-3 col-span-1">
-                    {classAttendancePer[user.registerNo] || ''}
-                </div>
-                <div className="font-bold border border-black text-center col-span-2">
-                    <input
-                        type="textarea"
-                        name="classAttendanceRem"
-                        className="w-full h-full border  rounded-md"
-                        value={user.classAttendanceRem || ''}
-                        onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
-                    />
-                </div>
+                <div className="w-full text-right font-bold text-xl lg:ml-28 mt-4 lg:mt-0">No of Students: {users.length}</div>
             </div>
-        ))}
-        <div className='text-right font-bold'>
-        <button onClick={updateAttendance} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
+
+            <div className="hidden md:grid grid-cols-10 text-white w-full mt-7 bg-emerald-500 sticky top-0">
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-1">Register No.</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-3">Name</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-1">Department</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-1">Previous Semester (%)</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-1">Current Semester</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-1">Percentage</div>
+                <div className="font-bold flex items-center justify-center border border-black text-center py-3 col-span-2">Remark</div>
+            </div>
+            <div className='overflow-y-auto max-h-[500px] scrollbar-hide'>
+                {users.map((user, index) => (
+                    <div key={`${user._id}-${index}`} className={`hidden md:grid grid-cols-10 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-3">{user.name}</div>
+                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
+                            <input
+                                type="text"
+                                name="prevAttendance"
+                                className="w-14 border border-black rounded-md"
+                                value={user.prevAttendance || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                            />
+                        </div>
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
+                            <input
+                                type="text"
+                                name="currAttendance"
+                                className="w-14 border border-black rounded-md"
+                                value={user.currAttendance || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
+                            />
+                        </div>
+                        <div className="font-bold border border-black text-center  py-3 col-span-1">
+                            {classAttendancePer[user.registerNo] || ''}
+                        </div>
+                        <div className="font-bold border border-black text-center col-span-2">
+                            <input
+                                type="textarea"
+                                name="classAttendanceRem"
+                                className="w-full h-full border  rounded-md"
+                                value={user.classAttendanceRem || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className='text-right font-bold'>
+                <button onClick={updateAttendance} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
+            </div>
+
+            {/* Display message on mobile view */}
+            <div className="md:hidden bg-red-500 text-white p-4 text-center font-bold mt-5">
+                Open desktop view only
+            </div>
         </div>
-    
-        {/* Display message on mobile view */}
-        <div className="md:hidden bg-red-500 text-white p-4 text-center font-bold mt-5">
-            Open desktop view only
-        </div>
-    </div>
     );
 }
 
