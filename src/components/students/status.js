@@ -69,8 +69,8 @@ function Status() {
     return (
         <div>
             <div className="container mx-auto p-8">
-                <form className="space-y-4 scrollbar-hide">
-                    <div className="text-white">
+                <form className="space-y-4  scrollbar-hide">
+                    <div className="text-black">
                         {showModal && student && (
                             <div className="fixed inset-0  flex items-center justify-center  ">
                                 <div className="  ml-64 w-5/6 h-full  overflow-auto p-6 ">
@@ -99,12 +99,12 @@ function Status() {
 
                                                 <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
 
-                                                <div className="space-x-4 inline-flex border p-6 rounded-xl">
+                                                <div className="space-x-4 inline-flex  border border-black p-6 rounded-xl">
                                                     <div className='uppercase font-bold text-xl'>
                                                         {student.fresherOrRenewal}
                                                     </div>
                                                 </div>
-                                                <div className="space-x-4 ml-5 inline-flex border p-6 rounded-xl">
+                                                <div className="space-x-4 ml-5 inline-flex border border-black p-6 rounded-xl">
                                                     <div className='uppercase font-bold text-xl'>
                                                         {student.specialCategory}
                                                     </div>
@@ -113,7 +113,7 @@ function Status() {
                                         </div>
                                         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-4 text-white">Personal Details</h3>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl">
 
                                             <div className=''>
                                                 <label className="block ">Register No.:</label>
@@ -226,7 +226,7 @@ function Status() {
                                         <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
                                         <div>
                                             <div className="overflow-x-auto">
-                                                <div className="grid grid-cols-1 md:grid-cols-1 gap-4 border p-10 rounded-xl">
+                                                <div className="grid grid-cols-1 md:grid-cols-1 gap-4 border border-black p-10 rounded-xl">
                                                     {student.semester === 'I' && (
                                                         <div className='grid grid-cols-1 md:grid-cols-4 '>
                                                             <div>
@@ -259,7 +259,7 @@ function Status() {
                                                 </div>
 
                                             </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl mt-5">
+                                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-5">
                                                 {student.arrear !== 0 && (
                                                     <div>
                                                         <label className="">No. Of Arrear :</label>{student.arrear}

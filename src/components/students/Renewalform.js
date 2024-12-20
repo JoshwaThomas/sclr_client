@@ -298,19 +298,19 @@ const ScholarshipForm = () => {
     <div>
       <div className="container mx-auto p-8">
         <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 font-bold">
           <div className='  '>
             <div>
               <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 text-white">Renewal Application</h3>
 
-              <div className="space-x-4 inline-flex border p-10 rounded-xl">
+              <div className="space-x-4 inline-flex border border-black p-10 rounded-xl">
                 <div>
                   <label className="block mb-1">Special Category:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
                   <select
                     name="specialCategory"
                     value={specialCategory}
                     onChange={(e) => setSpecialCategory(e.target.value)}
-                    className="w-48 p-2 border  rounded-md text-slate-950"
+                    className="w-48 p-2 border border-black rounded-md text-slate-950"
                     required
                   >
                     <option value="">Select</option>
@@ -327,7 +327,7 @@ const ScholarshipForm = () => {
             </div>
           </div>
           <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Personal Details</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10 rounded-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border border-black p-10 rounded-xl">
             <div>
               <label className="block mb-1">UG or PG:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <div className="space-x-4 inline-flex">
@@ -528,7 +528,7 @@ const ScholarshipForm = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-1 md:grid-cols-4 gap-4 border p-10 rounded-xl">
+          <div className="grid grid-1 md:grid-cols-4 gap-4 border border-black p-10 rounded-xl">
             <div>
               <label className="block mb-1">Register No:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
               <input
@@ -538,7 +538,7 @@ const ScholarshipForm = () => {
                 value={registerNo}
                 onChange={(e) => setRegisterNo(e.target.value)}
 
-                className="w-52 p-2 uppercase border rounded-md text-slate-950"
+                className="w-52 p-2 uppercase border border-black rounded-md text-slate-950"
                 required
               />
             </div>
@@ -552,7 +552,7 @@ const ScholarshipForm = () => {
                 value={mobileNo}
                 onChange={(e) => setMobileNo(e.target.value)}
 
-                className="w-52 p-2 uppercase border rounded-md text-slate-950"
+                className="w-52 p-2 uppercase border border-black rounded-md text-slate-950"
                 required
               />
             </div>
@@ -564,7 +564,7 @@ const ScholarshipForm = () => {
           </div>
           {student && (
             <div>
-              <div className='grid grid-rows-1 md:grid-cols-3 gap-4 border  p-10 rounded-xl'>
+              <div className='grid grid-rows-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl'>
                 <div>
                   <label className="block mb-1">Name:</label>
                   <input
@@ -573,7 +573,7 @@ const ScholarshipForm = () => {
 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-52 p-2 uppercase border rounded-md text-slate-950"
+                    className="w-52 p-2 uppercase border border-black rounded-md text-slate-950"
                     readOnly
                   />
                 </div>
@@ -583,7 +583,7 @@ const ScholarshipForm = () => {
                     name="dept"
                     value={dept}
                     onChange={(e) => setDept(e.target.value)}
-                    className="w-52 p-2 border  rounded-md text-slate-950"
+                    className="w-52 p-2 border border-black rounded-md text-slate-950"
                     required
                     readOnly
                   >
@@ -642,7 +642,7 @@ const ScholarshipForm = () => {
                     name="section"
                     value={section}
                     onChange={(e) => setSection(e.target.value)}
-                    className="w-52 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-52 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                     required
                     readOnly
                   >
@@ -659,7 +659,7 @@ const ScholarshipForm = () => {
                   </select>
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 mt-4 rounded-xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 mt-4 rounded-xl">
 
                 <div>
                   <label className="block mb-1">Religion:</label>
@@ -667,7 +667,7 @@ const ScholarshipForm = () => {
                     name="religion"
                     value={religion}
                     onChange={(e) => setReligion(e.target.value)}
-                    className="w-52  md:w-72 p-2 border rounded-md text-slate-950 lg:w-48"
+                    className="w-52  md:w-72 p-2 border border-black rounded-md text-slate-950 lg:w-48"
                     required
                   >
                     <option value="">Select</option>
@@ -701,7 +701,7 @@ const ScholarshipForm = () => {
                     name="lastCreditedAmount"
                     value={lastCreditedAmt}
                     onChange={(e) => setLastCreditedAmt(e.target.value)}
-                    className="w-52 p-2 appearance-auto border rounded-md text-slate-950"
+                    className="w-52 p-2 appearance-auto border border-black rounded-md text-slate-950"
                     required
                     readOnly
                   />
@@ -726,13 +726,13 @@ const ScholarshipForm = () => {
                     maxlength="12"
                     value={aadhar}
                     onChange={(e) => setAadhar(e.target.value)}
-                    className="w-52 p-2 border rounded-md text-slate-950"
+                    className="w-52 p-2 border border-black rounded-md text-slate-950"
                     required
                     readOnly
                   />
                 </div>
               </div>
-              <div className="grid grid-rows-2 md:grid-cols-4 gap-4 border p-10 mt-5 rounded-xl">
+              <div className="grid grid-rows-2 md:grid-cols-4 gap-4 border border-black p-10 mt-5 rounded-xl">
                 <div>
                   <label className="block mb-1 mt-6">Parent or Guardian Name:</label>
                   <input
@@ -740,7 +740,7 @@ const ScholarshipForm = () => {
                     name="fatherName"
                     value={fatherName}
                     onChange={(e) => setFatherName(e.target.value)}
-                    className=" w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className=" w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                     readOnly
                   />
@@ -752,7 +752,7 @@ const ScholarshipForm = () => {
                     name="fatherNo"
                     value={fatherNo}
                     onChange={(e) => setFatherNo(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                     readOnly
                   />
@@ -764,7 +764,7 @@ const ScholarshipForm = () => {
                     name="fatherOccupation"
                     value={fatherOccupation}
                     onChange={(e) => setFatherOccupation(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950 "
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950 "
                     required
 
                   />
@@ -778,7 +778,7 @@ const ScholarshipForm = () => {
                     name="annualIncome"
                     value={annualIncome}
                     onChange={(e) => setAnnualIncome(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                   />
                 </div>
@@ -790,7 +790,7 @@ const ScholarshipForm = () => {
                     name="address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     placeholder='Door No & Street'
                     required
                   />
@@ -801,7 +801,7 @@ const ScholarshipForm = () => {
                     name="state"
                     value={state}
                     onChange={(e) => setState(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                   >
                     <option value="">Select State</option>
@@ -849,7 +849,7 @@ const ScholarshipForm = () => {
                     name="district"
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                   >
                     <option value="">Select District</option>
@@ -900,7 +900,7 @@ const ScholarshipForm = () => {
                     name="pin"
                     value={pin}
                     onChange={(e) => setPin(e.target.value)}
-                    className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
+                    className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     placeholder='Pincode'
                     required
                   />
@@ -912,7 +912,7 @@ const ScholarshipForm = () => {
                     name="siblings"
                     value={siblings}
                     onChange={(e) => setSiblings(e.target.value)}
-                    className=" w-44 p-2 border rounded-md text-slate-950"
+                    className=" w-44 p-2 border border-black rounded-md text-slate-950"
                     required
                   />
                 </div>
@@ -925,7 +925,7 @@ const ScholarshipForm = () => {
                         name="siblings"
                         value={siblingsNo}
                         onChange={(e) => setSiblingsNo(e.target.value)}
-                        className=" w-56 p-2 border rounded-md text-slate-950"
+                        className=" w-56 p-2 border border-black rounded-md text-slate-950"
                         required
                       />
                     </div>
@@ -936,7 +936,7 @@ const ScholarshipForm = () => {
                         name="siblings"
                         value={siblingsOccupation}
                         onChange={(e) => setSiblingsOccupation(e.target.value)}
-                        className=" w-44 p-2 border rounded-md text-slate-950"
+                        className=" w-44 p-2 border border-black rounded-md text-slate-950"
                         required
                       />
                     </div>
@@ -961,7 +961,7 @@ const ScholarshipForm = () => {
                     type="file"
                     name="jamath"
                     onChange={(e) => setJamath(e.target.files[0])}
-                    className=" mt-1 border rounded-md p-2 text-slate-950"
+                    className=" mt-1 border border-black rounded-md p-2 text-slate-950"
                   />
                 </div>
 
@@ -1105,7 +1105,8 @@ const ScholarshipForm = () => {
             </div> */}
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4 "
+              className="px-4 py-2 bg-blue-500 text-white text-xl mt-4 border-y-4 border-x-2 border-l-gray-500 border-b-gray-500 border-r-gray-400 border-t-gray-400 shadow-2xl hover:bg-blue-700 hover:border-l-gray-400 hover:border-b-gray-400 hover:border-r-gray-500 hover:border-t-gray-500 rounded-full "
+              
             >
               Submit
             </button>
@@ -1117,7 +1118,7 @@ const ScholarshipForm = () => {
         {/* Instructions */}
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-red-400 w-2/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
+            <div className="bg-teal-300 w-2/4 h-96 rounded-lg shadow-lg overflow-auto p-6">
               <h2 className="text-2xl font-bold mb-4 text-center">Instructions</h2>
               <p className="mb-4">
                 <span className="font-bold ">1. Register Number as Username</span> <br />
@@ -1136,7 +1137,7 @@ const ScholarshipForm = () => {
               <div className="block relative">
                 <button
                   onClick={closePopup}
-                  className="bg-blue-500 absolute right-0 text-white py-2 px-4 rounded-md"
+                  className="bg-red-500 hover:bg-red-700 absolute right-0 text-white py-2 px-4 rounded-md"
                 >
                   Close
                 </button>

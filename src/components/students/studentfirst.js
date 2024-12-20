@@ -78,8 +78,8 @@ function Studentfirst() {
           </div>
           {/* Conditional Message */}
           {!isOpen && (
-            <p className="text-lg text-red-600  text-center mt-4 lg:mt-10">
-              Fresher application Closed
+            <p className="text-2xl text-red-600 font-bold text-center mt-4 lg:mt-10 animate-bounce">
+              Fresher Application are Closed
             </p>
           )}
         </div>
