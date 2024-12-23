@@ -36,6 +36,7 @@ function AttendDeeniyath() {
 
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
+                console.log("combinedUsers",combinedUsers)
             } catch (error) {
                 console.log(error);
             }
@@ -53,20 +54,31 @@ function AttendDeeniyath() {
     useEffect(() => {
         const calculatePercentage = () => {
             const updatedAttendancePer = users.reduce((acc, user) => {
-                const prevAttendance = parseFloat(user.prevAttendance) || 0;
-                const currAttendance = parseFloat(user.currAttendance) || 0;
+                const prevAttendance = parseFloat(user.prevAttendancedee) || 0;
+                const currAttendance = parseFloat(user.currAttendancedee) || 0;
                 const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
-
-                if (totalPrevAttendance + totalCurrAttendance > 0) {
-                    const percentage = ((prevAttendance + currAttendance) /
-                        (totalPrevAttendance + totalCurrAttendance)) * 100;
-                    acc[user.registerNo] = percentage.toFixed(2);
+        
+                if (user.semester === "I" || user.semester === "II") {
+                    if (totalCurrAttendance > 0) {
+                        const percentage = (currAttendance / totalCurrAttendance) * 100;
+                        acc[user.registerNo] = percentage.toFixed(2);
+                    } else {
+                        acc[user.registerNo] = '0';
+                    }
                 } else {
-                    acc[user.registerNo] = '0';
+                    if (totalPrevAttendance + totalCurrAttendance > 0) {
+                        const percentage = ((prevAttendance + currAttendance) /
+                            (totalPrevAttendance + totalCurrAttendance)) * 100;
+                        acc[user.registerNo] = percentage.toFixed(2);
+                    } else {
+                        acc[user.registerNo] = '0';
+                    }
                 }
+        
                 return acc;
             }, {});
+        
             setdeeniyathPer(updatedAttendancePer);
         };
 
@@ -75,7 +87,6 @@ function AttendDeeniyath() {
 
     const updateAttendance = async (e) => {
         e.preventDefault();
-
         const updates = {};
         const remarks = {};
 
@@ -100,28 +111,28 @@ function AttendDeeniyath() {
     return (
         <div>
             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Deeniyath Attendance</h3>
-            <div className='flex inline-flex font-bold text-xl '>
+            <div className='flex inline-flex font-bold text-xl'>
                 <div> Total No of Applicants: {totaldata}</div>
                 <div className='ml-10 '>Completed: {totalwork}</div>
                 <div className='ml-10 '>Pending:  {users.length}</div>
             </div>
-            <div className='flex inline-flex  mt-10'>
+            <div className='flex inline-flex  mt-10'> 
                 <div className="w-auto ">
-                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <label className='text-lg font-bold'>Previous Year Working Days</label>
                     <input
                         type='text'
                         name='prevAttendancetot'
-                        className="w-16 ml-4 border border-black rounded-md text-right text-slate-950"
+                        className="w-16 ml-4 border font-bold border-black rounded-md text-right text-slate-950"
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
                     />
                 </div>
                 <div className="w-auto  ml-5">
-                    <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <label className='text-lg font-bold'>Current Year Working Days</label>
                     <input
                         type='text'
                         name='currAttendancetot'
-                        className="w-16 ml-4 border border-black rounded-md text-right text-slate-950"
+                        className="w-16 ml-4 border font-bold border-black rounded-md text-right text-slate-950"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
@@ -132,9 +143,9 @@ function AttendDeeniyath() {
                 <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
                 <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
                 <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Previous Sem</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Current Sem</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Sem Percentage</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Previous Year</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Current Year</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
                 <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
             </div>
 
@@ -149,17 +160,18 @@ function AttendDeeniyath() {
                                 type="text"
                                 name="prevAttendance"
                                 className="text-right border border-black rounded-md w-14"
-                                value={user.prevAttendance || ''}
-                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                                // value={user.prevAttendance || ''}
+                                disabled = {user.semester === "I" || user.semester === 'II'}
+                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
                             />
                         </div>
-                        <div className="border border-black text-center py-3 col-span-1">
+                        <div className="font-bold border border-black text-center py-3 col-span-1">
                             <input
                                 type="text"
                                 name="currAttendance"
                                 className="text-right border border-black rounded-md w-14"
-                                value={user.currAttendance || ''}
-                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
+                                // value={user.currAttendance || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
                             />
                         </div>
                         <div className="border border-black text-center py-3 col-span-1">

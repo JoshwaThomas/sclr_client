@@ -53,20 +53,31 @@ function AttendMoral() {
     useEffect(() => {
         const calculatePercentage = () => {
             const updatedAttendancePer = users.reduce((acc, user) => {
-                const prevAttendance = parseFloat(user.prevAttendance) || 0;
-                const currAttendance = parseFloat(user.currAttendance) || 0;
+                const prevAttendance = parseFloat(user.prevAttendancedee) || 0;
+                const currAttendance = parseFloat(user.currAttendancedee) || 0;
                 const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
-
-                if (totalPrevAttendance + totalCurrAttendance > 0) {
-                    const percentage = ((prevAttendance + currAttendance) /
-                        (totalPrevAttendance + totalCurrAttendance)) * 100;
-                    acc[user.registerNo] = percentage.toFixed(2);
+        
+                if (user.semester === "I" || user.semester === "II") {
+                    if (totalCurrAttendance > 0) {
+                        const percentage = (currAttendance / totalCurrAttendance) * 100;
+                        acc[user.registerNo] = percentage.toFixed(2);
+                    } else {
+                        acc[user.registerNo] = '0';
+                    }
                 } else {
-                    acc[user.registerNo] = '0';
+                    if (totalPrevAttendance + totalCurrAttendance > 0) {
+                        const percentage = ((prevAttendance + currAttendance) /
+                            (totalPrevAttendance + totalCurrAttendance)) * 100;
+                        acc[user.registerNo] = percentage.toFixed(2);
+                    } else {
+                        acc[user.registerNo] = '0';
+                    }
                 }
+        
                 return acc;
             }, {});
+        
             setdeeniyathPer(updatedAttendancePer);
         };
 
@@ -107,21 +118,21 @@ function AttendMoral() {
             </div>
             <div className='flex inline-flex  mt-10'>
                 <div className="w-auto ">
-                    <label className='text-lg font-bold'>Previous Semester Working Days</label>
+                    <label className='text-lg font-bold'>Previous Year Working Days</label>
                     <input
                         type='text'
                         name='prevAttendancetot'
-                        className="w-16 ml-4 border border-black rounded-md  text-slate-950"
+                        className="w-16 ml-4 border font-bold border-black rounded-md  text-slate-950"
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
                     />
                 </div>
                 <div className="w-auto  ml-5">
-                    <label className='text-lg font-bold'>Current Semester Working Days</label>
+                    <label className='text-lg font-bold'>Current Year Working Days</label>
                     <input
                         type='text'
                         name='currAttendancetot'
-                        className="w-16 ml-4 border border-black rounded-md  text-slate-950"
+                        className="w-16 ml-4 border font-bold border-black rounded-md  text-slate-950"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
@@ -132,8 +143,8 @@ function AttendMoral() {
                 <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
                 <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
                 <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Previous Semester</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Current Semester</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Previous Year</div>
+                <div className="font-bold border border-black text-center py-3 col-span-1">Current Year</div>
                 <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
                 <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
             </div>
@@ -147,8 +158,9 @@ function AttendMoral() {
                             <input
                                 type='text'
                                 name='prevAttendance'
-                                className="w-14 border border-black rounded-md"
-                                value={user.prevAttendance || ''}
+                                className="w-14 border font-bold border-black rounded-md"
+                                value={user.prevAttendancedee || ''}
+                                disabled = {user.semester === 'I' || user.semester === 'II'}
                                 onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                             />
                         </div>
@@ -156,8 +168,8 @@ function AttendMoral() {
                             <input
                                 type='text'
                                 name='currAttendance'
-                                className="w-14 border border-black rounded-md"
-                                value={user.currAttendance || ''}
+                                className="w-14 border font-bold border-black rounded-md"
+                                value={user.currAttendancedee || ''}
                                 onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                             />
                         </div>

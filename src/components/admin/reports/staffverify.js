@@ -62,7 +62,7 @@ return(
                          <div className="font-bold border border-black text-center py-3">{data.mamCount}</div>
                          <div className="font-bold border border-black text-center py-3">{data.maCompleted}</div>
                          <div className="font-bold border border-black text-center py-3">{data.mamTotal}</div>
-         </div>black
+         </div>
          <div className={`grid grid-cols-4 bg-emerald-200`}>
                      <div className="font-bold border border-black text-center py-3">Moral Women</div>
                          <div className="font-bold border border-black text-center py-3">{data.mwCount}</div>
