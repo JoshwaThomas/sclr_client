@@ -158,9 +158,9 @@ function AttendDeeniyath() {
                                 type='text'
                                 name='prevAttendance'
                                 className="w-14 text-right font-bold border border-black rounded-md"
-                                value={user.prevAttendancedee || ''}
+                                // value={user.prevAttendancedee || ''}
                                 disabled = {user.semester === 'I' || user.semester === 'II'}
-                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
                             />
                         </div>
                         <div className="font-bold border border-black text-center py-3 col-span-1">
@@ -168,8 +168,8 @@ function AttendDeeniyath() {
                                 type='text'
                                 name='currAttendance'
                                 className="w-14 text-right border font-bold border-black rounded-md"
-                                value={user.currAttendancedee || ''}
-                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
+                                // value={user.currAttendancedee || ''}
+                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
                             />
                         </div>
                         <div className="font-bold border border-black text-center py-3 col-span-1">

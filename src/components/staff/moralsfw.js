@@ -158,19 +158,19 @@ function AttendMoral() {
                         <input
                             type='text'
                             name='prevAttendance'
-                            className="w-14 border border-black rounded-md"
-                            value={user.prevAttendancedee || ''}
+                            className="w-14 text-right border border-black rounded-md"
+                            // value={user.prevAttendancedee || ''}
                             disabled = {user.semester === 'I' || user.semester === 'II'}
-                            onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
+                            onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
                         />
                     </div>
                     <div className="font-bold border border-black text-center py-3 col-span-1">
                         <input
                             type='text'
                             name='currAttendance'
-                            className="w-14 font-bold border border-black rounded-md"
-                            value={user.currAttendancedee || ''}
-                            onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
+                            className="w-14 text-right font-bold border border-black rounded-md"
+                            // value={user.currAttendancedee || ''}
+                            onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
                         />
                     </div>
                     <div className="font-bold border border-black text-center py-3 col-span-1">

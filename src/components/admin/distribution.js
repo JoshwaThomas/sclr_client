@@ -1,6 +1,8 @@
 import { useEffect, useState, React } from 'react';
 import axios from "axios";
-import Loading from '../../assets/Pulse.svg'
+import Loading from '../../assets/Pulse.svg';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 function Action() {
 
@@ -76,11 +78,44 @@ function Action() {
             minimumFractionDigits: 2,
         }).format(amount);
     };
+    const handleDownload = () => {
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const fileExtension = '.xlsx';
+        const fileName = 'Distribution_Statement';
 
+        const headers = [
+            'REGISTER NO',
+            'NAME',
+            'DEPARTMENT',
+            'SCHOLARSHIP TYPE',
+            'SCHOLAR DONOR NAME',
+            'AMOUNT'
+
+        ];
+
+        const dataWithHeaders = [headers, ...users.map(user => [
+            user.registerNo,
+            user.name,
+            user.dept,
+            user.scholtype,
+            donorMapping[user.scholdonar] || user.scholdonar ,
+            formatCurrency(user.scholamt),
+        ])];
+
+        const ws = XLSX.utils.aoa_to_sheet(dataWithHeaders);
+        const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+        const data = new Blob([excelBuffer], { type: fileType });
+        saveAs(data, fileName + fileExtension);
+    };
 
     return (
         <div>
             <div className='end-px'>
+
+                <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Distribution Statement</h1>
                 <input
                     type='text'
                     placeholder='Search text here'
@@ -92,6 +127,13 @@ function Action() {
                     className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
                 >
                     Search
+                </button>
+                <button
+                    type="button"
+                    className="bg-green-500 text-white font-bold py-2  px-3 hover:bg-black rounded-lg m-1 "
+                    onClick={handleDownload}
+                >
+                    Download Excel
                 </button>
 
             </div>

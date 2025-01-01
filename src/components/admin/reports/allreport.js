@@ -51,7 +51,6 @@ function Allreport() {
         const fileExtension = '.xlsx';
         const fileName = 'All_Report';
 
-        // Define headers for Excel
         const headers = [
             'ACADEMIC YEAR',
             'DATE',
@@ -77,7 +76,6 @@ function Allreport() {
 
         ];
 
-        // Add headers to the beginning of the data array
         const dataWithHeaders = [headers, ...users.map(user => [
             user.acyear,
             new Date(user.amtdate).toLocaleDateString(),
@@ -102,14 +100,11 @@ function Allreport() {
             user.mobileNo
         ])];
 
-        // Convert data to sheet format
         const ws = XLSX.utils.aoa_to_sheet(dataWithHeaders);
         const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
 
-        // Convert workbook to Excel buffer
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
 
-        // Create Blob and trigger download
         const data = new Blob([excelBuffer], { type: fileType });
         saveAs(data, fileName + fileExtension);
     };

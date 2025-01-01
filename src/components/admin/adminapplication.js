@@ -219,7 +219,6 @@ function Action() {
                 (siblingsIncome && user.siblingsIncome >= Number(siblingsIncome))
             )
         );
-
         setQuickRejectList(quickRejectUsers);
         // console.log('Filtered Users:', filteredUsers);
 
@@ -998,7 +997,7 @@ function Action() {
                                     <div className='flex justify-end items-end '>
                                         <button
                                             className="bg-teal-600 text-white rounded-md px-2  shadow-black shadow-lg py-2 mt-4 "
-                                            onClick={handleFilter}
+                                            // onClick={handleFilter}
                                         >
                                             Apply Filters
                                         </button>
@@ -1644,7 +1643,7 @@ function Action() {
                                                 </div>
                                             </div>
                                         )}
-                                        {selectedUser.semester !== 'I' && (
+                                        {/* {selectedUser.semester !== 'I' && ( */}
                                             <div className="grid grid-cols-2 w-auto ">
                                                 <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
                                                 <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}</div>
@@ -1653,8 +1652,7 @@ function Action() {
                                                 <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
                                                 <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
                                             </div>
-                                        )}
-
+                                        {/* )} */}
                                     </div>
 
                                 </div>
