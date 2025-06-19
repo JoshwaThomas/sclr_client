@@ -167,7 +167,7 @@ function Fundstatement() {
 
             </div>
             <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                {filterUsers.map((user, index) => (
+                {filterUsers.sort((a, b) => new Date(b.scholdate) - new Date(a.scholdate)).map((user, index) => (
                     <div key={user.pan} className={`grid grid-cols-8 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                         {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
                         <div className="font-bold border border-white text-center items-center align-middle uppercase py-3 col-span-1"> {formatDate(user.scholdate)}</div>

@@ -1744,4 +1744,4 @@ const ScholarshipForm = () => {
   );
 };
 
-export default ScholarshipForm;
+export default ScholarshipForm; 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import jmc from '../login/jmclogo.png';
 import axios from "axios";
 
@@ -24,7 +25,8 @@ function Forgotpass() {
     const [error, setError] = useState("");
     const apiUrl = process.env.REACT_APP_API_URL;
     const [notification, setNotification] = useState({ message: '', type: '' });
-  
+    const navigate = useNavigate();
+
   const showNotification = (message, type) => {
     setNotification({ message, type });
     setTimeout(() => {
@@ -67,8 +69,9 @@ function Forgotpass() {
                 password: password.pass,
             });
             if (response.data.success) {
-                //  window.alert("Password updated successfully!");
-                 showNotification("Your Application Submitted Successfully", "success");
+                 window.alert("Password updated successfully!");
+                //  showNotification("Password updated successfully!", "success");
+                 navigate('/login')
                } else if (response.data.message === "Aadhar number mismatched") {
                 console.log(response.data.message)
                 //  window.alert("Register No. Already Existing");

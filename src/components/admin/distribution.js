@@ -69,7 +69,7 @@ function Action() {
 
     // console.log("Data : ", filterUsers)
 
-    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>; 
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {

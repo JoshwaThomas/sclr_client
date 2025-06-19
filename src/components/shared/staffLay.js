@@ -119,7 +119,7 @@ function StaffLayout() {
         {menus.filter(menu => menu.show).map((item, index) => (
           <NavLink
             key={index}
-            to={item.path}
+            to={item.path}  
             onClick={handleMenuClick}
             className={({ isActive }) =>
               `space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50 ${isActive ? 'bg-black rounded-[5px] bg-opacity-50' : ''}`

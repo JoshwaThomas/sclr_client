@@ -4,13 +4,33 @@ import Map from '../../assets/victim1-map.gif'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const Notification = ({ message, type, onClose }) => {
+    if (!message) return null;
+  
+    return (
+      <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${
+        type === 'success' ? ' text-green-700' : 'text-red-500'
+      }`}>
+        {message}
+        <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
+      </div>
+    );
+  };
+
 function TextBox() {
     const [staffId, setStaffId] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
+const [notification, setNotification] = useState({ message: '', type: '' });
 
+const showNotification = (message, type) => {
+    setNotification({ message, type });
+    setTimeout(() => {
+      setNotification({ message: '', type: '' });
+    }, 6000); // Automatically hide after 3 seconds
+  };
 
     const Submit = (e) => {
         e.preventDefault();

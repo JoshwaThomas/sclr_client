@@ -85,7 +85,7 @@ const Dashboard = () => {
             },
             datalabels: {
                 color: '#FFFFFF',
-                formatter: (value) => value.toFixed(2) + '%',
+                formatter: (value) => value?value.toFixed(2) + '%':'',
                 font: {
                     weight: 'bold',
                     size: 14,
