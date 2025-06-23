@@ -4,17 +4,19 @@ import Jamal from '../../assets/myjamalmypride.png'
 import Jmclogo from '../../assets/jmclogo.png';
 import { useNavigate } from 'react-router-dom';
 // import Stud from '../../assets/stud.mp4';
-// import Loading from '../../assets/Pulse.svg'
+import Loading from '../../assets/Pulse.svg'
 import Stud1 from '../../assets/stud1.gif'
 
 function Studentfirst() {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState();
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchDates = async () => {
       const response = await axios.get(`${apiUrl}/api/admin/dates`);
+      setData(response.data);
       const { startDate, endDate } = response.data;
       const today = new Date();
       setIsOpen(today >= new Date(startDate) && today <= new Date(endDate));
@@ -22,7 +24,7 @@ function Studentfirst() {
     fetchDates();
   }, [apiUrl]);
 
-  // if (!isOpen) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
+   if (!data) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
 
   return (
     <div className="w-screen h-screen flex flex-col  justify-center items-center p-4 bg-blue-500 overflow-hidden">
@@ -80,6 +82,12 @@ function Studentfirst() {
           {!isOpen && (
             <p className="text-2xl text-red-600 font-bold text-center mt-4 lg:mt-10 animate-bounce">
               Fresher Application are Closed
+            </p>
+          )}
+          {isOpen && (
+            <p className="text-[14px] text-white font-bold text-center mt-4 lg:mt-10 ">
+              To renew your scholarship, login using your ID (registration number), then select the 'Application' option.
+              If your password doesn't match, please contact the Scholarship Section.
             </p>
           )}
         </div>

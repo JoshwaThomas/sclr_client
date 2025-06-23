@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'
 import Loading from '../../assets/Pulse.svg'
 import PrintHeader from '../../assets/printHeader.jpg';
 
@@ -10,6 +10,7 @@ function Status() {
     const [student, setStudent] = useState(null);
     const [showModal, setShowModal] = useState(false);
     // const printRef = useRef();
+    const navigate = useNavigate();
     const { staffId } = useParams();
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -29,6 +30,7 @@ function Status() {
 
                 if (res.data && res.data.message) {
                     alert(res.data.message);
+                    navigate(`/student/${staffId}/application/renewal`);
                 }
             } catch (error) {
                 alert("An error occurred. Please try again.");
@@ -64,7 +66,33 @@ function Status() {
         };
     }, []);
 
-    if (!student) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
+   const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    if (!student) {
+      const timer = setTimeout(() => {
+        setShowMessage(true);
+      }, 3000); 
+
+      return () => clearTimeout(timer); 
+    }
+  }, [student]);
+
+  if (!student) {
+    return (
+      <div>
+        <center>
+          {!showMessage ? (
+            <img src={Loading} alt="Loading" className="w-36 h-80" />
+          ) : (
+            <div className="text-lg font-medium mt-4">
+              Go to Application Tab Apply the scholarship Renewal
+            </div>
+          )}
+        </center>
+      </div>
+    );
+  }
 
     return (
         <div>

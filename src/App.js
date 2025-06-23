@@ -41,6 +41,7 @@ import MoralSfw from './components/staff/moralsfw';
 import Coe from './components/staff/coe';
 import Staffset from './components/staff/pasw';
 import Allreport from './components/admin/reports/allreport';
+import Student_data from './components/admin/Setting/student_data';
 import GuideLine from './components/admin/guide';
 import ProtectedRoute from './components/login/ProtectedRoute';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -71,6 +72,7 @@ function App() {
             <Route path='/admin/setting/accyears' element={<Accyear />} />
             <Route path='/admin/setting/staffmang' element={<Staffmang />} />
             <Route path='/admin/setting/date' element={<Date />} />
+            <Route path='/admin/setting/studentdata' element={<Student_data />} />
             <Route path='/admin/report' element={<Report />} />
             <Route path='/admin/donormenu' element={<DonorMenu />} />
             <Route path='/admin/donor' element={<DonorForm />} />
