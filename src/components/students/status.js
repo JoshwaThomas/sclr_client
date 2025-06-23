@@ -100,6 +100,7 @@ function Status() {
                 <form className="space-y-4  scrollbar-hide">
                     <div className="text-black">
                         {showModal && student && (
+                           student.registerNo ? (
                             <div className="fixed inset-0  flex items-center justify-center  ">
                                 <div className="  ml-64 w-5/6 h-full  overflow-auto p-6 ">
                                     {/* fresher form data retrive */}
@@ -115,6 +116,11 @@ function Status() {
                                                 {student.action === 2 && (
                                                     <p className="text-red-600 font-bold text-lg">
                                                         Your application is rejected.
+                                                    </p>
+                                                )}
+                                                 {student.action !== 1 && student.action !== 2 &&  student.action !== 0 && (
+                                                    <p className="text-yellow-600 font-bold text-lg">
+                                                        Go to Application Tab Apply the Scholarship Renewal.
                                                     </p>
                                                 )}
                                                 {student.action !== 1 && student.action !== 2 && (
@@ -323,8 +329,11 @@ function Status() {
 
                                 </div>
                             </div>
-
-
+                           ):(
+                            <div className="text-lg font-medium mt-4">
+                                Go to Application Tab Apply the scholarship Renewal
+                            </div>
+                           )
                         )}
                     </div>
                 </form>
