@@ -728,7 +728,6 @@ const ScholarshipForm = () => {
                     onChange={(e) => setAadhar(e.target.value)}
                     className="w-52 p-2 border border-black rounded-md text-slate-950"
                     required
-                    readOnly
                   />
                 </div>
               </div>
@@ -742,7 +741,6 @@ const ScholarshipForm = () => {
                     onChange={(e) => setFatherName(e.target.value)}
                     className=" w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
-                    readOnly
                   />
                 </div>
                 <div>
@@ -754,7 +752,6 @@ const ScholarshipForm = () => {
                     onChange={(e) => setFatherNo(e.target.value)}
                     className="w-48  md:w-44 p-2 border border-black rounded-md text-slate-950"
                     required
-                    readOnly
                   />
                 </div>
                 <div>
