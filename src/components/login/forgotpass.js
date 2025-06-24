@@ -155,7 +155,7 @@ function Forgotpass() {
                             <button type="submit" className='bg-orange-500 text-white px-4 py-2 rounded-lg'>
                                 Submit
                             </button>
-                            <button type="button" className='bg-gray-400 text-white px-4 py-2 rounded-lg'>
+                            <button type="button" className='bg-gray-400 text-white px-4 py-2 rounded-lg' onClick={() => {navigate('/login')}}>
                                 Cancel
                             </button>
                         </div>
