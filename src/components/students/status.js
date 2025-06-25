@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import Loading from '../../assets/Pulse.svg'
 import PrintHeader from '../../assets/printHeader.jpg';
 import html2pdf from 'html2pdf.js';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 function Status() {
     // const [registerNo, setRegisterNo] = useState('');
@@ -45,20 +47,51 @@ function Status() {
         }
     }, [staffId, apiUrl]);
 
-    const handleDownloadPdf = () => {
-    const element = contentRef.current;
-    if (!element) return alert("PDF content not ready.");
+ const handleDownloadPdf = async () => {
+        const element = contentRef.current;
+        if (!element) {
+            alert('PDF content not ready.');
+            return;
+        }
 
-    const opt = {
-        margin: 0.5,
-        filename: `Application_${student?.registerNo || 'Student'}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        try {
+            // Capture DOM as canvas
+            const canvas = await html2canvas(element, { scale: 2 });
+
+            // Convert canvas to image
+            const imgData = canvas.toDataURL('image/png');
+
+            const pdf = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4',
+            });
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            let position = 0;
+            let heightLeft = imgHeight;
+
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+
+            pdf.save(`Application_${student?.registerNo || 'Student'}.pdf`);
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            alert('Failed to generate PDF.');
+        }
     };
 
-    html2pdf().set(opt).from(element).save();
-};
 
     const handlePrint = (e) => {
         e.preventDefault();
