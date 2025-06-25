@@ -16,9 +16,12 @@ const ProtectedRoute = ({ children }) => {
             try {
                 const response = await axios.post(`${apiUrl}/api/admin/refresh-token`, {
                     token: localStorage.getItem('token'),
+                    role: localStorage.getItem('role')
                 });
                 if (response.data.status === 'success') {
+                    console.log('token', response)
                     localStorage.setItem('token', response.data.newToken);
+                    
                     setIsAuthenticated(true);
                 } else {
                     navigate('/login');

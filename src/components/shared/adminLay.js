@@ -20,47 +20,57 @@ function StudentLayout() {
   const [activeAcYear, setActiveAcYear] = useState('');
   // const [alertMessage, setAlertMessage] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
-
+  const role = Number(localStorage.getItem('role'))
+  const staffId = localStorage.getItem('staffId')
+  console.log('layout', role)
   const menus = [
     {
       icon: <RiDashboardHorizontalLine className="text-white text-2xl" />,
       name: 'Dashboard',
-      path: 'dashboard'
+      path: 'dashboard',
+      show: role !== 3
     },
     {
       icon: <FaHandHoldingHeart className="text-white text-2xl" />,
       name: 'Donor',
-      path: '/admin/donormenu'
+      path: '/admin/donormenu',
+      show: role !== 3
     },
     {
       icon: <FaStackOverflow className="text-white text-2xl" />,
       name: 'Application',
-      path: '/admin/application'
+      path: '/admin/application',
+      show: role !== 3
     },
     {
       icon: <FaIdCard className="text-white text-2xl" />,
       name: 'Status',
-      path: '/admin/status'
+      path: '/admin/status',
+      show: role ===1 || role === 3
     },
     {
       icon: <FaScrewdriverWrench className="text-white text-2xl" />,
       name: 'Settings',
-      path: '/admin/action'
+      path: '/admin/action',
+      show: role === 1 || role === 3
     },
     {
       icon: <GoDiscussionClosed className="text-white text-2xl" />,
       name: 'Distribution Statement',
-      path: '/admin/distribution_statement'
+      path: '/admin/distribution_statement',
+      show: role !== 3
     },
     {
       icon: <GoReport className="text-white text-2xl" />,
       name: 'Reports',
-      path: '/admin/report'
+      path: '/admin/report',
+      show: role !== 3
     },
     {
       icon: <FaMapSigns className="text-white text-2xl" />,
       name: 'Guidelines',
-      path: '/admin/guidelines'
+      path: '/admin/guidelines',
+      show: role !== 3
     },
   ];
 
@@ -165,7 +175,7 @@ function StudentLayout() {
             </form> */}
           </div>
         </div>
-        {menus.map((item, index) => (
+        {menus.filter(menu => menu.show).map((item, index) => (
           <NavLink
             key={index}
             to={item.path}

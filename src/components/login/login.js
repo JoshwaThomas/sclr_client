@@ -49,8 +49,9 @@ const showNotification = (message, type) => {
                     const { role, token } = res.data; 
                     
                     localStorage.setItem('token', token);
+                    localStorage.setItem('role', role);
 
-                    if (role === 1) {
+                    if (role === 1 || role === 3) {
                         navigate('/admin/dashboard', { state: { id: staffId, role } });
                     } else if (role === 2) {
                         navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
