@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom'
 import Loading from '../../assets/Pulse.svg'
 import PrintHeader from '../../assets/printHeader.jpg';
-import html2pdf from 'html2pdf.js';
+import { useReactToPrint } from "react-to-print";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
@@ -48,6 +48,7 @@ function Status() {
     }, [staffId, apiUrl]);
 
  const handleDownloadPdf = async () => {
+    console.log('download pdf func. triggered')
         const element = contentRef.current;
         if (!element) {
             alert('PDF content not ready.');
@@ -92,16 +93,20 @@ function Status() {
         }
     };
 
+    const handlePrint = useReactToPrint({
+        content: () => contentRef.current,
+    });
 
-    const handlePrint = (e) => {
-        e.preventDefault();
-        const printContent = document.getElementById('print-section').innerHTML;
-        const originalContent = document.body.innerHTML;
 
-        document.body.innerHTML = printContent;
-        window.print();
-        document.body.innerHTML = originalContent;
-    };
+    // const handlePrint = (e) => {
+    //     e.preventDefault();
+    //     const printContent = document.getElementById('print-section').innerHTML;
+    //     const originalContent = document.body.innerHTML;
+
+    //     document.body.innerHTML = printContent;
+    //     window.print();
+    //     document.body.innerHTML = originalContent;
+    // };
 
     useEffect(() => {
         const handleKeydown = (event) => {
@@ -368,14 +373,16 @@ function Status() {
                                                 <div></div>
                                                 <div className="text-right">
                                                     <button
-                                                        onClick={handlePrint}
+                                                        type='button'
+                                                        onClick={() => handlePrint()}
                                                         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                                                         Print
                                                     </button>
                                                 </div>
                                                  <div className="text-right">
                 <button
-                    onClick={handleDownloadPdf}
+                type='button'
+                    onClick={() => handleDownloadPdf()}
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
                     Download PDF
@@ -399,7 +406,7 @@ function Status() {
                 <div id="print-section" ref={contentRef} className='w-[700px] h-[1130px] bg-white p-3'>
                     <img src={PrintHeader} alt="Header" className="w-full h-[80px]" />
                     <div>
-                    <div className="border border-black mt-5 h-[950px]">
+                    <div className="border border-black mt-5 h-[850px]">
                             <div className=' text-center text-xl font-bold'>Scholarship Application({student.fresherOrRenewal})</div>
                             <div className="flex items-center justify-center flex-col p-2">
                                 <h3 className="text-xl font-bold text-black">Student Details &nbsp;&nbsp;{student.ugOrPg}-{student.procategory} </h3>
