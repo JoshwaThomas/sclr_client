@@ -10,11 +10,12 @@ function Student_data() {
     const [select, setSelect] = useState();
     const [showModal, setShowModal] = useState(false);
     // const [filterUsers, setFilterUsers] = useState([]);
+    const [filData, setFilData] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
 
 
     useEffect(() => {
-        axios.get(`${apiUrl}/api/admin/allreport`)
+        axios.get(`${apiUrl}/api/admin/studentdata`)
             .then(response => {
                 setUsers(response.data);
                 console.log('response.data', response.data)
@@ -32,7 +33,7 @@ function Student_data() {
             (user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText))
         );
 
-        setUsers(filteredUsers);
+        setFilData(filteredUsers);
     };
 
     // const handleDownload = () => {
@@ -152,11 +153,11 @@ function Student_data() {
                     <div className='font-bold border border-black text-center py-3'>Password</div>
                 </div>
                 <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                    {users.sort((a,b) => a.registerNo - b.registerNo).map((user, index) => (
+                    {filData.sort((a,b) => a.registerNo - b.registerNo).map((user, index) => (
                         <div key={index} className={`grid grid-cols-7 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
                             <div className="font-bold border border-black text-center uppercase py-3">{index+1}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3" onClick={()=>{setShowModal(true); setSelect(user)}}>{user.name}</div>
+                            <div className="font-bold border border-black text-center uppercase py-3 cursor-pointer" onClick={()=>{setShowModal(true); setSelect(user)}}>{user.name}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{user.mobileNo}</div> 
                             <div className="font-bold border border-black text-center uppercase py-3">{user.aadhar}</div>
