@@ -161,7 +161,7 @@ function Student_data() {
                             <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{user.mobileNo}</div> 
                             <div className="font-bold border border-black text-center uppercase py-3">{user.aadhar}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.password}</div>
+                            <div className="font-bold border border-black text-center py-3">{user.password}</div>
                         </div>
                     ))}
                 </div>
