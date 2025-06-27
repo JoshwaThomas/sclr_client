@@ -1,77 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import Jmclogo from '../../assets/jmclogo.png';
-// import Jmc from '../../assets/jmc_whitefont.png';
 import axios from 'axios';
-import { RiDashboardHorizontalLine } from "react-icons/ri";
-// import { FaHandsHelping } from "react-icons/fa";
-import { FaHandHoldingHeart } from "react-icons/fa6";
-import { FaStackOverflow } from "react-icons/fa";
-import { FaIdCard } from "react-icons/fa6";
-import { FaScrewdriverWrench } from "react-icons/fa6";
-import { GoDiscussionClosed } from "react-icons/go";
-import { GoReport } from "react-icons/go";
-import { FaMapSigns } from "react-icons/fa";
-import { TiPower } from "react-icons/ti";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faTachometerAlt,
+  faHandHoldingHeart,
+  faCogs,
+  faFileAlt,
+  faIdCard,
+  faTools,
+  faChartBar,
+  faSignOutAlt,
+  faMapSigns,
+  faCheckCircle
+} from '@fortawesome/free-solid-svg-icons';
+
+import Jmclogo from '../../assets/jmclogo.png';
 
 function StudentLayout() {
   const navigate = useNavigate();
-  // const [acyear, setAcYear] = useState('');
   const [activeAcYear, setActiveAcYear] = useState('');
-  // const [alertMessage, setAlertMessage] = useState('');
   const apiUrl = process.env.REACT_APP_API_URL;
-  const role = Number(localStorage.getItem('role'))
-  const staffId = localStorage.getItem('staffId')
-  console.log('layout', role)
+
+  const role = Number(localStorage.getItem('role'));
+
   const menus = [
-    {
-      icon: <RiDashboardHorizontalLine className="text-white text-2xl" />,
-      name: 'Dashboard',
-      path: 'dashboard',
-      show: role !== 3
-    },
-    {
-      icon: <FaHandHoldingHeart className="text-white text-2xl" />,
-      name: 'Donor',
-      path: '/admin/donormenu',
-      show: role !== 3
-    },
-    {
-      icon: <FaStackOverflow className="text-white text-2xl" />,
-      name: 'Application',
-      path: '/admin/application',
-      show: role !== 3
-    },
-    {
-      icon: <FaIdCard className="text-white text-2xl" />,
-      name: 'Status',
-      path: '/admin/status',
-      show: role ===1 || role === 3
-    },
-    {
-      icon: <FaScrewdriverWrench className="text-white text-2xl" />,
-      name: 'Settings',
-      path: '/admin/action',
-      show: role === 1 || role === 3
-    },
-    {
-      icon: <GoDiscussionClosed className="text-white text-2xl" />,
-      name: 'Distribution Statement',
-      path: '/admin/distribution_statement',
-      show: role !== 3
-    },
-    {
-      icon: <GoReport className="text-white text-2xl" />,
-      name: 'Reports',
-      path: '/admin/report',
-      show: role !== 3
-    },
-    {
-      icon: <FaMapSigns className="text-white text-2xl" />,
-      name: 'Guidelines',
-      path: '/admin/guidelines',
-      show: role !== 3
-    },
+    { icon: faTachometerAlt, name: 'Dashboard', path: 'dashboard', show: role !== 3 },
+    { icon: faHandHoldingHeart, name: 'Donor', path: '/admin/donormenu', show: role !== 3 },
+    { icon: faCheckCircle, name: 'Application', path: '/admin/application', show: role !== 3 },
+    { icon: faIdCard, name: 'Status', path: '/admin/status', show: role === 1 || role === 3 },
+    { icon: faTools, name: 'Settings', path: '/admin/action', show: role === 1 || role === 3 },
+    { icon: faFileAlt, name: 'Distribution Statement', path: '/admin/distribution_statement', show: role !== 3 },
+    { icon: faChartBar, name: 'Reports', path: '/admin/report', show: role !== 3 },
+    { icon: faMapSigns, name: 'Guidelines', path: '/admin/guidelines', show: role !== 3 },
   ];
 
   const handleLogout = () => {
@@ -82,128 +44,65 @@ function StudentLayout() {
   };
 
   useEffect(() => {
-    const fetchActiveAcademicYear = () => {
-      axios.get(`${apiUrl}/api/admin/current-acyear`)
-        .then(response => {
-          if (response.data.success) {
-            setActiveAcYear(response.data.acyear.acyear);
-          } else {
-            setActiveAcYear('');
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching current academic year:', error);
-        });
-    };
-  
-    // Fetch current active academic year on component mount
-    fetchActiveAcademicYear();
+    axios.get(`${apiUrl}/api/admin/current-acyear`)
+      .then(response => {
+        if (response.data.success) {
+          setActiveAcYear(response.data.acyear.acyear);
+        } else {
+          setActiveAcYear('');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching current academic year:', error);
+      });
   }, [apiUrl]);
-  
-  // useEffect(() => {
-  //   // Fetch current active academic year on component mount
-  //   fetchActiveAcademicYear();
-  // }, [apiUrl, fetchActiveAcademicYear]);
-
-  // const fetchActiveAcademicYear = () => {
-  //   axios.get(`${apiUrl}/api/admin/current-acyear`)
-  //     .then(response => {
-  //       if (response.data.success) {
-  //         setActiveAcYear(response.data.acyear.acyear);
-  //       } else {
-  //         setActiveAcYear('');
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching current academic year:', error);
-  //     });
-  // };
-
-  // const Submit = (e) => {
-  //   e.preventDefault();
-  //   axios.post("http://localhost:3001/api/admin/acyear", { acyear })
-  //     .then(result => {
-  //       alert('Academic year set to active successfully.');
-  //       fetchActiveAcademicYear(); // Update active academic year after setting
-  //       window.location.reload();
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       alert('Something Went Wrong');
-  //     });
-  // };
 
   return (
-    <div className="flex flex-row bg-zinc-50 h-screen w-screen ">
-      <div className="bg-emerald-700 w-64 p-3 flex flex-col text-black">
-        <div className='flex flex-col mb-10 place-items-center'>
-          <img src={Jmclogo} alt="" className="w-36 h-40" />
-          {/* <img src={Jmc} alt="" className="w-60" /> */}
-          <div className='mt-2 text-white'>
-            <span className="text-sm font-extrabold text-center">JAMAL MOHAMED COLLEGE<br /></span>
-            <span className="text-sm font-bold ml-12 text-center">(Autonomous)<br /></span>
-            <span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
+    <div className="flex h-screen w-screen">
+      {/* Sidebar */}
+      <div className="bg-emerald-700 w-64 p-4 flex flex-col text-white">
+        {/* Logo Section */}
+        <div className="flex flex-col items-center mb-8">
+          <img src={Jmclogo} alt="JMC Logo" className="w-36 h-40" />
+          <div className="text-center mt-2 text-sm font-bold leading-5">
+            <div>JAMAL MOHAMED COLLEGE</div>
+            <div>(Autonomous)</div>
+            <div>TIRUCHIRAPPALLI - 620 020</div>
           </div>
-          <div className='bg-emerald-600  rounded-md py-1 mt-5 -mb-4 w-64'>
-          <label className="block mb-1 font-extrabold text-center text-2xl text-white">{activeAcYear}</label>
-            {/* <form onSubmit={Submit}>
-              <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label>
-
-
-              <select
-                name="acyear"
-                value={acyear}
-                onChange={(e) => setAcYear(e.target.value)}
-                className="w-28 p-1 border rounded-md text-slate-950 ml-8"
-                required
-              >
-                <option value="">Select</option>
-                <option value="2022-2023">2022-2023</option>
-                <option value="2023-2024">2023-2024</option>
-                <option value="2024-2025">2024-2025</option>
-                <option value="2025-2026">2025-2026</option>
-                <option value="2026-2027">2026-2027</option>
-                <option value="2027-2028">2027-2028</option>
-                <option value="2028-2029">2028-2029</option>
-                <option value="2029-2030">2029-2030</option>
-                <option value="2030-2031">2030-2031</option>
-                <option value="2031-2032">2031-2032</option>
-                <option value="2032-2033">2032-2033</option>
-              </select>
-              <button type='submit' className="p-1 border px-3 ml-3 rounded-md bg-orange-500">Set</button>
-
-            </form> */}
+          <div className="bg-emerald-600 rounded-md py-1 px-2 mt-4 text-xl font-bold">
+            {activeAcYear}
           </div>
         </div>
-        {menus.filter(menu => menu.show).map((item, index) => (
-          <NavLink
-            key={index}
-            to={item.path}
-            className={({ isActive }) =>
-              `space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50 ${isActive ? 'bg-black rounded-[5px] bg-opacity-50' : ''
-              }`
-            }
-          >
-             {item.icon}
-            <label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
-              {item.name}
-            </label>
-          </NavLink>
-        ))}
+
+        {/* Navigation Menu */}
+        <div className="flex-1 space-y-2">
+          {menus.filter(menu => menu.show).map((item, idx) => (
+            <NavLink
+              key={idx}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center space-x-3 px-4 py-2 rounded-md transition-all duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''}`
+              }
+            >
+              <FontAwesomeIcon icon={item.icon} className="text-lg" />
+              <span className="text-sm font-medium">{item.name}</span>
+            </NavLink>
+          ))}
+        </div>
+
+        {/* Logout Button */}
         <button
           onClick={handleLogout}
-          className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
+          className="flex items-center space-x-3 px-4 py-2 rounded-md mt-4 hover:bg-black hover:bg-opacity-30 transition-all duration-300"
         >
-          <TiPower className="text-white text-2xl " />
-          <label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
-            Logout
-          </label>
+          <FontAwesomeIcon icon={faSignOutAlt} className="text-lg" />
+          <span className="text-sm font-medium">Logout</span>
         </button>
       </div>
-      <div className="p-4 flex-1 overflow-auto overflow-scroll">
-        <div className="mt-4">
-          <Outlet />
-        </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-5 overflow-auto bg-zinc-50">
+        <Outlet />
       </div>
     </div>
   );
