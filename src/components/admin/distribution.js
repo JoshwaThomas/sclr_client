@@ -1,5 +1,5 @@
-import { useEffect, useState, React } from 'react';
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Loading from '../../assets/Pulse.svg';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -14,170 +14,176 @@ function Action() {
     const [totaldonaramt, setDonaramt] = useState(0);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-
     useEffect(() => {
-        const fetchUsersAndDonors = async () => {
+        const fetchData = async () => {
             try {
-                const usersResponse = await axios.get(`${apiUrl}/api/admin/freshamt`);
-                const donorsResponse = await axios.get(`${apiUrl}/api/admin/donors`);
-
-                const usersData = usersResponse.data;
-                const donorsData = donorsResponse.data;
-
-                const donorMap = donorsData.reduce((map, donor) => {
+                const [usersRes, donorsRes] = await Promise.all([
+                    axios.get(`${apiUrl}/api/admin/freshamt`),
+                    axios.get(`${apiUrl}/api/admin/donors`)
+                ]);
+                const donorMap = donorsRes.data.reduce((map, donor) => {
                     map[donor._id] = donor.name;
                     return map;
                 }, {});
-
-                setUsers(usersData);
-                setFilterUsers(usersData);
+                setUsers(usersRes.data);
+                setFilterUsers(usersRes.data);
                 setDonorMapping(donorMap);
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
         };
-        fetchUsersAndDonors();
+        fetchData();
     }, [apiUrl]);
 
-
+    useEffect(() => {
+        axios.get(`${apiUrl}/api/dashboard/counts`)
+            .then(res => {
+                setData(res.data);
+                setTotalAmount(res.data.scholamt.reduce((a, b) => a + b, 0));
+                setDonaramt(res.data.donaramt.reduce((a, b) => a + b, 0));
+            })
+            .catch(err => console.error(err));
+    }, [apiUrl]);
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-
-        const filteredUsers = users.filter((user) =>
+        const filtered = users.filter(user =>
             user.dept.toLowerCase().includes(searchText) ||
             user.registerNo.toLowerCase().includes(searchText) ||
             user.name.toLowerCase().includes(searchText) ||
-            // user.fresherOrRenewal.toLowerCase().includes(searchText) ||
             user.scholdonar.toLowerCase().includes(searchText)
         );
-        setFilterUsers(filteredUsers);
+        setFilterUsers(filtered);
     };
 
-    // show the no of applicant in footer
-    useEffect(() => {
-        axios.get(`${apiUrl}/api/dashboard/counts`)
-            .then(response => {
-                setData(response.data)
-                const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
-                setTotalAmount(total);
-                const total1 = response.data.donaramt.reduce((add, amount) => add + amount, 0);
-                setDonaramt(total1);
-            })
-            .catch(err => console.log('Error fetching data:', err))
-    }, [apiUrl]);
+    const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2
+    }).format(amount);
 
-    // console.log("Data : ", filterUsers)
-
-    if (!data) return <div ><center><img src={Loading} alt="" className=" w-36 h-80  " /></center></div>; 
-
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 2,
-        }).format(amount);
-    };
     const handleDownload = () => {
-        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        const fileExtension = '.xlsx';
-        const fileName = 'Distribution_Statement';
-
-        const headers = [
-            'REGISTER NO',
-            'NAME',
-            'DEPARTMENT',
-            'SCHOLARSHIP TYPE',
-            'SCHOLAR DONOR NAME',
-            'AMOUNT'
-
-        ];
-
-        const dataWithHeaders = [headers, ...users.map(user => [
-            user.registerNo,
-            user.name,
-            user.dept,
-            user.scholtype,
-            donorMapping[user.scholdonar] || user.scholdonar ,
-            formatCurrency(user.scholamt),
+        const headers = ['REG NO', 'NAME', 'DEPARTMENT', 'TYPE', 'DONOR NAME', 'AMOUNT'];
+        const sheetData = [headers, ...users.map(u => [
+            u.registerNo,
+            u.name,
+            u.dept,
+            u.scholtype,
+            donorMapping[u.scholdonar] || u.scholdonar,
+            formatCurrency(u.scholamt)
         ])];
 
-        const ws = XLSX.utils.aoa_to_sheet(dataWithHeaders);
+        const ws = XLSX.utils.aoa_to_sheet(sheetData);
         const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
-
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-        const data = new Blob([excelBuffer], { type: fileType });
-        saveAs(data, fileName + fileExtension);
+        const data = new Blob([excelBuffer], {
+            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+        });
+        saveAs(data, 'Distribution_Statement.xlsx');
     };
 
-    return (
-        <div>
-            <div className='end-px'>
+    if (!data) {
+        return (
+            <div className="flex justify-center items-center min-h-[50vh]">
+                <img src={Loading} alt="Loading..." className="w-28" />
+            </div>
+        );
+    }
 
-                <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Distribution Statement</h1>
+    return (
+        <div className="p-6">
+            <h1 className="text-2xl font-bold text-white bg-gray-700 p-3 px-4 mb-6">
+                Distribution Statement
+            </h1>
+            <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
                 <input
-                    type='text'
-                    placeholder='Search text here'
-                    className='uppercase py-1 rounded-md mr-2 border border-black'
+                    type="text"
+                    placeholder="Search ..."
+                    className="p-2 border border-gray-400 rounded-md w-72"
                     onChange={handleSearch}
                 />
                 <button
-                    type="button"
-                    className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                >
-                    Search
-                </button>
-                <button
-                    type="button"
-                    className="bg-green-500 text-white font-bold py-2  px-3 hover:bg-black rounded-lg m-1 "
+                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md"
                     onClick={handleDownload}
                 >
                     Download Excel
                 </button>
-
             </div>
-            <div className="text-right font-bold text-xl ml-28 ">No of Students:  {filterUsers.length}</div>
-            <div className="grid grid-cols-6 text-white w-auto bg-emerald-500 mt-4 sticky top-0">
-                {/* <div className=""> */}
-                {/* <div className="grid grid-cols-4 w-auto bg-amber-200 p-4  gap-1 text-center"> */}
-                {/* <div className="font-bold border border-white text-center">Application</div> */}
-                <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
-                <div className="font-bold border border-black text-center py-3">NAME</div>
-                <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
-                <div className="font-bold border border-black text-center py-3">SCHOLARSHIP TYPE</div>
-                <div className="font-bold border border-black text-center py-3">DONOR NAME</div>
-                <div className='font-bold border border-black text-center py-3'>AMOUNT</div>
-                {/* <div className="font-bold border border-white text-center">Action</div> */}
-
+            <div className="text-right font-semibold mb-3 text-lg">
+                Total Students : {filterUsers.length}
             </div>
-            <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                {filterUsers.map((user, index) => (
-                    <div key={user.registerNo} className={`grid grid-cols-6 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                        {/* <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div> */}
-                        <div className="font-bold border border-black text-center py-3 uppercase">{user.registerNo}</div>
-                        <div className="font-bold border border-black text-center py-3 uppercase">{user.name}</div>
-                        <div className="font-bold border border-black text-center py-3 uppercase">{user.dept}</div>
-                        <div className="font-bold border border-black text-center py-3 uppercase">{user.scholtype}</div>
-                        <div className="font-bold border border-black text-center py-3 uppercase">{donorMapping[user.scholdonar] || user.scholdonar}</div>
-                        <div className="font-bold border border-black text-center py-3 uppercase">{formatCurrency(user.scholamt)}</div>
-
+            <div className="overflow-x-auto rounded-lg shadow ring-1 ring-black ring-opacity-5">
+                <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+                    <thead className="bg-emerald-700">
+                        <tr>
+                            {['Reg No', 'Name', 'Department', 'Type', 'Donor Name', 'Amount'].map((heading) => (
+                                <th
+                                    key={heading}
+                                    className="px-6 py-4 text-center text-sm font-semibold text-white border-r border-gray-300"
+                                >
+                                    {heading}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                        {filterUsers.map((user, index) => (
+                            <tr
+                                key={user.registerNo}
+                                className="hover:bg-gray-50 transition-colors border-t border-gray-300 h-20"
+                            >
+                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                    {user.registerNo}
+                                </td>
+                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                    {user.name}
+                                </td>
+                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                    {user.dept}
+                                </td>
+                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                    {user.scholtype}
+                                </td>
+                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                    {donorMapping[user.scholdonar] || user.scholdonar}
+                                </td>
+                                <td className="px-6 py-3 text-center text-sm text-gray-700">
+                                    {formatCurrency(user.scholamt)}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+                <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        📋 Application Summary
+                    </h3>
+                    <div className="flex justify-between text-gray-700">
+                        <span>Applied Students :</span>
+                        <span className="font-bold">{data.totalApplication}</span>
                     </div>
-                ))}
-            </div>
-            <div></div>
-
-            <div className='flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
-                <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
-                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
-                    <div className=' w-72 ml-7' > Number of Students Benefitted : </div><div className='ml-20'> {data.totalBenefit} </div>
+                    <div className="flex justify-between text-gray-700 mt-2">
+                        <span>Benefitted Students :</span>
+                        <span className="font-bold">{data.totalBenefit}</span>
+                    </div>
                 </div>
-                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 bg-blue-600 '>
-                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
-                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
+                <div className="bg-white border-l-4 border-green-600 p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        💰 Scholarship Summary
+                    </h3>
+                    <div className="flex justify-between text-gray-700">
+                        <span>Total Received :</span>
+                        <span className="font-bold">{formatCurrency(totaldonaramt)}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-700 mt-2">
+                        <span>Total Awarded :</span>
+                        <span className="font-bold">{formatCurrency(totalamount)}</span>
+                    </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

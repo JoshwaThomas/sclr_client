@@ -2,63 +2,52 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import Loading from '../assets/Pulse.svg';
 import { Pie, Bar } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    PointElement,
-    LineElement,
-} from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faGraduationCap, faMoneyCheckAlt, faHandsHelping } from '@fortawesome/free-solid-svg-icons';
+import {
+    Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
+    ArcElement, PointElement, LineElement
+} from 'chart.js';
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    PointElement,
-    LineElement,
-    ChartDataLabels
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, ChartDataLabels);
 
 const Dashboard = () => {
 
     const [data, setData] = useState(null);
     const [totalamount, setTotalAmount] = useState(0);
-    const [columnBarData, setColumnBarData] = useState(null); // New state for column bar chart data
+    const [columnBarData, setColumnBarData] = useState(null);
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        // Fetching the dashboard data
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data);
-                console.log(response.data);
-
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
                 setTotalAmount(total);
             })
             .catch(err => console.log('Error fetching data:', err));
 
-        // Fetching the column bar chart data
         axios.get(`${apiUrl}/api/dashboard/columnBarData`)
-            .then(response => {
-                setColumnBarData(response.data); // Set the fetched column bar data
-            })
+            .then(response => setColumnBarData(response.data))
             .catch(err => console.log('Error fetching column bar chart data:', err));
     }, [apiUrl]);
 
-    if (!data || !columnBarData) return <div><center><img src={Loading} alt="" className="w-36 h-80" /></center></div>;
+    if (!data || !columnBarData) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <img src={Loading} alt="Loading..." className="w-36 h-36" />
+            </div>
+        )
+    }
+
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 2,
+        }).format(amount);
+    };
 
     const barData = {
         labels: [`First Year UG ${data.firstYear + data.rfirstYear} / ${data.totalApplication}`, `Second Year UG ${data.secYear + data.rsecYear} / ${data.totalApplication}`, `Third Year UG ${data.thirdYear + data.rthirdYear} / ${data.totalApplication}`, `First Year PG ${data.pgfirstYear + data.rpgfirstYear} / ${data.totalApplication}`, `Second Year PG ${data.pgsecYear + data.rpgsecYear} / ${data.totalApplication}`],
@@ -73,80 +62,61 @@ const Dashboard = () => {
     };
 
     const pieOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
-                labels: {
-                    font: {
-                        size: 16,
-                    },
-                    color: '#333',
-                },
-                position: 'top',
+                display: false,
             },
             datalabels: {
-                color: '#FFFFFF',
-                formatter: (value) => value?value.toFixed(2) + '%':'',
+                color: '#fff',
+                formatter: (value) => (value ? value.toFixed(1) + '%' : ''),
                 font: {
                     weight: 'bold',
-                    size: 14,
+                    size: 12,
                 },
             },
         },
     };
 
     const pieData = {
-        labels: [`FRESHERS ${data.ugCount} `, `RENEWALS ${data.pgCount}`,],
-        datasets: [
-            {
-                data: [data.ugPercent, data.pgPercent],
-                backgroundColor: [
-                    'rgb(251,79,20)',
-                    'rgb(6,95,70)',
-                ],
-            },
-        ],
+        labels: [`FRESHERS (${data.ugCount})`, `RENEWALS (${data.pgCount})`],
+        datasets: [{
+            data: [data.ugPercent, data.pgPercent],
+            backgroundColor: ['rgb(251,79,20)', 'rgb(6,95,70)'],
+        }],
     };
 
     const pieData1 = {
-        labels: [[`Aided ${data.amCount + data.ramCount}`], [`SF Men ${data.sfmCount + data.rsfmCount}`], [`SF Women ${data.sfwCount + data.rsfwCount}`]],
-        datasets: [
-            {
-                data: [(data.amCount + data.ramCount) / data.totalApplication * 100, (data.sfmCount + data.rsfmCount) / data.totalApplication * 100, (data.sfwCount + data.rsfwCount) / data.totalApplication * 100],
-                backgroundColor: [
-                    'rgb(6,95,70)',
-                    'rgb(99,102,241)',
-                    'rgb(251,79,20)',
-                ],
-            },
+        labels: [
+            `Aided (${data.amCount + data.ramCount})`,
+            `SF Men (${data.sfmCount + data.rsfmCount})`,
+            `SF Women (${data.sfwCount + data.rsfwCount})`,
         ],
+        datasets: [{
+            data: [
+                ((data.amCount + data.ramCount) / data.totalApplication) * 100,
+                ((data.sfmCount + data.rsfmCount) / data.totalApplication) * 100,
+                ((data.sfwCount + data.rsfwCount) / data.totalApplication) * 100,
+            ],
+            backgroundColor: ['rgb(6,95,70)', 'rgb(99,102,241)', 'rgb(251,79,20)'],
+        }],
     };
 
     const pieData2 = {
-        labels: [`Men ${data.amCount + data.ramCount + data.sfmCount + data.rsfmCount}`, `Women ${data.sfwCount + data.rsfwCount}`,],
-        datasets: [
-            {
-                data: [(data.amCount + data.ramCount + data.sfmCount + data.rsfmCount) / data.totalApplication * 100, (data.sfwCount + data.rsfwCount) / data.totalApplication * 100],
-                backgroundColor: [
-                    'rgb(99,102,241)',
-                    'rgb(251,79,20)',
-                ],
-            },
+        labels: [
+            `Men (${data.amCount + data.ramCount + data.sfmCount + data.rsfmCount})`,
+            `Women (${data.sfwCount + data.rsfwCount})`,
         ],
+        datasets: [{
+            data: [
+                (data.amCount + data.ramCount + data.sfmCount + data.rsfmCount) / data.totalApplication * 100,
+                (data.sfwCount + data.rsfwCount) / data.totalApplication * 100,
+            ],
+            backgroundColor: ['rgb(99,102,241)', 'rgb(251,79,20)'],
+        }],
     };
 
-    const totalApplicants = barData.datasets[0].data.reduce((sum, value) => sum + value, 0);
-
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 2,
-        }).format(amount);
-    };
-
-    const barColors = [" bg-fuchsia-500", "bg-green-900", "bg-blue-500", "bg-teal-500", "bg-orange-500"];
-
-    // Column Bar Chart Data preparation
     const columnBarChartData = {
         labels: ['I UG', 'II UG', 'III UG', 'I PG', 'II PG'],
         datasets: [
@@ -164,7 +134,6 @@ const Dashboard = () => {
             {
                 label: 'Women',
                 data: [
-
                     columnBarData['I UG'].Women,
                     columnBarData['II UG'].Women,
                     columnBarData['III UG'].Women,
@@ -183,129 +152,119 @@ const Dashboard = () => {
                     columnBarData['II PG'].Total,
                 ],
                 backgroundColor: 'rgb(6,95,70)',
-
             },
         ],
     };
 
+    const barColors = ['bg-fuchsia-500', 'bg-green-900', 'bg-blue-500', 'bg-teal-500', 'bg-orange-500'];
+
     return (
-        <div className="container mx-auto p-4 2xl:w-screen">
-            {/* Statistics Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 2xl:gap-10">
-                <div className="bg-gray-200 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
-                    <FontAwesomeIcon icon={faUsers} size="2x" />
-                    <div>Total Applicants</div>
-                    <div>{data.totalApplication}</div>
-                </div>
-                <div className="bg-gray-200 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
-                    <FontAwesomeIcon icon={faGraduationCap} size="2x" />
-                    <div>Students Benefitted</div>
-                    <div>{data.totalBenefit}</div>
-                </div>
-                <div className="bg-gray-200 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
-                    <FontAwesomeIcon icon={faMoneyCheckAlt} size="2x" />
-                    <div>Scholarship Awarded</div>
-                    <div>{formatCurrency(totalamount)}</div>
-                </div>
-                <div className="bg-gray-200 p-4 rounded shadow text-center text-xl font-bold 2xl:text-3xl">
-                    <FontAwesomeIcon icon={faHandsHelping} size="2x" />
-                    <div>Generous Donors</div>
-                    <div>{data.totalDonars}</div>
-                </div>
+        <div className="container mx-auto p-6 max-w-10xl 2xl:py-16">
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {[
+                    { icon: faUsers, label: 'Total Applicants', value: data.totalApplication },
+                    { icon: faGraduationCap, label: 'Students Benefitted', value: data.totalBenefit },
+                    { icon: faMoneyCheckAlt, label: 'Scholarship Awarded', value: formatCurrency(totalamount) },
+                    { icon: faHandsHelping, label: 'Generous Donors', value: data.totalDonars },
+                ].map((item, idx) => (
+                    <div key={idx} className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center hover:scale-105 transition-transform duration-300">
+                        <FontAwesomeIcon icon={item.icon} className="text-blue-600 text-3xl mb-3" />
+                        <div className="text-gray-700 text-lg font-semibold mb-1">{item.label}</div>
+                        <div className="text-black text-2xl font-bold">{item.value}</div>
+                    </div>
+                ))}
             </div>
 
             {/* Pie Charts */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 2xl:gap-10">
-                <div className="bg-gray-200 p-4 rounded shadow 2xl:text-3xl">
-                    <Pie options={pieOptions} data={pieData} />
-                </div>
-                <div className="bg-gray-200 p-4 rounded shadow 2xl:text-3xl">
-                    <Pie options={pieOptions} data={pieData1} />
-                </div>
-                <div className="bg-gray-200 p-4 rounded shadow 2xl:text-3xl">
-                    <Pie options={pieOptions} data={pieData2} />
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-6 mb-8">
+                {[pieData, pieData1, pieData2].map((chartData, i) => (
+                    <div
+                        key={i}
+                        className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-between"
+                    >
+                        <div className="relative w-[240px] h-[240px]">
+                            <Pie data={chartData} options={pieOptions} />
+                        </div>
+                        <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
+                            {chartData.labels.map((label, idx) => (
+                                <div key={idx} className="flex items-center space-x-2">
+                                    <div
+                                        className="w-3 h-3 rounded-sm"
+                                        style={{ backgroundColor: chartData.datasets[0].backgroundColor[idx] }}
+                                    ></div>
+                                    <span className="whitespace-nowrap">{label}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
+
             {/* Bar Charts */}
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
-                {/* Right: Column Bar Chart */}
-                <div className="bg-gray-200 p-4 rounded shadow 2xl:text-3xl">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                <div className="bg-white p-6 rounded-xl shadow-lg">
                     <Bar
                         data={columnBarChartData}
-                        height={200}
+                        height={300}
                         options={{
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: {
                                 datalabels: {
-                                    color: 'white', // Change this to whatever color you want for the label text
-                                    font: {
-                                        weight: 'bold', // Optional: Make the label text bold
-                                        size: 12, // Optional: Adjust the size of the label text
-                                    },
-                                    align: 'center', // Optional: Controls the positioning of the label inside the bar
+                                    color: '#333',
+                                    font: { weight: 'bold', size: 12 },
+                                    align: 'end',
                                 },
                                 title: {
                                     display: true,
                                     text: 'Student Distribution by Year and Gender',
-                                    font: {
-                                        size: 20,
-                                    },
+                                    font: { size: 18 },
                                 },
                             },
                             scales: {
                                 x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Year',
-                                        font: {
-                                            size: 20,
-                                        },
-                                    },
-                                    grid: {
-                                        display: false,
-                                    },
+                                    title: { display: true, text: 'Year', font: { size: 14 } },
+                                    grid: { display: false },
                                 },
                                 y: {
-                                    title: {
-                                        display: true,
-                                        text: 'Count',
-                                    },
-                                    grid: {
-                                        display: false,
-                                    },
                                     beginAtZero: true,
+                                    title: { display: true, text: 'Count', font: { size: 14 } },
+                                    grid: { display: false },
                                 },
                             },
                         }}
                     />
                 </div>
-                {/* Left: Horizontal Bar Chart */}
-                <div className="bg-gray-200 p-4 rounded shadow 2xl:text-3xl">
-                    {barData.labels.map((label, index) => (
-                        <div key={label} className="mb-4">
-                            <div className="flex justify-between mb-1">
-                                <span className="text-base font-medium text-gray-700 2xl:text-3xl">{label}</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-5">
-                                <div
-                                    className={`${barColors[index % barColors.length]} h-5 rounded-full`}
-                                    style={{
-                                        width: `${(barData.datasets[0].data[index] / Math.max(...barData.datasets[0].data)) * 100}%`,
-                                    }}
-                                ></div>
+                <div className="bg-white p-6 rounded-xl shadow-lg">
+                    <div className="space-y-5">
+                        {barData.labels.map((label, index) => {
+                            const value = barData.datasets[0].data[index];
+                            const percentage = (value / Math.max(...barData.datasets[0].data)) * 100;
+                            const [labelText] = label.split(/(?=\d)/);
+                            const countText = label.match(/\d+ \/ \d+/)?.[0] || '';
 
-                            </div>
-                        </div>
-                    ))}
+                            return (
+                                <div key={index}>
+                                    <div className="flex justify-between mb-1 text-gray-700 font-medium">
+                                        <span>{labelText.trim()}</span>
+                                        <span>{countText}</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-4">
+                                        <div
+                                            className={`${barColors[index % barColors.length]} h-4 rounded-full`}
+                                            style={{ width: `${percentage}%` }}
+                                        ></div>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
                 </div>
-
-
             </div>
-
-
         </div>
-    );
-};
+    )
+}
 
 export default Dashboard;
