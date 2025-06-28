@@ -56,7 +56,7 @@ function StudentLayout() {
                     ))}
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
+                        className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
                     >
                         <FontAwesomeIcon icon={faUndo} className="text-base" />
                         <span className='text-md'>Back</span>

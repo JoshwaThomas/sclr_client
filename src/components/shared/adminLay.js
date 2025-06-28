@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
 	faTachometerAlt, faHandHoldingHeart, faFileAlt, faIdCard, faTools,
-	faChartBar, faSignOutAlt, faMapSigns, faCheckCircle
+	faChartBar, faSignOutAlt, faMapSigns, faClipboard
 } from '@fortawesome/free-solid-svg-icons';
 import Jmclogo from '../../assets/jmclogo.png';
 
@@ -19,7 +19,7 @@ function StudentLayout() {
 	const menus = [
 		{ icon: faTachometerAlt, name: 'Dashboard', path: 'dashboard', show: role !== 3 },
 		{ icon: faHandHoldingHeart, name: 'Donor', path: '/admin/donormenu', show: role !== 3 },
-		{ icon: faCheckCircle, name: 'Application', path: '/admin/application', show: role !== 3 },
+		{ icon: faClipboard, name: 'Application', path: '/admin/application', show: role !== 3 },
 		{ icon: faIdCard, name: 'Status', path: '/admin/status', show: role === 1 || role === 3 },
 		{ icon: faTools, name: 'Settings', path: '/admin/action', show: role === 1 || role === 3 },
 		{ icon: faFileAlt, name: 'Distribution Statement', path: '/admin/distribution_statement', show: role !== 3 },

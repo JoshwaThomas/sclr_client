@@ -112,7 +112,7 @@ function Action() {
             <div className="text-right font-semibold mb-3 text-lg">
                 Total Students : {filterUsers.length}
             </div>
-            <div className="overflow-x-auto rounded-lg shadow ring-1 ring-black ring-opacity-5">
+            <div className="overflow-x-auto rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700">
                         <tr>
@@ -130,7 +130,7 @@ function Action() {
                         {filterUsers.map((user, index) => (
                             <tr
                                 key={user.registerNo}
-                                className="hover:bg-gray-50 transition-colors border-t border-gray-300 h-20"
+                                className="hover:bg-gray-50 font-semibold transition-colors border-t border-gray-300 h-20"
                             >
                                 <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
                                     {user.registerNo}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg';
-import Application_Print from '../students/Application_Print';
+import ApplicationPrint from '../students/ApplicationPrint';
 
 const Notification = ({ message, type, onClose }) => {
     if (!message) return null;
@@ -1707,7 +1707,7 @@ function Action() {
                             </button>
                         </div>
                         <div className='mt-2 border p-3 rounded-lg'>
-                        <Application_Print student={selectedUser} />
+                        <ApplicationPrint student={selectedUser} />
                         </div>
                     </div>
                 </div>

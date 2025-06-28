@@ -2,18 +2,58 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FaWindowClose } from "react-icons/fa";
+import { faXmark, faCircleCheck, faCircleExclamation, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
-const Notification = ({ message, type, onClose }) => {
+const iconMap = {
+	success: faCircleCheck,
+	error: faCircleExclamation,
+	info: faCircleInfo,
+};
 
-	if (!message) return null;
+const colorMap = {
+	success: 'bg-green-50 text-green-800 border-green-200',
+	error: 'bg-red-50 text-red-800 border-red-200',
+	info: 'bg-blue-50 text-blue-800 border-blue-200',
+};
+
+const Notification = ({ message, type = 'info', onClose, duration = 4000, }) => {
+	
+	const [visible, setVisible] = useState(false);
+
+	useEffect(() => {
+		if (message) {
+			setVisible(true);
+			const timer = setTimeout(() => {
+				setVisible(false);
+				onClose();
+			}, duration);
+			return () => clearTimeout(timer);
+		}
+	}, [message, duration, onClose]);
+
+	if (!message || !visible) return null;
+
+	const Icon = iconMap[type] || faCircleInfo;
+	const colorClasses = colorMap[type] || colorMap.info;
 
 	return (
-		<div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-semibold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'
-			}`}>
-			{message}
-			<button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
+		<div
+			role="alert"
+			aria-live="polite"
+			className={`fixed top-5 left-1/2 z-50 w-[300px] shadow-lg border-l-4 px-5 py-4 rounded-lg transition-all duration-300 ease-in-out flex items-start gap-4 ${colorClasses} animate-fade-in`}
+		>
+			<FontAwesomeIcon icon={Icon} className="text-xl mt-0.5" />
+			<div className="flex-1 text-sm font-medium">{message}</div>
+			<button
+				onClick={() => {
+					setVisible(false);
+					onClose();
+				}}
+				className="text-gray-400 hover:text-black text-sm"
+				aria-label="Close notification"
+			>
+				<FontAwesomeIcon icon={faXmark} />
+			</button>
 		</div>
 	)
 }
@@ -200,10 +240,10 @@ const ScholarshipForm = () => {
 			<Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
 			<form className="space-y-8 font-semibold">
 				<div>
-					<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
+					<h3 className="text-xl mb-6 font-semibold bg-gray-600 rounded text-white p-3">
 						Fresher Application
 					</h3>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-xl bg-gray-50">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
 						<div className="">
 							<label className="block mb-2 font-medium">
 								<span>Special Category : </span>
@@ -260,11 +300,11 @@ const ScholarshipForm = () => {
 						</div>
 					</div>
 				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-2 mt-7 text-white">
+				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
 					Academic Details
 				</h3>
 				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-xl bg-gray-50 shadow-md">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
 								UG or PG : <span className="text-red-500">*</span>
@@ -458,7 +498,7 @@ const ScholarshipForm = () => {
 					</div>
 				</div>
 				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-xl bg-gray-50 shadow-md">
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
 								Register No. :  <span className="text-red-500">*</span>
@@ -572,11 +612,11 @@ const ScholarshipForm = () => {
 						</div>
 					</div>
 				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-2 mt-7 text-white">
+				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
 					Personal Details
 				</h3>
 				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-black p-6 rounded-xl bg-gray-50 shadow-md">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
 								Religion :  <span className="text-red-500">*</span>
@@ -625,7 +665,7 @@ const ScholarshipForm = () => {
 						</div>
 					</div>
 				</div>
-				<div className="border border-black p-6 rounded-xl bg-gray-50 shadow-md space-y-6">
+				<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
@@ -756,7 +796,7 @@ const ScholarshipForm = () => {
 						</div>
 					)}
 				</div>
-				<div className="border border-black p-6 rounded-xl bg-gray-50 shadow-md space-y-6">
+				<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
 					<div className="grid grid-cols-1">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
@@ -785,7 +825,6 @@ const ScholarshipForm = () => {
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							>
-								<option value="">Select State</option>
 								<option value="">Select State</option>
 								<option value="Andhra Pradesh">Andhra Pradesh</option>
 								<option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -841,7 +880,6 @@ const ScholarshipForm = () => {
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							>
-								<option value="">Select District</option>
 								<option value="">Select District</option>
 								<option value="Ariyalur">Ariyalur</option>
 								<option value="Chengalpattu">Chengalpattu</option>
@@ -902,7 +940,7 @@ const ScholarshipForm = () => {
 					<div className="grid grid-cols-3 gap-6">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
-								Jamath / Self Declaration Letter :
+								Jamath / Self Declaration Letter : <span className="text-red-500">*</span>
 							</label>
 							<input
 								type="file"
@@ -947,7 +985,7 @@ const ScholarshipForm = () => {
 					</div>
 				</div>
 				{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
-					<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-2 mt-7 text-white">
+					<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
 						Educational Details
 					</h3>
 				)}
@@ -955,7 +993,7 @@ const ScholarshipForm = () => {
 					<div className="overflow-x-auto">
 						{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
 							<div>
-								<div className="grid grid-cols-1 gap-6 border border-black p-6 rounded-xl bg-gray-50 shadow-md">
+								<div className="grid grid-cols-1 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 										<div>
 											<label className="block mb-2 font-semibold text-slate-700">
@@ -1038,12 +1076,8 @@ const ScholarshipForm = () => {
 					<div className="flex justify-end">
 						<button
 							type="submit"
-							className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-xl shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
-							onClick={(e) => {
-								if (window.confirm("Are you sure you want to submit the application?")) {
-									Submit(e);
-								}
-							}}
+							className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
+							onClick={(e) => { if (window.confirm("Are you sure you want to submit the application?")) { Submit(e)} }}
 						>
 							Submit
 						</button>
@@ -1052,7 +1086,7 @@ const ScholarshipForm = () => {
 			</form>
 			{showPopup && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/100 backdrop-blur-sm transition-all duration-300">
-					<div className="bg-gradient-to-br from-gray-700 to-gray-800 text-white w-[90%] max-w-3xl rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-gray-700 relative p-10 animate-fadeIn">
+					<div className="bg-gradient-to-br from-gray-700 to-gray-800 text-white w-[90%] max-w-3xl rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-gray-700 relative p-10 animate-fadeIn">
 						<button
 							onClick={closePopup}
 							className="absolute top-7 right-7 text-gray-400 hover:text-red-500 text-xl transition-transform hover:scale-110"
@@ -1080,7 +1114,7 @@ const ScholarshipForm = () => {
 						<div className="mt-7 flex justify-end">
 							<button
 								onClick={closePopup}
-								className="px-6 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-xl hover:from-teal-600 hover:to-teal-700 transition-all duration-200"
+								className="px-6 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl hover:from-teal-600 hover:to-teal-700 transition-all duration-200"
 							>
 								I Understand
 							</button>

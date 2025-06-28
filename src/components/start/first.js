@@ -9,7 +9,7 @@ function LandingPage() {
 	const navigate = useNavigate();
 
 	return (
-		<div className="w-screen h-screen flex flex-col lg:flex-row items-center bg-blue-500 p-6 overflow-hidden 2xl:p-24">
+		<div className="w-screen h-screen p-6 pr-16 flex flex-col lg:flex-row items-center bg-blue-500 overflow-hidden 2xl:p-24 2xl:pr-40">
 			<div className="w-[65%] h-full relative flex flex-col justify-between items-center">
 				<div className='flex flex-col justify-center w-full h-[80%] items-center'>
 					<img
@@ -42,7 +42,7 @@ function LandingPage() {
 				</div>
 			</div>
 			<div className="w-[35%] flex flex-col justify-items-center items-center rounded-lg h-full">
-				<div className="grid grid-cols-2 py-16 place-items-center w-full h-[80%]">
+				<div className="grid grid-cols-2 py-12 place-items-center w-full h-[80%]">
 					<button
 						onClick={() => navigate('/reglog')}
 						className="bg-amber-50 text-black font-bold text-xl shadow-2xl w-40 h-14 md:w-40 md:h-14 lg:w-48 lg:h-16 px-4 py-4 hover:shadow-yellow-400 hover:bg-amber-200 rounded-lg"
