@@ -19,14 +19,7 @@ function Status() {
             try {
                 const res = await axios.get(`${apiUrl}/api/admin/studstatus`, {
                     params: { registerNo: staffId }
-                });
-                setStudent(res.data);
-                setShowModal(true);
-                if (res.data && res.data.message) {
-                    if (res.data.message === 'Applicant does not exist') {
-                        navigate(`/student/${staffId}/application/renewal`);
-                    }
-                }
+                })
             } catch (error) { alert("An error occurred. Please try again.") }
         }
         if (staffId) { fetchStudentData() }
@@ -41,20 +34,23 @@ function Status() {
         }
     }, [student]);
 
-    if (!student) {
+    if (!student || !student.registerNo) {
         return (
-            <div>
-                <center>
-                    {!showMessage ? (
-                        <img src={Loading} alt="Loading" className="w-36 h-80" />
-                    ) : (
-                        <div className="text-[14px] font-medium mt-4">
-                            Go to Application Tab Apply the scholarship Renewal
-                        </div>
-                    )}
-                </center>
+            <div className="flex justify-center items-center h-[80vh]">
+                {!showMessage ? (
+                    <img src={Loading} alt="Loading" className="w-36 h-80 animate-pulse" />
+                ) : (
+                    <div className="bg-white border border-gray-300 rounded-xl p-8 w-full max-w-xl shadow-md animate-fadeIn flex flex-col justify-center items-center">
+                        <h2 className="text-gray-800 text-2xl font-semibold mb-3 text-center">
+                            No Application Found
+                        </h2>
+                        <p className="text-gray-600 text-lg text-center leading-relaxed">
+                            Our records show that you haven't submitted a <span className="font-medium">Fresher</span> or <span className="font-medium">Renewal</span> scholarship application for this academic year.
+                        </p>
+                    </div>
+                )}
             </div>
-        )
+        );
     }
 
     return (

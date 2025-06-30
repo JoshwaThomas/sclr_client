@@ -53,12 +53,12 @@ function StudentLayout() {
 			<aside className="bg-emerald-700 w-72 flex flex-col text-white p-4 gap-3">
 				<div className="flex flex-col items-center mb-4">
 					<img src={Jmclogo} alt="JMC Logo" className="w-32 h-32" />
-					<div className="text-center mt-2 text-sm font-semibold leading-5">
+					<div className="text-center mt-2 mb-5 text-sm font-semibold leading-5">
 						<p>JAMAL MOHAMED COLLEGE</p>
 						<p>(Autonomous)</p>
 						<p>TIRUCHIRAPPALLI - 620 020</p>
 					</div>
-					<div className="bg-emerald-600 text-white rounded-md py-1 px-2 mt-4 text-sm font-bold">
+					<div className="bg-emerald-600 text-white rounded-md py-1 px-2 text-sm font-bold">
 						{activeAcYear}
 					</div>
 				</div>
@@ -71,7 +71,7 @@ function StudentLayout() {
 								`flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''}`
 							}
 						>
-							<FontAwesomeIcon icon={item.icon} className="text-base" />
+							<FontAwesomeIcon icon={item.icon} className="text-base w-4" />
 							<span className='text-md'>{item.name}</span>
 						</NavLink>
 					))}
@@ -79,7 +79,7 @@ function StudentLayout() {
 						onClick={handleLogout} 
 						className="w-full flex items-center space-x-3 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
 					>
-						<FontAwesomeIcon icon={faSignOutAlt} className="text-base" />
+						<FontAwesomeIcon icon={faSignOutAlt} className="text-base w-4" />
 						<span>Logout</span>
 					</button>
 				</nav>

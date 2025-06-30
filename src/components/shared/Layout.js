@@ -65,7 +65,7 @@ function Renewal() {
 								`flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''}`
 							}
 						>
-							<FontAwesomeIcon icon={item.icon} className="text-base" />
+							<FontAwesomeIcon icon={item.icon} className="text-base w-4" />
 							<span className='text-md'>{item.name}</span>
 						</NavLink>
 					))}
@@ -73,7 +73,7 @@ function Renewal() {
 						onClick={handleLogout}
 						className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
 					>
-						<FontAwesomeIcon icon={faSignOutAlt} className="text-base" />
+						<FontAwesomeIcon icon={faSignOutAlt} className="text-base w-4" />
 						<span className='text-md'>Logout</span>
 					</button>
 				</nav>

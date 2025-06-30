@@ -92,7 +92,7 @@ function Action() {
 
     return (
         <div className="p-6">
-            <h1 className="text-2xl font-bold text-white bg-gray-700 p-3 px-4 mb-6">
+            <h1 className="text-xl font-semibold text-white bg-gray-700 p-3 px-4 mb-6">
                 Distribution Statement
             </h1>
             <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
@@ -184,7 +184,7 @@ function Action() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 export default Action;

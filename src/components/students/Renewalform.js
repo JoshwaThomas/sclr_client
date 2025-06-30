@@ -17,7 +17,7 @@ const colorMap = {
 };
 
 const Notification = ({ message, type = 'info', onClose, duration = 4000, }) => {
-	
+
 	const [visible, setVisible] = useState(false);
 
 	useEffect(() => {
@@ -135,7 +135,6 @@ const ScholarshipForm = () => {
 				console.error('Error fetching student data:', err.response ? err.response.data : err);
 				setStudent(null);
 				alert('Student not found');
-				showNotification("Student not found", "error");
 			}
 		};
 		fetchData();
@@ -183,25 +182,22 @@ const ScholarshipForm = () => {
 						})
 						.then(result => {
 							if (result.data.success) {
-								showNotification("Your Application Submitted Successfully", "success");
-								console.log(result);
+								alert("Your Application Submitted Successfully");
 								setTimeout(() => {
 									window.location.reload();
 								}, 6000);
 							} else if (result.data.message === 'Register No. Already Existing') {
-								showNotification("Register No. Already Existing", "error");
+								alert("Register No. Already Existing");
 							} else if (result.data.message === 'Already You Applied Fresher Application') {
-								alert("Already You Applied");
-								showNotification("Already You Applied Fresher Application in this year", "error");
+								alert("Already you applied Fresher Application this Year.");
 							}
 							else if (result.data.message === 'Already You Applied Renewal Application') {
-								alert("Already You Applied");
-								showNotification("Already You Applied Renewal Application", "error");
+								alert("Already you applied for Renewal Application");
 							}
-							else { console.error('Backend error:', result.data.error) }
+							else { console.error('Backend Error :', result.data.error) }
 						})
 						.catch(err => {
-							console.error('Error posting data:', err);
+							console.error('Error posting data : ', err);
 						});
 				} else {
 					console.error('Failed to fetch current academic year');
@@ -215,7 +211,7 @@ const ScholarshipForm = () => {
 	return (
 		<div className="container">
 			<Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-			<form className="space-y-8 font-semibold">
+			<form className="space-y-8 font-semibold" onSubmit={handleSubmit}>
 				<div>
 					<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
 						Renewal Application
@@ -791,30 +787,34 @@ const ScholarshipForm = () => {
 				</div>
 			</form>
 			{showPopup && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/100 backdrop-blur-sm transition-all duration-300">
-					<div className="bg-gradient-to-br from-gray-700 to-gray-800 text-white w-[90%] max-w-3xl rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] border border-gray-700 relative p-10 animate-fadeIn">
+				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm transition-all duration-300">
+					<div className="bg-gradient-to-br from-white to-gray-100 text-gray-800 w-[90%] max-w-3xl rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-300 relative p-10 animate-fadeIn">
 						<button
 							onClick={closePopup}
-							className="absolute top-7 right-7 text-gray-400 hover:text-red-500 text-xl transition-transform hover:scale-110"
+							className="absolute top-7 right-7 text-gray-500 hover:text-red-500 text-xl transition-transform hover:scale-110"
 							aria-label="Close"
 						>
 							<FontAwesomeIcon icon={faXmark} />
 						</button>
-						<h2 className="text-3xl mt-5 font-extrabold text-center mb-6 text-teal-300 tracking-wide drop-shadow-md">
+						<h2 className="text-3xl mt-5 font-bold text-center mb-6 text-teal-600 tracking-wide drop-shadow-md">
 							Application Instructions
 						</h2>
-						<div className="space-y-5 text-gray-300 text-[15px] md:text-base leading-relaxed px-2">
+						<div className="space-y-5 text-gray-700 text-[15px] md:text-base leading-relaxed px-2">
 							<p>
-								<span className="font-semibold text-white">1. Username : </span> Use your <span className="text-teal-400">Register Number</span> as the login ID.
+								<span className="font-semibold text-gray-900">1. Username : </span>
+								Use your <span className="text-teal-600">Register Number</span> as the login ID.
 							</p>
 							<p>
-								<span className="font-semibold text-white">2. Password : </span> Choose a strong password and keep it safe. It’s required for all future logins.
+								<span className="font-semibold text-gray-900">2. Password : </span>
+								Choose a strong password and keep it safe. It’s required for all future logins.
 							</p>
 							<p>
-								<span className="font-semibold text-white">3. Required Fields : </span> All fields marked with <span className="text-red-400 font-bold">*</span> must be filled.
+								<span className="font-semibold text-gray-900">3. Required Fields : </span>
+								All fields marked with <span className="text-red-500 font-bold">*</span> must be filled.
 							</p>
 							<p>
-								<span className="font-semibold text-white">4. Status Check : </span> You can monitor your application status anytime by logging in.
+								<span className="font-semibold text-gray-900">4. Status Check : </span>
+								You can monitor your application status anytime by logging in.
 							</p>
 						</div>
 						<div className="mt-7 flex justify-end">

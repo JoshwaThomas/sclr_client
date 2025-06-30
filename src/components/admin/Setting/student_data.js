@@ -1,255 +1,188 @@
-import { useEffect, useState, React } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
+function StudentData() 
+{
+	const [users, setUsers] = useState([]);
+	const [filData, setFilData] = useState([]);
+	const [select, setSelect] = useState(null);
+	const [showModal, setShowModal] = useState(false);
+	const [academicYear, setAcademicYear] = useState('');
+	const [filterOption, setFilterOption] = useState('all');
+	const apiUrl = process.env.REACT_APP_API_URL;
 
-function Student_data() {
+	useEffect(() => {
+		axios.get(`${apiUrl}/api/admin/studentdata`)
+			.then(response => {
+				setUsers(response.data.students);
+				setFilData(response.data.students);
+				if (response.data.academic) {
+					setAcademicYear(response.data.academic.acyear);
+				}
+			})
+			.catch(err => console.log(err));
+	}, [apiUrl]);
 
-    const [users, setUsers] = useState([]);
-    const [select, setSelect] = useState();
-    const [showModal, setShowModal] = useState(false);
-    // const [filterUsers, setFilterUsers] = useState([]);
-    const [filData, setFilData] = useState([]);
-    const apiUrl = process.env.REACT_APP_API_URL;
+	const handleSearch = (e) => {
+		const searchText = e.target.value.toLowerCase();
+		const filteredUsers = users.filter((user) => {
+			const matchesSearch =
+				(user.dept && user.dept.toLowerCase().includes(searchText)) ||
+				(user.registerNo && user.registerNo.toLowerCase().includes(searchText)) ||
+				(user.name && user.name.toLowerCase().includes(searchText)) ||
+				(user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText));
+			const matchesAcademicYear =
+				filterOption === 'all' || (user.acyear && user.acyear === academicYear);
+			return matchesSearch && matchesAcademicYear;
+		})
+		setFilData(filteredUsers);
+	}
 
+	return (
+		<div className="p-6">
+			<h1 className="text-2xl font-semibold mb-6 text-white bg-gray-700 px-4 py-2 shadow"> Student Data </h1>
+			<input
+				type="text"
+				placeholder="Search ..."
+				className="px-3 w-60 py-2 mb-5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+				onChange={handleSearch}
+			/>
+			<div className="flex justify-between gap-4 items-center mb-4">
+				<div className="flex items-center gap-4">
+					<label className="flex items-center gap-1.5">
+						<input
+							type="radio"
+							name="filter"
+							value="all"
+							checked={filterOption === 'all'}
+							className="w-5 h-5 text-blue-600 focus:ring-blue-500"
+							onChange={(e) => {
+								setFilterOption(e.target.value);
+								setFilData(users);
+							}}
+						/>
+						<span className="text-md">All</span>
+					</label>
+					<label className="flex items-center gap-1.5">
+						<input
+							type="radio"
+							name="filter"
+							value="current"
+							checked={filterOption === 'current'}
+							className="w-5 h-5 text-blue-600 focus:ring-blue-500"
+							onChange={(e) => {
+								setFilterOption(e.target.value);
+								const filtered = users.filter((user) => user.acyear === academicYear);
+								setFilData(filtered);
+							}}
+						/>
+						<span className="text-md">Current Academic</span>
+					</label>
+				</div>
+				<div className="text-right text-lg font-semibold mb-2">
+					Total Students : <span className="">{filData.length}</span>
+				</div>
+			</div>
 
-    useEffect(() => {
-        axios.get(`${apiUrl}/api/admin/studentdata`)
-            .then(response => {
-                setUsers(response.data);
-                console.log('response.data', response.data)
-            })
-            .catch(err => console.log(err));
-    }, [apiUrl]);
+			{/* Table Header */}
+			<div className="grid grid-cols-[65px_120px_1fr_120px_140px_140px_120px] bg-emerald-700 text-white font-semibold text-md h-12 rounded-t-md">
+				<div className="border border-white flex justify-center items-center">S. No</div>
+				<div className="border border-white flex justify-center items-center">Reg. No</div>
+				<div className="border border-white flex justify-center items-center">Name</div>
+				<div className="border border-white flex justify-center items-center">Dept</div>
+				<div className="border border-white flex justify-center items-center">Mobile</div>
+				<div className="border border-white flex justify-center items-center">Aadhar</div>
+				<div className="border border-white flex justify-center items-center">Password</div>
+			</div>
 
-    const handleSearch = (e) => {
-        const searchText = e.target.value.toLowerCase();
+			{/* Table Data */}
+			<div className="max-h-[500px] overflow-y-auto scrollbar-hide">
+				{filData.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
+					<div key={index} className={`grid grid-cols-[65px_120px_1fr_120px_140px_140px_120px] h-12 text-md ${index % 2 === 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-blue-50`}>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{index + 1}</div>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{user.registerNo}</div>
+						<div
+							className=" flex justify-center items-center border px-2 py-2 text-center text-blue-600 cursor-pointer hover:underline"
+							onClick={() => { setShowModal(true); setSelect(user); }}
+						>
+							{user.name}
+						</div>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{user.dept}</div>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{user.mobileNo}</div>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{user.aadhar}</div>
+						<div className=" flex justify-center items-center border px-2 py-2 text-center">{user.password}</div>
+					</div>
+				))}
+			</div>
 
-        const filteredUsers = users.filter((user) =>
-            (user.dept && user.dept.toLowerCase().includes(searchText)) ||
-            (user.registerNo && user.registerNo.toLowerCase().includes(searchText)) ||
-            (user.name && user.name.toLowerCase().includes(searchText)) ||
-            (user.fresherOrRenewal && user.fresherOrRenewal.toLowerCase().includes(searchText))
-        );
+			{/* Modal */}
+			{showModal && select && (
+				<div className="fixed inset-0 bg-black bg-opacity-80 flex justify-center z-50 items-center overflow-y-auto">
+					<div className="bg-white w-full max-w-4xl max-h-[80vh] overflow-y-auto rounded-xl shadow-2xl p-6 relative">
 
-        setFilData(filteredUsers);
-    };
+						{/* Close Button */}
+						<button
+							className="absolute top-4 right-4 text-3xl font-bold text-gray-500 hover:text-red-600 transition"
+							onClick={() => setShowModal(false)}
+							aria-label="Close Modal"
+						>
+							&times;
+						</button>
 
-    // const handleDownload = () => {
-    //     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    //     const fileExtension = '.xlsx';
-    //     const fileName = 'All_Report';
+						{/* Title */}
+						<h2 className="text-2xl font-semibold mb-6 text-center text-gray-800 border-b pb-2">
+							🎓 Student Details
+						</h2>
 
-    //     const headers = [
-    //         'ACADEMIC YEAR',
-    //         'DATE',
-    //         'FRESHER/RENEWAL',
-    //         'REGISTER NO',
-    //         'NAME',
-    //         'DEPARTMENT',
-    //         'SECTION',
-    //         'UG/PG',
-    //         'SEMESTER',
-    //         'PROCATEGORY',
-    //         'SPECIAL_CATEGORY',
-    //         'STUDENT_MOBILE',
-    //         'FATHER_NAME',
-    //         'FATHER_OCCUPATION',
-    //         'ANNUAL_INCOME',
-    //         'AWARDED AMOUNT',
-    //         'PAN',
-    //         'DONOR ID',
-    //         'SCHOLARSHIP TYPE',
-    //         'SCHOLAR DONOR NAME',
-    //         'SCHOLAR DONOR MOBILE'
+						{/* Student Details */}
+						<div className="grid grid-cols-1 sm:grid-cols-2 px-10 gap-4 text-[15px] leading-relaxed text-gray-700">
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">Register No</span> <span className='mr-5'>:</span>{select.registerNo || '-'}</div>
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">Name</span><span className='mr-5'>:</span> {select.name || '-'}</div>
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">Department</span><span className='mr-5'>:</span> {select.dept || '-'}</div>
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">Aadhar</span> <span className='mr-5'>:</span>{select.aadhar || '-'}</div>
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">Mobile</span><span className='mr-5'>:</span>{select.mobileNo || '-'}</div>
+							<div className="flex"><span className="font-semibold text-gray-600 w-32">District</span><span className='mr-5'>:</span>{select.district || '-'}</div>
+						</div>
+						<div className="flex px-10 mt-4 text-[15px] text-gray-700"><span className="font-semibold w-32 text-gray-600">Address</span><span className='mr-5'>:</span> {select.address || '-'}</div>
 
-    //     ];
+						{/* Father Info */}
+						<div className="my-6 pt-4 px-10 border-t">
+							<h3 className="text-lg font-bold text-gray-800 mb-5">👨‍👧 Father Details</h3>
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[15px] text-gray-700">
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Name</span><span className='mr-5'>:</span> {select.fatherName || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Mobile</span><span className='mr-5'>:</span> {select.fatherNo || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Occupation</span> <span className='mr-5'>:</span>{select.fatherOccupation || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Annual Income</span><span className='mr-5'>:</span> {select.annualIncome || '-'}</div>
+							</div>
+						</div>
 
-    //     const dataWithHeaders = [headers, ...users.map(user => [
-    //         user.acyear,
-    //         new Date(user.amtdate).toLocaleDateString(),
-    //         user.fresherOrRenewal,
-    //         user.registerNo,
-    //         user.name,
-    //         user.dept,
-    //         user.section,
-    //         user.ugOrPg,
-    //         user.semester,
-    //         user.procategory,
-    //         user.specialCategory,
-    //         user.smobileNo,
-    //         user.fatherName,
-    //         user.fatherOccupation,
-    //         user.annualIncome,
-    //         user.scholamt,
-    //         user.pan,
-    //         user.did,
-    //         user.scholtype,
-    //         user.donarName,
-    //         user.mobileNo
-    //     ])];
+						{/* Sibling Info */}
+						<div className="mt-6 pt-4 px-10 border-t">
+							<h3 className="text-lg font-bold text-gray-800 mb-5">👨‍👧‍👦 Sibling Details</h3>
+							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[15px] text-gray-700">
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Has Siblings</span> <span className='mr-5'>:</span> {select.siblings || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Siblings Count</span><span className='mr-5'>:</span>  {select.siblingsNo || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Siblings Income</span><span className='mr-5'>:</span> {select.siblingsIncome || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Occupation</span><span className='mr-5'>:</span>  {select.siblingsOccupation || '-'}</div>
+								<div className="flex"><span className="font-semibold text-gray-600 w-32">Mobile</span><span className='mr-5'>:</span>  {select.smobileNo || '-'}</div>
+							</div>
+						</div>
 
-    //     const ws = XLSX.utils.aoa_to_sheet(dataWithHeaders);
-    //     const wb = { Sheets: { 'data': ws }, SheetNames: ['data'] };
+						{/* Close Button */}
+						<div className="mt-8 text-right">
+							<button
+								className="px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md font-medium transition"
+								onClick={() => setShowModal(false)}
+							>
+								Close
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
 
-    //     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-
-    //     const data = new Blob([excelBuffer], { type: fileType });
-    //     saveAs(data, fileName + fileExtension);
-    // };
-    // const formatDate = (dateString) => {
-    //     return dayjs(dateString).format('DD-MM-YYYY');
-    // };
-
-
-
-    return (
-        <div>
-            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Student Data</h1>
-            <div>
-                {/* <button
-                    type="button"
-                    className="bg-green-500 text-white py-6 font-bold px-6 mt-10 hover:bg-black rounded-lg "
-                    onClick={handleDownload}
-                >
-                    Download Excel
-                </button> */}
-                 <input
-                        type='text'
-                        placeholder='Search Name here'
-                        className='uppercase py-1 border border-black rounded-md mr-2'
-                        onChange={handleSearch}
-                    />
-                    <button
-                        type="button"
-                        className="bg-blue-500 border border-black  text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                    >
-                        Search
-                    </button>
-                <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
-                {/* <div className='mt-6 grid grid-cols-3 w-auto text-white bg-emerald-500 sticky top-0'>
-                    <div className="font-bold border border-black text-center py-3">Special Category</div>
-                    <div className="font-bold border border-black text-center py-3">Students</div>
-                    <div className="font-bold border border-black text-center py-3">Total Amount</div>
-                     </div>
-                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                {summary.map((user, index) => (
-                        <div key={index} className={`grid grid-cols-3 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                         <div className="font-bold border border-black text-center uppercase py-3">{user.specialCategory}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.noOfStudents}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.totalAmount}</div>
-                           </div>
-                    ))}
-                </div> */}
-
-                <div className='mt-6 grid grid-cols-7 w-auto text-white bg-emerald-500 sticky top-0'>
-                    <div className="font-bold border border-black text-center py-3">S. No</div>
-                    <div className="font-bold border border-black text-center py-3">Reg. No</div>
-                    <div className="font-bold border border-black text-center py-3">Name</div>
-                    <div className="font-bold border border-black text-center py-3">Dept</div>
-                    <div className="font-bold border border-black text-center py-3">Mobile</div>
-                    <div className='font-bold border border-black text-center py-3'>Aadhar</div>
-                    <div className='font-bold border border-black text-center py-3'>Password</div>
-                </div>
-                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                    {filData.sort((a,b) => a.registerNo - b.registerNo).map((user, index) => (
-                        <div key={index} className={`grid grid-cols-7 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                            <div className="font-bold border border-black text-center uppercase py-3">{index+1}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3 cursor-pointer" onClick={()=>{setShowModal(true); setSelect(user)}}>{user.name}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.mobileNo}</div> 
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.aadhar}</div>
-                            <div className="font-bold border border-black text-center py-3">{user.password}</div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-            {showModal && select && (
- <div className="fixed inset-0 flex items-center justify-center">
-    <div className="bg-white ml-64 w-5/6 h-full overflow-auto p-6">
-      <h2 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Student Details</h2>
-     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-      
-        {/* <div><span className="text-gray-700">Jamath:</span> <span className="font-semibold">{select.jamath}</span></div> */}
-        <div><span className="text-gray-700">Register No:</span> <span className="font-semibold">{select.registerNo}</span></div>
-        <div><span className="text-gray-700">Name:</span> <span className="font-semibold">{select.name?select.name:'-'}</span></div>
-        <div><span className="text-gray-700">Department:</span> <span className="font-semibold">{select.dept?select.dept:'-'}</span></div>
-        <div><span className="text-gray-700">Mobile:</span> <span className="font-semibold">{select.mobileNo?select.mobileNo:'-'}</span></div>
-        <div><span className="text-gray-700">Aadhar:</span> <span className="font-semibold">{select.aadhar?select.aadhar:'-'}</span></div>
-        {/* <div><span className="text-gray-700">Hostel:</span> <span className="font-semibold">{select["hostel "]}</span></div> */}
-        <div><span className="text-gray-700">Address:</span> <span className="font-semibold">{select.address?select.address:'-'}</span></div>
-        <div><span className="text-gray-700">District:</span> <span className="font-semibold">{select.district?select.district:'-'}</span></div>
-        <div><span className="text-gray-700">Father Name:</span> <span className="font-semibold">{select.fatherName?select.fatherName:'-'}</span></div>
-        <div><span className="text-gray-700">Father Mobile:</span> <span className="font-semibold">{select.fatherNo?select.fatherNo:''}</span></div>
-        <div><span className="text-gray-700">Father Occupation:</span> <span className="font-semibold">{select.fatherOccupation?select.fatherOccupation:'-'}</span></div>
-        <div><span className="text-gray-700">Annual Income:</span> <span className="font-semibold">{select.annualIncome?select.annualIncome:'-'}</span></div>
-        <div><span className="text-gray-700">Siblings:</span> <span className="font-semibold">{select.siblings?select.siblings:'-'}</span></div>
-        <div><span className="text-gray-700">Siblings' Income:</span> <span className="font-semibold">{select.siblingsIncome?select.siblingsIncome:'-'}</span></div>
-        <div><span className="text-gray-700">Siblings Count:</span> <span className="font-semibold">{select.siblingsNo?select.siblingsNo:'-'}</span></div>
-        <div><span className="text-gray-700">Siblings Occupation:</span> <span className="font-semibold">{select.siblingsOccupation?select.siblingsOccupation:'-'}</span></div>
-        <div><span className="text-gray-700">Sibling Mobile:</span> <span className="font-semibold">{select.smobileNo?select.smobileNo:'-'}</span></div>
-        {/* <div><span className="text-gray-700">Percentage of School Marks:</span> <span className="font-semibold">{select.percentageOfMarkSchool}</span></div>        <div><span className="text-gray-700">Pre Semester:</span> <span className="font-semibold">{select.preSemester}</span></div> */}
-        
-        
-        {/* <div><span className="text-gray-700">Religion:</span> <span className="font-semibold">{select.religion}</span></div>
-        <div><span className="text-gray-700">Scholar Amount:</span> <span className="font-semibold">{select.scholamt}</span></div>
-        <div><span className="text-gray-700">Scholarship:</span> <span className="font-semibold">{select.scholarship}</span></div>
-        <div><span className="text-gray-700">Scholar Date:</span> <span className="font-semibold">{select.scholdate}</span></div>
-        <div><span className="text-gray-700">Scholar Donor ID:</span> <span className="font-semibold">{select.scholdonar}</span></div>
-        <div><span className="text-gray-700">Scholar Type:</span> <span className="font-semibold">{select.scholtype}</span></div>
-        <div><span className="text-gray-700">School Name:</span> <span className="font-semibold">{select.schoolName}</span></div>
-        <div><span className="text-gray-700">Section:</span> <span className="font-semibold">{select.section}</span></div>
-        <div><span className="text-gray-700">Semester:</span> <span className="font-semibold">{select.semester}</span></div>
-        <div><span className="text-gray-700">Semester %:</span> <span className="font-semibold">{select.semPercentage}</span></div>
-        <div><span className="text-gray-700">Semester Remaining:</span> <span className="font-semibold">{select.semRem}</span></div>
-        
-        <div><span className="text-gray-700">Special Category:</span> <span className="font-semibold">{select.specialCategory}</span></div>
-        <div><span className="text-gray-700">State:</span> <span className="font-semibold">{select.state}</span></div>
-        <div><span className="text-gray-700">UG or PG:</span> <span className="font-semibold">{select.ugOrPg}</span></div>
-        <div><span className="text-gray-700">Zakkath Amount:</span> <span className="font-semibold">{select.zakkathamt}</span></div>
-        <div><span className="text-gray-700">Zakkath Balance:</span> <span className="font-semibold">{select.zakkathbal}</span></div> */}
-      </div>
-      <div>
-        <button
-         className='rounded-md px-4 py-2 font-semibold mt-10 bg-gray-100 hover:bg-black hover:text-white'
-         onClick={() => setShowModal(false)}
-         >
-            Back
-            </button>
-      </div>
-       {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        {Object.entries(select).map(([key, value]) => {
-          // Format key: remove quotes, replace underscores or hyphens with space, capitalize
-          const label = key.replace(/["_]/g, '').replace(/\s+/g, ' ').replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase();
-
-          // Format date values if ISO
-          let displayValue = '-';
-          if (value || value === 0) {
-            if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
-              displayValue = new Date(value).toLocaleDateString();
-            } else {
-              displayValue = value.toString().trim() || '-';
-            }
-          }
-
-          return (
-            <div key={key}>
-              <span className="text-gray-700">{label}:</span>{' '}
-              <span className="font-semibold">{displayValue}</span>
-            </div>
-          );
-        })}
-      </div> */}
-    </div>
-  </div>
-)}
-
-        </div>
-
-    )
+		</div>
+	)
 }
 
-export default Student_data
+export default StudentData;
