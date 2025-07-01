@@ -19,7 +19,14 @@ function Status() {
             try {
                 const res = await axios.get(`${apiUrl}/api/admin/studstatus`, {
                     params: { registerNo: staffId }
-                })
+                });
+                setStudent(res.data);
+                setShowModal(true);
+                if (res.data && res.data.message) {
+                    if (res.data.message === 'Applicant does not exist') {
+                        navigate(`/student/${staffId}/application/renewal`);
+                    }
+                }
             } catch (error) { alert("An error occurred. Please try again.") }
         }
         if (staffId) { fetchStudentData() }
@@ -34,23 +41,20 @@ function Status() {
         }
     }, [student]);
 
-    if (!student || !student.registerNo) {
+    if (!student) {
         return (
-            <div className="flex justify-center items-center h-[80vh]">
-                {!showMessage ? (
-                    <img src={Loading} alt="Loading" className="w-36 h-80 animate-pulse" />
-                ) : (
-                    <div className="bg-white border border-gray-300 rounded-xl p-8 w-full max-w-xl shadow-md animate-fadeIn flex flex-col justify-center items-center">
-                        <h2 className="text-gray-800 text-2xl font-semibold mb-3 text-center">
-                            No Application Found
-                        </h2>
-                        <p className="text-gray-600 text-lg text-center leading-relaxed">
-                            Our records show that you haven't submitted a <span className="font-medium">Fresher</span> or <span className="font-medium">Renewal</span> scholarship application for this academic year.
-                        </p>
-                    </div>
-                )}
+            <div>
+                <center>
+                    {!showMessage ? (
+                        <img src={Loading} alt="Loading" className="w-36 h-80" />
+                    ) : (
+                        <div className="text-[14px] font-medium mt-4">
+                            Go to Application Tab Apply the scholarship Renewal
+                        </div>
+                    )}
+                </center>
             </div>
-        );
+        )
     }
 
     return (
@@ -130,30 +134,23 @@ function Status() {
                                 Personal Details
                             </h3>
                             <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
-                                {student.semester === 'I' && (
-                                    <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
-                                        <div>
-                                            <label className="block mt-2 ">Last School Name:</label>
-                                            <label className='font-semibold text-[16px] uppercase -mr-96'> {student.schoolName} </label>
-                                        </div>
-                                        <div>
-                                            <label className="block mt-2">Percentage of Mark:</label>
-                                            <label className='font-semibold text-[16px] uppercase'> {student.percentageOfMarkSchool} </label>
-                                        </div>
-                                        <div>
-                                            <label className='block mt-2'>Year of Passing: </label>
-                                            <label className='font-semibold text-[16px] uppercase'> {student.yearOfPassing} </label>
-                                        </div>
+                                {student.semester === 'I' ? (
+                                    <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
+                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last School Name</div>
+                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.schoolName || 'N/A'}</div>
+                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Percentage of Mark</div>
+                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.percentageOfMarkSchool || 'N/A'}</div>
+                                        <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">Year of Passing</div>
+                                        <div className="flex justify-center p-3">{student.yearOfPassing || 'N/A'}</div>
                                     </div>
-                                )}
-                                {student.semester !== 'I' && (
-                                    <div className="grid grid-cols-2 w-auto">
-                                        <div className="font-semibold border border-black text-left py-3 px-5">Percentage of Mark</div>
-                                        <div className="font-semibold border border-black text-left py-3 px-5">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
-                                        <div className="font-semibold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
-                                        <div className="font-semibold border border-black text-left py-3 px-5"> {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                        <div className="font-semibold border border-black text-left py-3 px-5">Deeniyath / Moral Percentage</div>
-                                        <div className="font-semibold border border-black text-left py-3 px-5">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
+                                ) : (
+                                    <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
+                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Percentage of Mark</div>
+                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
+                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Class Attendance Percentage</div>
+                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
+                                        <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">Deeniyath / Moral Percentage</div>
+                                        <div className="flex justify-center p-3">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
                                     </div>
                                 )}
                             </div>
@@ -165,7 +162,7 @@ function Status() {
                                 )}
                                 {student.fresherOrRenewal === 'Renewal' && (
                                     <div>
-                                        <label className="">Last Time Credited Amount:</label>{student.lastCreditedAmt}
+                                        <label className="font-semibold">Last Time Credited Amount : </label>{student.lastCreditedAmt}
                                     </div>
                                 )}
                                 <div>

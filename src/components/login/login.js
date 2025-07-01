@@ -3,16 +3,8 @@ import jmc from '../login/jmclogo.png';
 import Map from '../../assets/victim1-map.gif'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
-const Notification = ({ message, type, onClose }) => {
-    if (!message) return null;
-    return (
-        <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'}`}>
-            {message}
-            <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
-        </div>
-    )
-}
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 function TextBox() {
 
@@ -21,44 +13,36 @@ function TextBox() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [showPassword, setShowPassword] = useState(false);    
-    const [notification, setNotification] = useState({ message: '', type: '' });
-
-    const showNotification = (message, type) => {
-        setNotification({ message, type });
-        setTimeout(() => {
-            setNotification({ message: '', type: '' });
-        }, 6000);
-    };
+    const [showPassword, setShowPassword] = useState(false);
 
     const Submit = (e) => {
         e.preventDefault();
         setLoading(true);
         axios.post(`${apiUrl}/api/admin/login/`, { staffId, password })
-            .then(res => {
-                setLoading(false)
-                console.log("Response from server:", res.data);
-                if (res.data.status === 'exist') {
-                    const { role, token } = res.data;
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('role', role);
-                    if (role === 1 || role === 3) {
-                        navigate('/admin/dashboard', { state: { id: staffId, role } });
-                    } else if (role === 2) {
-                        navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
-                    } else if (staffId === `${role}`) {
-                        navigate(`/student/${staffId}/status`, { state: { id: staffId } });
-                    }
+        .then(res => {
+            setLoading(false)
+            console.log("Response from server:", res.data);
+            if (res.data.status === 'exist') {
+                const { role, token } = res.data;
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+                if (role === 1 || role === 3) {
+                    navigate('/admin/dashboard', { state: { id: staffId, role } });
+                } else if (role === 2) {
+                    navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
+                } else if (staffId === `${role}`) {
+                    navigate(`/student/${staffId}/status`, { state: { id: staffId } });
                 }
-                else if (res.data.status === 'wrong password') { alert("Wrong Password") }
-                else if (res.data.status === 'not exist') { alert("User does not exist") }
-            })
-            .catch(e => { alert("An error occurred. Please try again.") })
+            }
+            else if (res.data.status === 'wrong password') { alert("Wrong Password") }
+            else if (res.data.status === 'not exist') { alert("User does not exist") }
+        })
+        .catch(e => { alert("An error occurred. Please try again.") })
     }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-            <div className="flex flex-col lg:flex-row justify-center items-center">
+            <div className="w-full flex flex-col lg:flex-row justify-center items-center">
                 <img src={jmc} alt="LOGO" className="w-24 h-24 lg:w-32 lg:h-32 mb-4 lg:mb-0" />
                 <div className="flex flex-col justify-center items-center lg:ml-8 text-center gap-1">
                     <div>
@@ -71,7 +55,7 @@ function TextBox() {
                     </p>
                 </div>
             </div>
-            <div className="flex justify-center items-center">
+            <div className="w-full flex justify-center items-center">
                 <div className="bg-orange-500 shadow-xl flex flex-col lg:flex-row rounded-xl w-full max-w-6xl p-6 gap-6">
                     <div className="lg:w-2/3 flex flex-col items-center justify-center">
                         <img src={Map} alt="World Map" className="h-32 md:h-72 px-10 object-contain" />
@@ -96,13 +80,21 @@ function TextBox() {
                                     className="w-full border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none px-4 py-2.5 rounded-md placeholder-gray-500"
                                     placeholder="Username"
                                 />
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none px-4 py-2.5 rounded-md placeholder-gray-500"
-                                    placeholder="Password"
-                                />
+                                <div className="w-full relative">
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="w-full border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none px-4 py-2.5 pr-10 rounded-md placeholder-gray-500"
+                                        placeholder="Password"
+                                    />
+                                    <span
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 pr-1 text-gray-500 cursor-pointer"
+                                        onClick={() => setShowPassword(prev => !prev)}
+                                    >
+                                        <FontAwesomeIcon className='text-sm' icon={showPassword ? faEyeSlash : faEye} />
+                                    </span>
+                                </div>
                                 <span
                                     className="block text-sm text-right text-blue-800 hover:text-blue-500 cursor-pointer"
                                     onClick={() => navigate('/forgotPassword')}

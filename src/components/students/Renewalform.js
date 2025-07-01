@@ -1,106 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faCircleCheck, faCircleExclamation, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-
-const iconMap = {
-	success: faCircleCheck,
-	error: faCircleExclamation,
-	info: faCircleInfo,
-};
-
-const colorMap = {
-	success: 'bg-green-50 text-green-800 border-green-200',
-	error: 'bg-red-50 text-red-800 border-red-200',
-	info: 'bg-blue-50 text-blue-800 border-blue-200',
-};
-
-const Notification = ({ message, type = 'info', onClose, duration = 4000, }) => {
-
-	const [visible, setVisible] = useState(false);
-
-	useEffect(() => {
-		if (message) {
-			setVisible(true);
-			const timer = setTimeout(() => {
-				setVisible(false);
-				onClose();
-			}, duration);
-			return () => clearTimeout(timer);
-		}
-	}, [message, duration, onClose]);
-
-	if (!message || !visible) return null;
-
-	const Icon = iconMap[type] || faCircleInfo;
-	const colorClasses = colorMap[type] || colorMap.info;
-
-	return (
-		<div
-			role="alert"
-			aria-live="polite"
-			className={`fixed top-5 left-1/2 z-50 w-[300px] shadow-lg border-l-4 px-5 py-4 rounded-lg transition-all duration-300 ease-in-out flex items-start gap-4 ${colorClasses} animate-fade-in`}
-		>
-			<FontAwesomeIcon icon={Icon} className="text-xl mt-0.5" />
-			<div className="flex-1 font-semibold">{message}</div>
-			<button
-				onClick={() => {
-					setVisible(false);
-					onClose();
-				}}
-				className="text-gray-400 hover:text-black text-sm"
-				aria-label="Close notification"
-			>
-				<FontAwesomeIcon icon={faXmark} />
-			</button>
-		</div>
-	)
-}
 
 const ScholarshipForm = () => {
 
 	const { staffId } = useParams();
-	const [student, setStudent] = useState(null);
-	const [deeniyath, setDeeniyath] = useState();
-	const [ugOrPg, setUgOrPg] = useState('')
-	const [semester, setSemester] = useState('')
-	const [name, setName] = useState('')
-	const [registerNo, setRegisterNo] = useState('')
-	const [dept, setDept] = useState('')
-	const [section, setSection] = useState('')
-	const [religion, setReligion] = useState('')
-	const [procategory, setProcategory] = useState('')
-	const [address, setAddress] = useState('')
-	const [state, setState] = useState('')
-	const [district, setDistrict] = useState('')
-	const [pin, setPin] = useState('')
-	const [specialCategory, setSpecialCategory] = useState('')
-	const [hostel, setHostel] = useState('')
-	const [mobileNo, setMobileNo] = useState('')
-	const [aadhar, setAadhar] = useState()
-	const [fatherName, setFatherName] = useState('')
-	const [fatherNo, setFatherNo] = useState('')
-	const [fatherOccupation, setFatherOccupation] = useState('')
-	const [annualIncome, setAnnualIncome] = useState('')
-	const [lastCreditedAmt, setLastCreditedAmt] = useState('')
-	const [siblings, setSiblings] = useState('')
-	const [siblingsNo, setSiblingsNo] = useState()
-	const [siblingsOccupation, setSiblingsOccupation] = useState()
-	const [siblingsIncome, setSiblingsIncome] = useState()
-	const [showPopup, setShowPopup] = useState(true);
-	const [jamath, setJamath] = useState("");
 	const apiUrl = process.env.REACT_APP_API_URL;
-
-	const [notification, setNotification] = useState({ message: '', type: '' });
-	const showNotification = (message, type) => {
-		setNotification({ message, type });
-		setTimeout(() => {
-			setNotification({ message: '', type: '' });
-		}, 6000)
-	}
-
-	const closePopup = () => { setShowPopup(false) };
+	const [formData, setFormData] = useState({
+		deeniyath: '', ugOrPg: '', semester: '', name: '', registerNo: '', dept: '', section: '', religion: '',
+		procategory: '', address: '', state: '', district: '', pin: '', specialCategory: '', hostel: '', mobileNo: '',
+		aadhar: '', fatherName: '', fatherNo: '', fatherOccupation: '', annualIncome: '', lastCreditedAmt: '',
+		siblings: '', siblingsNo: '', siblingsOccupation: '', siblingsIncome: '', jamath: null
+	});
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -108,114 +19,81 @@ const ScholarshipForm = () => {
 			try {
 				const result = await axios.get(`${apiUrl}/api/admin/students`, {
 					params: { registerNo: staffId.toUpperCase() }
+				});
+				const data = result.data;
+				setFormData({
+					deeniyath: data.deeniyath || '', ugOrPg: data.ugOrPg || '', semester: data.semester || '', name: data.name || '',
+					registerNo: data.registerNo || '', dept: data.dept || '', section: data.section || '', religion: data.religion || '',
+					procategory: data.procategory || '', address: data.address || '', state: data.state || '', district: data.district || '',
+					pin: data.pin || '', specialCategory: data.specialCategory || '', hostel: data.hostel || '', mobileNo: data.mobileNo || '',
+					aadhar: data.aadhar || '', fatherName: data.fatherName || '', fatherNo: data.fatherNo || '', fatherOccupation: data.fatherOccupation || '',
+					annualIncome: data.annualIncome || '', lastCreditedAmt: data.scholamt || '', siblings: data.siblings || '',
+					siblingsNo: data.siblingsNo || '', siblingsOccupation: data.siblingsOccupation || '', siblingsIncome: data.siblingsIncome || '', jamath: data.jamath || ''
 				})
-				setStudent(result.data);
-				setRegisterNo(result.data.registerNo);
-				setMobileNo(result.data.mobileNo);
-				setName(result.data.name);
-				setDept(result.data.dept);
-				setSection(result.data.section);
-				setReligion(result.data.religion);
-				setAadhar(result.data.aadhar);
-				setFatherName(result.data.fatherName);
-				setFatherNo(result.data.fatherNo);
-				setFatherOccupation(result.data.fatherOccupation);
-				setAnnualIncome(result.data.annualIncome);
-				setAddress(result.data.address);
-				setState(result.data.state);
-				setDistrict(result.data.district);
-				setPin(result.data.pin);
-				setSiblings(result.data.siblings);
-				setSiblingsNo(result.data.siblingsNo);
-				setSiblingsOccupation(result.data.siblingsOccupation);
-				setSiblingsIncome(result.data.siblingsIncome);
-				setDeeniyath(result.data.deeniyath);
-				setLastCreditedAmt(result.data.scholamt);
 			} catch (err) {
 				console.error('Error fetching student data:', err.response ? err.response.data : err);
-				setStudent(null);
 				alert('Student not found');
 			}
-		};
+		}
 		fetchData();
 	}, [staffId, apiUrl]);
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		axios.get(`${apiUrl}/api/admin/current-acyear`)
-			.then(response => {
-				if (response.data.success) {
-					const acyear = response.data.acyear.acyear;
-					const formData = new FormData();
-					formData.append("deeniyath", deeniyath);
-					formData.append("ugOrPg", ugOrPg);
-					formData.append("semester", semester);
-					formData.append("name", name);
-					formData.append("registerNo", registerNo);
-					formData.append("dept", dept);
-					formData.append("section", section);
-					formData.append("religion", religion);
-					formData.append("procategory", procategory);
-					formData.append("address", address);
-					formData.append("district", district);
-					formData.append("state", state);
-					formData.append("pin", pin);
-					formData.append("specialCategory", specialCategory);
-					formData.append("aadhar", aadhar);
-					formData.append("hostel", hostel);
-					formData.append("mobileNo", mobileNo);
-					formData.append("fatherName", fatherName);
-					formData.append("fatherNo", fatherNo);
-					formData.append("fatherOccupation", fatherOccupation);
-					formData.append("annualIncome", annualIncome);
-					formData.append("siblings", siblings);
-					formData.append("siblingsNo", siblingsNo);
-					formData.append("siblingsOccupation", siblingsOccupation);
-					formData.append("siblingsIncome", siblingsIncome);
-					formData.append("acyear", acyear);
-					formData.append("lastCreditedAmt", lastCreditedAmt)
-					formData.append("jamath", jamath);
+	const handleChange = (e) => {
+		const { name, value, type } = e.target;
+		const val = type === 'radio' || type === 'select-one' ? value : value;
+		setFormData((prev) => ({ ...prev, [name]: val, }));
+	}
 
-					axios
-						.post(`${apiUrl}/renewal`, formData, {
-							headers: { "Content-Type": "multipart/form-data" },
-						})
-						.then(result => {
-							if (result.data.success) {
-								alert("Your Application Submitted Successfully");
-								setTimeout(() => {
-									window.location.reload();
-								}, 6000);
-							} else if (result.data.message === 'Register No. Already Existing') {
-								alert("Register No. Already Existing");
-							} else if (result.data.message === 'Already You Applied Fresher Application') {
-								alert("Already you applied Fresher Application this Year.");
-							}
-							else if (result.data.message === 'Already You Applied Renewal Application') {
-								alert("Already you applied for Renewal Application");
-							}
-							else { console.error('Backend Error :', result.data.error) }
-						})
-						.catch(err => {
-							console.error('Error posting data : ', err);
-						});
-				} else {
-					console.error('Failed to fetch current academic year');
-				}
-			})
-			.catch(error => {
-				console.error('Error fetching current academic year:', error);
+	const handleFileChange = (e) => { setFormData((prev) => ({ ...prev, file: e.target.files[0] })) }
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const acyearRes = await axios.get(`${apiUrl}/api/admin/current-acyear`);
+			if (!acyearRes.data.success) {
+				alert("Failed to fetch current academic year"); return;
+			}
+			const acyear = acyearRes.data.acyear.acyear;
+			const submission = new FormData();
+
+			Object.entries(formData).forEach(([key, value]) => {
+				submission.append(key, value);
 			});
-	};
+			submission.append("acyear", acyear);
+
+			const res = await axios.post(`${apiUrl}/renewal`, submission, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+
+			if (res.data.success) {
+				alert("Your Application Submitted Successfully");
+				setTimeout(() => window.location.reload(), 3000);
+			}
+		} catch (err) {
+			if (err.response) {
+				const { status, data } = err.response;
+				if (status === 409) {
+					if (data.code === 'FRESHER_EXISTS') {
+						alert("Already you applied Fresher Application this Year.");
+					} else if (data.code === 'RENEWAL_EXISTS') {
+						alert("Already you applied for Renewal Application.");
+					} else { alert(data.message || "Conflict occurred.") }
+				} else {
+					alert("Submission Failed : " + (data?.message || "Unexpected error."));
+				}
+				console.error("Submission Error : ", err);
+			} else {
+				alert("Network or Server Error. Please try again.");
+				console.error("Unexpected submission error:", err);
+			}
+		}
+	}
 
 	return (
 		<div className="container">
-			<Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
 			<form className="space-y-8 font-semibold" onSubmit={handleSubmit}>
 				<div>
-					<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
-						Renewal Application
-					</h3>
+					<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded"> Renewal Application</h3>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
@@ -223,8 +101,8 @@ const ScholarshipForm = () => {
 							</label>
 							<select
 								name="specialCategory"
-								value={specialCategory}
-								onChange={(e) => setSpecialCategory(e.target.value)}
+								value={formData.specialCategory}
+								onChange={handleChange}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							>
@@ -239,141 +117,114 @@ const ScholarshipForm = () => {
 							</select>
 						</div>
 					</div>
-				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 mt-7 rounded text-white">
-					Academic Details
-				</h3>
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
-					<div>
-						<label className="block mb-2 font-semibold text-slate-700">
-							UG or PG : <span className="text-red-500">*</span>
-						</label>
-						<div className="flex gap-8">
-							<label className="flex items-center gap-2 text-lg">
-								<input
-									type="radio"
-									name="ugOrPg"
-									value="UG"
-									checked={ugOrPg === "UG"}
-									onChange={(e) => setUgOrPg(e.target.value)}
-									className="scale-125"
-									required
-								/>
-								UG
+					<h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 mt-7 rounded text-white">
+						Academic Details
+					</h3>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
+						<div>
+							<label className="block mb-2 font-semibold text-slate-700">
+								UG or PG : <span className="text-red-500">*</span>
 							</label>
-							<label className="flex items-center gap-2 text-lg">
-								<input
-									type="radio"
-									name="ugOrPg"
-									value="PG"
-									checked={ugOrPg === "PG"}
-									onChange={(e) => setUgOrPg(e.target.value)}
-									className="scale-125"
-									required
-								/>
-								PG
-							</label>
-						</div>
-					</div>
-					<div>
-						<label className="block mb-2 font-semibold text-slate-700">
-							Programme Stream : <span className="text-red-500">*</span>
-						</label>
-						<div className="flex flex-wrap gap-8">
-							{["Aided", "SFM", "SFW"].map((type) => (
-								<label key={type} className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="procategory"
-										value={type}
-										checked={procategory === type}
-										onChange={(e) => setProcategory(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									{type}
-								</label>
-							))}
-						</div>
-					</div>
-					<div>
-						<label className="block mb-2 font-semibold text-slate-700">
-							Semester : <span className="text-red-500">*</span>
-						</label>
-						<div className="flex flex-wrap gap-6">
-							{["I", "II", "III", "IV"].map((sem) => (
-								<label key={sem} className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="semester"
-										value={sem}
-										checked={semester === sem}
-										onChange={(e) => setSemester(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									{sem}
-								</label>
-							))}
-							{ugOrPg !== "PG" && (
-								<>
-									<label className="flex items-center gap-2 text-lg">
+							<div className="flex gap-8">
+								{["UG", "PG"].map(type => (
+									<label key={type} className="flex items-center gap-2 text-lg">
 										<input
 											type="radio"
-											name="semester"
-											value="V"
-											checked={semester === "V"}
-											onChange={(e) => setSemester(e.target.value)}
+											name="ugOrPg"
+											value={type}
+											checked={formData.ugOrPg === type}
+											onChange={handleChange}
 											className="scale-125"
 											required
 										/>
-										V
+										{type}
 									</label>
-									<label className="flex items-center gap-2 text-lg">
+								))}
+							</div>
+						</div>
+						<div>
+							<label className="block mb-2 font-semibold text-slate-700">
+								Programme Stream : <span className="text-red-500">*</span>
+							</label>
+							<div className="flex flex-wrap gap-8">
+								{["Aided", "SFM", "SFW"].map(type => (
+									<label key={type} className="flex items-center gap-2 text-lg">
+										<input
+											type="radio" name="procategory" value={type}
+											checked={formData.procategory === type}
+											onChange={handleChange}
+											className="scale-125" required
+										/>
+										{type}
+									</label>
+								))}
+							</div>
+						</div>
+						{/* Semester */}
+						<div>
+							<label className="block mb-2 font-semibold text-slate-700">
+								Semester : <span className="text-red-500">*</span>
+							</label>
+							<div className="flex flex-wrap gap-6">
+								{["I", "II", "III", "IV"].map((sem) => (
+									<label key={sem} className="flex items-center gap-2 text-lg">
 										<input
 											type="radio"
 											name="semester"
-											value="VI"
-											checked={semester === "VI"}
-											onChange={(e) => setSemester(e.target.value)}
+											value={sem}
+											checked={formData.semester === sem}
+											onChange={handleChange}
 											className="scale-125"
 											required
 										/>
-										VI
+										{sem}
 									</label>
-								</>
-							)}
+								))}
+								{formData.ugOrPg !== "PG" && (
+									<>
+										<label className="flex items-center gap-2 text-lg">
+											<input
+												type="radio" name="semester"
+												value="V" checked={formData.semester === "V"}
+												onChange={handleChange}
+												className="scale-125" required
+											/>
+											V
+										</label>
+										<label className="flex items-center gap-2 text-lg">
+											<input
+												type="radio" name="semester"
+												value="VI" checked={formData.semester === "VI"}
+												onChange={handleChange}
+												className="scale-125" required
+											/>
+											VI
+										</label>
+									</>
+								)}
+							</div>
 						</div>
-					</div>
-					<div>
-						<label className="block mb-2 font-semibold text-slate-700">
-							Hostel : <span className="text-red-500">*</span>
-						</label>
-						<div className="flex gap-8">
-							<label className="flex items-center gap-2 text-lg">
-								<input
-									type="radio"
-									name="hostel"
-									value="YES"
-									checked={hostel === "YES"}
-									onChange={(e) => setHostel(e.target.value)}
-									className="scale-125"
-									required
-								/>
-								Yes
+						{/* Hostel */}
+						<div>
+							<label className="block mb-2 font-semibold text-slate-700">
+								Hostel : <span className="text-red-500">*</span>
 							</label>
-							<label className="flex items-center gap-2 text-lg">
-								<input
-									type="radio"
-									name="hostel"
-									value="NO"
-									checked={hostel === "NO"}
-									onChange={(e) => setHostel(e.target.value)}
-									className="scale-125"
-									required
-								/>
-								No
-							</label>
+							<div className="flex gap-8">
+								{["YES", "NO"].map(value => (
+									<label key={value} className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="hostel"
+											value={value}
+											checked={formData.hostel === value}
+											onChange={handleChange}
+											className="scale-125"
+											required
+										/>
+										{value === "YES" ? "Yes" : "No"}
+									</label>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -381,61 +232,61 @@ const ScholarshipForm = () => {
 					Student Details
 				</h3>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
+					{/* Register No. */}
 					<div>
 						<label className="block mb-2 font-semibold text-slate-700">
 							Register No. : <span className="text-red-500">*</span>
 						</label>
 						<input
-							type="text"
-							id="registerNo"
-							name="registerNo"
-							value={registerNo}
-							onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
+							type="text" id="registerNo" name="registerNo" value={formData.registerNo}
+							onChange={(e) => setFormData(prev => ({ ...prev, registerNo: e.target.value.toUpperCase() }))}
 							className="w-full p-2 border border-black rounded-md text-slate-950"
-							required
+							required readOnly
 						/>
 					</div>
+					{/* Mobile No. */}
 					<div>
 						<label className="block mb-2 font-semibold text-slate-700">
 							Mobile No. : <span className="text-red-500">*</span>
 						</label>
 						<input
-							type="text"
-							maxLength="10"
-							id="mobileNo"
-							name="mobileNo"
-							value={mobileNo}
-							onChange={(e) => setMobileNo(e.target.value)}
+							type="text" maxLength="10" 
+							id="mobileNo" name="mobileNo"
+							value={formData.mobileNo}
+							onChange={(e) => {
+								const value = e.target.value.replace(/\D/g, '');
+								setFormData(prev => ({ ...prev, mobileNo: value }));
+							}}
 							className="w-full p-2 border border-black rounded-md text-slate-950"
-							required
+							required readOnly
 						/>
 					</div>
 				</div>
-				{student && (
+				{formData.name && (
 					<div>
+						{/* Student Info */}
 						<div className="grid grid-rows-1 md:grid-cols-3 gap-6 border border-gray-600 bg-white shadow-sm p-6 rounded-lg">
+							{/* Name */}
 							<div>
-								<label className="block mb-2 font-semibold text-gray-700">Name : </label>
+								<label className="block mb-2 font-semibold text-gray-700">Name :</label>
 								<input
 									type="text"
 									name="name"
-									value={name}
-									onChange={(e) => setName(e.target.value)}
+									value={formData.name}
 									className="w-full p-2.5 uppercase border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
 									readOnly
 								/>
 							</div>
+							{/* Department */}
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Department :</label>
 								<select
 									name="dept"
-									value={dept}
-									onChange={(e) => setDept(e.target.value)}
+									value={formData.dept}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
 									required
 									readOnly
 								>
-									<option value="">Select</option>
 									<option value="">Select</option>
 									<option value="UAI">UAI</option>
 									<option value="UAM">UAM</option>
@@ -485,12 +336,12 @@ const ScholarshipForm = () => {
 									<option value="MCA">MCA</option>
 								</select>
 							</div>
+							{/* Section*/}
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Section :</label>
 								<select
 									name="section"
-									value={section}
-									onChange={(e) => setSection(e.target.value)}
+									value={formData.section}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
 									required
 									readOnly
@@ -507,13 +358,15 @@ const ScholarshipForm = () => {
 								</select>
 							</div>
 						</div>
+						{/* Other Details */}
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-7 border border-gray-600 bg-white shadow-sm p-6 rounded-lg">
+							{/* Religion */}
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Religion :</label>
 								<select
 									name="religion"
-									value={religion}
-									onChange={(e) => setReligion(e.target.value)}
+									value={formData.religion}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
 									required
 								>
@@ -524,26 +377,28 @@ const ScholarshipForm = () => {
 									<option value="OTHERS">Others</option>
 								</select>
 							</div>
+							{/* Last Time Credited Amount (read-only) */}
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Last Time Credited Amount :</label>
 								<input
 									type="text"
-									name="lastCreditedAmount"
-									value={lastCreditedAmt}
-									onChange={(e) => setLastCreditedAmt(e.target.value)}
+									name="lastCreditedAmt"
+									value={formData.lastCreditedAmt}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 									readOnly
 								/>
 							</div>
+							{/* Aadhar No. */}
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Aadhar No. :</label>
 								<input
-									type="text"
-									name="aadhar"
-									maxLength="12"
-									value={aadhar}
-									onChange={(e) => setAadhar(e.target.value)}
+									type="text" name="aadhar" maxLength="12"
+									value={formData.aadhar}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setFormData(prev => ({ ...prev, aadhar: value }));
+									}}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
@@ -555,8 +410,8 @@ const ScholarshipForm = () => {
 								<input
 									type="text"
 									name="fatherName"
-									value={fatherName}
-									onChange={(e) => setFatherName(e.target.value)}
+									value={formData.fatherName}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
@@ -564,10 +419,12 @@ const ScholarshipForm = () => {
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Parent / Guardian No. :</label>
 								<input
-									type="text"
-									name="fatherNo"
-									value={fatherNo}
-									onChange={(e) => setFatherNo(e.target.value)}
+									type="text" name="fatherNo" maxLength="10"
+									value={formData.fatherNo}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setFormData(prev => ({ ...prev, fatherNo: value }));
+									}}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
@@ -577,8 +434,8 @@ const ScholarshipForm = () => {
 								<input
 									type="text"
 									name="fatherOccupation"
-									value={fatherOccupation}
-									onChange={(e) => setFatherOccupation(e.target.value)}
+									value={formData.fatherOccupation}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
@@ -586,10 +443,13 @@ const ScholarshipForm = () => {
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Annual Income : </label>
 								<input
-									type="text"
-									name="annualIncome"
-									value={annualIncome}
-									onChange={(e) => setAnnualIncome(e.target.value)}
+									type="text" name="annualIncome"
+									maxLength="6"
+									value={formData.annualIncome}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setFormData((prev) => ({ ...prev, annualIncome: value }));
+									}}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
@@ -599,8 +459,8 @@ const ScholarshipForm = () => {
 								<input
 									type="text"
 									name="address"
-									value={address}
-									onChange={(e) => setAddress(e.target.value)}
+									value={formData.address}
+									onChange={handleChange}
 									placeholder="Door No & Street"
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
@@ -610,8 +470,8 @@ const ScholarshipForm = () => {
 								<label className="block mb-2 font-semibold text-gray-700">State : </label>
 								<select
 									name="state"
-									value={state}
-									onChange={(e) => setState(e.target.value)}
+									value={formData.state}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								>
@@ -662,8 +522,8 @@ const ScholarshipForm = () => {
 								<label className="block mb-2 font-semibold text-gray-700">District : </label>
 								<select
 									name="district"
-									value={district}
-									onChange={(e) => setDistrict(e.target.value)}
+									value={formData.district}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								>
@@ -710,35 +570,36 @@ const ScholarshipForm = () => {
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Pincode : </label>
 								<input
-									type="text"
-									name="pin"
-									value={pin}
-									maxLength="6"
-									onChange={(e) => setPin(e.target.value)}
+									type="text" name="pin" value={formData.pin}
+									maxLength="6" placeholder="Pincode"
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setFormData((prev) => ({ ...prev, pin: value }));
+									}}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-									placeholder="Pincode"
 									required
 								/>
 							</div>
 							<div>
 								<label className="block mb-2 font-semibold text-gray-700">Siblings : </label>
 								<input
-									type="text"
+									type=""
 									name="siblings"
-									value={siblings}
-									onChange={(e) => setSiblings(e.target.value)}
+									value={formData.siblings}
+									onChange={handleChange}
 									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 									required
 								/>
 							</div>
-							{siblings === 'Yess' && (
+							{formData.siblings === 'Yess' && (
 								<>
 									<div>
 										<label className="block mb-2 font-semibold text-gray-700">Siblings No : </label>
 										<input
 											type="text"
-											value={siblingsNo}
-											onChange={(e) => setSiblingsNo(e.target.value)}
+											name="siblingsNo"
+											value={formData.siblingsNo}
+											onChange={handleChange}
 											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 											required
 										/>
@@ -747,8 +608,9 @@ const ScholarshipForm = () => {
 										<label className="block mb-2 font-semibold text-gray-700">Siblings Occupation : </label>
 										<input
 											type="text"
-											value={siblingsOccupation}
-											onChange={(e) => setSiblingsOccupation(e.target.value)}
+											name="siblingsOccupation"
+											value={formData.siblingsOccupation}
+											onChange={handleChange}
 											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 											required
 										/>
@@ -756,9 +618,13 @@ const ScholarshipForm = () => {
 									<div>
 										<label className="block mb-2 font-semibold text-gray-700">Siblings Income : </label>
 										<input
-											type="text"
-											value={siblingsIncome}
-											onChange={(e) => setSiblingsIncome(e.target.value)}
+											type="text" maxLength="6"
+											name="siblingsIncome"
+											value={formData.siblingsIncome}
+											onChange={(e) => {
+												const value = e.target.value.replace(/\D/g, '');
+												setFormData((prev) => ({ ...prev, siblingsIncome: value }));
+											}}
 											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
 											required
 										/>
@@ -770,7 +636,7 @@ const ScholarshipForm = () => {
 								<input
 									type="file"
 									name="jamath"
-									onChange={(e) => setJamath(e.target.files[0])}
+									onChange={handleFileChange}
 									className="w-full p-2 border border-gray-600 rounded-lg text-gray-900 bg-white"
 								/>
 							</div>
@@ -778,7 +644,7 @@ const ScholarshipForm = () => {
 					</div>
 				)}
 				<div className="flex justify-end">
-					<button
+					<button 
 						type="submit"
 						className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
 					>
@@ -786,48 +652,6 @@ const ScholarshipForm = () => {
 					</button>
 				</div>
 			</form>
-			{showPopup && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm transition-all duration-300">
-					<div className="bg-gradient-to-br from-white to-gray-100 text-gray-800 w-[90%] max-w-3xl rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-300 relative p-10 animate-fadeIn">
-						<button
-							onClick={closePopup}
-							className="absolute top-7 right-7 text-gray-500 hover:text-red-500 text-xl transition-transform hover:scale-110"
-							aria-label="Close"
-						>
-							<FontAwesomeIcon icon={faXmark} />
-						</button>
-						<h2 className="text-3xl mt-5 font-bold text-center mb-6 text-teal-600 tracking-wide drop-shadow-md">
-							Application Instructions
-						</h2>
-						<div className="space-y-5 text-gray-700 text-[15px] md:text-base leading-relaxed px-2">
-							<p>
-								<span className="font-semibold text-gray-900">1. Username : </span>
-								Use your <span className="text-teal-600">Register Number</span> as the login ID.
-							</p>
-							<p>
-								<span className="font-semibold text-gray-900">2. Password : </span>
-								Choose a strong password and keep it safe. It’s required for all future logins.
-							</p>
-							<p>
-								<span className="font-semibold text-gray-900">3. Required Fields : </span>
-								All fields marked with <span className="text-red-500 font-bold">*</span> must be filled.
-							</p>
-							<p>
-								<span className="font-semibold text-gray-900">4. Status Check : </span>
-								You can monitor your application status anytime by logging in.
-							</p>
-						</div>
-						<div className="mt-7 flex justify-end">
-							<button
-								onClick={closePopup}
-								className="px-6 py-2 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl hover:from-teal-600 hover:to-teal-700 transition-all duration-200"
-							>
-								I Understand
-							</button>
-						</div>
-					</div>
-				</div>
-			)}
 		</div >
 	)
 }

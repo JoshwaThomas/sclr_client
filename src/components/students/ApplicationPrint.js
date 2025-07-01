@@ -79,20 +79,20 @@ function ApplicationPrint({ student }) {
                             <div className="border border-gray-300 rounded-md bg-white p-3 space-y-3 text-md">
                                 {student.semester === 'I' ? (
                                     <div className="grid md:grid-cols-2 gap-2">
-                                        <Detail label="Last School Name" value={student.schoolName} />
-                                        <Detail label="Percentage of Mark" value={student.percentageOfMarkSchool} />
-                                        <Detail label="Year of Passing" value={student.yearOfPassing} />
+                                        <LabeledBox label="Last School Name" value={student.schoolName || 'N/A'} />
+                                        <LabeledBox label="Percentage of Mark" value={student.percentageOfMarkSchool || 'N/A'} />
+                                        <LabeledBox label="Year of Passing" value={student.yearOfPassing || 'N/A'} />
                                     </div>
                                 ) : (
                                     <div className="grid md:grid-cols-2 gap-2">
-                                        <LabeledBox label="Percentage of Mark" value={student.semPercentage === 0 ? '-' : student.semPercentage} />
+                                        <LabeledBox label="Percentage of Mark %" value={student.semPercentage === 0 ? '-' : student.semPercentage} />
                                         <LabeledBox label="Class Attendance %" value={student.classAttendancePer === 0 ? '-' : student.classAttendancePer} />
                                         <LabeledBox label="Deeniyath / Moral %" value={student.deeniyathPer === 0 ? '-' : student.deeniyathPer} />
                                         {student.arrear !== 0 && (
                                             <LabeledBox label="No. Of Arrears" value={student.arrear} />
                                         )}
                                         {student.fresherOrRenewal === 'Renewal' && (
-                                            <LabeledBox label="Last Time Credited Amount" value={student.lastCreditedAmt} />
+                                            <LabeledBox label="Last Time Credited Amount" value={student.lastCreditedAmt || '-'} />
                                         )}
                                     </div>
                                 )}

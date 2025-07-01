@@ -4,60 +4,6 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark, faCircleCheck, faCircleExclamation, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
-const iconMap = {
-	success: faCircleCheck,
-	error: faCircleExclamation,
-	info: faCircleInfo,
-};
-
-const colorMap = {
-	success: 'bg-green-50 text-green-800 border-green-200',
-	error: 'bg-red-50 text-red-800 border-red-200',
-	info: 'bg-blue-50 text-blue-800 border-blue-200',
-};
-
-const Notification = ({ message, type = 'info', onClose, duration = 4000, }) => {
-
-	const [visible, setVisible] = useState(false);
-
-	useEffect(() => {
-		if (message) {
-			setVisible(true);
-			const timer = setTimeout(() => {
-				setVisible(false);
-				onClose();
-			}, duration);
-			return () => clearTimeout(timer);
-		}
-	}, [message, duration, onClose]);
-
-	if (!message || !visible) return null;
-
-	const Icon = iconMap[type] || faCircleInfo;
-	const colorClasses = colorMap[type] || colorMap.info;
-
-	return (
-		<div
-			role="alert"
-			aria-live="polite"
-			className={`fixed top-5 left-1/2 z-50 w-[300px] shadow-lg border-l-4 px-5 py-4 rounded-lg transition-all duration-300 ease-in-out flex items-start gap-4 ${colorClasses} animate-fade-in`}
-		>
-			<FontAwesomeIcon icon={Icon} className="text-xl mt-0.5" />
-			<div className="flex-1 text-sm font-medium">{message}</div>
-			<button
-				onClick={() => {
-					setVisible(false);
-					onClose();
-				}}
-				className="text-gray-400 hover:text-black text-sm"
-				aria-label="Close notification"
-			>
-				<FontAwesomeIcon icon={faXmark} />
-			</button>
-		</div>
-	)
-}
-
 const ScholarshipForm = () => {
 
 	const navigate = useNavigate();
@@ -100,15 +46,6 @@ const ScholarshipForm = () => {
 	const [fileName, setFileName] = useState("");
 	const apiUrl = process.env.REACT_APP_API_URL;
 
-	const [notification, setNotification] = useState({ message: '', type: '' });
-
-	const showNotification = (message, type) => {
-		setNotification({ message, type });
-		setTimeout(() => {
-			setNotification({ message: '', type: '' });
-		}, 6000);
-	};
-
 	useEffect(() => {
 		const calculatePercentage = () => {
 			if (maximumMarkSchool && marksSecuredSchool) {
@@ -148,24 +85,24 @@ const ScholarshipForm = () => {
 	const handleFileChange = (e) => {
 		const file = e.target.files[0];
 		if (file) {
-			if (file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png') {
-				const fileSizeInKB = file.size / 1024;
-				if (fileSizeInKB >= 30 && fileSizeInKB <= 210) {
-					setJamath(file);
-					setFileName(file.name);
-				} else {
-					showNotification("File size must be between 30KB and 200KB.", "error");
-				}
-			} else {
-				showNotification("Please upload a JPEG/JPG/PNG file.", "error");
+			const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+			const fileSizeInKB = file.size / 1024;
+			if (!validTypes.includes(file.type)) {
+				alert("Only JPEG, JPG, or PNG images are allowed.");
+				e.target.value = ""; return;
 			}
+			if (fileSizeInKB < 30 || fileSizeInKB > 200) {
+				alert("File size must be between 30KB and 200KB.");
+				e.target.value = ""; return;
+			}
+			setJamath(file);
+			setFileName(file.name);
 		}
 	}
 
 	const Submit = (e) => {
 		e.preventDefault();
-		axios
-			.get(`${apiUrl}/api/admin/current-acyear`)
+		axios.get(`${apiUrl}/api/admin/current-acyear`)
 			.then((response) => {
 				if (response.data.success) {
 					const acyear = response.data.acyear.acyear;
@@ -210,20 +147,17 @@ const ScholarshipForm = () => {
 						})
 						.then((result) => {
 							if (result.data.success) {
-								showNotification("Your Application Submitted Successfully", "success");
-								console.log(result)
-								setTimeout(() => {
-									navigate('/reglog')
-								}, 4000);
+								alert("Your Application Submitted Successfully");
+								navigate('/reglog');
 							} else if (result.data.message === "Register No. Already Existing") {
-								showNotification("Register No. Already Existing", "error");
+								alert("Register No. Already Existing");
 							} else {
-								showNotification("Check Your Details and Fill Properly", "error");
+								alert("Check Your Details and Fill Properly", "error");
 							}
 						})
 						.catch((err) => {
-							console.error("Error submitting application:", err);
-							showNotification("Something went wrong", "error");
+							console.error("Error submitting application : ", err);
+							alert("Something went wrong", "error");
 						});
 				} else {
 					console.error("Failed to fetch current academic year");
@@ -237,8 +171,7 @@ const ScholarshipForm = () => {
 
 	return (
 		<div className="container">
-			<Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-			<form className="space-y-8 font-semibold">
+			<form className="space-y-8 font-semibold" onSubmit={Submit}>
 				<div>
 					<h3 className="text-xl mb-6 font-semibold bg-gray-600 rounded text-white p-3">
 						Fresher Application
@@ -462,7 +395,6 @@ const ScholarshipForm = () => {
 								)}
 							</div>
 						</div>
-
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
 								Hostel :  <span className="text-red-500">*</span>
@@ -644,7 +576,10 @@ const ScholarshipForm = () => {
 								name="mobileNo"
 								maxLength="10"
 								value={mobileNo}
-								onChange={(e) => setMobileNo(e.target.value)}
+								onChange={(e) => {
+									const value = e.target.value.replace(/\D/g, ''); 
+									setMobileNo(value);
+								}}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							/>
@@ -658,7 +593,10 @@ const ScholarshipForm = () => {
 								name="aadhar"
 								maxLength="12"
 								value={aadhar}
-								onChange={(e) => setAadhar(e.target.value)}
+								onChange={(e) => {
+									const value = e.target.value.replace(/\D/g, '');
+									setAadhar(value);
+								}}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							/>
@@ -689,7 +627,10 @@ const ScholarshipForm = () => {
 								name="fatherNo"
 								maxLength="10"
 								value={fatherNo}
-								onChange={(e) => setFatherNo(e.target.value)}
+								onChange={(e) => {
+									const value = e.target.value.replace(/\D/g, '');
+									setFatherNo(value)
+								}}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							/>
@@ -719,7 +660,10 @@ const ScholarshipForm = () => {
 								name="annualIncome"
 								placeholder="e.g. 100000"
 								value={annualIncome}
-								onChange={(e) => setAnnualIncome(e.target.value)}
+								onChange={(e) => {
+									const value = e.target.value.replace(/\D/g, '');
+									setAnnualIncome(value)
+								}}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
 							/>
@@ -759,7 +703,7 @@ const ScholarshipForm = () => {
 					{siblings === "Yes" && (
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">No. of Siblings :</label>
+								<label className="block mb-2 font-semibold text-slate-700">No. of Siblings : <span className="text-red-500">*</span></label>
 								<input
 									type="text"
 									name="siblingsNo"
@@ -771,7 +715,7 @@ const ScholarshipForm = () => {
 								/>
 							</div>
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">Siblings' Occupation :</label>
+								<label className="block mb-2 font-semibold text-slate-700">Siblings' Occupation : <span className="text-red-500">*</span></label>
 								<input
 									type="text"
 									name="siblingsOccupation"
@@ -783,12 +727,15 @@ const ScholarshipForm = () => {
 								/>
 							</div>
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">Family Annual Income :</label>
+								<label className="block mb-2 font-semibold text-slate-700">Family Annual Income : <span className="text-red-500">*</span></label>
 								<input
 									type="text"
 									name="siblingsIncome"
 									value={siblingsIncome}
-									onChange={(e) => setSiblingsIncome(e.target.value)}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setSiblingsIncome(value)
+									}}
 									className="w-full p-2 border border-black rounded-md text-slate-950"
 									required
 								/>
@@ -930,7 +877,10 @@ const ScholarshipForm = () => {
 								maxLength="6"
 								name="pin"
 								value={pin}
-								onChange={(e) => setPin(e.target.value)}
+								onChange={(e) => {
+									const value = e.target.value.replace(/\D/g, '');
+									setPin(value)
+								}}
 								placeholder="Pincode"
 								className="w-full p-2 border border-black rounded-md text-slate-950"
 								required
@@ -992,12 +942,12 @@ const ScholarshipForm = () => {
 				<div>
 					<div className="overflow-x-auto">
 						{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
-							<div>
+							<div className="mb-8">
 								<div className="grid grid-cols-1 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 										<div>
 											<label className="block mb-2 font-semibold text-slate-700">
-												{ugOrPg === "UG" ? "Last School Name" : "Last College Name"}
+												{ugOrPg === "UG" ? "Last School Name : " : "Last College Name : "}
 												<span className="text-red-500">*</span>
 											</label>
 											<input
@@ -1018,7 +968,11 @@ const ScholarshipForm = () => {
 												type="text"
 												name="yearOfPassing"
 												value={yearOfPassing}
-												onChange={(e) => setYearOfPassing(e.target.value)}
+												onChange={(e) => {
+													const value = e.target.value.replace(/\D/g, '');
+
+													setYearOfPassing(value)
+												}}
 												className="w-full p-2 border border-black rounded-md text-slate-950"
 												placeholder="e.g. 2023"
 												required
@@ -1035,7 +989,11 @@ const ScholarshipForm = () => {
 												type="text"
 												name="maximumMarkSchool"
 												value={maximumMarkSchool}
-												onChange={(e) => setMaximumMarkSchool(e.target.value)}
+												maxLength="3"
+												onChange={(e) => {
+													const value = e.target.value.replace(/\D/g, '');
+													setMaximumMarkSchool(value)
+												}}
 												className="w-full p-2 border border-black rounded-md text-slate-950"
 												placeholder={ugOrPg === "UG" ? "e.g. 600" : "e.g. 2400"}
 												required
@@ -1050,7 +1008,11 @@ const ScholarshipForm = () => {
 												type="text"
 												name="marksSecuredSchool"
 												value={marksSecuredSchool}
-												onChange={(e) => setMarksSecuredSchool(e.target.value)}
+												maxLength="3"
+												onChange={(e) => {
+													const value = e.target.value.replace(/\D/g, '');
+													setMarksSecuredSchool(value)
+												}}
 												className="w-full p-2 border border-black rounded-md text-slate-950"
 												required
 											/>
@@ -1063,7 +1025,10 @@ const ScholarshipForm = () => {
 												type="text"
 												name="percentageOfMarkSchool"
 												value={percentageOfMarkSchool}
-												onChange={(e) => setPercentageOfMarkSchool(e.target.value)}
+												onChange={(e) => {
+													const value = e.target.value.replace(/\D/g, '');
+													setPercentageOfMarkSchool(value)
+												}}
 												className="w-full p-2 border border-black rounded-md text-slate-950 bg-gray-100"
 												disabled
 											/>
@@ -1077,7 +1042,6 @@ const ScholarshipForm = () => {
 						<button
 							type="submit"
 							className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
-							onClick={(e) => { if (window.confirm("Are you sure you want to submit the application?")) { Submit(e) } }}
 						>
 							Submit
 						</button>
