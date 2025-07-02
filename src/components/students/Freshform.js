@@ -70,7 +70,7 @@ const ScholarshipForm = () => {
 			...prevPassword, [name]: value,
 		}));
 		if (name === "conpass") { setIsConpassTyped(true) }
-	};
+	}
 
 	const closePopup = () => { setShowPopup(false) };
 
@@ -100,81 +100,70 @@ const ScholarshipForm = () => {
 		}
 	}
 
-	const Submit = (e) => {
+	const Submit = async (e) => {
 		e.preventDefault();
-		axios.get(`${apiUrl}/api/admin/current-acyear`)
-			.then((response) => {
-				if (response.data.success) {
-					const acyear = response.data.acyear.acyear;
-					const formData = new FormData();
-					formData.append("deeniyath", deeniyath);
-					formData.append("scholarship", scholarship);
-					formData.append("ugOrPg", ugOrPg);
-					formData.append("semester", semester);
-					formData.append("name", name);
-					formData.append("registerNo", registerNo);
-					formData.append("dept", dept);
-					formData.append("section", section);
-					formData.append("religion", religion);
-					formData.append("procategory", procategory);
-					formData.append("address", address);
-					formData.append("district", district);
-					formData.append("state", state);
-					formData.append("pin", pin);
-					formData.append("specialCategory", specialCategory);
-					formData.append("aadhar", aadhar);
-					formData.append("hostel", hostel);
-					formData.append("mobileNo", mobileNo);
-					formData.append("fatherName", fatherName);
-					formData.append("fatherNo", fatherNo);
-					formData.append("fatherOccupation", fatherOccupation);
-					formData.append("annualIncome", annualIncome);
-					formData.append("schoolName", schoolName);
-					formData.append("yearOfPassing", yearOfPassing);
-					formData.append("percentageOfMarkSchool", percentageOfMarkSchool);
-					formData.append("siblings", siblings);
-					formData.append("siblingsNo", siblingsNo);
-					formData.append("siblingsOccupation", siblingsOccupation);
-					formData.append("siblingsIncome", siblingsIncome);
-					formData.append("acyear", acyear);
-					formData.append("jamath", jamath);
-					formData.append("password", password.pass);
-
-					for (let pair of formData.entries()) { console.log(pair[0] + ': ' + pair[1]) }
-					axios
-						.post(`${apiUrl}/fresh`, formData, {
-							headers: { "Content-Type": "multipart/form-data" },
-						})
-						.then((result) => {
-							if (result.data.success) {
-								alert("Your Application Submitted Successfully");
-								navigate('/reglog');
-							} else if (result.data.message === "Register No. Already Existing") {
-								alert("Register No. Already Existing");
-							} else {
-								alert("Check Your Details and Fill Properly", "error");
-							}
-						})
-						.catch((err) => {
-							console.error("Error submitting application : ", err);
-							alert("Something went wrong", "error");
-						});
-				} else {
-					console.error("Failed to fetch current academic year");
-					window.alert("Failed to fetch current academic year");
-				}
-			})
-			.catch((error) => {
-				console.error("Error fetching current academic year:", error);
-			})
+		try {
+			const response = await axios.get(`${apiUrl}/api/admin/current-acyear`);
+			if (!response.data.success) {
+				console.error("Failed to fetch Current Academic Year");
+				alert("Failed to fetch Current Academic Year"); return;
+			}
+			const acyear = response.data.acyear.acyear;
+			const formData = new FormData();
+			formData.append("deeniyath", deeniyath);
+			formData.append("scholarship", scholarship);
+			formData.append("ugOrPg", ugOrPg);
+			formData.append("semester", semester);
+			formData.append("name", name);
+			formData.append("registerNo", registerNo);
+			formData.append("dept", dept);
+			formData.append("section", section);
+			formData.append("religion", religion);
+			formData.append("procategory", procategory);
+			formData.append("address", address);
+			formData.append("district", district);
+			formData.append("state", state);
+			formData.append("pin", pin);
+			formData.append("specialCategory", specialCategory);
+			formData.append("aadhar", aadhar);
+			formData.append("hostel", hostel);
+			formData.append("mobileNo", mobileNo);
+			formData.append("fatherName", fatherName);
+			formData.append("fatherNo", fatherNo);
+			formData.append("fatherOccupation", fatherOccupation);
+			formData.append("annualIncome", annualIncome);
+			formData.append("schoolName", schoolName);
+			formData.append("yearOfPassing", yearOfPassing);
+			formData.append("percentageOfMarkSchool", percentageOfMarkSchool);
+			formData.append("siblings", siblings);
+			formData.append("siblingsNo", siblingsNo);
+			formData.append("siblingsOccupation", siblingsOccupation);
+			formData.append("siblingsIncome", siblingsIncome);
+			formData.append("acyear", acyear);
+			formData.append("jamath", jamath);
+			formData.append("password", password.pass);
+			const result = await axios.post(`${apiUrl}/fresh`, formData, {
+				headers: { "Content-Type": "multipart/form-data" },
+			});
+			if (result.data.success) {
+				alert("Your Application Submitted Successfully"); navigate('/reglog');
+			} else if (result.data.message === "Register No. Already Existing") {
+				alert("Register No. Already Existing");
+			} else {
+				alert("Check Your Details and Fill Properly", "error");
+			}
+		} catch (error) {
+			console.error("Submission Failed : ", error);
+			alert("Something went wrong");
+		}
 	}
 
 	return (
 		<div className="container">
-			<form className="space-y-8 font-semibold" onSubmit={Submit}>
+			<form className="space-y-7 font-semibold" onSubmit={Submit}>
 				<div>
 					<h3 className="text-xl mb-6 font-semibold bg-gray-600 rounded text-white p-3">
-						Fresher Application
+						New Application
 					</h3>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
 						<div className="">
@@ -233,7 +222,7 @@ const ScholarshipForm = () => {
 						</div>
 					</div>
 				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
+				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-5 text-white">
 					Academic Details
 				</h3>
 				<div className="">
@@ -545,7 +534,7 @@ const ScholarshipForm = () => {
 					</div>
 				</div>
 				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
-					Personal Details
+					Student Details
 				</h3>
 				<div className="">
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
@@ -577,7 +566,7 @@ const ScholarshipForm = () => {
 								maxLength="10"
 								value={mobileNo}
 								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, ''); 
+									const value = e.target.value.replace(/\D/g, '');
 									setMobileNo(value);
 								}}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
@@ -620,7 +609,7 @@ const ScholarshipForm = () => {
 						</div>
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
-								Contact No. : <span className="text-red-500">*</span>
+								Parent / Guardian Phone No. : <span className="text-red-500">*</span>
 							</label>
 							<input
 								type="text"
@@ -727,7 +716,7 @@ const ScholarshipForm = () => {
 								/>
 							</div>
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">Family Annual Income : <span className="text-red-500">*</span></label>
+								<label className="block mb-2 font-semibold text-slate-700">Siblings Income : <span className="text-red-500">*</span></label>
 								<input
 									type="text"
 									name="siblingsIncome"
@@ -875,6 +864,7 @@ const ScholarshipForm = () => {
 							<input
 								type="text"
 								maxLength="6"
+								autoComplete="off"
 								name="pin"
 								value={pin}
 								onChange={(e) => {
@@ -910,6 +900,7 @@ const ScholarshipForm = () => {
 							<input
 								type="password"
 								name="pass"
+								autoComplete="new-password"
 								value={password.pass}
 								onChange={handleChange}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
@@ -923,6 +914,7 @@ const ScholarshipForm = () => {
 							<input
 								type="password"
 								name="conpass"
+								autoComplete="new-password"
 								value={password.conpass}
 								onChange={handleChange}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
@@ -989,7 +981,7 @@ const ScholarshipForm = () => {
 												type="text"
 												name="maximumMarkSchool"
 												value={maximumMarkSchool}
-												maxLength="3"
+												maxLength="4"
 												onChange={(e) => {
 													const value = e.target.value.replace(/\D/g, '');
 													setMaximumMarkSchool(value)

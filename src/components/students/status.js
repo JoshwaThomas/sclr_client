@@ -21,6 +21,7 @@ function Status() {
                     params: { registerNo: staffId }
                 });
                 setStudent(res.data);
+                // console.log(student)
                 setShowModal(true);
                 if (res.data && res.data.message) {
                     if (res.data.message === 'Applicant does not exist') {
@@ -136,7 +137,11 @@ function Status() {
                             <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
                                 {student.semester === 'I' ? (
                                     <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
-                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last School Name</div>
+                                        {student.ugOrPg === 'PG' ? (
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last College Name</div>
+                                        ) : (
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last School Name</div>
+                                        )}
                                         <div className="flex justify-center border-b border-gray-600 p-3">{student.schoolName || 'N/A'}</div>
                                         <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Percentage of Mark</div>
                                         <div className="flex justify-center border-b border-gray-600 p-3">{student.percentageOfMarkSchool || 'N/A'}</div>
@@ -171,7 +176,7 @@ function Status() {
                                 </div>
                             </div>
                         </div>
-                        <div div className="mt-6"> <ApplicationPrint student={student} /> </div>
+                        <div className="mt-6"> <ApplicationPrint student={student} /> </div>
                     </>
                 ) : (
                     <p className="text-gray-800 text-lg font-medium">
