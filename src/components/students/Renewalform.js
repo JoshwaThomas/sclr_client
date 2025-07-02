@@ -44,7 +44,23 @@ const ScholarshipForm = () => {
 		setFormData((prev) => ({ ...prev, [name]: val, }));
 	}
 
-	const handleFileChange = (e) => { setFormData((prev) => ({ ...prev, file: e.target.files[0] })) }
+	const handleFileChange = (e) => {
+		const file = e.target.files[0];
+		if (file) {
+			const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+			const fileSizeInKB = file.size / 1024;
+			if (!validTypes.includes(file.type)) {
+				alert("Only JPEG, JPG, or PNG images are allowed.");
+				e.target.value = ""; return;
+			}
+			if (fileSizeInKB < 30 || fileSizeInKB > 200) {
+				alert("File size must be between 30KB and 200KB.");
+				e.target.value = ""; return;
+			}
+			setFormData((prev) => ({ ...prev, jamath: file }));
+			setFileName(file.name);
+		}
+	}
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
