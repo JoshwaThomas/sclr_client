@@ -22,7 +22,6 @@ const ScholarshipForm = () => {
 				const result = await axios.get(`${apiUrl}/api/admin/students`, {
 					params: { registerNo: staffId.toUpperCase() }
 				});
-				console.log(result.data)
 				const data = result.data;
 				setFormData({
 					deeniyath: data.deeniyath || '', ugOrPg: data.ugOrPg || '', semester: data.semester || '', name: data.name || '',
