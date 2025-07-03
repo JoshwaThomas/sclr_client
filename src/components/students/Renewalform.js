@@ -5,12 +5,14 @@ import { useParams } from 'react-router-dom';
 const ScholarshipForm = () => {
 
 	const { staffId } = useParams();
+	const [fileName, setFileName] = useState("");
+	const [isEditable, setIsEditable] = useState(false);
 	const apiUrl = process.env.REACT_APP_API_URL;
 	const [formData, setFormData] = useState({
 		deeniyath: '', ugOrPg: '', semester: '', name: '', registerNo: '', dept: '', section: '', religion: '',
 		procategory: '', address: '', state: '', district: '', pin: '', specialCategory: '', hostel: '', mobileNo: '',
 		aadhar: '', fatherName: '', fatherNo: '', fatherOccupation: '', annualIncome: '', lastCreditedAmt: '',
-		siblings: '', siblingsNo: '', siblingsOccupation: '', siblingsIncome: '', jamath: null
+		siblings: '', siblingsNo: '', siblingsOccupation: '', siblingsIncome: '', jamath: null, studentType: ''
 	});
 
 	useEffect(() => {
@@ -20,6 +22,7 @@ const ScholarshipForm = () => {
 				const result = await axios.get(`${apiUrl}/api/admin/students`, {
 					params: { registerNo: staffId.toUpperCase() }
 				});
+				console.log(result.data)
 				const data = result.data;
 				setFormData({
 					deeniyath: data.deeniyath || '', ugOrPg: data.ugOrPg || '', semester: data.semester || '', name: data.name || '',
@@ -27,9 +30,10 @@ const ScholarshipForm = () => {
 					procategory: data.procategory || '', address: data.address || '', state: data.state || '', district: data.district || '',
 					pin: data.pin || '', specialCategory: data.specialCategory || '', hostel: data.hostel || '', mobileNo: data.mobileNo || '',
 					aadhar: data.aadhar || '', fatherName: data.fatherName || '', fatherNo: data.fatherNo || '', fatherOccupation: data.fatherOccupation || '',
-					annualIncome: data.annualIncome || '', lastCreditedAmt: data.scholamt || '', siblings: data.siblings || '',
-					siblingsNo: data.siblingsNo || '', siblingsOccupation: data.siblingsOccupation || '', siblingsIncome: data.siblingsIncome || '', jamath: data.jamath || ''
+					annualIncome: data.annualIncome || '', lastCreditedAmt: data.scholamt || '', siblings: data.siblings || '', studentType: data.studentType || '',
+					siblingsNo: data.siblingsNo || '', siblingsOccupation: data.siblingsOccupation || '', siblingsIncome: data.siblingsIncome || '', jamath: ''
 				})
+				setIsEditable(data.showOrBlock === "show");
 			} catch (err) {
 				console.error('Error fetching student data:', err.response ? err.response.data : err);
 				alert('Student not found');
@@ -45,6 +49,11 @@ const ScholarshipForm = () => {
 	}
 
 	const handleFileChange = (e) => {
+		if (formData.studentType !== 'Fresher') {
+			setFormData((prev) => ({ ...prev, jamath: file || null }));
+			setFileName(file?.name || '');
+			return;
+		}
 		const file = e.target.files[0];
 		if (file) {
 			const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -64,6 +73,10 @@ const ScholarshipForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (formData.studentType === 'Fresher' && !formData.jamath) {
+			alert("Jamath / Self Declaration Letter is required for Freshers.");
+			return;
+		}
 		try {
 			const acyearRes = await axios.get(`${apiUrl}/api/admin/current-acyear`);
 			if (!acyearRes.data.success) {
@@ -109,7 +122,11 @@ const ScholarshipForm = () => {
 		<div className="container">
 			<form className="space-y-8 font-semibold" onSubmit={handleSubmit}>
 				<div>
-					<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded"> Renewal Application</h3>
+					{formData.studentType === 'Fresher' ? (
+						<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded"> Fresher Application</h3>
+					) : (
+						<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded"> Renewal Application</h3>
+					)}
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
@@ -120,7 +137,7 @@ const ScholarshipForm = () => {
 								value={formData.specialCategory}
 								onChange={handleChange}
 								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
+								required disabled={!isEditable}
 							>
 								<option value="">Select</option>
 								<option value="General">General</option>
@@ -151,7 +168,7 @@ const ScholarshipForm = () => {
 											checked={formData.ugOrPg === type}
 											onChange={handleChange}
 											className="scale-125"
-											required
+											required disabled={!isEditable}
 										/>
 										{type}
 									</label>
@@ -168,7 +185,7 @@ const ScholarshipForm = () => {
 										<input
 											type="radio" name="procategory" value={type}
 											checked={formData.procategory === type}
-											onChange={handleChange}
+											onChange={handleChange} disabled={!isEditable}
 											className="scale-125" required
 										/>
 										{type}
@@ -191,7 +208,7 @@ const ScholarshipForm = () => {
 											checked={formData.semester === sem}
 											onChange={handleChange}
 											className="scale-125"
-											required
+											required disabled={!isEditable}
 										/>
 										{sem}
 									</label>
@@ -203,7 +220,7 @@ const ScholarshipForm = () => {
 												type="radio" name="semester"
 												value="V" checked={formData.semester === "V"}
 												onChange={handleChange}
-												className="scale-125" required
+												className="scale-125" required disabled={!isEditable}
 											/>
 											V
 										</label>
@@ -212,9 +229,8 @@ const ScholarshipForm = () => {
 												type="radio" name="semester"
 												value="VI" checked={formData.semester === "VI"}
 												onChange={handleChange}
-												className="scale-125" required
+												className="scale-125" required disabled={!isEditable}
 											/>
-											VI
 										</label>
 									</>
 								)}
@@ -235,7 +251,7 @@ const ScholarshipForm = () => {
 											checked={formData.hostel === value}
 											onChange={handleChange}
 											className="scale-125"
-											required
+											required disabled={!isEditable}
 										/>
 										{value === "YES" ? "Yes" : "No"}
 									</label>
@@ -274,8 +290,7 @@ const ScholarshipForm = () => {
 								name="dept"
 								value={formData.dept}
 								className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-								required
-								readOnly
+								required disabled={!isEditable} readOnly
 							>
 								<option value="">Select</option>
 								<option value="UAI">UAI</option>
@@ -333,8 +348,7 @@ const ScholarshipForm = () => {
 								name="section"
 								value={formData.section}
 								className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-								required
-								readOnly
+								required readOnly
 							>
 								<option value="A">A</option>
 								<option value="B">B</option>
@@ -352,364 +366,375 @@ const ScholarshipForm = () => {
 				<h3 className="text-xl mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
 					Student Details
 				</h3>
-				{formData.name && (
-					<>
-						<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-7 border border-gray-600 bg-white shadow-sm p-6 rounded-lg">
-							<div>
-								<label className="block mb-2 font-semibold text-slate-700">
-									Mobile No. : <span className="text-red-500">*</span>
-								</label>
-								<input
-									type="text"
-									maxLength="10"
-									id="mobileNo"
-									name="mobileNo"
-									value={formData.mobileNo}
-									onChange={(e) => {
-										const value = e.target.value.replace(/\D/g, '');
-										setFormData((prev) => ({ ...prev, mobileNo: value }));
-									}}
-									className="w-full p-2 border border-black rounded-md text-slate-950"
-									required
-									readOnly
-								/>
-							</div>
-							{/* Religion (2nd) */}
-							<div>
-								<label className="block mb-2 font-semibold text-gray-700">Religion :</label>
-								<select
-									name="religion"
-									value={formData.religion}
-									onChange={handleChange}
-									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-									required
-								>
-									<option value="">Select</option>
-									<option value="ISLAM">Islam</option>
-									<option value="HINDU">Hindu</option>
-									<option value="CHRISTIAN">Christian</option>
-									<option value="OTHERS">Others</option>
-								</select>
-							</div>
-							{/* Aadhar (3rd) */}
-							<div>
-								<label className="block mb-2 font-semibold text-gray-700">Aadhar No. :</label>
-								<input
-									type="text"
-									name="aadhar"
-									maxLength="12"
-									value={formData.aadhar}
-									onChange={(e) => {
-										const value = e.target.value.replace(/\D/g, '');
-										setFormData((prev) => ({ ...prev, aadhar: value }));
-									}}
-									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-									required
-								/>
-							</div>
-							{/* Last Credited Amount (4th) */}
-							<div>
-								<label className="block mb-2 font-semibold text-gray-700">Last Time Credited Amount :</label>
-								<input
-									type="text"
-									name="lastCreditedAmt"
-									value={formData.lastCreditedAmt}
-									className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-									required
-									readOnly
-								/>
-							</div>
-						</div>
-						<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
-							<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-								{/* Parent Name (5th) */}
+				{
+					formData.name && (
+						<>
+							<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-7 border border-gray-600 bg-white shadow-sm p-6 rounded-lg">
 								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Parent / Guardian Name :</label>
+									<label className="block mb-2 font-semibold text-slate-700">
+										Mobile No. : <span className="text-red-500">*</span>
+									</label>
 									<input
 										type="text"
-										name="fatherName"
-										value={formData.fatherName}
-										onChange={handleChange}
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									/>
-								</div>
-								{/* Parent Phone No (6th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Parent / Guardian No. :</label>
-									<input
-										type="text"
-										name="fatherNo"
 										maxLength="10"
-										value={formData.fatherNo}
+										id="mobileNo"
+										name="mobileNo"
+										value={formData.mobileNo}
 										onChange={(e) => {
 											const value = e.target.value.replace(/\D/g, '');
-											setFormData((prev) => ({ ...prev, fatherNo: value }));
+											setFormData((prev) => ({ ...prev, mobileNo: value }));
+										}}
+										className="w-full p-2 border border-black rounded-md text-slate-950"
+										required readOnly
+									/>
+								</div>
+								{/* Religion (2nd) */}
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700">Religion :</label>
+									<select
+										name="religion"
+										value={formData.religion}
+										onChange={handleChange}
+										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+										required disabled={!isEditable}
+									>
+										<option value="">Select</option>
+										<option value="ISLAM">Islam</option>
+										<option value="HINDU">Hindu</option>
+										<option value="CHRISTIAN">Christian</option>
+										<option value="OTHERS">Others</option>
+									</select>
+								</div>
+								{/* Aadhar (3rd) */}
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700">Aadhar No. :</label>
+									<input
+										type="text"
+										name="aadhar"
+										maxLength="12"
+										value={formData.aadhar}
+										onChange={(e) => {
+											const value = e.target.value.replace(/\D/g, '');
+											setFormData((prev) => ({ ...prev, aadhar: value }));
 										}}
 										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
+										required readOnly={!isEditable}
+									/>
+								</div>
+								{/* Last Credited Amount (4th) */}
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700">Last Time Credited Amount :</label>
+									<input
+										type="text"
+										name="lastCreditedAmt"
+										value={formData.lastCreditedAmt}
+										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+										readOnly
 									/>
 								</div>
 							</div>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-								{/* Parent Occupation (7th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Occupation :</label>
-									<input
-										type="text"
-										name="fatherOccupation"
-										value={formData.fatherOccupation}
-										onChange={handleChange}
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									/>
-								</div>
-								{/* Annual Income (8th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Annual Income :</label>
-									<input
-										type="text"
-										name="annualIncome"
-										maxLength="6"
-										value={formData.annualIncome}
-										onChange={(e) => {
-											const value = e.target.value.replace(/\D/g, '');
-											setFormData((prev) => ({ ...prev, annualIncome: value }));
-										}}
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									/>
-								</div>
-								{/* Sibling Detail */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Siblings :</label>
-									<div className="flex gap-6 py-2">
-										<label className="flex items-center gap-2 text-lg">
-											<input
-												type="radio"
-												name="siblings"
-												value="Yes"
-												checked={formData.siblings === 'Yes'}
-												onChange={handleChange}
-												className="scale-125"
-											/>
-											<span>Yes</span>
-										</label>
-										<label className="flex items-center gap-2 text-lg">
-											<input
-												type="radio"
-												name="siblings"
-												value="No"
-												checked={formData.siblings === 'No'}
-												onChange={handleChange}
-												className="scale-125"
-											/>
-											<span>No</span>
-										</label>
+							<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+									{/* Parent Name (5th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Parent / Guardian Name :</label>
+										<input
+											type="text"
+											name="fatherName"
+											value={formData.fatherName}
+											onChange={handleChange}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
+									</div>
+									{/* Parent Phone No (6th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Parent / Guardian No. :</label>
+										<input
+											type="text"
+											name="fatherNo"
+											maxLength="10"
+											value={formData.fatherNo}
+											onChange={(e) => {
+												const value = e.target.value.replace(/\D/g, '');
+												setFormData((prev) => ({ ...prev, fatherNo: value }));
+											}}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
 									</div>
 								</div>
-								{formData.siblings === 'Yes' && (
-									<>
-										<div>
-											<label className="block mb-2 font-semibold text-gray-700">Siblings No :</label>
-											<input
-												type="text"
-												name="siblingsNo"
-												value={formData.siblingsNo}
-												onChange={handleChange}
-												className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-												required
-											/>
+								<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+									{/* Parent Occupation (7th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Occupation :</label>
+										<input
+											type="text"
+											name="fatherOccupation"
+											value={formData.fatherOccupation}
+											onChange={handleChange}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
+									</div>
+									{/* Annual Income (8th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Annual Income :</label>
+										<input
+											type="text"
+											name="annualIncome"
+											maxLength="6"
+											value={formData.annualIncome}
+											onChange={(e) => {
+												const value = e.target.value.replace(/\D/g, '');
+												setFormData((prev) => ({ ...prev, annualIncome: value }));
+											}}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
+									</div>
+									{/* Sibling Detail */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Siblings :</label>
+										<div className="flex gap-6 py-2">
+											<label className="flex items-center gap-2 text-lg">
+												<input
+													type="radio"
+													name="siblings"
+													value="Yes"
+													disabled={!isEditable}
+													checked={formData.siblings === 'Yes'}
+													onChange={handleChange}
+													className="scale-125"
+													required
+												/>
+												<span>Yes</span>
+											</label>
+											<label className="flex items-center gap-2 text-lg">
+												<input
+													type="radio"
+													name="siblings"
+													value="No"
+													disabled={!isEditable}
+													checked={formData.siblings === 'No'}
+													onChange={handleChange}
+													className="scale-125"
+												/>
+												<span>No</span>
+											</label>
 										</div>
-										<div>
-											<label className="block mb-2 font-semibold text-gray-700">Siblings Occupation :</label>
-											<input
-												type="text"
-												name="siblingsOccupation"
-												value={formData.siblingsOccupation}
-												onChange={handleChange}
-												className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-												required
-											/>
-										</div>
-										<div>
-											<label className="block mb-2 font-semibold text-gray-700">Siblings Income :</label>
-											<input
-												type="text"
-												name="siblingsIncome"
-												maxLength="6"
-												value={formData.siblingsIncome}
-												onChange={(e) => {
-													const value = e.target.value.replace(/\D/g, '');
-													setFormData((prev) => ({ ...prev, siblingsIncome: value }));
-												}}
-												className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-												required
-											/>
-										</div>
-									</>
-								)}
-							</div>
-						</div>
-						<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
-							<div className="grid grid-cols-1">
-								{/* Address (9th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Permanent Address :</label>
-									<input
-										type="text"
-										name="address"
-										value={formData.address}
-										onChange={handleChange}
-										placeholder="Door No & Street"
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									/>
-								</div>
-							</div>
-							<div className="grid grid-cols-3 gap-6">
-								{/* State (10th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">State :</label>
-									<select
-										name="state"
-										value={formData.state}
-										onChange={handleChange}
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									>
-										<option value="Andhra Pradesh">Andhra Pradesh</option>
-										<option value="Arunachal Pradesh">Arunachal Pradesh</option>
-										<option value="Assam">Assam</option>
-										<option value="Bihar">Bihar</option>
-										<option value="Chhattisgarh">Chhattisgarh</option>
-										<option value="Goa">Goa</option>
-										<option value="Gujarat">Gujarat</option>
-										<option value="Haryana">Haryana</option>
-										<option value="Himachal Pradesh">Himachal Pradesh</option>
-										<option value="Jharkhand">Jharkhand</option>
-										<option value="Karnataka">Karnataka</option>
-										<option value="Kerala">Kerala</option>
-										<option value="Madhya Pradesh">Madhya Pradesh</option>
-										<option value="Maharashtra">Maharashtra</option>
-										<option value="Manipur">Manipur</option>
-										<option value="Meghalaya">Meghalaya</option>
-										<option value="Mizoram">Mizoram</option>
-										<option value="Nagaland">Nagaland</option>
-										<option value="Odisha">Odisha</option>
-										<option value="Punjab">Punjab</option>
-										<option value="Rajasthan">Rajasthan</option>
-										<option value="Sikkim">Sikkim</option>
-										<option value="Tamil Nadu">Tamil Nadu</option>
-										<option value="Telangana">Telangana</option>
-										<option value="Tripura">Tripura</option>
-										<option value="Uttar Pradesh">Uttar Pradesh</option>
-										<option value="Uttarakhand">Uttarakhand</option>
-										<option value="West Bengal">West Bengal</option>
-										<option value="Andaman and Nicobar Islands">
-											Andaman and Nicobar Islands
-										</option>
-										<option value="Chandigarh">Chandigarh</option>
-										<option value="Dadra and Nagar Haveli and Daman and Diu">
-											Dadra and Nagar Haveli and Daman and Diu
-										</option>
-										<option value="Delhi">Delhi</option>
-										<option value="Jammu and Kashmir">Jammu and Kashmir</option>
-										<option value="Ladakh">Ladakh</option>
-										<option value="Lakshadweep">Lakshadweep</option>
-										<option value="Puducherry">Puducherry</option>
-										<option value="Other">Other</option>
-									</select>
-								</div>
-								{/* District (11th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">District :</label>
-									<select
-										name="district"
-										value={formData.district}
-										onChange={handleChange}
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									>
-										<option value="Ariyalur">Ariyalur</option>
-										<option value="Chengalpattu">Chengalpattu</option>
-										<option value="Chennai">Chennai</option>
-										<option value="Coimbatore">Coimbatore</option>
-										<option value="Cuddalore">Cuddalore</option>
-										<option value="Dharmapuri">Dharmapuri</option>
-										<option value="Dindigul">Dindigul</option>
-										<option value="Erode">Erode</option>
-										<option value="Kallakurichi">Kallakurichi</option>
-										<option value="Kanchipuram">Kanchipuram</option>
-										<option value="Kanyakumari">Kanyakumari</option>
-										<option value="Karur">Karur</option>
-										<option value="Krishnagiri">Krishnagiri</option>
-										<option value="Madurai">Madurai</option>
-										<option value="Nagapattinam">Nagapattinam</option>
-										<option value="Namakkal">Namakkal</option>
-										<option value="Nilgiris">Nilgiris</option>
-										<option value="Perambalur">Perambalur</option>
-										<option value="Pudukkottai">Pudukkottai</option>
-										<option value="Ramanathapuram">Ramanathapuram</option>
-										<option value="Ranipet">Ranipet</option>
-										<option value="Salem">Salem</option>
-										<option value="Sivaganga">Sivaganga</option>
-										<option value="Tenkasi">Tenkasi</option>
-										<option value="Thanjavur">Thanjavur</option>
-										<option value="Theni">Theni</option>
-										<option value="Thoothukudi">Thoothukudi</option>
-										<option value="Tiruchirappalli">Tiruchirappalli</option>
-										<option value="Tirunelveli">Tirunelveli</option>
-										<option value="Tirupathur">Tirupathur</option>
-										<option value="Tiruppur">Tiruppur</option>
-										<option value="Tiruvallur">Tiruvallur</option>
-										<option value="Tiruvannamalai">Tiruvannamalai</option>
-										<option value="Tiruvarur">Tiruvarur</option>
-										<option value="Vellore">Vellore</option>
-										<option value="Viluppuram">Viluppuram</option>
-										<option value="Virudhunagar">Virudhunagar</option>
-										<option value="Other">Other</option>
-									</select>
-								</div>
-								{/* Pincode (12th) */}
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700">Pincode :</label>
-									<input
-										type="text"
-										name="pin"
-										maxLength="6"
-										value={formData.pin}
-										onChange={(e) => {
-											const value = e.target.value.replace(/\D/g, '');
-											setFormData((prev) => ({ ...prev, pin: value }));
-										}}
-										placeholder="Pincode"
-										className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
-										required
-									/>
-								</div>
-								<div>
-									<label className="block mb-3 font-semibold text-sm text-gray-700">Jamath / Self Declaration Letter :</label>
-									<input
-										type="file"
-										name="jamath"
-										onChange={handleFileChange}
-										className="w-full p-2 border border-gray-600 rounded-lg text-gray-900 bg-white"
-									/>
+									</div>
+									{formData.siblings === 'Yes' && (
+										<>
+											<div>
+												<label className="block mb-2 font-semibold text-gray-700">Siblings No :</label>
+												<input
+													type="text"
+													name="siblingsNo"
+													value={formData.siblingsNo}
+													onChange={handleChange}
+													className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+													required
+												/>
+											</div>
+											<div>
+												<label className="block mb-2 font-semibold text-gray-700">Siblings Occupation :</label>
+												<input
+													type="text"
+													name="siblingsOccupation"
+													value={formData.siblingsOccupation}
+													onChange={handleChange}
+													className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+													required readOnly={!isEditable}
+												/>
+											</div>
+											<div>
+												<label className="block mb-2 font-semibold text-gray-700">Siblings Income :</label>
+												<input
+													type="text"
+													name="siblingsIncome"
+													maxLength="6"
+													value={formData.siblingsIncome}
+													onChange={(e) => {
+														const value = e.target.value.replace(/\D/g, '');
+														setFormData((prev) => ({ ...prev, siblingsIncome: value }));
+													}}
+													className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+													required readOnly={!isEditable}
+												/>
+											</div>
+										</>
+									)}
 								</div>
 							</div>
-						</div>
-					</>
+							<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
+								<div className="grid grid-cols-1">
+									{/* Address (9th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Permanent Address :</label>
+										<input
+											type="text"
+											name="address"
+											value={formData.address}
+											onChange={handleChange}
+											placeholder="Door No & Street"
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
+									</div>
+								</div>
+								<div className="grid grid-cols-3 gap-6">
+									{/* State (10th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">State :</label>
+										<select
+											name="state"
+											value={formData.state}
+											onChange={handleChange}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required disabled={!isEditable}
+										>
+											<option value="Andhra Pradesh">Andhra Pradesh</option>
+											<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+											<option value="Assam">Assam</option>
+											<option value="Bihar">Bihar</option>
+											<option value="Chhattisgarh">Chhattisgarh</option>
+											<option value="Goa">Goa</option>
+											<option value="Gujarat">Gujarat</option>
+											<option value="Haryana">Haryana</option>
+											<option value="Himachal Pradesh">Himachal Pradesh</option>
+											<option value="Jharkhand">Jharkhand</option>
+											<option value="Karnataka">Karnataka</option>
+											<option value="Kerala">Kerala</option>
+											<option value="Madhya Pradesh">Madhya Pradesh</option>
+											<option value="Maharashtra">Maharashtra</option>
+											<option value="Manipur">Manipur</option>
+											<option value="Meghalaya">Meghalaya</option>
+											<option value="Mizoram">Mizoram</option>
+											<option value="Nagaland">Nagaland</option>
+											<option value="Odisha">Odisha</option>
+											<option value="Punjab">Punjab</option>
+											<option value="Rajasthan">Rajasthan</option>
+											<option value="Sikkim">Sikkim</option>
+											<option value="Tamil Nadu">Tamil Nadu</option>
+											<option value="Telangana">Telangana</option>
+											<option value="Tripura">Tripura</option>
+											<option value="Uttar Pradesh">Uttar Pradesh</option>
+											<option value="Uttarakhand">Uttarakhand</option>
+											<option value="West Bengal">West Bengal</option>
+											<option value="Andaman and Nicobar Islands">
+												Andaman and Nicobar Islands
+											</option>
+											<option value="Chandigarh">Chandigarh</option>
+											<option value="Dadra and Nagar Haveli and Daman and Diu">
+												Dadra and Nagar Haveli and Daman and Diu
+											</option>
+											<option value="Delhi">Delhi</option>
+											<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+											<option value="Ladakh">Ladakh</option>
+											<option value="Lakshadweep">Lakshadweep</option>
+											<option value="Puducherry">Puducherry</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+									{/* District (11th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">District :</label>
+										<select
+											name="district"
+											value={formData.district}
+											onChange={handleChange}
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required disabled={!isEditable}
+										>
+											<option value="Ariyalur">Ariyalur</option>
+											<option value="Chengalpattu">Chengalpattu</option>
+											<option value="Chennai">Chennai</option>
+											<option value="Coimbatore">Coimbatore</option>
+											<option value="Cuddalore">Cuddalore</option>
+											<option value="Dharmapuri">Dharmapuri</option>
+											<option value="Dindigul">Dindigul</option>
+											<option value="Erode">Erode</option>
+											<option value="Kallakurichi">Kallakurichi</option>
+											<option value="Kanchipuram">Kanchipuram</option>
+											<option value="Kanyakumari">Kanyakumari</option>
+											<option value="Karur">Karur</option>
+											<option value="Krishnagiri">Krishnagiri</option>
+											<option value="Madurai">Madurai</option>
+											<option value="Nagapattinam">Nagapattinam</option>
+											<option value="Namakkal">Namakkal</option>
+											<option value="Nilgiris">Nilgiris</option>
+											<option value="Perambalur">Perambalur</option>
+											<option value="Pudukkottai">Pudukkottai</option>
+											<option value="Ramanathapuram">Ramanathapuram</option>
+											<option value="Ranipet">Ranipet</option>
+											<option value="Salem">Salem</option>
+											<option value="Sivaganga">Sivaganga</option>
+											<option value="Tenkasi">Tenkasi</option>
+											<option value="Thanjavur">Thanjavur</option>
+											<option value="Theni">Theni</option>
+											<option value="Thoothukudi">Thoothukudi</option>
+											<option value="Tiruchirappalli">Tiruchirappalli</option>
+											<option value="Tirunelveli">Tirunelveli</option>
+											<option value="Tirupathur">Tirupathur</option>
+											<option value="Tiruppur">Tiruppur</option>
+											<option value="Tiruvallur">Tiruvallur</option>
+											<option value="Tiruvannamalai">Tiruvannamalai</option>
+											<option value="Tiruvarur">Tiruvarur</option>
+											<option value="Vellore">Vellore</option>
+											<option value="Viluppuram">Viluppuram</option>
+											<option value="Virudhunagar">Virudhunagar</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+									{/* Pincode (12th) */}
+									<div>
+										<label className="block mb-2 font-semibold text-gray-700">Pincode :</label>
+										<input
+											type="text"
+											name="pin"
+											maxLength="6"
+											value={formData.pin}
+											onChange={(e) => {
+												const value = e.target.value.replace(/\D/g, '');
+												setFormData((prev) => ({ ...prev, pin: value }));
+											}}
+											placeholder="Pincode"
+											className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
+											required readOnly={!isEditable}
+										/>
+									</div>
+									<div>
+										<label className="block mb-3 font-semibold text-sm text-gray-700">
+											Jamath / Self Declaration Letter {formData.studentType === 'Fresher' && <span className="text-red-600">*</span>} :
+										</label>
+
+										<input
+											type="file"
+											name="jamath"
+											onChange={handleFileChange}
+											className="w-full p-2 border border-gray-600 rounded-lg text-gray-900 bg-white"
+											readOnly={!isEditable}
+										/>
+										{fileName && (
+											<p className="mt-1 text-sm text-gray-700">Selected File: {fileName}</p>
+										)}
+									</div>
+								</div>
+							</div>
+						</>
+					)
+				}
+				{isEditable && (
+					<div className="flex justify-end">
+						<button type="submit"
+							className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
+						>
+							Submit
+						</button>
+					</div>
 				)}
-				<div className="flex justify-end">
-					<button
-						type="submit"
-						className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
-					>
-						Submit
-					</button>
-				</div>
-			</form>
+			</form >
 		</div >
 	)
 }
