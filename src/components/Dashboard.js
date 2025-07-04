@@ -159,107 +159,106 @@ const Dashboard = () => {
     const barColors = ['bg-fuchsia-500', 'bg-green-900', 'bg-blue-500', 'bg-teal-500', 'bg-orange-500'];
 
     return (
-        <div className="container mx-auto p-6 max-w-10xl 2xl:py-16">
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                {[
-                    { icon: faUsers, label: 'Total Applicants', value: data.totalApplication },
-                    { icon: faGraduationCap, label: 'Students Benefitted', value: data.totalBenefit },
-                    { icon: faMoneyCheckAlt, label: 'Scholarship Awarded', value: formatCurrency(totalamount) },
-                    { icon: faHandsHelping, label: 'Generous Donors', value: data.totalDonars },
-                ].map((item, idx) => (
-                    <div key={idx} className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center hover:scale-105 transition-transform duration-300">
-                        <FontAwesomeIcon icon={item.icon} className="text-blue-600 text-3xl mb-3" />
-                        <div className="text-gray-700 text-lg font-semibold mb-1">{item.label}</div>
-                        <div className="text-black text-2xl font-bold">{item.value}</div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Pie Charts */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-6 mb-8">
-                {[pieData, pieData1, pieData2].map((chartData, i) => (
-                    <div
-                        key={i}
-                        className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-between"
-                    >
-                        <div className="relative w-[240px] h-[240px]">
-                            <Pie data={chartData} options={pieOptions} />
+        <div className='min-h-screen flex justify-center items-center'>
+            <div className="container p-6 2xl:px-6">
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 2xl:gap-16 2xl:mb-16">
+                    {[
+                        { icon: faUsers, label: 'Total Applicants', value: data.totalApplication },
+                        { icon: faGraduationCap, label: 'Students Benefitted', value: data.totalBenefit },
+                        { icon: faMoneyCheckAlt, label: 'Scholarship Awarded', value: formatCurrency(totalamount) },
+                        { icon: faHandsHelping, label: 'Generous Donors', value: data.totalDonars },
+                    ].map((item, idx) => (
+                        <div key={idx} className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center hover:scale-105 transition-transform duration-300">
+                            <FontAwesomeIcon icon={item.icon} className="text-blue-600 text-3xl mb-3" />
+                            <div className="text-gray-700 text-lg font-semibold mb-1">{item.label}</div>
+                            <div className="text-black text-2xl font-bold">{item.value}</div>
                         </div>
-                        <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
-                            {chartData.labels.map((label, idx) => (
-                                <div key={idx} className="flex items-center space-x-2">
-                                    <div
-                                        className="w-3 h-3 rounded-sm"
-                                        style={{ backgroundColor: chartData.datasets[0].backgroundColor[idx] }}
-                                    ></div>
-                                    <span className="whitespace-nowrap">{label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            {/* Bar Charts */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <Bar
-                        data={columnBarChartData}
-                        height={300}
-                        options={{
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                datalabels: {
-                                    color: '#333',
-                                    font: { weight: 'bold', size: 12 },
-                                    align: 'end',
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Student Distribution by Year and Gender',
-                                    font: { size: 18 },
-                                },
-                            },
-                            scales: {
-                                x: {
-                                    title: { display: true, text: 'Year', font: { size: 14 } },
-                                    grid: { display: false },
-                                },
-                                y: {
-                                    beginAtZero: true,
-                                    title: { display: true, text: 'Count', font: { size: 14 } },
-                                    grid: { display: false },
-                                },
-                            },
-                        }}
-                    />
+                    ))}
                 </div>
-                <div className="bg-white p-6 rounded-xl shadow-lg">
-                    <div className="space-y-5">
-                        {barData.labels.map((label, index) => {
-                            const value = barData.datasets[0].data[index];
-                            const percentage = (value / Math.max(...barData.datasets[0].data)) * 100;
-                            const [labelText] = label.split(/(?=\d)/);
-                            const countText = label.match(/\d+ \/ \d+/)?.[0] || '';
-
-                            return (
-                                <div key={index}>
-                                    <div className="flex justify-between mb-1 text-gray-700 font-medium">
-                                        <span>{labelText.trim()}</span>
-                                        <span>{countText}</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-4">
+                {/* Pie Charts */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 gap-6 mb-6 2xl:gap-16 2xl:mb-16">
+                    {[pieData, pieData1, pieData2].map((chartData, i) => (
+                        <div
+                            key={i}
+                            className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center justify-between"
+                        >
+                            <div className="relative w-[240px] h-[240px]">
+                                <Pie data={chartData} options={pieOptions} />
+                            </div>
+                            <div className="mt-4 flex flex-wrap justify-center gap-4 text-sm text-gray-700">
+                                {chartData.labels.map((label, idx) => (
+                                    <div key={idx} className="flex items-center space-x-2">
                                         <div
-                                            className={`${barColors[index % barColors.length]} h-4 rounded-full`}
-                                            style={{ width: `${percentage}%` }}
+                                            className="w-3 h-3 rounded-sm"
+                                            style={{ backgroundColor: chartData.datasets[0].backgroundColor[idx] }}
                                         ></div>
+                                        <span className="whitespace-nowrap">{label}</span>
                                     </div>
-                                </div>
-                            )
-                        })}
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                {/* Bar Charts */}
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 2xl:gap-16">
+                    <div className="bg-white p-6 rounded-xl shadow-lg">
+                        <Bar
+                            data={columnBarChartData}
+                            height={300}
+                            options={{
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    datalabels: {
+                                        color: '#333',
+                                        font: { weight: 'bold', size: 12 },
+                                        align: 'end',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Student Distribution by Year and Gender',
+                                        font: { size: 18 },
+                                    },
+                                },
+                                scales: {
+                                    x: {
+                                        title: { display: true, text: 'Year', font: { size: 14 } },
+                                        grid: { display: false },
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        title: { display: true, text: 'Count', font: { size: 14 } },
+                                        grid: { display: false },
+                                    },
+                                },
+                            }}
+                        />
+                    </div>
+                    <div className="bg-white p-6 rounded-xl shadow-lg">
+                        <div className="space-y-5">
+                            {barData.labels.map((label, index) => {
+                                const value = barData.datasets[0].data[index];
+                                const percentage = (value / Math.max(...barData.datasets[0].data)) * 100;
+                                const [labelText] = label.split(/(?=\d)/);
+                                const countText = label.match(/\d+ \/ \d+/)?.[0] || '';
+
+                                return (
+                                    <div key={index}>
+                                        <div className="flex justify-between mb-1 text-gray-700 font-medium">
+                                            <span>{labelText.trim()}</span>
+                                            <span>{countText}</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-4">
+                                            <div
+                                                className={`${barColors[index % barColors.length]} h-4 rounded-full`}
+                                                style={{ width: `${percentage}%` }}
+                                            ></div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

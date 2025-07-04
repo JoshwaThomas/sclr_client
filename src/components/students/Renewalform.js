@@ -142,9 +142,9 @@ const ScholarshipForm = () => {
 								<option value="General">General</option>
 								<option value="Muaddin">Mu-addin</option>
 								<option value="Hazrath">Hazrath</option>
-								<option value="FatherMotherSeparated">Father & Mother Separated</option>
-								<option value="FatherExpired">Father Expired</option>
-								<option value="Singleparent">Single Parent</option>
+								<option value="Father Mother Separated">Father & Mother Separated</option>
+								<option value="Father Expired">Father Expired</option>
+								<option value="Single Parent">Single Parent</option>
 								<option value="Orphan">Orphan</option>
 							</select>
 						</div>
@@ -230,6 +230,7 @@ const ScholarshipForm = () => {
 												onChange={handleChange}
 												className="scale-125" required disabled={!isEditable}
 											/>
+											VI
 										</label>
 									</>
 								)}
@@ -384,7 +385,7 @@ const ScholarshipForm = () => {
 											setFormData((prev) => ({ ...prev, mobileNo: value }));
 										}}
 										className="w-full p-2 border border-black rounded-md text-slate-950"
-										required readOnly
+										required readOnly={!isEditable}
 									/>
 								</div>
 								{/* Religion (2nd) */}
@@ -707,7 +708,6 @@ const ScholarshipForm = () => {
 										<label className="block mb-3 font-semibold text-sm text-gray-700">
 											Jamath / Self Declaration Letter {formData.studentType === 'Fresher' && <span className="text-red-600">*</span>} :
 										</label>
-
 										<input
 											type="file"
 											name="jamath"

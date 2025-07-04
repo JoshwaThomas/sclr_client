@@ -182,9 +182,9 @@ const ScholarshipForm = () => {
 								<option value="General">General</option>
 								<option value="Muaddin">Mu-addin</option>
 								<option value="Hazrath">Hazrath</option>
-								<option value="FatherMotherSeparated">Father & Mother Separated</option>
-								<option value="FatherExpired">Father Expired</option>
-								<option value="Singleparent">Single Parent</option>
+								<option value="Father Mother Separated">Father & Mother Separated</option>
+								<option value="Father Expired">Father Expired</option>
+								<option value="Single Parent">Single Parent</option>
 								<option value="Orphan">Orphan</option>
 							</select>
 						</div>
@@ -680,7 +680,7 @@ const ScholarshipForm = () => {
 										name="sibling"
 										value="No"
 										checked={siblings === "No"}
-										onChange={(e) => setSiblings(e.target.value)}
+										onChange={(e) => setSiblings(e.target.value.toUpperCase())}
 										className="scale-125"
 										required
 									/>
@@ -1000,7 +1000,7 @@ const ScholarshipForm = () => {
 												type="text"
 												name="marksSecuredSchool"
 												value={marksSecuredSchool}
-												maxLength="3"
+												maxLength="4"
 												onChange={(e) => {
 													const value = e.target.value.replace(/\D/g, '');
 													setMarksSecuredSchool(value)

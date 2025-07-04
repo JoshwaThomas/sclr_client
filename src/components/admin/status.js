@@ -496,7 +496,7 @@ function Status() {
     }
 
     return (
-        <div className="container mx-auto p-8 2xl:py-20">
+        <div className="w-full p-6">
             <Notification
                 message={notification.message}
                 type={notification.type}

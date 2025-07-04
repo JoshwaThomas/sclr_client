@@ -21,7 +21,6 @@ function Status() {
                     params: { registerNo: staffId }
                 });
                 setStudent(res.data);
-                // console.log(student)
                 setShowModal(true);
                 if (res.data && res.data.message) {
                     if (res.data.message === 'Applicant does not exist') {
@@ -60,7 +59,7 @@ function Status() {
 
     return (
         <div className="container mx-auto">
-            <form className="space-y-1 bg-gray-50 rounded-2xl">
+            <form className="space-y-1 rounded-2xl">
                 {showModal && student && student.registerNo ? (
                     <>
                         <div>

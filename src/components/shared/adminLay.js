@@ -84,7 +84,7 @@ function StudentLayout() {
 					</button>
 				</nav>
 			</aside>
-			<main className="flex-1 w-full overflow-y-auto bg-zinc-50">
+			<main className="flex-1 w-full overflow-y-auto">
 				<Outlet />
 			</main>
 		</div>
