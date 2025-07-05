@@ -1,4 +1,4 @@
-import React, { useState,  } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function Accyears() {
@@ -9,9 +9,8 @@ function Accyears() {
     const Submit = (e) => {
         e.preventDefault();
         axios.post(`${apiUrl}/api/admin/acyear`, { acyear })
-            .then(result => {
+            .then(() => {
                 alert('Academic year set to active successfully.');
-                // fetchActiveAcademicYear(); // Update active academic year after setting
                 window.location.reload();
             })
             .catch(err => {
@@ -21,39 +20,44 @@ function Accyears() {
     };
 
     return (
-        <div>
-             <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Academic Year</h3>
-
-             <div className="grid grid-cols-1 p-10 rounded-xl border border-black md:grid-cols-2 gap-4">
-                <form onSubmit={Submit}>
-                    {/* <label className="block mb-1 flex inline-flex text-white ml-10">Academic: {activeAcYear}</label> */}
+        <div className="p-6">
+            <h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
+                Academic Year Selection
+            </h3>
+            <form onSubmit={Submit} className=" bg-white border border-gray-300 rounded-lg shadow p-6">
+                <label htmlFor="acyear" className="block text-lg font-semibold mb-4 text-gray-700 w-[50%]">
+                    Select Academic Year :
+                </label>
+                <div className="flex items-center space-x-4 w-[50%]">
                     <select
+                        id="acyear"
                         name="acyear"
                         value={acyear}
                         onChange={(e) => setAcYear(e.target.value)}
-                        className="w-28 p-1 border border-black rounded-md text-slate-950 "
+                        className="flex-grow border border-gray-400 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
                         required
                     >
-                        <option value="">Select</option>
-                        <option value="2022-2023">2022-2023</option>
-                        <option value="2023-2024">2023-2024</option>
-                        <option value="2024-2025">2024-2025</option>
-                        <option value="2025-2026">2025-2026</option>
-                        <option value="2026-2027">2026-2027</option>
-                        <option value="2027-2028">2027-2028</option>
-                        <option value="2028-2029">2028-2029</option>
-                        <option value="2029-2030">2029-2030</option>
-                        <option value="2030-2031">2030-2031</option>
-                        <option value="2031-2032">2031-2032</option>
-                        <option value="2032-2033">2032-2033</option>
+                        <option value="">-- Select --</option>
+                        {Array.from({ length: 11 }, (_, i) => {
+                            const start = 2022 + i;
+                            const end = start + 1;
+                            return (
+                                <option key={start} value={`${start}-${end}`}>
+                                    {start}-{end}
+                                </option>
+                            )
+                        })}
                     </select>
-                    <button type='submit' className="py-1 border px-4 font-bold ml-3 text-white rounded-md bg-orange-500 hover:bg-orange-700">Set</button>
-
-                </form>
-            </div>
-
+                    <button
+                        type="submit"
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-5 py-2 rounded-md transition"
+                    >
+                        Set
+                    </button>
+                </div>
+            </form>
         </div>
     )
 }
 
-export default Accyears
+export default Accyears;

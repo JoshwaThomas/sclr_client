@@ -6,7 +6,6 @@ function AttendMoral() {
     const [prevAttendancetot, setPrevattendancetot] = useState('');
     const [currAttendancetot, setCurrattendancetot] = useState('');
     const [deeniyathPer, setdeeniyathPer] = useState({});
-    // const [classAttendanceRem, setClassAttendanceRem] = useState({});
     const [totalwork, setTotalwork] = useState(0);
     const [totaldata, setTotaldata] = useState(0);
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -18,21 +17,42 @@ function AttendMoral() {
                     axios.get(`${apiUrl}/fresh`),
                     axios.get(`${apiUrl}/renewal`)
                 ]);
-                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
+                const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`);
                 const curacyear = acyear.data.acyear;
 
-                const SFM1 = freshResponse.data.filter(user => user.deeniyath === 'No' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
-                const SFM2 = renewalResponse.data.filter(user => user.deeniyath === 'No' && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
+                const SFM1 = freshResponse.data.filter(user =>
+                    user.deeniyath === 'No' &&
+                    user.procategory !== 'SFW' &&
+                    user.action === 0 &&
+                    user.acyear === curacyear.acyear
+                );
+                const SFM2 = renewalResponse.data.filter(user =>
+                    user.deeniyath === 'No' &&
+                    user.procategory !== 'SFW' &&
+                    user.action === 0 &&
+                    user.acyear === curacyear.acyear
+                );
 
                 const totalsfm = SFM1.length + SFM2.length;
 
-                const freshAided = freshResponse.data.filter(user => user.deeniyath === 'No' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
-                const renewalAided = renewalResponse.data.filter(user => user.deeniyath === 'No' && user.deeniyathPer === 0 && user.procategory !== 'SFW' && user.action === 0 && user.acyear === curacyear.acyear);
+                const freshAided = freshResponse.data.filter(user =>
+                    user.deeniyath === 'No' &&
+                    user.deeniyathPer === 0 &&
+                    user.procategory !== 'SFW' &&
+                    user.action === 0 &&
+                    user.acyear === curacyear.acyear
+                );
+                const renewalAided = renewalResponse.data.filter(user =>
+                    user.deeniyath === 'No' &&
+                    user.deeniyathPer === 0 &&
+                    user.procategory !== 'SFW' &&
+                    user.action === 0 &&
+                    user.acyear === curacyear.acyear
+                );
 
-                const totalfilter = freshAided.length + renewalAided;
-                const work = totalsfm - totalfilter;
-                setTotalwork(work)
-                setTotaldata(totalsfm)
+                const totalfilter = freshAided.length + renewalAided.length;
+                setTotalwork(totalsfm - totalfilter);
+                setTotaldata(totalsfm);
 
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
@@ -45,6 +65,7 @@ function AttendMoral() {
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
+        if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
         ));
@@ -57,27 +78,16 @@ function AttendMoral() {
                 const currAttendance = parseFloat(user.currAttendancedee) || 0;
                 const totalPrevAttendance = parseFloat(prevAttendancetot) || 0;
                 const totalCurrAttendance = parseFloat(currAttendancetot) || 0;
-        
+
                 if (user.semester === "I" || user.semester === "II") {
-                    if (totalCurrAttendance > 0) {
-                        const percentage = (currAttendance / totalCurrAttendance) * 100;
-                        acc[user.registerNo] = percentage.toFixed(2);
-                    } else {
-                        acc[user.registerNo] = '0';
-                    }
+                    acc[user.registerNo] = totalCurrAttendance > 0 ? ((currAttendance / totalCurrAttendance) * 100).toFixed(2) : '0';
                 } else {
-                    if (totalPrevAttendance + totalCurrAttendance > 0) {
-                        const percentage = ((prevAttendance + currAttendance) /
-                            (totalPrevAttendance + totalCurrAttendance)) * 100;
-                        acc[user.registerNo] = percentage.toFixed(2);
-                    } else {
-                        acc[user.registerNo] = '0';
-                    }
+                    const total = totalPrevAttendance + totalCurrAttendance;
+                    acc[user.registerNo] = total > 0 ? (((prevAttendance + currAttendance) / total) * 100).toFixed(2) : '0';
                 }
-        
+
                 return acc;
             }, {});
-        
             setdeeniyathPer(updatedAttendancePer);
         };
 
@@ -86,10 +96,8 @@ function AttendMoral() {
 
     const updateAttendance = async (e) => {
         e.preventDefault();
-
         const updates = {};
         const remarks = {};
-
         users.forEach(user => {
             updates[user.registerNo] = deeniyathPer[user.registerNo];
             remarks[user.registerNo] = user.deeniyathRem;
@@ -103,93 +111,127 @@ function AttendMoral() {
                 alert('Something went wrong');
             }
         } catch (err) {
-            console.error('Error ', err);
+            console.error('Error', err);
             window.alert("Something Went Wrong with the server");
         }
     };
 
     return (
-        <div>
-            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Moral Attendance</h3>
-            <div className='flex inline-flex font-bold text-xl  '>
-                <div> Total No of Applicants: {totaldata}</div>
-                <div className='ml-10 '>Completed: {totalwork}</div>
-                <div className='ml-10 '>Pending:  {users.length}</div>
+        <div className="p-6">
+            <h1 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
+                Moral Attendance
+            </h1>
+
+            {/* Summary cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-lg font-semibold">
+                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
+                    Total Applicants : <span className="float-right">{totaldata}</span>
+                </div>
+                <div className="bg-white border-l-4 border-green-600 p-4 rounded shadow-md">
+                    Completed : <span className="float-right">{totalwork}</span>
+                </div>
+                <div className="bg-white border-l-4 border-red-600 p-4 rounded shadow-md">
+                    Pending : <span className="float-right">{users.length}</span>
+                </div>
             </div>
-            <div className='flex inline-flex  mt-10'>
-                <div className="w-auto ">
-                    <label className='text-lg font-bold'>Previous Year Working Days</label>
+
+            {/* Working days input */}
+            <div className="flex flex-wrap justify-between items-center mb-6">
+                <div className="flex items-center gap-4">
+                    <label className="font-semibold text-lg">Previous Year Working Days :</label>
                     <input
-                        type='text'
-                        name='prevAttendancetot'
-                        className="w-16 ml-4 border font-bold border-black rounded-md  text-slate-950"
+                        type="text"
+                        className="w-20 border border-black px-2 py-1.5 rounded text-right"
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
                     />
                 </div>
-                <div className="w-auto  ml-5">
-                    <label className='text-lg font-bold'>Current Year Working Days</label>
+                <div className="flex items-center gap-4">
+                    <label className="font-semibold text-lg">Current Year Working Days :</label>
                     <input
-                        type='text'
-                        name='currAttendancetot'
-                        className="w-16 ml-4 border font-bold border-black rounded-md  text-slate-950"
+                        type="text"
+                        className="w-20 border border-black px-2 py-1.5 rounded text-right"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
                     />
                 </div>
-                <div className="text-right font-bold text-xl ml-28 ">No of Students:  {users.length}</div>
+                <div className="font-semibold text-lg">
+                    No of Students : {users.length}
+                </div>
             </div>
-            <div className="grid grid-cols-10 w-auto mt-7 text-white bg-emerald-500 sticky top-0">
-                <div className="font-bold border border-black text-center py-3 col-span-1">Register No.</div>
-                <div className="font-bold border border-black text-center py-3 col-span-3">Name</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Department</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Previous Year</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Current Year</div>
-                <div className="font-bold border border-black text-center py-3 col-span-1">Percentage</div>
-                <div className="font-bold border border-black text-center py-3 col-span-2">Remark</div>
+
+            {/* Table */}
+            <div className="overflow-x-auto rounded-lg shadow ring-1 ring-black ring-opacity-5">
+                <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+                    <thead className="bg-emerald-700 sticky top-0 z-10">
+                        <tr className='h-[70px]'>
+                            {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
+                                <th key={i} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                    {heading}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody className="bg-white">
+                        {users.length === 0 ? (
+                            <tr>
+                                <td colSpan={7} className="text-center py-6 text-gray-500 font-semibold">
+                                    No data found.
+                                </td>
+                            </tr>
+                        ) : (
+                            users.map((user, index) => (
+                                <tr key={`${user._id}-${index}`} className="hover:bg-gray-50 transition-colors h-[80px] border-t border-gray-300">
+                                    <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
+                                    <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
+                                    <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
+                                    <td className="px-4 py-3 text-center border-r">
+                                        <input
+                                            type="text"
+                                            className="w-20 border p-2 rounded text-right"
+                                            disabled={user.semester === "I" || user.semester === "II"}
+                                            value={user.prevAttendancedee || ''}
+                                            onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
+                                        />
+                                    </td>
+                                    <td className="px-4 py-3 text-center border-r">
+                                        <input
+                                            type="text"
+                                            className="w-20 border p-2 rounded text-right"
+                                            value={user.currAttendancedee || ''}
+                                            onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
+                                        />
+                                    </td>
+                                    <td className="px-4 py-3 text-center border-r font-semibold text-sm text-gray-800">
+                                        {deeniyathPer[user.registerNo] || '0.00'}
+                                    </td>
+                                    <td className="px-4 py-3 text-center">
+                                        <input
+                                            type="text"
+                                            className="w-full border p-2 rounded"
+                                            value={user.deeniyathRem || ''}
+                                            onChange={(e) => handleInputChange(user.registerNo, 'deeniyathRem', e.target.value)}
+                                        />
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
             </div>
-            <div className='overflow-y-auto max-h-[500px] scrollbar-hide'>
-                {users.map((user, index) => (
-                    <div key={`${user._id}-${index}`} className={`hidden md:grid grid-cols-10 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.registerNo}</div>
-                        <div className="font-bold border border-black text-center uppercase py-3 col-span-3">{user.name}</div>
-                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">{user.dept}</div>
-                        <div className="font-bold border border-black text-center uppercase py-3 col-span-1">
-                            <input
-                                type='text'
-                                name='prevAttendance'
-                                className="w-14 border text-right font-bold border-black rounded-md"
-                                // value={user.prevAttendancedee || ''}
-                                disabled = {user.semester === 'I' || user.semester === 'II'}
-                                onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
-                            />
-                        </div>
-                        <div className="font-bold border border-black text-center py-3 col-span-1">
-                            <input
-                                type='text'
-                                name='currAttendance'
-                                className="w-14 border text-right font-bold border-black rounded-md"
-                                // value={user.currAttendancedee || ''}
-                                onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
-                            />
-                        </div>
-                        <div className="font-bold border border-black text-center py-3 col-span-1">
-                            {deeniyathPer[user.registerNo] || ''}
-                        </div>
-                        <div className="font-bold border border-black text-center col-span-2">
-                            <input
-                                type='text'
-                                name='deeniyathRem'
-                                className="w-full h-full  border rounded-md"
-                                value={user.deeniyathRem || ''}
-                                onChange={(e) => handleInputChange(user.registerNo, 'deeniyathRem', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                ))}
-            </div>
-            <div className='text-right font-bold'>
-                <button onClick={updateAttendance} className="bg-blue-500 text-white py-2 px-4 rounded-md mt-4">Submit</button>
+
+            {/* Submit Button */}
+            <div className="text-right mt-6">
+                <button
+                    onClick={updateAttendance}
+                    disabled={!currAttendancetot || users.length === 0}
+                    className={`px-6 py-2 rounded-md font-semibold text-white ${!currAttendancetot || users.length === 0
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-blue-600 hover:bg-blue-700'
+                        }`}
+                >
+                    Submit
+                </button>
             </div>
         </div>
     );

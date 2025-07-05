@@ -4,86 +4,85 @@ import axios from "axios";
 
 function Setting() {
 
-  const [password, setPassword] = useState({ pass: '', conpass: '' })
-  const [isConpassTyped, setIsConpassTyped] = useState(false);
-  const [error, setError] = useState('');
-  // const [message, setMessage] = useState('');
-  const { staffId } = useParams();
-  const apiUrl = process.env.REACT_APP_API_URL;
+	const [password, setPassword] = useState({ pass: '', conpass: '' });
+	const [isConpassTyped, setIsConpassTyped] = useState(false);
+	const [error, setError] = useState('');
+	const { staffId } = useParams();
+	const apiUrl = process.env.REACT_APP_API_URL;
 
+	useEffect(() => {
+		if (isConpassTyped && password.pass !== password.conpass) {
+			setError('Passwords do not match');
+		} else { setError('') }
+	}, [password, isConpassTyped]);
 
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setPassword(prev => ({ ...prev, [name]: value }));
+		if (name === 'conpass') { setIsConpassTyped(true); }
+	};
 
-  useEffect(() => {
-    if (isConpassTyped && password.pass !== password.conpass) {
-      setError('Passwords do not match');
-    } else {
-      setError('');
-    }
-  }, [password, isConpassTyped]);
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (password.pass !== password.conpass) {
+			setError('Passwords do not match');
+			return;
+		}
+		try {
+			await axios.put(`${apiUrl}/api/admin/staffsetting/${staffId}`, { password: password.pass });
+			window.alert('Password Updated Successfully');
+		} catch (err) {
+			window.alert('Failed to update Password');
+		}
+	};
 
-  //   console.log(staffId)
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setPassword((prevPassword) => ({
-      ...prevPassword,
-      [name]: value,
-    }));
-
-    if (name === 'conpass') {
-      setIsConpassTyped(true);
-    }
-
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (password.pass !== password.conpass) {
-      setError('Passwords do not match');
-      return;
-    }
-    try {
-      await axios.put(`${apiUrl}/api/admin/staffsetting/${staffId}`, { password: password.pass });
-      window.alert('Password updated successfully');
-    } catch (err) {
-      window.alert('Failed to update password');
-    }
-  };
-
-
-
-
-  return (
-    <div>
-      <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white"> Password Change </h3>
-      <div className='border border-black rounded-xl p-5'>
-        <div className=''>
-          <label className="block mb-1 mt-3">Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
-          <input
-            type='password'
-            name='pass'
-            className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
-            value={password.pass}
-            onChange={handleChange}
-
-          />
-        </div>
-        <div>
-          <label className="block mb-1 mt-3 ">Re-Password:<span className=' text-red-500 text-lg'><sup>*</sup></span></label>
-          <input
-            type='password'
-            name='conpass'
-            className="w-48  md:w-44 p-2 border rounded-md text-slate-950"
-            value={password.conpass}
-            onChange={handleChange}
-          />
-        </div>
-        {isConpassTyped && error && <div style={{ color: 'red' }}>{error}</div>}
-        {/* {message && <div style={{ color: 'green' }}>{message}</div>} */}
-        <button onClick={handleSubmit} className="bg-blue-500 mt-10 text-white font-bold px-4 py-2 rounded hover:bg-black ">Update</button>
-      </div>
-    </div>
-  )
+	return (
+		<div className="p-6">
+			<h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
+				Change Password
+			</h3>
+			<div className="bg-white border border-gray-300 rounded-lg shadow p-6 w-full grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div className="">
+					<label className="block mb-2 font-semibold text-gray-700">
+						Password : <span className="text-red-500 text-lg">*</span>
+					</label>
+					<input
+						type="password"
+						name="pass"
+						value={password.pass}
+						onChange={handleChange}
+						className="w-full border border-gray-400 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
+						required
+					/>
+				</div>
+				<div className="">
+					<label className="block mb-2 font-semibold text-gray-700">
+						Re-enter Password : <span className="text-red-500 text-lg">*</span>
+					</label>
+					<input
+						type="password"
+						name="conpass"
+						value={password.conpass}
+						onChange={handleChange}
+						className="w-full border border-gray-400 rounded-md px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-400"
+						required
+					/>
+				</div>
+				{isConpassTyped && error && (
+					<p className="text-red-600 font-semibold text-sm">{error}</p>
+				)}
+			</div>
+			<div className="mt-6 flex justify-end">
+				<button
+					type="button"
+					onClick={handleSubmit}
+					className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-6 py-2 rounded-md transition"
+				>
+					Update
+				</button>
+			</div>
+		</div>
+	);
 }
 
-export default Setting
+export default Setting;

@@ -502,9 +502,9 @@ function Status() {
                 type={notification.type}
                 onClose={() => setNotification({ message: '', type: '' })}
             />
-            <form className="space-y-10 w-full">
+            <form className="space-y-6 w-full">
                 <div>
-                    <h3 className="text-xl w-full font-bold text-white bg-gray-700 px-6 py-2 rounded">
+                    <h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
                         Application Status
                     </h3>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboard, faMapSigns, faSignOutAlt, faGauge } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faMapSigns, faSignOutAlt, faChalkboard } from '@fortawesome/free-solid-svg-icons';
 import { TiThMenuOutline } from "react-icons/ti";
 
 function Renewal() {
@@ -25,7 +25,7 @@ function Renewal() {
 
 	const menus = [
 		{
-			icon: faGauge,
+			icon: faChalkboard,
 			name: 'Dashboard',
 			path: `/student/${staffId}/status`
 		},

@@ -1,157 +1,81 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useParams } from 'react-router-dom';
 import Jmclogo from '../../assets/jmclogo.png';
-// import Jmc from '../../assets/jmc_logo.png';
-import { TiThMenuOutline, TiClipboard, TiCogOutline, TiPower, } from "react-icons/ti";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { SlNotebook } from "react-icons/sl";
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faBars, faChalkboard, faTools, faSignOutAlt, faBuilding,
+	faBook, faClipboardList, faMapSigns
+} from '@fortawesome/free-solid-svg-icons';
 
 function StaffLayout() {
 
 	const navigate = useNavigate();
-	const { staffId } = useParams();
-	const { role } = useParams();
+	const { staffId, role } = useParams();
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
-
-	const handleMenuClick = () => {
-		if (window.innerWidth < 1024) {
-			setIsMenuOpen(false);
-		}
-	};
-
-
-	const menus = [
-		{
-			icon: < LuLayoutDashboard className="text-white text-2xl" />,
-			name: 'Dashboard',
-			path: `/staff/${staffId}/dashboard`,
-			show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Attendance',
-			path: `/staff/${staffId}/attendance`,
-			show: staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Attendance SFM',
-			path: `/staff/${staffId}/attendance/sfm`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Attendance SFW',
-			path: `/staff/${staffId}/attendance/sfw`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Deeniyath',
-			path: `/staff/${staffId}/deeniyath`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Deeniyath SFW',
-			path: `/staff/${staffId}/deeniyathsfw`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCMM' && staffId !== 'JMCCOE' && staffId !== 'JMCDM' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Moral',
-			path: `/staff/${staffId}/moral`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <SlNotebook className="text-white text-2xl" />,
-			name: 'Moral SFW',
-			path: `/staff/${staffId}/moralsfw`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCCOE' && staffId !== 'JMCDW' && staffId !== 'JMCMM'
-		},
-		{
-			icon: <TiClipboard className="text-white text-2xl" />,
-			name: 'COE',
-			path: `/staff/${staffId}/coe`,
-			show: staffId !== 'JMCRAA' && staffId !== 'JMCRAS' && staffId !== 'JMCRAW' && staffId !== 'JMCDM' && staffId !== 'JMCMM' && staffId !== 'JMCDW' && staffId !== 'JMCMW'
-		},
-		{
-			icon: <TiCogOutline className="text-white text-2xl" />,
-			name: 'Setting',
-			path: `/staff/${staffId}/settingstaff`,
-			show: staffId === 'JMCRAS' || staffId === 'JMCRAW' || staffId === 'JMCMM' || staffId === 'JMCCOE' || staffId === 'JMCDM' || staffId === 'JMCRAA' || staffId === 'JMCDW' || staffId === 'JMCMW'
-		},
-		{
-			icon: <TiCogOutline className="text-white text-2xl" />,
-			name: 'Guidelines',
-			path: `/staff/${staffId}/guidelines`
-		}
-	];
+	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+	const handleMenuClick = () => window.innerWidth < 1024 && setIsMenuOpen(false);
 
 	const handleLogout = () => {
-		// localStorage.removeItem('authToken');
-		localStorage.removeItem('token');
-		navigate('/login');
-		window.history.pushState(null, null, '/login');
+		localStorage.removeItem('token'); navigate('/login');
 	};
 
+	const menus = [
+		{ icon: faChalkboard, name: 'Dashboard', path: `/staff/${staffId}/dashboard`, show: ['JMCRAS', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDM', 'JMCRAA', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faClipboardList, name: 'Attendance Aided', path: `/staff/${staffId}/attendance`, show: !['JMCRAS', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDM', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faClipboardList, name: 'Attendance SFM', path: `/staff/${staffId}/attendance/sfm`, show: !['JMCRAA', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDM', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faClipboardList, name: 'Attendance SFW', path: `/staff/${staffId}/attendance/sfw`, show: !['JMCRAA', 'JMCRAS', 'JMCDM', 'JMCMM', 'JMCCOE', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faBook, name: 'Deeniyath Men', path: `/staff/${staffId}/deeniyath`, show: !['JMCRAA', 'JMCRAS', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faBook, name: 'Deeniyath Women', path: `/staff/${staffId}/deeniyathsfw`, show: !['JMCRAA', 'JMCRAS', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDM', 'JMCMW'].includes(staffId) },
+		{ icon: faBook, name: 'Moral Men', path: `/staff/${staffId}/moral`, show: !['JMCRAA', 'JMCRAS', 'JMCRAW', 'JMCDM', 'JMCCOE', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faBook, name: 'Moral Women', path: `/staff/${staffId}/moralsfw`, show: !['JMCRAA', 'JMCRAS', 'JMCRAW', 'JMCDM', 'JMCCOE', 'JMCDW', 'JMCMM'].includes(staffId) },
+		{ icon: faBuilding, name: 'COE', path: `/staff/${staffId}/coe`, show: !['JMCRAA', 'JMCRAS', 'JMCRAW', 'JMCDM', 'JMCMM', 'JMCDW', 'JMCMW'].includes(staffId) },
+		{ icon: faTools, name: 'Settings', path: `/staff/${staffId}/settingstaff`, show: ['JMCRAS', 'JMCRAW', 'JMCMM', 'JMCCOE', 'JMCDM', 'JMCRAA', 'JMCDW', 'JMCMW'].includes(staffId) },
+	]
+
 	return (
-		<div className="flex flex-row bg-zinc-50 h-screen w-screen ">
-			<div className={`bg-emerald-700 w-64 p-3  h-screen flex flex-col text-black transition-transform transform lg:translate-x-0 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'
-				} lg:static fixed z-50`}>
-				<div className='flex flex-col mb-10 place-items-center'>
-					<img src={Jmclogo} alt="" className="w-36 h-40" />
-					<div className='mt-2 text-white'>
-						<span className="text-sm font-extrabold text-center">JAMAL MOHAMED COLLEGE<br /></span>
-						<span className="text-sm font-bold ml-12 text-center">(Autonomous)<br /></span>
-						<span className="text-sm font-bold text-center">TIRUCHIRAPPALLI - 620 020<br /></span>
+		<div className="flex w-screen h-screen overflow-hidden bg-white">
+			{/* Sidebar */}
+			<aside className={`bg-emerald-700 w-72 flex flex-col text-white p-4 gap-3 transition-transform duration-300 lg:translate-x-0 ${isMenuOpen ? 'translate-x-0 fixed z-50' : '-translate-x-full lg:static'}`}>
+				<div className="flex flex-col items-center mb-4">
+					<img src={Jmclogo} alt="JMC Logo" className="w-32 h-32" />
+					<div className="text-center mt-2 mb-5 text-sm font-semibold leading-5">
+						<p>JAMAL MOHAMED COLLEGE</p>
+						<p>(Autonomous)</p>
+						<p>TIRUCHIRAPPALLI - 620 020</p>
 					</div>
-					<div className='mt-4 text-white font-bold'>{staffId} </div>
-					<div> {role}</div>
-
+					<div className="bg-emerald-600 text-white rounded-md py-1 px-2 text-sm font-bold"> {staffId} </div>
+					<div className="text-xs mt-1 text-white/80 font-medium"> {role} </div>
 				</div>
-				{menus.filter(menu => menu.show).map((item, index) => (
-					<NavLink
-						key={index}
-						to={item.path}
-						onClick={handleMenuClick}
-						className={({ isActive }) =>
-							`space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50 ${isActive ? 'bg-black rounded-[5px] bg-opacity-50' : ''}`
-						}
+				{/* Menus */}
+				<nav className="flex-1 space-y-3 overflow-y-auto scrollbar-hide">
+					{menus.filter(menu => menu.show !== false).map((item, idx) => (
+						<NavLink
+							key={idx}
+							to={item.path}
+							onClick={handleMenuClick}
+							className={
+								({ isActive }) =>
+									`flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all 
+									duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''
+								}`
+							}
+						>
+							<FontAwesomeIcon icon={item.icon} className="text-base w-4" />
+							<span className="text-md">{item.name}</span>
+						</NavLink>
+					))}
+					<button
+						onClick={handleLogout}
+						className="w-full flex items-center space-x-3 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
 					>
-						{item.icon}
-						<label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
-							{item.name}
-						</label>
-					</NavLink>
-				))}
-				<button
-					onClick={handleLogout}
-					className="space-x-4 text-xl pl-[5px] flex items-center h-[45px] transition-all duration-800 hover:bg-black hover:rounded-[5px] hover:bg-opacity-50"
-				>
-					<TiPower className="text-white text-2xl " />
-					<label className="text-center cursor-pointer font-medium text-base text-white relative z-10">
-						Logout
-					</label>
-				</button>
-			</div>
-
-			{/* mobile view */}
-			<div className="lg:hidden p-3 fixed top-0 left-0 z-50">
-				<button onClick={toggleMenu} className="text-white text-3xl ">
-					<TiThMenuOutline />
-				</button>
-			</div>
-			<div className="p-4 flex-1 overflow-auto overflow-scroll">
-				<div className="mt-4">
-					<Outlet />
-				</div>
-			</div>
+						<FontAwesomeIcon icon={faSignOutAlt} className="text-base w-4" />
+						<span>Logout</span>
+					</button>
+				</nav>
+			</aside>
+			{/* Main Content */}
+			<main className="flex-1 w-full overflow-y-auto"> <Outlet /> </main>
 		</div>
 	);
 }

@@ -4,7 +4,7 @@ import Jmclogo from '../../assets/jmclogo.png';
 import { TiClipboard, TiThMenuOutline } from "react-icons/ti";
 import { TiArrowBack } from "react-icons/ti";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClipboard, faUndo } from '@fortawesome/free-solid-svg-icons';
+import { faChalkboard, faUndo } from '@fortawesome/free-solid-svg-icons';
 
 function StudentLayout() {
 
@@ -19,7 +19,7 @@ function StudentLayout() {
 
     let menus = [
         {
-            icon: faClipboard,
+            icon: faChalkboard,
             name: 'Application',
             path: '/freshstudent/application/fresh'
         },

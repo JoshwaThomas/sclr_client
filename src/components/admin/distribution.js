@@ -4,7 +4,7 @@ import Loading from '../../assets/Pulse.svg';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-function Action() {
+function Distribution() {
 
     const [users, setUsers] = useState([]);
     const [filterUsers, setFilterUsers] = useState([]);
@@ -35,7 +35,7 @@ function Action() {
         fetchData();
     }, [apiUrl]);
 
-    useEffect(() => {
+    useEffect(() => { 
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(res => {
                 setData(res.data);
@@ -92,7 +92,7 @@ function Action() {
 
     return (
         <div className="p-6">
-            <h1 className="text-xl font-semibold text-white bg-gray-700 p-3 px-4 mb-6">
+            <h1 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
                 Distribution Statement
             </h1>
             <div className="flex flex-wrap gap-3 items-center justify-between mb-4">
@@ -119,7 +119,7 @@ function Action() {
                             {['Reg No', 'Name', 'Department', 'Type', 'Donor Name', 'Amount'].map((heading) => (
                                 <th
                                     key={heading}
-                                    className="px-6 py-4 text-center text-sm font-semibold text-white border-r border-gray-300"
+                                    className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300"
                                 >
                                     {heading}
                                 </th>
@@ -187,4 +187,4 @@ function Action() {
     )
 }
 
-export default Action;
+export default Distribution;

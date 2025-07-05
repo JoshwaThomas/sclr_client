@@ -3,12 +3,12 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-	faTachometerAlt, faHandHoldingHeart, faFileAlt, faIdCard, faTools,
+	faChalkboard, faHandHoldingHeart, faFileAlt, faIdCard, faTools,
 	faChartBar, faSignOutAlt, faMapSigns, faClipboard
 } from '@fortawesome/free-solid-svg-icons';
 import Jmclogo from '../../assets/jmclogo.png';
 
-function StudentLayout() {
+function AdminLayout() {
 
 	const navigate = useNavigate();
 	const [activeAcYear, setActiveAcYear] = useState('');
@@ -17,7 +17,7 @@ function StudentLayout() {
 	const role = Number(localStorage.getItem('role'));
 
 	const menus = [
-		{ icon: faTachometerAlt, name: 'Dashboard', path: 'dashboard', show: role !== 3 },
+		{ icon: faChalkboard, name: 'Dashboard', path: 'dashboard', show: role !== 3 },
 		{ icon: faHandHoldingHeart, name: 'Donor', path: '/admin/donormenu', show: role !== 3 },
 		{ icon: faClipboard, name: 'Application', path: '/admin/application', show: role !== 3 },
 		{ icon: faIdCard, name: 'Status', path: '/admin/status', show: role === 1 || role === 3 },
@@ -91,4 +91,4 @@ function StudentLayout() {
 	)
 }
 
-export default StudentLayout;
+export default AdminLayout;

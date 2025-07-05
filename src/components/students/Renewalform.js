@@ -48,12 +48,12 @@ const ScholarshipForm = () => {
 	}
 
 	const handleFileChange = (e) => {
+		const file = e.target.files[0];
 		if (formData.studentType !== 'Fresher') {
 			setFormData((prev) => ({ ...prev, jamath: file || null }));
 			setFileName(file?.name || '');
 			return;
 		}
-		const file = e.target.files[0];
 		if (file) {
 			const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
 			const fileSizeInKB = file.size / 1024;
