@@ -145,7 +145,7 @@ function AttendMoralSFW() {
                     />
                 </div>
                 <div className="font-semibold text-lg">
-                    No of Students: {users.length}
+                    No of Students : {users.length}
                 </div>
             </div>
             {/* Table */}

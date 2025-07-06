@@ -134,29 +134,52 @@ function Status() {
                                 Personal Details
                             </h3>
                             <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
-                                {student.semester === 'I' ? (
-                                    <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
-                                        {student.ugOrPg === 'PG' ? (
-                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last College Name</div>
-                                        ) : (
-                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Last School Name</div>
-                                        )}
-                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.schoolName || 'N/A'}</div>
-                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Percentage of Mark</div>
-                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.percentageOfMarkSchool || 'N/A'}</div>
-                                        <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">Year of Passing</div>
-                                        <div className="flex justify-center p-3">{student.yearOfPassing || 'N/A'}</div>
+                                <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
+                                    {student.semester === 'I' ? (
+                                        <>
+                                            {/* <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                {student.ugOrPg === 'PG' ? 'Last College Name' : 'Last School Name'}
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {student.schoolName || 'N/A'}
+                                            </div> */}
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Percentage of Mark
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {student.percentageOfMarkSchool || 'N/A'}
+                                            </div>
+                                            {/* <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Year of Passing
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {student.yearOfPassing || 'N/A'}
+                                            </div> */}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Percentage of Mark
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {student.semPercentage === 0 ? 'Pending' : student.semPercentage}
+                                            </div>
+                                        </>
+                                    )}
+                                    {/* Common Fields - continue the same grid here */}
+                                    <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                        Class Attendance Percentage
                                     </div>
-                                ) : (
-                                    <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
-                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Percentage of Mark</div>
-                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.semPercentage === 0 ? 'Pending' : student.semPercentage}</div>
-                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">Class Attendance Percentage</div>
-                                        <div className="flex justify-center border-b border-gray-600 p-3">{student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}</div>
-                                        <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">Deeniyath / Moral Percentage</div>
-                                        <div className="flex justify-center p-3">{student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}</div>
+                                    <div className="flex justify-center border-b border-gray-600 p-3">
+                                        {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}
                                     </div>
-                                )}
+                                    <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">
+                                        Deeniyath / Moral Percentage
+                                    </div>
+                                    <div className="flex justify-center p-3">
+                                        {student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}
+                                    </div>
+                                </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-5">
                                 {student.arrear !== 0 && (

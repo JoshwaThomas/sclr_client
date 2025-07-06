@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark, faCircleCheck, faCircleExclamation, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const ScholarshipForm = () => {
 
@@ -12,7 +12,7 @@ const ScholarshipForm = () => {
 	const [ugOrPg, setUgOrPg] = useState();
 	const [semester, setSemester] = useState();
 	const [name, setName] = useState();
-	const [registerNo, setRegisterNo] = useState();
+	const [registerNo, setRegisterNo] = useState('');
 	const [dept, setDept] = useState();
 	const [section, setSection] = useState();
 	const [religion, setReligion] = useState();
@@ -44,6 +44,7 @@ const ScholarshipForm = () => {
 	const [jamath, setJamath] = useState("");
 	const [showPopup, setShowPopup] = useState(true);
 	const [fileName, setFileName] = useState("");
+	const [newStudent, setNewStudent] = useState(false)
 	const apiUrl = process.env.REACT_APP_API_URL;
 
 	useEffect(() => {
@@ -97,6 +98,19 @@ const ScholarshipForm = () => {
 			}
 			setJamath(file);
 			setFileName(file.name);
+		}
+	}
+
+	const checkRegisterNumber = async () => {
+		try {
+			const response = await axios.get(`${apiUrl}/checkRegister`, { params: { registerNumber: registerNo } });
+			if (response.data.message === 'NewStudent') { setNewStudent(true) } else {
+				const confirmed = window.confirm('You already registered with this Register Number \nDo you want go to Login Page');
+				if (confirmed) { navigate('/login') }
+			}
+		} catch (err) {
+			console.error('Error checking register number:', err);
+			alert('Something went wrong. Please try again.');
 		}
 	}
 
@@ -160,886 +174,918 @@ const ScholarshipForm = () => {
 
 	return (
 		<div className="container">
-			<form className="space-y-7 font-semibold" onSubmit={Submit}>
-				<div>
-					<h3 className="text-xl mb-6 font-semibold bg-gray-600 rounded text-white p-3">
-						New Application
-					</h3>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
-						<div className="">
-							<label className="block mb-2 font-medium">
-								<span>Special Category : </span>
-								<span className="text-red-500 text-lg">*</span>
-							</label>
-							<select
-								name="specialCategory"
-								value={specialCategory}
-								onChange={(e) => setSpecialCategory(e.target.value)}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select</option>
-								<option value="General">General</option>
-								<option value="Muaddin">Mu-addin</option>
-								<option value="Hazrath">Hazrath</option>
-								<option value="Father Mother Separated">Father & Mother Separated</option>
-								<option value="Father Expired">Father Expired</option>
-								<option value="Single Parent">Single Parent</option>
-								<option value="Orphan">Orphan</option>
-							</select>
-						</div>
-						<div className="">
-							<label className="block mb-2 font-medium">
-								Have you applied for any other scholarships ?
-								<span className="text-red-500 text-lg"> *</span>
-							</label>
-							<div className="flex mt-3 gap-8">
-								<label className="flex items-center space-x-2">
-									<input
-										type="radio"
-										name="scholarship"
-										value="Yes"
-										checked={scholarship === "Yes"}
-										onChange={(e) => setScholarship(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									<span className="text-lg">Yes</span>
-								</label>
-								<label className="flex items-center space-x-2">
-									<input
-										type="radio"
-										name="scholarship"
-										value="No"
-										checked={scholarship === "No"}
-										onChange={(e) => setScholarship(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									<span className="text-lg">No</span>
-								</label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-5 text-white">
-					Academic Details
-				</h3>
-				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								UG or PG : <span className="text-red-500">*</span>
-							</label>
-							<div className="flex gap-8">
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="ugOrPg"
-										value="UG"
-										checked={ugOrPg === "UG"}
-										onChange={(e) => setUgOrPg(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									UG
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="ugOrPg"
-										value="PG"
-										checked={ugOrPg === "PG"}
-										onChange={(e) => setUgOrPg(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									PG
-								</label>
-							</div>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Programme Stream : <span className="text-red-500">*</span>
-							</label>
-							<div className="flex flex-wrap gap-8">
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="procategory"
-										value="Aided"
-										checked={procategory === "Aided"}
-										onChange={(e) => setProcategory(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									Aided
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="procategory"
-										value="SFM"
-										checked={procategory === "SFM"}
-										onChange={(e) => setProcategory(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									SFM
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="procategory"
-										value="SFW"
-										checked={procategory === "SFW"}
-										onChange={(e) => setProcategory(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									SFW
-								</label>
-							</div>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Semester :  <span className="text-red-500">*</span>
-							</label>
-							<div className="flex flex-wrap gap-8">
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="semester"
-										value="I"
-										checked={semester === "I"}
-										onChange={(e) => setSemester(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									I
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="semester"
-										value="II"
-										checked={semester === "II"}
-										onChange={(e) => setSemester(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									II
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="semester"
-										value="III"
-										checked={semester === "III"}
-										onChange={(e) => setSemester(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									III
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="semester"
-										value="IV"
-										checked={semester === "IV"}
-										onChange={(e) => setSemester(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									IV
-								</label>
-								{ugOrPg !== "PG" && (
-									<>
-										<label className="flex items-center gap-2 text-lg">
-											<input
-												type="radio"
-												name="semester"
-												value="V"
-												checked={semester === "V"}
-												onChange={(e) => setSemester(e.target.value)}
-												className="scale-125"
-												required
-											/>
-											V
-										</label>
-										<label className="flex items-center gap-2 text-lg">
-											<input
-												type="radio"
-												name="semester"
-												value="VI"
-												checked={semester === "VI"}
-												onChange={(e) => setSemester(e.target.value)}
-												className="scale-125"
-												required
-											/>
-											VI
-										</label>
-									</>
-								)}
-							</div>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Hostel :  <span className="text-red-500">*</span>
-							</label>
-							<div className="flex gap-8">
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="hostel"
-										value="YES"
-										checked={hostel === "YES"}
-										onChange={(e) => setHostel(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									Yes
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="hostel"
-										value="NO"
-										checked={hostel === "NO"}
-										onChange={(e) => setHostel(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									No
-								</label>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Register No. :  <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="registerNo"
-								placeholder="24MCAXXX"
-								value={registerNo}
-								onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Name : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="name"
-								placeholder="Name as per ID-Card"
-								value={name}
-								onChange={(e) => setName(e.target.value.toUpperCase())}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Department :  <span className="text-red-500">*</span>
-							</label>
-							<select
-								name="dept"
-								value={dept}
-								onChange={(e) => setDept(e.target.value)}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select</option>
-								<option value="UAI">UAI</option>
-								<option value="UAM">UAM</option>
-								<option value="UAR">UAR</option>
-								<option value="UBA">UBA</option>
-								<option value="UBO">UBO</option>
-								<option value="UBT">UBT</option>
-								<option value="UCC">UCC</option>
-								<option value="UCO">UCO</option>
-								<option value="UCH">UCH</option>
-								<option value="UCA">UCA</option>
-								<option value="UCS">UCS</option>
-								<option value="UEC">UEC</option>
-								<option value="UEN">UEN</option>
-								<option value="UFT">UFT</option>
-								<option value="UHS">UHS</option>
-								<option value="UHM">UHM</option>
-								<option value="UIT">UIT</option>
-								<option value="UIC">UIC</option>
-								<option value="UIF">UIF</option>
-								<option value="UMA">UMA</option>
-								<option value="UMB">UMB</option>
-								<option value="UND">UND</option>
-								<option value="UPH">UPH</option>
-								<option value="UTA">UTA</option>
-								<option value="UVC">UVC</option>
-								<option value="UZO">UZO</option>
-								<option value="PAR">PAR</option>
-								<option value="PBO">PBO</option>
-								<option value="PBT">PBT</option>
-								<option value="PCO">PCO</option>
-								<option value="PCH">PCH</option>
-								<option value="PCS">PCS</option>
-								<option value="PEC">PEC</option>
-								<option value="PEN">PEN</option>
-								<option value="PFT">PFT</option>
-								<option value="PHS">PHS</option>
-								<option value="PIT">PIT</option>
-								<option value="PMA">PMA</option>
-								<option value="PMB">PMB</option>
-								<option value="PND">PND</option>
-								<option value="PPH">PPH</option>
-								<option value="PSW">PSW</option>
-								<option value="PTA">PTA</option>
-								<option value="PZO">PZO</option>
-								<option value="MBA">MBA</option>
-								<option value="MCA">MCA</option>
-							</select>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Section : <span className="text-red-500">*</span>
-							</label>
-							<select
-								name="section"
-								value={section}
-								onChange={(e) => setSection(e.target.value)}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select</option>
-								<option value="A">A</option>
-								<option value="B">B</option>
-								<option value="C">C</option>
-								<option value="D">D</option>
-								<option value="E">E</option>
-								<option value="F">F</option>
-								<option value="G">G</option>
-								<option value="H">H</option>
-								<option value="I">I</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
-					Student Details
-				</h3>
-				<div className="">
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Religion :  <span className="text-red-500">*</span>
-							</label>
-							<select
-								name="religion"
-								value={religion}
-								onChange={handleReligionChange}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select</option>
-								<option value="ISLAM">Islam</option>
-								<option value="HINDU">Hindu</option>
-								<option value="CHRISTIAN">Christian</option>
-								<option value="OTHERS">Others</option>
-							</select>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Mobile No. : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="mobileNo"
-								maxLength="10"
-								value={mobileNo}
-								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, '');
-									setMobileNo(value);
-								}}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Aadhar No. :<span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="aadhar"
-								maxLength="12"
-								value={aadhar}
-								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, '');
-									setAadhar(value);
-								}}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-					</div>
-				</div>
-				<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
+			{!newStudent && (
+				<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md mb-6">
+					<label className="block mb-2 text-center font-semibold text-slate-700">
+						Before apply for scholarship check whether you are registered or not
+					</label>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<div>
 							<label className="block mb-2 font-semibold text-slate-700">
-								Parent / Guardian Name : <span className="text-red-500">*</span>
+								Register Number :  <span className="text-red-500">*</span>
 							</label>
-							<input
-								type="text"
-								name="fatherName"
-								value={fatherName}
-								onChange={(e) => setFatherName(e.target.value.toUpperCase())}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Parent / Guardian Phone No. : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="fatherNo"
-								maxLength="10"
-								value={fatherNo}
-								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, '');
-									setFatherNo(value)
-								}}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-					</div>
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Occupation : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="fatherOccupation"
-								placeholder="e.g. Daily Wages"
-								value={fatherOccupation}
-								onChange={(e) => setFatherOccupation(e.target.value.toUpperCase())}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Annual Income : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="annualIncome"
-								placeholder="e.g. 100000"
-								value={annualIncome}
-								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, '');
-									setAnnualIncome(value)
-								}}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Siblings : <span className="text-red-500">*</span>
-							</label>
-							<div className="flex gap-6 py-2">
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="sibling"
-										value="Yes"
-										checked={siblings === "Yes"}
-										onChange={(e) => setSiblings(e.target.value)}
-										className="scale-125"
-										required
-									/>
-									Yes
-								</label>
-								<label className="flex items-center gap-2 text-lg">
-									<input
-										type="radio"
-										name="sibling"
-										value="No"
-										checked={siblings === "No"}
-										onChange={(e) => setSiblings(e.target.value.toUpperCase())}
-										className="scale-125"
-										required
-									/>
-									No
-								</label>
+							<div className="flex items-center gap-4">
+								<input
+									type="text"
+									placeholder="Ex : 24MCAXXX"
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									value={registerNo}
+									onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
+									required
+								/>
+								<button type="button"
+									className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+									onClick={checkRegisterNumber}
+								>
+									Check
+								</button>
 							</div>
 						</div>
 					</div>
-					{siblings === "Yes" && (
-						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+				</div>
+			)}
+			{newStudent && (
+				<form className="space-y-7 font-semibold" onSubmit={Submit}>
+					<div>
+						<h3 className="text-xl mb-6 font-semibold bg-gray-600 rounded text-white p-3">
+							New Application
+						</h3>
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50">
+							<div className="">
+								<label className="block mb-2 font-medium">
+									<span>Special Category : </span>
+									<span className="text-red-500 text-lg">*</span>
+								</label>
+								<select
+									name="specialCategory"
+									value={specialCategory}
+									onChange={(e) => setSpecialCategory(e.target.value)}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select</option>
+									<option value="General">General</option>
+									<option value="Muaddin">Mu-addin</option>
+									<option value="Hazrath">Hazrath</option>
+									<option value="Father Mother Separated">Father & Mother Separated</option>
+									<option value="Father Expired">Father Expired</option>
+									<option value="Single Parent">Single Parent</option>
+									<option value="Orphan">Orphan</option>
+								</select>
+							</div>
+							<div className="">
+								<label className="block mb-2 font-medium">
+									Have you applied for any other scholarships ?
+									<span className="text-red-500 text-lg"> *</span>
+								</label>
+								<div className="flex mt-3 gap-8">
+									<label className="flex items-center space-x-2">
+										<input
+											type="radio"
+											name="scholarship"
+											value="Yes"
+											checked={scholarship === "Yes"}
+											onChange={(e) => setScholarship(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										<span className="text-lg">Yes</span>
+									</label>
+									<label className="flex items-center space-x-2">
+										<input
+											type="radio"
+											name="scholarship"
+											value="No"
+											checked={scholarship === "No"}
+											onChange={(e) => setScholarship(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										<span className="text-lg">No</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-5 text-white">
+						Academic Details
+					</h3>
+					<div className="">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">No. of Siblings : <span className="text-red-500">*</span></label>
+								<label className="block mb-2 font-semibold text-slate-700">
+									UG or PG : <span className="text-red-500">*</span>
+								</label>
+								<div className="flex gap-8">
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="ugOrPg"
+											value="UG"
+											checked={ugOrPg === "UG"}
+											onChange={(e) => setUgOrPg(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										UG
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="ugOrPg"
+											value="PG"
+											checked={ugOrPg === "PG"}
+											onChange={(e) => setUgOrPg(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										PG
+									</label>
+								</div>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Programme Stream : <span className="text-red-500">*</span>
+								</label>
+								<div className="flex flex-wrap gap-8">
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="procategory"
+											value="Aided"
+											checked={procategory === "Aided"}
+											onChange={(e) => setProcategory(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										Aided
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="procategory"
+											value="SFM"
+											checked={procategory === "SFM"}
+											onChange={(e) => setProcategory(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										SFM
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="procategory"
+											value="SFW"
+											checked={procategory === "SFW"}
+											onChange={(e) => setProcategory(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										SFW
+									</label>
+								</div>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Semester :  <span className="text-red-500">*</span>
+								</label>
+								<div className="flex flex-wrap gap-8">
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="semester"
+											value="I"
+											checked={semester === "I"}
+											onChange={(e) => setSemester(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										I
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="semester"
+											value="II"
+											checked={semester === "II"}
+											onChange={(e) => setSemester(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										II
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="semester"
+											value="III"
+											checked={semester === "III"}
+											onChange={(e) => setSemester(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										III
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="semester"
+											value="IV"
+											checked={semester === "IV"}
+											onChange={(e) => setSemester(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										IV
+									</label>
+									{ugOrPg !== "PG" && (
+										<>
+											<label className="flex items-center gap-2 text-lg">
+												<input
+													type="radio"
+													name="semester"
+													value="V"
+													checked={semester === "V"}
+													onChange={(e) => setSemester(e.target.value)}
+													className="scale-125"
+													required
+												/>
+												V
+											</label>
+											<label className="flex items-center gap-2 text-lg">
+												<input
+													type="radio"
+													name="semester"
+													value="VI"
+													checked={semester === "VI"}
+													onChange={(e) => setSemester(e.target.value)}
+													className="scale-125"
+													required
+												/>
+												VI
+											</label>
+										</>
+									)}
+								</div>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Hostel :  <span className="text-red-500">*</span>
+								</label>
+								<div className="flex gap-8">
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="hostel"
+											value="YES"
+											checked={hostel === "YES"}
+											onChange={(e) => setHostel(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										Yes
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="hostel"
+											value="NO"
+											checked={hostel === "NO"}
+											onChange={(e) => setHostel(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										No
+									</label>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div className="">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Register No. :  <span className="text-red-500">*</span>
+								</label>
 								<input
 									type="text"
-									name="siblingsNo"
-									placeholder="e.g. 2"
-									value={siblingsNo}
-									onChange={(e) => setSiblingsNo(e.target.value)}
+									name="registerNo"
+									placeholder="24MCAXXX"
+									value={registerNo}
+									onChange={(e) => setRegisterNo(e.target.value.toUpperCase())}
 									className="w-full p-2 border border-black rounded-md text-slate-950"
 									required
 								/>
 							</div>
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">Siblings' Occupation : <span className="text-red-500">*</span></label>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Name : <span className="text-red-500">*</span>
+								</label>
 								<input
 									type="text"
-									name="siblingsOccupation"
-									placeholder="e.g. Student, Employee"
-									value={siblingsOccupation}
-									onChange={(e) => setSiblingsOccupation(e.target.value)}
+									name="name"
+									placeholder="Name as per ID-Card"
+									value={name}
+									onChange={(e) => setName(e.target.value.toUpperCase())}
 									className="w-full p-2 border border-black rounded-md text-slate-950"
 									required
 								/>
 							</div>
 							<div>
-								<label className="block mb-2 font-semibold text-slate-700">Siblings Income : <span className="text-red-500">*</span></label>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Department :  <span className="text-red-500">*</span>
+								</label>
+								<select
+									name="dept"
+									value={dept}
+									onChange={(e) => setDept(e.target.value)}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select</option>
+									<option value="UAI">UAI</option>
+									<option value="UAM">UAM</option>
+									<option value="UAR">UAR</option>
+									<option value="UBA">UBA</option>
+									<option value="UBO">UBO</option>
+									<option value="UBT">UBT</option>
+									<option value="UCC">UCC</option>
+									<option value="UCO">UCO</option>
+									<option value="UCH">UCH</option>
+									<option value="UCA">UCA</option>
+									<option value="UCS">UCS</option>
+									<option value="UEC">UEC</option>
+									<option value="UEN">UEN</option>
+									<option value="UFT">UFT</option>
+									<option value="UHS">UHS</option>
+									<option value="UHM">UHM</option>
+									<option value="UIT">UIT</option>
+									<option value="UIC">UIC</option>
+									<option value="UIF">UIF</option>
+									<option value="UMA">UMA</option>
+									<option value="UMB">UMB</option>
+									<option value="UND">UND</option>
+									<option value="UPH">UPH</option>
+									<option value="UTA">UTA</option>
+									<option value="UVC">UVC</option>
+									<option value="UZO">UZO</option>
+									<option value="PAR">PAR</option>
+									<option value="PBO">PBO</option>
+									<option value="PBT">PBT</option>
+									<option value="PCO">PCO</option>
+									<option value="PCH">PCH</option>
+									<option value="PCS">PCS</option>
+									<option value="PEC">PEC</option>
+									<option value="PEN">PEN</option>
+									<option value="PFT">PFT</option>
+									<option value="PHS">PHS</option>
+									<option value="PIT">PIT</option>
+									<option value="PMA">PMA</option>
+									<option value="PMB">PMB</option>
+									<option value="PND">PND</option>
+									<option value="PPH">PPH</option>
+									<option value="PSW">PSW</option>
+									<option value="PTA">PTA</option>
+									<option value="PZO">PZO</option>
+									<option value="MBA">MBA</option>
+									<option value="MCA">MCA</option>
+								</select>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Section : <span className="text-red-500">*</span>
+								</label>
+								<select
+									name="section"
+									value={section}
+									onChange={(e) => setSection(e.target.value)}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="C">C</option>
+									<option value="D">D</option>
+									<option value="E">E</option>
+									<option value="F">F</option>
+									<option value="G">G</option>
+									<option value="H">H</option>
+									<option value="I">I</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
+						Student Details
+					</h3>
+					<div className="">
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Religion :  <span className="text-red-500">*</span>
+								</label>
+								<select
+									name="religion"
+									value={religion}
+									onChange={handleReligionChange}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select</option>
+									<option value="ISLAM">Islam</option>
+									<option value="HINDU">Hindu</option>
+									<option value="CHRISTIAN">Christian</option>
+									<option value="OTHERS">Others</option>
+								</select>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Mobile No. : <span className="text-red-500">*</span>
+								</label>
 								<input
 									type="text"
-									name="siblingsIncome"
-									value={siblingsIncome}
+									name="mobileNo"
+									maxLength="10"
+									value={mobileNo}
 									onChange={(e) => {
 										const value = e.target.value.replace(/\D/g, '');
-										setSiblingsIncome(value)
+										setMobileNo(value);
+									}}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Aadhar No. :<span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="aadhar"
+									maxLength="12"
+									value={aadhar}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setAadhar(value);
 									}}
 									className="w-full p-2 border border-black rounded-md text-slate-950"
 									required
 								/>
 							</div>
 						</div>
-					)}
-				</div>
-				<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
-					<div className="grid grid-cols-1">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Permanent Address : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								name="address"
-								value={address}
-								onChange={(e) => setAddress(e.target.value.toUpperCase())}
-								placeholder="Door No & Street"
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
 					</div>
-					<div className="grid grid-cols-3 gap-6">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								State : <span className="text-red-500">*</span>
-							</label>
-							<select
-								name="state"
-								value={state}
-								onChange={(e) => setState(e.target.value)}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select State</option>
-								<option value="Andhra Pradesh">Andhra Pradesh</option>
-								<option value="Arunachal Pradesh">Arunachal Pradesh</option>
-								<option value="Assam">Assam</option>
-								<option value="Bihar">Bihar</option>
-								<option value="Chhattisgarh">Chhattisgarh</option>
-								<option value="Goa">Goa</option>
-								<option value="Gujarat">Gujarat</option>
-								<option value="Haryana">Haryana</option>
-								<option value="Himachal Pradesh">Himachal Pradesh</option>
-								<option value="Jharkhand">Jharkhand</option>
-								<option value="Karnataka">Karnataka</option>
-								<option value="Kerala">Kerala</option>
-								<option value="Madhya Pradesh">Madhya Pradesh</option>
-								<option value="Maharashtra">Maharashtra</option>
-								<option value="Manipur">Manipur</option>
-								<option value="Meghalaya">Meghalaya</option>
-								<option value="Mizoram">Mizoram</option>
-								<option value="Nagaland">Nagaland</option>
-								<option value="Odisha">Odisha</option>
-								<option value="Punjab">Punjab</option>
-								<option value="Rajasthan">Rajasthan</option>
-								<option value="Sikkim">Sikkim</option>
-								<option value="Tamil Nadu">Tamil Nadu</option>
-								<option value="Telangana">Telangana</option>
-								<option value="Tripura">Tripura</option>
-								<option value="Uttar Pradesh">Uttar Pradesh</option>
-								<option value="Uttarakhand">Uttarakhand</option>
-								<option value="West Bengal">West Bengal</option>
-								<option value="Andaman and Nicobar Islands">
-									Andaman and Nicobar Islands
-								</option>
-								<option value="Chandigarh">Chandigarh</option>
-								<option value="Dadra and Nagar Haveli and Daman and Diu">
-									Dadra and Nagar Haveli and Daman and Diu
-								</option>
-								<option value="Delhi">Delhi</option>
-								<option value="Jammu and Kashmir">Jammu and Kashmir</option>
-								<option value="Ladakh">Ladakh</option>
-								<option value="Lakshadweep">Lakshadweep</option>
-								<option value="Puducherry">Puducherry</option>
-								<option value="Other">Other</option>
-							</select>
+					<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Parent / Guardian Name : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="fatherName"
+									value={fatherName}
+									onChange={(e) => setFatherName(e.target.value.toUpperCase())}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Parent / Guardian Phone No. : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="fatherNo"
+									maxLength="10"
+									value={fatherNo}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setFatherNo(value)
+									}}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
 						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								District : <span className="text-red-500">*</span>
-							</label>
-							<select
-								name="district"
-								value={district}
-								onChange={(e) => setDistrict(e.target.value)}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							>
-								<option value="">Select District</option>
-								<option value="Ariyalur">Ariyalur</option>
-								<option value="Chengalpattu">Chengalpattu</option>
-								<option value="Chennai">Chennai</option>
-								<option value="Coimbatore">Coimbatore</option>
-								<option value="Cuddalore">Cuddalore</option>
-								<option value="Dharmapuri">Dharmapuri</option>
-								<option value="Dindigul">Dindigul</option>
-								<option value="Erode">Erode</option>
-								<option value="Kallakurichi">Kallakurichi</option>
-								<option value="Kanchipuram">Kanchipuram</option>
-								<option value="Kanyakumari">Kanyakumari</option>
-								<option value="Karur">Karur</option>
-								<option value="Krishnagiri">Krishnagiri</option>
-								<option value="Madurai">Madurai</option>
-								<option value="Nagapattinam">Nagapattinam</option>
-								<option value="Namakkal">Namakkal</option>
-								<option value="Nilgiris">Nilgiris</option>
-								<option value="Perambalur">Perambalur</option>
-								<option value="Pudukkottai">Pudukkottai</option>
-								<option value="Ramanathapuram">Ramanathapuram</option>
-								<option value="Ranipet">Ranipet</option>
-								<option value="Salem">Salem</option>
-								<option value="Sivaganga">Sivaganga</option>
-								<option value="Tenkasi">Tenkasi</option>
-								<option value="Thanjavur">Thanjavur</option>
-								<option value="Theni">Theni</option>
-								<option value="Thoothukudi">Thoothukudi</option>
-								<option value="Tiruchirappalli">Tiruchirappalli</option>
-								<option value="Tirunelveli">Tirunelveli</option>
-								<option value="Tirupathur">Tirupathur</option>
-								<option value="Tiruppur">Tiruppur</option>
-								<option value="Tiruvallur">Tiruvallur</option>
-								<option value="Tiruvannamalai">Tiruvannamalai</option>
-								<option value="Tiruvarur">Tiruvarur</option>
-								<option value="Vellore">Vellore</option>
-								<option value="Viluppuram">Viluppuram</option>
-								<option value="Virudhunagar">Virudhunagar</option>
-								<option value="Other">Other</option>
-							</select>
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Occupation : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="fatherOccupation"
+									placeholder="e.g. Daily Wages"
+									value={fatherOccupation}
+									onChange={(e) => setFatherOccupation(e.target.value.toUpperCase())}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Annual Income : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="annualIncome"
+									placeholder="e.g. 100000"
+									value={annualIncome}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setAnnualIncome(value)
+									}}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Siblings : <span className="text-red-500">*</span>
+								</label>
+								<div className="flex gap-6 py-2">
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="sibling"
+											value="Yes"
+											checked={siblings === "Yes"}
+											onChange={(e) => setSiblings(e.target.value)}
+											className="scale-125"
+											required
+										/>
+										Yes
+									</label>
+									<label className="flex items-center gap-2 text-lg">
+										<input
+											type="radio"
+											name="sibling"
+											value="No"
+											checked={siblings === "No"}
+											onChange={(e) => setSiblings(e.target.value.toUpperCase())}
+											className="scale-125"
+											required
+										/>
+										No
+									</label>
+								</div>
+							</div>
 						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Pincode : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="text"
-								maxLength="6"
-								autoComplete="off"
-								name="pin"
-								value={pin}
-								onChange={(e) => {
-									const value = e.target.value.replace(/\D/g, '');
-									setPin(value)
-								}}
-								placeholder="Pincode"
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-					</div>
-					<div className="grid grid-cols-3 gap-6">
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Jamath / Self Declaration Letter : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="file"
-								name="jamath"
-								onChange={handleFileChange}
-								className="w-full p-1.5 border border-black text-sm rounded-md text-slate-950 bg-white"
-								required
-							/>
-							{fileName && (
-								<p className="mt-1 text-sm text-gray-700">Selected File : {fileName}</p>
-							)}
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Password : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="password"
-								name="pass"
-								autoComplete="new-password"
-								value={password.pass}
-								onChange={handleChange}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-						</div>
-						<div>
-							<label className="block mb-2 font-semibold text-slate-700">
-								Re-Password : <span className="text-red-500">*</span>
-							</label>
-							<input
-								type="password"
-								name="conpass"
-								autoComplete="new-password"
-								value={password.conpass}
-								onChange={handleChange}
-								className="w-full p-2 border border-black rounded-md text-slate-950"
-								required
-							/>
-							{isConpassTyped && error && (
-								<p className="text-sm text-red-600 mt-1">{error}</p>
-							)}
-						</div>
-					</div>
-				</div>
-				{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
-					<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
-						Educational Details
-					</h3>
-				)}
-				<div>
-					<div className="overflow-x-auto">
-						{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
-							<div className="mb-8">
-								<div className="grid grid-cols-1 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-										<div>
-											<label className="block mb-2 font-semibold text-slate-700">
-												{ugOrPg === "UG" ? "Last School Name : " : "Last College Name : "}
-												<span className="text-red-500">*</span>
-											</label>
-											<input
-												type="text"
-												name="schoolName"
-												value={schoolName}
-												onChange={(e) => setSchoolName(e.target.value.toUpperCase())}
-												className="w-full p-2 border border-black rounded-md text-slate-950"
-												placeholder="Institution Name"
-												required
-											/>
-										</div>
-										<div>
-											<label className="block mb-2 font-semibold text-slate-700">
-												Year of Passing : <span className="text-red-500">*</span>
-											</label>
-											<input
-												type="text"
-												name="yearOfPassing"
-												value={yearOfPassing}
-												onChange={(e) => {
-													const value = e.target.value.replace(/\D/g, '');
-
-													setYearOfPassing(value)
-												}}
-												className="w-full p-2 border border-black rounded-md text-slate-950"
-												placeholder="e.g. 2023"
-												required
-											/>
-										</div>
-									</div>
-									<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-										<div>
-											<label className="block mb-2 font-semibold text-slate-700">
-												Maximum Mark : {ugOrPg === "PG" && " (Part III only) "}
-												<span className="text-red-500">*</span>
-											</label>
-											<input
-												type="text"
-												name="maximumMarkSchool"
-												value={maximumMarkSchool}
-												maxLength="4"
-												onChange={(e) => {
-													const value = e.target.value.replace(/\D/g, '');
-													setMaximumMarkSchool(value)
-												}}
-												className="w-full p-2 border border-black rounded-md text-slate-950"
-												placeholder={ugOrPg === "UG" ? "e.g. 600" : "e.g. 2400"}
-												required
-											/>
-										</div>
-										<div>
-											<label className="block mb-2 font-semibold text-slate-700">
-												Marks Secured : {ugOrPg === "PG" && " (Part III only) "}
-												<span className="text-red-500">*</span>
-											</label>
-											<input
-												type="text"
-												name="marksSecuredSchool"
-												value={marksSecuredSchool}
-												maxLength="4"
-												onChange={(e) => {
-													const value = e.target.value.replace(/\D/g, '');
-													setMarksSecuredSchool(value)
-												}}
-												className="w-full p-2 border border-black rounded-md text-slate-950"
-												required
-											/>
-										</div>
-										<div>
-											<label className="block mb-2 font-semibold text-slate-700">
-												Percentage : <span className="text-red-500">*</span>
-											</label>
-											<input
-												type="text"
-												name="percentageOfMarkSchool"
-												value={percentageOfMarkSchool}
-												onChange={(e) => {
-													const value = e.target.value.replace(/\D/g, '');
-													setPercentageOfMarkSchool(value)
-												}}
-												className="w-full p-2 border border-black rounded-md text-slate-950 bg-gray-100"
-												disabled
-											/>
-										</div>
-									</div>
+						{siblings === "Yes" && (
+							<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+								<div>
+									<label className="block mb-2 font-semibold text-slate-700">No. of Siblings : <span className="text-red-500">*</span></label>
+									<input
+										type="text"
+										name="siblingsNo"
+										placeholder="e.g. 2"
+										value={siblingsNo}
+										onChange={(e) => setSiblingsNo(e.target.value)}
+										className="w-full p-2 border border-black rounded-md text-slate-950"
+										required
+									/>
+								</div>
+								<div>
+									<label className="block mb-2 font-semibold text-slate-700">Siblings' Occupation : <span className="text-red-500">*</span></label>
+									<input
+										type="text"
+										name="siblingsOccupation"
+										placeholder="e.g. Student, Employee"
+										value={siblingsOccupation}
+										onChange={(e) => setSiblingsOccupation(e.target.value.toUpperCase())}
+										className="w-full p-2 border border-black rounded-md text-slate-950"
+										required
+									/>
+								</div>
+								<div>
+									<label className="block mb-2 font-semibold text-slate-700">Siblings Income : <span className="text-red-500">*</span></label>
+									<input
+										type="text"
+										name="siblingsIncome"
+										value={siblingsIncome}
+										onChange={(e) => {
+											const value = e.target.value.replace(/\D/g, '');
+											setSiblingsIncome(value)
+										}}
+										className="w-full p-2 border border-black rounded-md text-slate-950"
+										required
+									/>
 								</div>
 							</div>
 						)}
 					</div>
-					<div className="flex justify-end">
-						<button
-							type="submit"
-							className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
-						>
-							Submit
-						</button>
+					<div className="border border-black p-6 rounded-lg bg-gray-50 shadow-md space-y-6">
+						<div className="grid grid-cols-1">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Permanent Address : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									name="address"
+									value={address}
+									onChange={(e) => setAddress(e.target.value.toUpperCase())}
+									placeholder="Door No & Street"
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+						</div>
+						<div className="grid grid-cols-3 gap-6">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									State : <span className="text-red-500">*</span>
+								</label>
+								<select
+									name="state"
+									value={state}
+									onChange={(e) => setState(e.target.value)}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select State</option>
+									<option value="Andhra Pradesh">Andhra Pradesh</option>
+									<option value="Arunachal Pradesh">Arunachal Pradesh</option>
+									<option value="Assam">Assam</option>
+									<option value="Bihar">Bihar</option>
+									<option value="Chhattisgarh">Chhattisgarh</option>
+									<option value="Goa">Goa</option>
+									<option value="Gujarat">Gujarat</option>
+									<option value="Haryana">Haryana</option>
+									<option value="Himachal Pradesh">Himachal Pradesh</option>
+									<option value="Jharkhand">Jharkhand</option>
+									<option value="Karnataka">Karnataka</option>
+									<option value="Kerala">Kerala</option>
+									<option value="Madhya Pradesh">Madhya Pradesh</option>
+									<option value="Maharashtra">Maharashtra</option>
+									<option value="Manipur">Manipur</option>
+									<option value="Meghalaya">Meghalaya</option>
+									<option value="Mizoram">Mizoram</option>
+									<option value="Nagaland">Nagaland</option>
+									<option value="Odisha">Odisha</option>
+									<option value="Punjab">Punjab</option>
+									<option value="Rajasthan">Rajasthan</option>
+									<option value="Sikkim">Sikkim</option>
+									<option value="Tamil Nadu">Tamil Nadu</option>
+									<option value="Telangana">Telangana</option>
+									<option value="Tripura">Tripura</option>
+									<option value="Uttar Pradesh">Uttar Pradesh</option>
+									<option value="Uttarakhand">Uttarakhand</option>
+									<option value="West Bengal">West Bengal</option>
+									<option value="Andaman and Nicobar Islands">
+										Andaman and Nicobar Islands
+									</option>
+									<option value="Chandigarh">Chandigarh</option>
+									<option value="Dadra and Nagar Haveli and Daman and Diu">
+										Dadra and Nagar Haveli and Daman and Diu
+									</option>
+									<option value="Delhi">Delhi</option>
+									<option value="Jammu and Kashmir">Jammu and Kashmir</option>
+									<option value="Ladakh">Ladakh</option>
+									<option value="Lakshadweep">Lakshadweep</option>
+									<option value="Puducherry">Puducherry</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									District : <span className="text-red-500">*</span>
+								</label>
+								<select
+									name="district"
+									value={district}
+									onChange={(e) => setDistrict(e.target.value)}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								>
+									<option value="">Select District</option>
+									<option value="Ariyalur">Ariyalur</option>
+									<option value="Chengalpattu">Chengalpattu</option>
+									<option value="Chennai">Chennai</option>
+									<option value="Coimbatore">Coimbatore</option>
+									<option value="Cuddalore">Cuddalore</option>
+									<option value="Dharmapuri">Dharmapuri</option>
+									<option value="Dindigul">Dindigul</option>
+									<option value="Erode">Erode</option>
+									<option value="Kallakurichi">Kallakurichi</option>
+									<option value="Kanchipuram">Kanchipuram</option>
+									<option value="Kanyakumari">Kanyakumari</option>
+									<option value="Karur">Karur</option>
+									<option value="Krishnagiri">Krishnagiri</option>
+									<option value="Madurai">Madurai</option>
+									<option value="Nagapattinam">Nagapattinam</option>
+									<option value="Namakkal">Namakkal</option>
+									<option value="Nilgiris">Nilgiris</option>
+									<option value="Perambalur">Perambalur</option>
+									<option value="Pudukkottai">Pudukkottai</option>
+									<option value="Ramanathapuram">Ramanathapuram</option>
+									<option value="Ranipet">Ranipet</option>
+									<option value="Salem">Salem</option>
+									<option value="Sivaganga">Sivaganga</option>
+									<option value="Tenkasi">Tenkasi</option>
+									<option value="Thanjavur">Thanjavur</option>
+									<option value="Theni">Theni</option>
+									<option value="Thoothukudi">Thoothukudi</option>
+									<option value="Tiruchirappalli">Tiruchirappalli</option>
+									<option value="Tirunelveli">Tirunelveli</option>
+									<option value="Tirupathur">Tirupathur</option>
+									<option value="Tiruppur">Tiruppur</option>
+									<option value="Tiruvallur">Tiruvallur</option>
+									<option value="Tiruvannamalai">Tiruvannamalai</option>
+									<option value="Tiruvarur">Tiruvarur</option>
+									<option value="Vellore">Vellore</option>
+									<option value="Viluppuram">Viluppuram</option>
+									<option value="Virudhunagar">Virudhunagar</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Pincode : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="text"
+									maxLength="6"
+									autoComplete="off"
+									name="pin"
+									value={pin}
+									onChange={(e) => {
+										const value = e.target.value.replace(/\D/g, '');
+										setPin(value)
+									}}
+									placeholder="Pincode"
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+						</div>
+						<div className="grid grid-cols-3 gap-6">
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Jamath / Self Declaration Letter : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="file"
+									name="jamath"
+									onChange={handleFileChange}
+									className="w-full p-1.5 border border-black text-sm rounded-md text-slate-950 bg-white"
+									required
+								/>
+								{fileName && (
+									<p className="mt-1 text-sm text-gray-700">Selected File : {fileName}</p>
+								)}
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Password : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="password"
+									name="pass"
+									autoComplete="new-password"
+									value={password.pass}
+									onChange={handleChange}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+							</div>
+							<div>
+								<label className="block mb-2 font-semibold text-slate-700">
+									Re-Password : <span className="text-red-500">*</span>
+								</label>
+								<input
+									type="password"
+									name="conpass"
+									autoComplete="new-password"
+									value={password.conpass}
+									onChange={handleChange}
+									className="w-full p-2 border border-black rounded-md text-slate-950"
+									required
+								/>
+								{isConpassTyped && error && (
+									<p className="text-sm text-red-600 mt-1">{error}</p>
+								)}
+							</div>
+						</div>
 					</div>
-				</div>
-			</form>
+					{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
+						<h3 className="text-xl mb-2 font-semibold bg-gray-600 p-3 rounded mt-7 text-white">
+							Educational Details
+						</h3>
+					)}
+					<div>
+						<div className="overflow-x-auto">
+							{(ugOrPg === "UG" || ugOrPg === "PG") && semester === "I" && (
+								<div className="mb-8">
+									<div className="grid grid-cols-1 gap-6 border border-black p-6 rounded-lg bg-gray-50 shadow-md">
+										<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+											<div>
+												<label className="block mb-2 font-semibold text-slate-700">
+													{ugOrPg === "UG" ? "Last School Name : " : "Last College Name : "}
+													<span className="text-red-500">*</span>
+												</label>
+												<input
+													type="text"
+													name="schoolName"
+													value={schoolName}
+													onChange={(e) => setSchoolName(e.target.value.toUpperCase())}
+													className="w-full p-2 border border-black rounded-md text-slate-950"
+													placeholder="Institution Name"
+													required
+												/>
+											</div>
+											<div>
+												<label className="block mb-2 font-semibold text-slate-700">
+													Year of Passing : <span className="text-red-500">*</span>
+												</label>
+												<input
+													type="text"
+													name="yearOfPassing"
+													value={yearOfPassing}
+													onChange={(e) => {
+														const value = e.target.value.replace(/\D/g, '');
+
+														setYearOfPassing(value)
+													}}
+													className="w-full p-2 border border-black rounded-md text-slate-950"
+													placeholder="e.g. 2023"
+													required
+												/>
+											</div>
+										</div>
+										<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+											<div>
+												<label className="block mb-2 font-semibold text-slate-700">
+													Maximum Mark : {ugOrPg === "PG" && " (Part III only) "}
+													<span className="text-red-500">*</span>
+												</label>
+												<input
+													type="text"
+													name="maximumMarkSchool"
+													value={maximumMarkSchool}
+													maxLength="4"
+													onChange={(e) => {
+														const value = e.target.value.replace(/\D/g, '');
+														setMaximumMarkSchool(value)
+													}}
+													className="w-full p-2 border border-black rounded-md text-slate-950"
+													placeholder={ugOrPg === "UG" ? "e.g. 600" : "e.g. 2400"}
+													required
+												/>
+											</div>
+											<div>
+												<label className="block mb-2 font-semibold text-slate-700">
+													Marks Secured : {ugOrPg === "PG" && " (Part III only) "}
+													<span className="text-red-500">*</span>
+												</label>
+												<input
+													type="text"
+													name="marksSecuredSchool"
+													value={marksSecuredSchool}
+													maxLength="4"
+													onChange={(e) => {
+														const value = e.target.value.replace(/\D/g, '');
+														setMarksSecuredSchool(value)
+													}}
+													className="w-full p-2 border border-black rounded-md text-slate-950"
+													required
+												/>
+											</div>
+											<div>
+												<label className="block mb-2 font-semibold text-slate-700">
+													Percentage : <span className="text-red-500">*</span>
+												</label>
+												<input
+													type="text"
+													name="percentageOfMarkSchool"
+													value={percentageOfMarkSchool}
+													onChange={(e) => {
+														const value = e.target.value.replace(/\D/g, '');
+														setPercentageOfMarkSchool(value)
+													}}
+													className="w-full p-2 border border-black rounded-md text-slate-950 bg-gray-100"
+													disabled
+												/>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
+						</div>
+						<div className="flex justify-end">
+							<button
+								type="submit"
+								className="px-6 py-2.5 bg-blue-600 text-white text-md font-semibold rounded-lg shadow-lg border-2 border-blue-700 hover:bg-blue-700 hover:border-blue-800 transition duration-300"
+							>
+								Submit
+							</button>
+						</div>
+					</div>
+				</form>
+			)}
 			{showPopup && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-sm transition-all duration-300">
 					<div className="bg-gradient-to-br from-white to-gray-100 text-gray-800 w-[90%] max-w-3xl rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.2)] border border-gray-300 relative p-10 animate-fadeIn">

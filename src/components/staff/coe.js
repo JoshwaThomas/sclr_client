@@ -110,13 +110,14 @@ function COE() {
                 No of Students : {users.length}
             </div>
             <div className="overflow-x-auto rounded-lg shadow ring-1 ring-black ring-opacity-5">
-                <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+                <table className="min-w-full table-fixed border border-gray-300 divide-y divide-gray-200">
                     <thead className="bg-emerald-700 sticky top-0 z-10">
                         <tr>
                             {['Reg No', 'Name', 'Department', 'Mark Secured', 'Max Mark', 'Percentage', 'Arrears', 'Remarks'].map((heading, i) => (
                                 <th
                                     key={i}
                                     className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300"
+                                    style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} // Adjust width per column
                                 >
                                     {heading}
                                 </th>
@@ -139,7 +140,7 @@ function COE() {
                                     <td className="p-3 text-center border-r">
                                         <input
                                             type="text"
-                                            className="w-20 border p-2 rounded"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.markSecure || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'markSecure', e.target.value)}
                                         />
@@ -147,26 +148,33 @@ function COE() {
                                     <td className="p-3 text-center border-r">
                                         <input
                                             type="text"
-                                            className="w-20 border p-2 rounded"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.maxMark || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'maxMark', e.target.value)}
                                         />
                                     </td>
-                                    <td className="px-4 py-2 text-center text-sm text-gray-800 border-r font-semibold">
-                                        {semPercentage[user.registerNo] || '0.00'}
+                                    <td className="p-3 text-center border-r">
+                                        <div className="w-full h-full">
+                                            <input
+                                                type="text"
+                                                className="w-full border border-gray-300 p-3 rounded text-center"
+                                                value={semPercentage[user.registerNo] || '0.00'}
+                                                readOnly
+                                            />
+                                        </div>
                                     </td>
                                     <td className="p-3 text-center border-r">
                                         <input
                                             type="text"
-                                            className="w-20 border p-2 rounded"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.semarrear || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}
                                         />
                                     </td>
-                                    <td className="p-3 text-center border-r">
+                                    <td className="p-3 border-r">
                                         <input
                                             type="text"
-                                            className="w-full border p-2 rounded"
+                                            className="w-full border border-gray-300 p-3 rounded"
                                             value={user.semRem || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'semRem', e.target.value)}
                                         />
@@ -175,7 +183,6 @@ function COE() {
                             ))
                         )}
                     </tbody>
-
                 </table>
             </div>
             {/* Button */}

@@ -100,7 +100,7 @@ function AttendSfm() {
             {/* Working Days Input */}
             <div className="flex flex-wrap justify-between items-center mb-6">
                 <div className="flex items-center gap-4">
-                    <label className="font-semibold text-lg">Current Semester Working Days:</label>
+                    <label className="font-semibold text-lg">Current Semester Working Days :</label>
                     <input
                         type="text"
                         className="w-20 border border-black px-2 py-1.5 rounded text-right"

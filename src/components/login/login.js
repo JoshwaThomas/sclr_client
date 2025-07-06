@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import jmc from '../login/jmclogo.png';
 import Map from '../../assets/victim1-map.gif'
 import { useNavigate } from 'react-router-dom';
@@ -14,30 +14,37 @@ function TextBox() {
     const navigate = useNavigate();
     const apiUrl = process.env.REACT_APP_API_URL;
     const [showPassword, setShowPassword] = useState(false);
+    const usernameRef = useRef(null);
+    const passwordRef = useRef(null);
+    const loginBtnRef = useRef(null);
+
+    useEffect(() => {
+        usernameRef.current?.focus();
+    }, []);
 
     const Submit = (e) => {
         e.preventDefault();
         setLoading(true);
         axios.post(`${apiUrl}/api/admin/login/`, { staffId, password })
-        .then(res => {
-            setLoading(false)
-            console.log("Response from server:", res.data);
-            if (res.data.status === 'exist') {
-                const { role, token } = res.data;
-                localStorage.setItem('token', token);
-                localStorage.setItem('role', role);
-                if (role === 1 || role === 3) {
-                    navigate('/admin/dashboard', { state: { id: staffId, role } });
-                } else if (role === 2) {
-                    navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
-                } else if (staffId === `${role}`) {
-                    navigate(`/student/${staffId}/status`, { state: { id: staffId } });
+            .then(res => {
+                setLoading(false)
+                console.log("Response from server:", res.data);
+                if (res.data.status === 'exist') {
+                    const { role, token } = res.data;
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('role', role);
+                    if (role === 1 || role === 3) {
+                        navigate('/admin/dashboard', { state: { id: staffId, role } });
+                    } else if (role === 2) {
+                        navigate(`/staff/${staffId}/dashboard`, { state: { id: staffId, role } });
+                    } else if (staffId === `${role}`) {
+                        navigate(`/student/${staffId}/status`, { state: { id: staffId } });
+                    }
                 }
-            }
-            else if (res.data.status === 'wrong password') { alert("Wrong Password") }
-            else if (res.data.status === 'not exist') { alert("User does not exist") }
-        })
-        .catch(e => { alert("An error occurred. Please try again.") })
+                else if (res.data.status === 'wrong password') { alert("Wrong Password") }
+                else if (res.data.status === 'not exist') { alert("User does not exist") }
+            })
+            .catch(e => { alert("An error occurred. Please try again.") })
     }
 
     return (
@@ -74,8 +81,14 @@ function TextBox() {
                             <form onSubmit={Submit} className="space-y-5">
                                 <h1 className="text-lg lg:text-2xl font-bold text-center text-orange-600">LOGIN</h1>
                                 <input
-                                    type="text"
+                                    type="text" ref={usernameRef}
                                     value={staffId}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            passwordRef.current?.focus();
+                                        }
+                                    }}
                                     onChange={(e) => setStaffId(e.target.value.toUpperCase())}
                                     className="w-full border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none px-4 py-2.5 rounded-md placeholder-gray-500"
                                     placeholder="Username"
@@ -84,6 +97,7 @@ function TextBox() {
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         value={password}
+                                        ref={passwordRef}
                                         onChange={(e) => setPassword(e.target.value)}
                                         className="w-full border border-gray-300 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none px-4 py-2.5 pr-10 rounded-md placeholder-gray-500"
                                         placeholder="Password"
