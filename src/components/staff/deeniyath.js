@@ -150,6 +150,9 @@ function AttendDeeniyath() {
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700 sticky top-0 z-10">
                         <tr className='h-[70px]'>
+                            <th className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300 w-[6%]">
+                                S.No
+                            </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
                                 <th key={i} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
@@ -167,6 +170,7 @@ function AttendDeeniyath() {
                         ) : (
                             users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
                                 <tr key={`${user._id}-${index}`} className="hover:bg-gray-50 transition-colors h-[80px] border-t border-gray-300">
+                                    <td className="px-4 py-3 text-center font-semibold border-r">{index + 1}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
@@ -212,7 +216,7 @@ function AttendDeeniyath() {
                     className={`px-6 py-2 rounded-md font-semibold text-white ${!currAttendancetot || users.length === 0
                         ? 'bg-gray-400 cursor-not-allowed'
                         : 'bg-blue-600 hover:bg-blue-700'
-                    }`}
+                        }`}
                 >
                     Submit
                 </button>

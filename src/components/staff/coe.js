@@ -122,7 +122,7 @@ function COE() {
                                     className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300"
                                     style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }}
                                 >
-                                    {heading}
+                                    {heading} 
                                 </th>
                             ))}
                         </tr>

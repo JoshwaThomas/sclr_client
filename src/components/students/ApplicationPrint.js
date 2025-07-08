@@ -85,7 +85,7 @@ function ApplicationPrint({ student }) {
                                     )}
                                     <LabeledBox label="Class Attendance %" value={student.classAttendancePer === 0 ? '-' : student.classAttendancePer} />
                                     <LabeledBox label="Deeniyath / Moral %" value={student.deeniyathPer === 0 ? '-' : student.deeniyathPer} />
-                                    {student.arrear !== 0 && (<LabeledBox label="No. Of Arrears" value={student.arrear} />)}
+                                    {student.arrear !== 0 && (<LabeledBox label="No. of Arrears" value={student.arrear} />)}
                                     {student.fresherOrRenewal === 'Renewal' && (
                                         <LabeledBox label="Last Time Credited Amount" value={student.lastCreditedAmt || '-'} />
                                     )}

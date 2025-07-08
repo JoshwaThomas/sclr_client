@@ -3,19 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { GoAlert } from "react-icons/go";
 
-const Notification = ({ message, type, onClose }) => {
-    if (!message) return null;
-
-    return (
-        <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 p-7 text-lg rounded-lg font-bold bg-white  ${type === 'success' ? ' text-green-700' : 'text-red-500'
-            }`}>
-            {message}
-            <button onClick={onClose} className="ml-4 text-red-500 underline">Close</button>
-        </div>
-    );
-};
-
 function Status() {
+
     const navigate = useNavigate();
     const [registerNo, setRegisterNo] = useState('');
     const [name, setName] = useState()
@@ -180,11 +169,9 @@ function Status() {
 
 
     const Submit = async (e) => {
+
         e.preventDefault();
-        if (!registerNo) {
-            alert('Please fill in the Register No');
-            return;
-        }
+        if (!registerNo) { alert('Register No should not be empty'); return }
 
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
@@ -229,12 +216,10 @@ function Status() {
         }
     };
 
+    // Modify Button Click
     const handleModifyClick = async (e) => {
         e.preventDefault();
-        if (!registerNo) {
-            alert('Please fill in the Register No');
-            return;
-        }
+        if (!registerNo) { alert('Register number should not be empty'); return }
 
         try {
             const result = await axios.get(`${apiUrl}/api/admin/status/${registerNo}`);
@@ -286,7 +271,7 @@ function Status() {
             alert('An error occurred while fetching the student data');
             setStudent(null);
         }
-    };
+    }
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -497,17 +482,10 @@ function Status() {
 
     return (
         <div className="w-full p-6">
-            <Notification
-                message={notification.message}
-                type={notification.type}
-                onClose={() => setNotification({ message: '', type: '' })}
-            />
             <form className="space-y-6 w-full">
-                <div>
-                    <h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
-                        Application Status
-                    </h3>
-                </div>
+                <h3 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
+                    Application Status
+                </h3>
                 <div className="bg-white border border-gray-300 rounded-xl p-6 shadow-md">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -526,30 +504,54 @@ function Status() {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex justify-between w-[50%]">
                     <button
                         type="button"
                         onClick={Submit}
-                        className="px-6 py-2 bg-blue-600 hover:bg-blue-800 text-white font-semibold rounded shadow"
+                        className="w-[30%] py-2 bg-blue-600 hover:bg-blue-800 text-white font-semibold rounded shadow"
                     >
                         Check Status
                     </button>
                     <button
                         type="button"
                         onClick={handleModifyClick}
-                        className="px-6 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded shadow"
+                        className="w-[30%] py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded shadow"
                     >
                         Modify
                     </button>
                     <button
                         type="button"
                         onClick={() => navigate('/freshstudent/application/fresh')}
-                        className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded shadow"
+                        className="w-[30%] py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded shadow"
                     >
                         New Application
                     </button>
                 </div>
             </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {showModal && student && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-red-300 w-3/4 h-96 rounded-lg overflow-auto p-6">
@@ -1665,62 +1667,6 @@ function Status() {
                 </div>
             )}
 
-            {/* {
-                    showModifyModal && (
-                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                            <div className="bg-gray-300 p-8 rounded-lg">
-                                <form onSubmit={SubmitModify} className="space-y-4">
-                                    <div>
-                                        <label htmlFor="name" className="block">Name</label>
-                                        <input
-                                            type="text"
-                                            id="name"
-                                            name="name"
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value.toUpperCase())}
-                                            className="w-full p-2 border rounded-md"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="dept" className="block">Department</label>
-                                        <input
-                                            type="text"
-                                            id="dept"
-                                            name="dept"
-                                            value={student.dept || ''}
-                                            onChange={handleInputChange}
-                                            className="w-full p-2 border rounded-md"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="mobileNo" className="block">Mobile No.</label>
-                                        <input
-                                            type="text"
-                                            id="mobileNo"
-                                            name="mobileNo"
-                                            value={student.mobileNo || ''}
-                                            onChange={handleInputChange}
-                                            className="w-full p-2 border rounded-md"
-                                        />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        className="bg-green-500 text-white py-2 px-4 rounded-md"
-                                    >
-                                        Save Changes
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="bg-red-500 text-white py-2 px-4 rounded-md"
-                                        onClick={closeModifyModal}
-                                    >
-                                        Close
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    )
-                } */}
         </div >
     );
 }

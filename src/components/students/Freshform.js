@@ -725,7 +725,7 @@ const ScholarshipForm = () => {
 											name="sibling"
 											value="No"
 											checked={siblings === "No"}
-											onChange={(e) => setSiblings(e.target.value.toUpperCase())}
+											onChange={(e) => setSiblings(e.target.value)}
 											className="scale-125"
 											required
 										/>
