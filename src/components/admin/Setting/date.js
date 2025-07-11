@@ -9,11 +9,14 @@ const DateAdmin = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleSaveDates = async () => {
+        if (!startDate || !endDate) {
+            alert("Please fill in both Start Date and End Date."); return;
+        }
         try {
             await axios.post(`${apiUrl}/api/admin/dates`, { startDate, endDate });
-            alert('Application dates saved.');
+            alert('Application Date Saved Successfully.');
         } catch (error) {
-            console.error('Error saving dates:', error);
+            console.error('Error saving dates : ', error);
             alert('Failed to save dates.');
         }
     };
@@ -22,10 +25,11 @@ const DateAdmin = () => {
         const fetchDates = async () => {
             try {
                 const response = await axios.get(`${apiUrl}/api/admin/dates`);
+                const { startDate, endDate } = response.data || {};
                 setDate(response.data);
-            } catch (error) {
-                console.error('Error fetching dates:', error);
-            }
+                if (startDate) setStartDate(startDate.slice(0, 10));
+                if (endDate) setEndDate(endDate.slice(0, 10));
+            } catch (error) { console.error('Error fetching dates:', error) }
         };
         fetchDates();
     }, [apiUrl]);
@@ -40,9 +44,6 @@ const DateAdmin = () => {
                 <div className="w-full md:w-auto">
                     <label className="block text-lg font-semibold text-gray-700 mb-4">
                         Start Date :
-                        <span className="ml-2 text-md text-blue-600">
-                            {date.startDate ? new Date(date.startDate).toLocaleDateString('en-IN') : '—'}
-                        </span>
                     </label>
                     <input
                         type="date"
@@ -55,9 +56,6 @@ const DateAdmin = () => {
                 <div className="w-full md:w-auto">
                     <label className="block text-lg font-semibold text-gray-700 mb-4">
                         End Date :
-                        <span className="ml-2 text-md text-blue-600">
-                            {date.endDate ? new Date(date.endDate).toLocaleDateString('en-IN') : '—'}
-                        </span>
                     </label>
                     <input
                         type="date"
@@ -69,8 +67,7 @@ const DateAdmin = () => {
                 {/* Save Button with invisible label for alignment */}
                 <div className="w-full md:w-auto">
                     <label className="block mb-5 invisible">Action</label>
-                    <button
-                        type="button"
+                    <button type="button"
                         onClick={handleSaveDates}
                         className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 h-[39px] rounded-md transition w-full md:w-auto"
                     >
@@ -78,8 +75,7 @@ const DateAdmin = () => {
                     </button>
                 </div>
             </div>
-        </div>
-
+        </div> 
     )
 }
 

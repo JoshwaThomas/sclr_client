@@ -16,13 +16,22 @@ const ScholarshipForm = () => {
 	});
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const fetchDataAndDates = async () => {
 			if (!staffId) return;
+
 			try {
-				const result = await axios.get(`${apiUrl}/api/admin/students`, {
+				const dateResponse = await axios.get(`${apiUrl}/api/admin/dates`);
+				const { endDate } = dateResponse.data || {};
+				const today = new Date();
+
+				let endDateObj = null;
+				if (endDate) { endDateObj = new Date(endDate)}
+
+				const studentResponse = await axios.get(`${apiUrl}/api/admin/students`, {
 					params: { registerNo: staffId.toUpperCase() }
 				});
-				const data = result.data;
+				const data = studentResponse.data;
+
 				setFormData({
 					deeniyath: data.deeniyath || '', ugOrPg: data.ugOrPg || '', semester: data.semester || '', name: data.name || '',
 					registerNo: data.registerNo || '', dept: data.dept || '', section: data.section || '', religion: data.religion || '',
@@ -31,14 +40,18 @@ const ScholarshipForm = () => {
 					aadhar: data.aadhar || '', fatherName: data.fatherName || '', fatherNo: data.fatherNo || '', fatherOccupation: data.fatherOccupation || '',
 					annualIncome: data.annualIncome || '', lastCreditedAmt: data.scholamt || '', siblings: data.siblings || '', studentType: data.studentType || '',
 					siblingsNo: data.siblingsNo || '', siblingsOccupation: data.siblingsOccupation || '', siblingsIncome: data.siblingsIncome || '', jamath: ''
-				})
-				setIsEditable(data.showOrBlock === "show");
-			} catch (err) {
-				console.error('Error fetching student data:', err.response ? err.response.data : err);
-				alert('Student not found');
+				});
+
+				const isWithinDate = endDateObj ? today <= endDateObj : false;
+				const isStudentAllowed = data.showOrBlock === "show";
+				setIsEditable(isWithinDate && isStudentAllowed);
+
+			} catch (error) {
+				console.error('Error:', error.response ? error.response.data : error);
+				alert('Failed to load data.');
 			}
 		}
-		fetchData();
+		fetchDataAndDates();
 	}, [staffId, apiUrl]);
 
 	const handleChange = (e) => {

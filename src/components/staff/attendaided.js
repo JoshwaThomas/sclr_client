@@ -30,16 +30,22 @@ function Attendaided() {
                 setTotaldata(totalaided);
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
-            } catch (error) { console.log(error)  }
+            } catch (error) { console.log(error) }
         }
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
+        const numericValue = parseFloat(value);
+        if (type === 'currAttendance') {
+            const selectedUser = users.find(user => user.registerNo === registerNo);
+            const total = parseFloat(currAttendancetot);
+            if (numericValue > total) { return  }
+        }
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
-        ))
-    }
+        ));
+    };
 
     useEffect(() => {
         const calculatePercentage = () => {
@@ -49,7 +55,7 @@ function Attendaided() {
                 if (totalCurrAttendance > 0) {
                     const percentage = (currAttendance / totalCurrAttendance) * 100;
                     acc[user.registerNo] = percentage.toFixed(2);
-                } else { acc[user.registerNo] = '0'}
+                } else { acc[user.registerNo] = '0' }
                 return acc;
             }, {});
             setClassAttendancePer(updatedAttendancePer);
@@ -72,7 +78,7 @@ function Attendaided() {
             const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
-            } else { alert('Something went wrong')}
+            } else { alert('Something went wrong') }
         } catch (err) {
             console.error('Error : ', err);
             window.alert("Something Went Wrong with the server");
@@ -101,7 +107,7 @@ function Attendaided() {
                 <div className="flex items-center gap-4">
                     <label className="font-semibold text-lg">Current Semester Working Days :</label>
                     <input
-                        type="text"
+                        type="number"
                         className="w-20 border border-black px-2 py-1.5 rounded text-right"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
@@ -138,7 +144,7 @@ function Attendaided() {
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
                                     <td className="px-4 py-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-20 border p-2 rounded text-right"
                                             value={user.prevAttendance || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
@@ -146,9 +152,10 @@ function Attendaided() {
                                     </td>
                                     <td className="px-4 py-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-20 border p-2 rounded text-right"
                                             value={user.currAttendance || ''}
+                                            max={currAttendancetot}
                                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                                         />
                                     </td>
@@ -179,7 +186,7 @@ function Attendaided() {
                 </button>
             </div>
         </div>
-    );
+    )
 }
 
 export default Attendaided;

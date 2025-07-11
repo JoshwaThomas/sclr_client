@@ -131,10 +131,10 @@ function Status() {
                         </div>
                         <div>
                             <h3 className="text-xl font-semibold bg-gray-600 p-3 text-white mt-6 rounded-t-md">
-                                Personal Details
+                                Educational Details
                             </h3>
                             <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
-                                <div className="grid grid-cols-2 border border-gray-600 rounded-md overflow-hidden">
+                                <div className="grid grid-cols-2 border-t border-l border-r border-gray-600 rounded-md overflow-hidden">
                                     {student.semester === 'I' ? (
                                         <>
                                             {/* <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
@@ -173,25 +173,31 @@ function Status() {
                                     <div className="flex justify-center border-b border-gray-600 p-3">
                                         {student.classAttendancePer === 0 ? 'Pending' : student.classAttendancePer}
                                     </div>
-                                    <div className="flex justify-center border-r border-gray-600 p-3 font-semibold bg-gray-100">
+                                    <div className="flex justify-center border-r  border-b border-gray-600 p-3 font-semibold bg-gray-100">
                                         Deeniyath / Moral Percentage
                                     </div>
-                                    <div className="flex justify-center p-3">
+                                    <div className="flex justify-center p-3  border-b border-gray-600">
                                         {student.deeniyathPer === 0 ? 'Pending' : student.deeniyathPer}
                                     </div>
+                                    {student.arrear !== 0 && (
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                No. of Arrear
+                                            </div>
+                                            <div className="flex justify-center p-3 border-b border-gray-600"> {student.arrear} </div>
+                                        </>
+                                    )}
+                                    {student.fresherOrRenewal === 'Renewal' && (
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Last Time Credited Amount
+                                            </div>
+                                            <div className="flex justify-center p-3 border-b border-gray-600"> {student.lastCreditedAmt} </div>
+                                        </>
+                                    )}
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-5">
-                                {student.arrear !== 0 && (
-                                    <div>
-                                        <label className="">No. Of Arrear :</label>{student.arrear}
-                                    </div>
-                                )}
-                                {student.fresherOrRenewal === 'Renewal' && (
-                                    <div>
-                                        <label className="font-semibold">Last Time Credited Amount : </label>{student.lastCreditedAmt}
-                                    </div>
-                                )}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-6">
                                 <div>
                                     <p className="font-semibold mb-4">Jamath / Declaration Letter : </p>
                                     <img src={`${apiUrl}/${student.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" />

@@ -366,7 +366,7 @@ function ModifyModal(props) {
                                 <div>
                                     <label className="block mb-2 font-semibold text-gray-700">Aadhar No. :</label>
                                     <input
-                                        type="text" value={aadhar} maxLength="10" name='aadhar'
+                                        type="text" value={aadhar} maxLength="12" name='aadhar'
                                         onChange={(e) => setStudentData((prevData) => ({ ...prevData, aadhar: e.target.value }))}
                                         className="w-full p-2.5 border border-gray-600 rounded-lg text-gray-900"
                                     />

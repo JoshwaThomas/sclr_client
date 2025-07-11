@@ -15,7 +15,7 @@ function ApplicationPrint({ student }) {
     }
 
     return (
-        <div className='mt-10'>
+        <div className='mt-6'>
             <style>
                 {`@media print {
                         body { margin: 0; -webkit-print-color-adjust: exact; }
@@ -23,7 +23,7 @@ function ApplicationPrint({ student }) {
                     }
                 `}
             </style>
-            <div className='flex justify-end mb-10'>
+            <div className='flex justify-end mb-6'>
                 <button
                     type='button'
                     onClick={handlePrint}

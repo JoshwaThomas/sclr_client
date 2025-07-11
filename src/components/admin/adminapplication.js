@@ -876,1048 +876,808 @@ function Action() {
 
 
     return (
-        <div>
-            <div className='end-px flex'>
-                <div>
-                    <input
-                        type='text'
-                        placeholder='Search text here'
-                        className='uppercase py-1 rounded-md mr-2 border border-black'
+        <div className='p-6'>
+
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                {/* Search Box */}
+                <div className="flex items-center gap-3">
+                    <input type="text"
+                        placeholder="Search ...."
+                        className="py-2 px-4 w-72 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-600"
                         onChange={handleSearch}
                     />
-                    <button
-                        type="button"
-                        className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
+                </div>
+                {/* Quick Rejection Button */}
+                <div>
+                    <button type="button"
+                        onClick={handleQuickRejection}
+                        className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-base md:text-lg px-6 py-3 rounded-md shadow"
                     >
-                        Search
+                        Quick Rejection
                     </button>
                 </div>
             </div>
-            <div className='text-right -mt-10'>
-
-                <button
-                    type="button"
-                    onClick={handleQuickRejection}
-                    className="bg-orange-500 text-white py-4 px-6 text-xl shadow-black shadow-lg hover:bg-black rounded-lg mt-1 font-bold  "
-                >
-                    Quick Rejection
-                </button>
-
-            </div>
-
 
             {quickRejectMode ? (
-                <div>
-                    <h3 className='text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white'>Quick Rejection List (A student will be rejected if they meet any of the following conditions):</h3>
-                    <div className="overflow-auto">
+                <div className="">
+                    <h3 className="text-[19px] mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
+                        Quick Rejection List ( Students will be rejected if they meet any of the following conditions ) :
+                    </h3>
+
+                    {/* Filters */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                         <div>
-                            <div className=' '>
-                                {/* <div className="mt-6 grid grid-cols-4">
-                                    <label className="font-bold text-right mt-2 text-gray-700">Class Attendance:</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
-                                        value={classAttendance}
-                                        onChange={(e) => setClassAttendance(e.target.value)}
-                                    />
+                            <label className="block text-md font-semibold text-gray-700 mb-3">
+                                Class Attendance (≤) :
+                            </label>
+                            <input
+                                type="text"
+                                value={classAttendance}
+                                onChange={(e) => setClassAttendance(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-md font-semibold text-gray-700 mb-3">
+                                Deeniyath / Moral Attendance (≤) :
+                            </label>
+                            <input
+                                type="text"
+                                value={moralAttendance}
+                                onChange={(e) => setMoralAttendance(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-md font-semibold text-gray-700 mb-3">
+                                Percentage of Marks (≤) :
+                            </label>
+                            <input
+                                type="text"
+                                value={mark}
+                                onChange={(e) => setMark(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-md font-semibold text-gray-700 mb-3">
+                                Arrear Subjects (≥) :
+                            </label>
+                            <input
+                                type="text"
+                                value={arrear}
+                                onChange={(e) => setArrear(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-md font-semibold text-gray-700 mb-3">
+                                Annual Income (≥) :
+                            </label>
+                            <input
+                                type="text"
+                                value={siblingsIncome}
+                                onChange={(e) => setSiblingsIncome(e.target.value)}
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                            />
+                        </div>
+                        <div className="flex items-end">
+                            <button
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-md shadow hover:bg-emerald-700 transition"
+                            >
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
 
-                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath / Moral Attendance:</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-1"
-                                        value={moralAttendance}
-                                        onChange={(e) => setMoralAttendance(e.target.value)}
-                                    />
+                    {/* Count */}
+                    <div className="text-right font-semibold text-lg mb-4">
+                        No of Students : {quickRejectList.length}
+                    </div>
 
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Mark:</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
-                                        value={mark}
-                                        onChange={(e) => setMark(e.target.value)}
-                                    />
+                    {/* Table Wrapper */}
+                    <div className="overflow-x-auto border rounded-md shadow-sm">
+                        <table className="min-w-full table-auto border-collapse">
+                            {/* Table Head */}
+                            <thead className="bg-emerald-700 text-white">
+                                <tr>
+                                    <th className="px-4 py-3 text-center font-semibold border-r border-white w-[15%]">Register No</th>
+                                    <th className="px-4 py-3 text-center font-semibold border-r border-white w-[35%]">Name</th>
+                                    <th className="px-4 py-3 text-center font-semibold border-r border-white w-[20%]">Special Categories</th>
+                                    <th className="px-4 py-3 text-center font-semibold w-[30%]">Rejection Reason</th>
+                                </tr>
+                            </thead>
 
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Arrear:</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
-                                        value={arrear}
-                                        onChange={(e) => setArrear(e.target.value)}
-                                    />
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Annual Income:</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 rounded-md w-32 p-2 mt-10"
-                                        value={siblingsIncome}
-                                        onChange={(e) => setSiblingsIncome(e.target.value)}
-                                    />
-                                </div> */}
-                                <div className="mt-6 grid grid-cols-4 gap-4">
-                                    <label className="font-bold text-right mt-2 text-gray-700">Class Attendance (&lt;=):</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3  border-black rounded-md w-32 p-2 mt-1"
-                                        value={classAttendance}
-                                        onChange={(e) => setClassAttendance(e.target.value)}
-                                    />
-
-                                    <label className="font-bold ml-5 text-right mt-2 text-gray-700">Deeniyath /<br /> Moral Attendance (&lt;=):</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-1"
-                                        value={moralAttendance}
-                                        onChange={(e) => setMoralAttendance(e.target.value)}
-                                    />
-
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Mark (&lt;=):</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
-                                        value={mark}
-                                        onChange={(e) => setMark(e.target.value)}
-                                    />
-
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Arrear (&gt;=):</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
-                                        value={arrear}
-                                        onChange={(e) => setArrear(e.target.value)}
-                                    />
-
-                                    <label className="font-bold ml-5 text-right text-gray-700 mt-12">Annual Income (&gt;=):</label>
-                                    <input
-                                        type="text"
-                                        className="border ml-3 border-black rounded-md w-32 p-2 mt-10"
-                                        value={siblingsIncome}
-                                        onChange={(e) => setSiblingsIncome(e.target.value)}
-                                    />
-                                    <div>
-
-                                    </div>
-                                    <div className='flex justify-end items-end '>
-                                        <button
-                                            className="bg-teal-600 text-white rounded-md px-2  shadow-black shadow-lg py-2 mt-4 "
-                                            // onClick={handleFilter}
+                            {/* Table Body */}
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {quickRejectList.length === 0 ? (
+                                    <tr className='h-[70px]'>
+                                        <td colSpan="4" className="text-center text-gray-500 font-medium">
+                                            No records found.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    quickRejectList.map((user) => (
+                                        <tr
+                                            key={user._id}
+                                            className="hover:bg-gray-50 transition-colors text-center text-gray-700"
                                         >
-                                            Apply Filters
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div className="text-right font-bold text-xl mr-40 mt-10 ">No of Students :  {quickRejectList.length}</div>
-                            <div className="grid grid-cols-4 text-white bg-emerald-500 sticky top-0 z-10">
-                                <div className="font-bold border border-black text-center py-3">Register No</div>
-                                <div className="font-bold border border-black text-center py-3">Name</div>
-                                <div className="font-bold border border-black text-center py-3">Special Categories</div>
-                                <div className="font-bold border border-black text-center py-3">Rejection Reason</div>
-                            </div>
-                            <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                                {quickRejectList.map((user, index) => (
-                                    <React.Fragment key={user._id}>
-                                        <div className={`grid grid-cols-4  ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                                            <div className="font-bold border border-black text-center py-3">{user.registerNo}</div>
-                                            <div className="font-bold border border-black text-center py-3">{user.name}</div>
-                                            <div className="font-bold border border-black text-center py-3">{user.specialCategory}</div>
-                                            <div className="font-bold border border-black text-center py-3">
+                                            <td className="px-4 py-3 font-semibold border-r">{user.registerNo}</td>
+                                            <td className="px-4 py-3 font-semibold border-r">{user.name}</td>
+                                            <td className="px-4 py-3 border-r">{user.specialCategory || <span className="text-gray-400">—</span>}</td>
+                                            <td className="px-2 py-2">
                                                 <input
                                                     type="text"
-                                                    placeholder="Enter rejection reason"
-                                                    className="border rounded-md w-full h-full"
+                                                    placeholder="Enter reason"
+                                                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                                                     value={user.rejectReason || ''}
                                                     onChange={(e) => handleQuickRejectReasonChange(e, user._id)}
                                                 />
-                                            </div>
-                                        </div>
-                                    </React.Fragment>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex justify-end gap-4 mt-6">
+                        <button
+                            type="button"
+                            className="bg-gray-700 text-white px-5 py-2 rounded-md hover:bg-black transition"
+                            onClick={() => setQuickRejectMode(false)}
+                        >
+                            Back
+                        </button>
+                        <button
+                            type="button"
+                            className="bg-red-600 text-white px-5 py-2 rounded-md hover:bg-red-700 transition"
+                            onClick={handleQuickRejectSubmit}
+                        >
+                            Submit All Rejections
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <div >
+                    {/* Filter Section */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+
+                        {/* Search Mode */}
+                        <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
+                            <h2 className="text-lg font-semibold text-gray-800 mb-5">Search Mode</h2>
+                            <div className="flex gap-4">
+                                {["all", "in-progress"].map((mode) => (
+                                    <label key={mode} className="flex items-center gap-2 text-gray-700 text-base capitalize">
+                                        <input
+                                            type="radio"
+                                            name="search"
+                                            value={mode}
+                                            onChange={handleRadioChange}
+                                            checked={radioValue === mode}
+                                            className="accent-emerald-600 w-5 h-5"
+                                        />
+                                        {mode}
+                                    </label>
                                 ))}
                             </div>
                         </div>
-                    </div>
-                    <button
-                        type="button"
-                        className="bg-blue-500 text-white py-2 px-4 hover:bg-blue-700 rounded-lg mt-4 ml-2"
-                        onClick={() => setQuickRejectMode(false)}
-                    >
-                        Back
-                    </button>
-                    <button
-                        type="button"
-                        className="bg-red-500 text-white py-2 px-4 hover:bg-red-700 rounded-lg mt-4 ml-5"
-                        onClick={handleQuickRejectSubmit}
-                    >
-                        Submit All Rejections
-                    </button>
-                </div>
-            ) : (
-                <div>
-                    <div className='end-px'>
 
-                        <div className='flex inline-flex '>
-                            <div className='end-px border border-black w-72 mt-4 py-2 border-4 flex inline-flex'>
-                                <input
-                                    type="radio"
-                                    id="all"
-                                    name="search"
-                                    value="all"
-                                    className='scale-200 ml-5'
-                                    onChange={handleRadioChange}
-                                    defaultChecked
-                                />
-                                <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
-
-                                <input
-                                    type="radio"
-                                    id="in-progress"
-                                    name="search"
-                                    value="in-progress"
-                                    className='scale-200 ml-4'
-                                    onChange={handleRadioChange}
-                                />
-                                <label htmlFor="in-progress" className='form-radio ml-2 text-lg'>In-Progress</label>
-                            </div>
-                            <div className='flex inline-flex px-4'></div>
-                            {radioValue === 'in-progress' && (
-                                <div>
-
-                                    <div className='end-px border border-black w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                                        <label htmlFor="" className='form-radio ml-2  text-lg'>Progress Status :&nbsp; </label>
-                                        <input
-                                            type="checkbox"
-                                            id="All"
-                                            name="All"
-                                            className='scale-200 ml-2'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="Aided"
-                                            name="Aided"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-
-
-                                        />
-                                        <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="SFM"
-                                            name="SFM"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-
-                                        />
-                                        <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="SFW"
-                                            name="SFW"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="DM"
-                                            name="DM"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
-                                        <input
-                                            type="checkbox"
-                                            id="DW"
-                                            name="DW"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="MM"
-                                            name="MM"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
-
-                                        <input
-                                            type="checkbox"
-                                            id="MW"
-                                            name="MW"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
-                                        <input
-                                            type="checkbox"
-                                            id="COE"
-                                            name="COE"
-                                            className='scale-200 ml-4'
-                                            onChange={handleStaffverifyChange}
-                                        />
-                                        <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
-                                    </div>
+                        {/* Application Status */}
+                        {radioValue === "all" && (
+                            <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
+                                <h2 className="text-lg font-semibold text-gray-800 mb-5">Application Status</h2>
+                                <div className="flex gap-4">
+                                    {[
+                                        { value: "allar", label: "All" },
+                                        { value: "1", label: "Accepted" },
+                                        { value: "2", label: "Rejected" },
+                                    ].map(({ value, label }) => (
+                                        <label key={value} className="flex items-center gap-2 text-gray-700 text-base">
+                                            <input
+                                                type="radio"
+                                                name="acceptreject"
+                                                value={value}
+                                                onChange={handleAcceptrejectChange}
+                                                checked={acceptreject === value}
+                                                className="accent-blue-600 w-5 h-5"
+                                            />
+                                            {label}
+                                        </label>
+                                    ))}
                                 </div>
-                            )}
-                        </div>
-                        {radioValue === 'all' && (
-                            <div className=''>
-                                <div className='end-px border border-black w-72 mt-4 py-2 border-4'>
-                                    <input
-                                        type="radio"
-                                        id="all"
-                                        name="acceptreject"
-                                        value="allar"
-                                        className='scale-200 ml-5'
-                                        onChange={handleAcceptrejectChange}
-
-                                    />
-                                    <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
-                                    <input
-                                        type="radio"
-                                        id="accept"
-                                        name="acceptreject"
-                                        value="1"
-                                        className='scale-200 ml-4'
-                                        onChange={handleAcceptrejectChange}
-                                        checked={acceptreject === '1'}
-                                    />
-                                    <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Accept</label>
-
-                                    <input
-                                        type="radio"
-                                        id="reject"
-                                        name="acceptreject"
-                                        value="2"
-                                        className='scale-200 ml-4'
-                                        onChange={handleAcceptrejectChange}
-                                        checked={acceptreject === '2'}
-                                    />
-                                    <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Reject</label>
-                                </div>
-
                             </div>
-
                         )}
-                        {radioValue === 'in-progress' && (
-                            <div className=''>
-                                <div className='end-px  border border-black w-72 mt-4 py-2 border-4 flex inline-flex'>
-                                    <input
-                                        type="radio"
-                                        id="all-progress"
-                                        name="progress"
-                                        value="all"
-                                        className='scale-200 ml-5'
-                                        onChange={handleProgressRadioChange}
-                                        checked={progressRadioValue === 'all'}
-                                    />
-                                    <label htmlFor="all-progress" className='form-radio ml-2 text-lg'>Both</label>
 
-                                    <input
-                                        type="radio"
-                                        id="fresher"
-                                        name="progress"
-                                        value="Fresher"
-                                        className='scale-200 ml-4'
-                                        onChange={handleProgressRadioChange}
-                                        checked={progressRadioValue === 'fresher'}
-                                    />
-                                    <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
-
-                                    <input
-                                        type="radio"
-                                        id="renewal"
-                                        name="progress"
-                                        value="renewal"
-                                        className='scale-200 ml-4'
-                                        onChange={handleProgressRadioChange}
-                                        checked={progressRadioValue === 'renewal'}
-                                    />
-                                    <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
+                        {/* Progress Type */}
+                        {radioValue === "in-progress" && (
+                            <div className="bg-white border-l-4 border-indigo-600 p-6 rounded-lg shadow-md">
+                                <h2 className="text-lg font-semibold text-gray-800 mb-5">Progress Type</h2>
+                                <div className="flex gap-4">
+                                    {["all", "fresher", "renewal"].map((val) => (
+                                        <label key={val} className="flex items-center gap-2 text-gray-700 text-base capitalize">
+                                            <input
+                                                type="radio"
+                                                name="progress"
+                                                value={val}
+                                                onChange={handleProgressRadioChange}
+                                                checked={progressRadioValue === val}
+                                                className="accent-indigo-600 w-5 h-5"
+                                            />
+                                            {val}
+                                        </label>
+                                    ))}
                                 </div>
-                                <div className='flex inline-flex px-4'></div>
-                                <div className='end-px border border-black w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                                    <input
-                                        type="checkbox"
-                                        id="muaddin"
-                                        name="muaddin"
-                                        className='scale-200 ml-2'
-                                        onChange={handleSpecialCategoryChange}
-                                    />
-                                    <label htmlFor="muAddin" className='form-checkbox ml-2 text-lg'>Mu-addin</label>
-
-                                    <input
-                                        type="checkbox"
-                                        id="hazrath"
-                                        name="hazrath"
-                                        className='scale-200 ml-4'
-                                        onChange={handleSpecialCategoryChange}
-                                    />
-                                    <label htmlFor="hazrath" className='form-checkbox ml-2 text-lg'>Hazrath</label>
-
-                                    <input
-                                        type="checkbox"
-                                        id="fathermotherseparated"
-                                        name="fathermotherseparated"
-                                        className='scale-200 ml-4'
-                                        onChange={handleSpecialCategoryChange}
-                                    />
-                                    <label htmlFor="FatherMotherSeparated" className='form-checkbox ml-2 text-lg'>Parent Separated</label>
-
-                                    <input
-                                        type="checkbox"
-                                        id="fatherExpired"
-                                        name="fatherExpired"
-                                        className='scale-200 ml-4'
-                                        onChange={handleSpecialCategoryChange}
-                                    />
-                                    <label htmlFor="fatherExpired" className='form-checkbox ml-2 text-lg'>Father Expired</label>
-                                    <input
-                                        type="checkbox"
-                                        id="singleparent"
-                                        name="singleparent"
-                                        className='scale-200 ml-4'
-                                        onChange={handleSpecialCategoryChange}
-                                    />
-                                    <label htmlFor="singleparent" className='form-checkbox ml-2 text-lg'>Single Parent</label>
-                                </div>
-                                {/* <div className='end-px border border-amber-100 w-auto mt-4 py-2 px-2 border-4 flex inline-flex'>
-                            <input
-                                type="checkbox"
-                                id="All"
-                                name="All"
-                                className='scale-200 ml-2'
-                                onChange={handleStaffverifyChange}
-                                defaultChecked
-                            />
-                            <label htmlFor="All" className='form-checkbox ml-2 text-lg'>All</label>
-
-                            <input
-                                type="checkbox"
-                                id="Aided"
-                                name="Aided"
-                                className='scale-200 ml-2'
-                                onChange={handleStaffverifyChange}
-
-                            />
-                            <label htmlFor="Aided" className='form-checkbox ml-2 text-lg'>Aided</label>
-
-                            <input
-                                type="checkbox"
-                                id="SFM"
-                                name="SFM"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-
-                            />
-                            <label htmlFor="SFM" className='form-checkbox ml-2 text-lg'>SFM</label>
-
-                            <input
-                                type="checkbox"
-                                id="SFW"
-                                name="SFW"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="SFW" className='form-checkbox ml-2 text-lg'>SFW</label>
-
-                            <input
-                                type="checkbox"
-                                id="DM"
-                                name="DM"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="DM" className='form-checkbox ml-2 text-lg'>DM</label>
-                            <input
-                                type="checkbox"
-                                id="DW"
-                                name="DW"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="DW" className='form-checkbox ml-2 text-lg'>DW</label>
-
-                            <input
-                                type="checkbox"
-                                id="MM"
-                                name="MM"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="MM" className='form-checkbox ml-2 text-lg'>MM</label>
-
-                            <input
-                                type="checkbox"
-                                id="MW"
-                                name="MW"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="MW" className='form-checkbox ml-2 text-lg'>MW</label>
-                            <input
-                                type="checkbox"
-                                id="COE"
-                                name="COE"
-                                className='scale-200 ml-4'
-                                onChange={handleStaffverifyChange}
-                            />
-                            <label htmlFor="COE" className='form-checkbox ml-2 text-lg'>COE</label>
-                        </div> */}
                             </div>
+                        )}
 
+                        {/* Progress Status */}
+                        {radioValue === "in-progress" && (
+                            <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
+                                <h2 className="text-lg font-semibold text-gray-800 mb-5">Staff Progress Status</h2>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {["All", "Aided", "SFM", "SFW", "DM", "DW", "MM", "MW", "COE"].map((status) => (
+                                        <label key={status} className="flex items-center gap-2 text-gray-700 text-sm uppercase">
+                                            <input
+                                                type="checkbox"
+                                                id={status}
+                                                name={status}
+                                                onChange={handleStaffverifyChange}
+                                                className="accent-emerald-600 w-5 h-5"
+                                            />
+                                            {status}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Special Categories */}
+                        {radioValue === "in-progress" && (
+                            <div className="bg-white border-l-4 border-yellow-600 p-6 rounded-lg shadow-md lg:col-span-3">
+                                <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                                    {[
+                                        { id: "muaddin", label: "Mu-addin" },
+                                        { id: "hazrath", label: "Hazrath" },
+                                        { id: "fathermotherseparated", label: "Parent Separated" },
+                                        { id: "fatherExpired", label: "Father Expired" },
+                                        { id: "singleparent", label: "Single Parent" },
+                                    ].map(({ id, label }) => (
+                                        <label key={id} className="flex items-center gap-3 text-gray-700 text-sm">
+                                            <input
+                                                type="checkbox"
+                                                id={id}
+                                                name={id}
+                                                onChange={handleSpecialCategoryChange}
+                                                className="accent-yellow-600 w-5 h-5"
+                                            />
+                                            {label}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
                         )}
                     </div>
-                    <div className='mt-6 pl-0'>
-                        <div className="text-right font-bold text-xl mb-3">No of Students :  {filterUsers.length}</div>
-                        <div className="grid grid-cols-4 w-auto text-white bg-emerald-500 sticky top-0">
-                            <div className="font-bold border border-black text-center py-3">REGISTER NO.</div>
-                            <div className="font-bold border border-black text-center py-3">NAME</div>
-                            <div className="font-bold border border-black text-center py-3">DEPARTMENT</div>
-                            <div className="font-bold border border-black text-center py-3">ACTION</div>
+
+                    {/* Student List Table */}
+                    <div>
+                        <div className="text-right font-semibold text-lg mb-3">
+                            No of Students : {filterUsers.length}
                         </div>
-                        <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                            {filterUsers.map((user, index) => (
-                                <div key={`${user._id}-${index}`} className={`grid grid-cols-4 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                                    <div className="font-bold border border-black text-center uppercase py-3">{user.registerNo}</div>
-                                    <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
-                                    <div className="font-bold border border-black text-center uppercase py-3">{user.dept}</div>
-                                    <div className="font-bold border border-black text-center uppercase py-3">
-                                        <button
-                                            type="button"
-                                            onClick={() => handleViewClick(user)}
-                                            className="bg-blue-500 text-white py-1 px-4 hover:bg-black rounded-lg"
+                        {/* Header Grid */}
+                        <div className="overflow-x-auto rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
+                            <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+                                <thead className="bg-emerald-700">
+                                    <tr>
+                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                            Register No
+                                        </th>
+                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                            Name
+                                        </th>
+                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                            Department
+                                        </th>
+                                        <th className="px-6 py-4 text-center text-md font-semibold text-white">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody className="bg-white">
+                                    {filterUsers.map((user, index) => (
+                                        <tr
+                                            key={`${user._id}-${index}`}
+                                            className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
                                         >
-                                            View
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleAccept(user)}
-                                            className={`px-4 py-1 ml-1 rounded-lg ${user.action === 1 ? 'bg-green-400 text-green-700' : user.action === 0 ? 'bg-green-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
-                                            disabled={user.action !== 0}
-                                        >
-                                            Accept
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleReject(user)}
-                                            className={`px-4 py-1 ml-1 rounded-lg ${user.action === 2 ? 'bg-red-400 text-red-700' : user.action === 0 ? 'bg-red-500 text-white hover:bg-black' : 'bg-gray-300 text-gray-500'}`}
-                                            disabled={user.action !== 0}
-                                        >
-                                            Reject
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
+                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                {user.registerNo}
+                                            </td>
+                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                {user.name}
+                                            </td>
+                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                {user.dept}
+                                            </td>
+                                            <td className="px-6 py-3 text-center text-md text-gray-700">
+                                                <div className="flex justify-center gap-2">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleViewClick(user)}
+                                                        className="bg-blue-500 text-white hover:bg-blue-700 py-1 h-[35px] w-24 rounded-md"
+                                                    >
+                                                        View
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleAccept(user)}
+                                                        className={`py-1 h-[35px] w-24 rounded-md ${user.action === 1
+                                                            ? 'bg-green-400 text-green-700'
+                                                            : user.action === 0
+                                                                ? 'bg-green-600 text-white hover:bg-green-700'
+                                                                : 'bg-gray-300 text-gray-500'
+                                                            }`}
+                                                        disabled={user.action !== 0}
+                                                    >
+                                                        Accept
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleReject(user)}
+                                                        className={`py-1 h-[35] w-24 rounded-md ${user.action === 2
+                                                            ? 'bg-red-400 text-red-700'
+                                                            : user.action === 0
+                                                                ? 'bg-red-500 text-white hover:bg-red-600'
+                                                                : 'bg-gray-300 text-gray-500'
+                                                            }`}
+                                                        disabled={user.action !== 0}
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             )}
-            {/* <div>
-                    {rusers.map((user) => (
-                        <div key={user.registerNo} className="grid grid-cols-5 w-auto bg-amber-200 p-4 border border-white gap-1 text-center">
-                            <div className="font-bold border border-white text-center uppercase">{user.fresherOrRenewal}</div>
-                            <div className="font-bold border border-white text-center uppercase">{user.registerNo}</div>
-                            <div className="font-bold border border-white text-center uppercase">{user.name}</div>
-                            <div className="font-bold border border-white text-center uppercase">{user.dept}</div>
-                            <div className="font-bold border border-white text-center">
-                                <button
-                                    type="button"
-                                    onClick={() => handleViewClick(user)}
-                                    className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                                >
-                                    View
-                                </button>
 
-                                <button
-                                    type="button"
-                                    onClick={() => handleAccept(user)}
-                                    className="px-3 py-1 bg-green-500 text-white hover:bg-black rounded-lg"
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    type="button"
-                                    className="px-4 py-1 ml-2 bg-red-500 text-white hover:bg-black rounded-lg"
-                                >
-                                    Reject
-                                </button>
-                            </div>
-                        </div>
-                    ))}</div> */}
-
-            <div className=' text-white flex inline-flex text-xl py-5 grid grid-cols-2 gap-4 mt-4'>
-                <div className='border border-white rounded-lg  grid grid-cols-2 p-4 bg-blue-600 '>
-                    <div className=' w-72 ml-7' > Number of Students Applied    </div><div className='ml-16'> :   {data.totalApplication} </div>
-                    <div className=' w-72 ml-7' > Number of Students Benefitted </div><div className='ml-16'> :   {data.totalBenefit} </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-gray-800">
+                {/* Application Summary */}
+                <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        📋 Application Summary
+                    </h3>
+                    <div className="flex justify-between text-gray-700">
+                        <span>Number of Students Applied :</span>
+                        <span className="font-bold">{data.totalApplication}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-700 mt-2">
+                        <span>Number of Students Benefitted :</span>
+                        <span className="font-bold">{data.totalBenefit}</span>
+                    </div>
                 </div>
-                <div className='border border-white rounded-lg   p-4 grid grid-cols-2 bg-blue-600 '>
-                    <div className='  '>Scholarship Received :</div><div className='-ml-10'> {formatCurrency(totaldonaramt)}</div>
-                    <div className=' '>Scholarship Awarded  : </div><div className='-ml-10'> {formatCurrency(totalamount)}  </div>
+                {/* Scholarship Summary */}
+                <div className="bg-white border-l-4 border-green-600 p-6 rounded-lg shadow-md">
+                    <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                        💰 Scholarship Summary
+                    </h3>
+                    <div className="flex justify-between text-gray-700">
+                        <span>Scholarship Received :</span>
+                        <span className="font-bold">{formatCurrency(totaldonaramt)}</span>
+                    </div>
+                    <div className="flex justify-between text-gray-700 mt-2">
+                        <span>Scholarship Awarded :</span>
+                        <span className="font-bold">{formatCurrency(totalamount)}</span>
+                    </div>
                 </div>
             </div>
+
+            {/* Application View Modal */}
             {showModal && selectedUser && (
-
-                <div className="fixed inset-0  flex items-center justify-center  ">
-                    <div className="bg-white ml-64 w-5/6 h-full  overflow-auto p-6">
-                        {/* fresher form data retrive */}
+                <div className="fixed inset-0 left-8 flex items-center justify-center">
+                    <button
+                        type="button"
+                        onClick={closeModal}
+                        className="absolute top-4 right-10 text-gray-600 hover:text-red-600 text-3xl font-bold focus:outline-none"
+                        aria-label="Close"
+                    >
+                        &times;
+                    </button>
+                    <div className="bg-white ml-64 w-[81%] h-full overflow-auto p-6">
                         <div>
-                            <div className=' '>
-                                <div>
-
-                                    <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2  text-white">Application</h3>
-
-                                    <div className="space-x-4 inline-flex border p-6 rounded-xl">
-                                        <div className='uppercase font-bold text-xl'>
-                                            {selectedUser.fresherOrRenewal}
-                                        </div>
-                                    </div>
-                                    <div className="space-x-4 ml-5 inline-flex border p-6 rounded-xl">
-                                        <div className='uppercase font-bold text-xl'>
-                                            {selectedUser.specialCategory}
-                                        </div>
-                                    </div>
-                                </div>
+                            <h3 className="text-xl font-semibold mt-12 bg-gray-600 p-3 text-white rounded-t-md">Application Status</h3>
+                            <div className="py-4">
+                                {selectedUser.action === 1 && (
+                                    <p className="text-green-600 font-semibold text-lg">
+                                        Your application is selected. If any query, contact ERP or the Scholarship Office.
+                                    </p>
+                                )}
+                                {selectedUser.action === 2 && (
+                                    <p className="text-red-600 font-semibold text-lg">
+                                        Your application is rejected.
+                                    </p>
+                                )}
+                                {![1, 2, 0].includes(selectedUser.action) && (
+                                    <p className="text-yellow-600 font-semibold text-lg">
+                                        Go to Application Tab to apply for Scholarship Renewal.
+                                    </p>
+                                )}
+                                {![1, 2].includes(selectedUser.action) && (
+                                    <p className="text-yellow-600 font-semibold text-lg">
+                                        Your application is under process.
+                                    </p>
+                                )}
                             </div>
-                            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-4 text-white">Personal Details</h3>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl">
-
-                                <div className=''>
-                                    <label className="block ">Register No.:</label>
-                                    <label className='font-bold text-lg uppercase'> {selectedUser.registerNo} </label>
-
-                                    <div>
-                                        <label className="block mt-2">Name:</label>
-                                        <label className='font-bold text-lg uppercase'>  {selectedUser.name} </label>
-                                    </div>
-
-                                    <div>
-                                        <label className="block mt-2">Department:</label>
-                                        <label className='font-bold text-lg uppercase'>  {selectedUser.dept} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mb-1">Section</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.section} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">UG or PG</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.ugOrPg} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Programme Category</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.procategory} </label>
-                                    </div>
-                                    <div>
-
-                                        <label className="block mt-2">Semester:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.semester} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Mobile No.:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.mobileNo} </label>
-                                    </div>
-                                </div>
-                                <div className=''>
-                                    <div>
-                                        <label className="block mt-2">S/O,D/O</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherName} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Father's Contact No.:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherNo} </label>
-
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Father's Occupation:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.fatherOccupation} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Annual Income:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.annualIncome} </label>
-                                    </div>
-                                    <div>
-                                        <label className="">Siblings: </label><br />
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.siblings} </label> <br />
-                                    </div>
-                                    {selectedUser.siblings === 'Yes' && (
-                                        <div>
-                                            <label className="">No of Siblings: </label> <br />
-                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsNo} </label><br />
-                                            <label className="">Siblings Occupation: </label> <br />
-                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsOccupation} </label><br />
-                                            <label className="">Family Income: </label> <br />
-                                            <label className='font-bold text-lg uppercase'> {selectedUser.siblingsIncome} </label>
-                                        </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="border border-black p-5 rounded-xl bg-white text-center text-xl font-semibold uppercase">
+                                {selectedUser.fresherOrRenewal}
+                            </div>
+                            <div className="border border-black p-5 rounded-xl bg-white text-center text-xl font-semibold uppercase">
+                                {selectedUser.specialCategory}
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-semibold bg-gray-600 p-3 text-white mt-6 rounded-t-md">
+                                Personal Details
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-5 border border-black p-8 rounded-b-xl bg-white">
+                                <Detail label="Register No. :" value={selectedUser.registerNo} />
+                                <Detail label="Name :" value={selectedUser.name} />
+                                <Detail label="Department :" value={selectedUser.dept} />
+                                <Detail label="Section :" value={selectedUser.section} />
+                                <Detail label="UG or PG :" value={selectedUser.ugOrPg} />
+                                <Detail label="Programme Category :" value={selectedUser.procategory} />
+                                <Detail label="Semester :" value={selectedUser.semester} />
+                                <Detail label="Mobile No. :" value={selectedUser.mobileNo} />
+                                <Detail label="S/O, D/O :" value={selectedUser.fatherName} />
+                                <Detail label="Father's Contact No. :" value={selectedUser.fatherNo} />
+                                <Detail label="Father's Occupation :" value={selectedUser.fatherOccupation} />
+                                <Detail label="Annual Income :" value={selectedUser.annualIncome} />
+                                <Detail label="Siblings :" value={selectedUser.siblings} />
+                                {selectedUser.siblings === 'Yes' && (
+                                    <>
+                                        <Detail label="No. of Siblings :" value={selectedUser.siblingsNo} />
+                                        <Detail label="Siblings Occupation :" value={selectedUser.siblingsOccupation} />
+                                        <Detail label="Family Annual Income :" value={selectedUser.siblingsIncome} />
+                                    </>
+                                )}
+                                <Detail label="Hostel :" value={selectedUser.hostel} />
+                                <Detail label="Special Category :" value={selectedUser.specialCategory} />
+                                <Detail label="Religion :" value={selectedUser.religion} />
+                                <Detail label="Permanent Address :" value={selectedUser.address} />
+                                <Detail label="State :" value={selectedUser.state} />
+                                <Detail label="District :" value={selectedUser.district} />
+                                <Detail label="Pincode :" value={selectedUser.pin} />
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-semibold bg-gray-600 p-3 text-white mt-6 rounded-t-md">
+                                Personal Details
+                            </h3>
+                            <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
+                                <div className="grid grid-cols-2 border-r border-l border-t border-gray-600 rounded-md overflow-hidden">
+                                    {selectedUser.semester === 'I' ? (
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Percentage of Mark
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {selectedUser.percentageOfMarkSchool || 'N/A'}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Percentage of Mark
+                                            </div>
+                                            <div className="flex justify-center border-b border-gray-600 p-3">
+                                                {selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}
+                                            </div>
+                                        </>
                                     )}
-
-
-                                </div>
-
-                                <div className=''>
-                                    <div>
-                                        <label className="block mt-2">Hostel:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.hostel} </label>
+                                    {/* Common Fields - continue the same grid here */}
+                                    <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                        Class Attendance Percentage
                                     </div>
-
-                                    {/* </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border p-10  rounded-xl"> */}
-
-
-                                    {/* <div className='uppercase'>
-                                    <label className="block mb-1">Community:</label>{selectedUser.community}
-
-                                </div> */}
-
-
-                                    {/* <div className='uppercase'>
-                                    <label className="block mb-1">Email Id:</label>{selectedUser.emailId}
-
-                                </div>
-
-                                <div>
-                                    <label className="block mb-1">Aadhar no:</label>{selectedUser.aadhar}
-
-                                </div> */}
-
-                                    <div>
-
-                                        <label className="block mt-2">Special Category:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.specialCategory} </label>
+                                    <div className="flex justify-center border-b border-gray-600 p-3">
+                                        {selectedUser.classAttendancePer === 0 ? 'Pending' : selectedUser.classAttendancePer}
                                     </div>
-                                    <div>
-
-                                        <label className="block mt-2">Religion:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.religion} </label>
+                                    <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                        Deeniyath / Moral Percentage
                                     </div>
-                                    <div>
-
-                                        <label className="block mt-2">Permanent Address</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.address} </label>
+                                    <div className="flex justify-center p-3 border-b border-gray-600">
+                                        {selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}
                                     </div>
-                                    <div>
-                                        <label className="block mt-2">State:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.state} </label>
-                                    </div>
-                                    <div>
-
-                                        <label className="block mt-2">District:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.district} </label>
-                                    </div>
-                                    <div>
-                                        <label className="block mt-2">Pincode:</label>
-                                        <label className='font-bold text-lg uppercase'> {selectedUser.pin} </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            {/* Education Details section */}
-                            <h3 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white">Education Details</h3>
-                            <div>
-                                <div className="overflow-x-auto">
-                                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 border p-10 rounded-xl">
-                                        {selectedUser.semester === 'I' && (
-                                            <div className='grid grid-cols-1 md:grid-cols-4 '>
-                                                <div>
-                                                    <label className="block mt-2 ">Last School Name:</label>
-                                                    <label className='font-bold text-lg uppercase -mr-96'> {selectedUser.schoolName} </label>
-                                                </div>
-                                                <div>
-
-                                                </div>
-                                                <div>
-                                                    <label className="block mt-2">Percentage of Mark:</label>
-                                                    <label className='font-bold text-lg uppercase'> {selectedUser.percentageOfMarkSchool} </label>
-                                                </div>
-                                                <div>
-                                                    <label className='block mt-2'>Year of Passing: </label>
-                                                    <label className='font-bold text-lg uppercase'> {selectedUser.yearOfPassing} </label>
-                                                </div>
-                                            </div>
-                                        )}
-                                        {/* {selectedUser.semester !== 'I' && ( */}
-                                            <div className="grid grid-cols-2 w-auto ">
-                                                <div className="font-bold border border-black text-left py-3 px-5">Percentage of Mark</div>
-                                                <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}</div>
-                                                <div className="font-bold border border-black text-left py-3 px-5">Class Attendance Percentage</div>
-                                                <div className="font-bold border border-black text-left py-3 px-5"> {selectedUser.classAttendancePer === 0 ? 'Pending' : selectedUser.classAttendancePer}</div>
-                                                <div className="font-bold border border-black text-left py-3 px-5">Deeniyath Percentage</div>
-                                                <div className="font-bold border border-black text-left py-3 px-5">{selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}</div>
-                                            </div>
-                                        {/* )} */}
-                                    </div>
-
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border p-10 rounded-xl mt-5">
                                     {selectedUser.arrear !== 0 && (
-                                        <div>
-                                            <label className="">No. Of Arrear :</label>{selectedUser.arrear}
-
-                                        </div>
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                No. of Arrear
+                                            </div>
+                                            <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.arrear} </div>
+                                        </>
                                     )}
-
                                     {selectedUser.fresherOrRenewal === 'Renewal' && (
-                                        <div>
-                                            <label className="">Last Time Credited Amount:</label>{selectedUser.lastCreditedAmt}
-
-                                            {/* <a href={`http://localhost:3001/${selectedUser.jamath}`} target="_blank" rel="noopener noreferrer">Download Jamath File</a> */}
-
-                                        </div>
+                                        <>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                Last Time Credited Amount
+                                            </div>
+                                            <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.lastCreditedAmt} </div>
+                                        </>
                                     )}
-
-                                    <div>
-                                        <label className=""></label>
-                                        {/* {selectedUser.jamath} */}
-                                        <img src={selectedUser.jamath} alt="Jamath" />
-                                        {/* <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" /> */}
-                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-6">
+                                <div>
+                                    <p className="font-semibold mb-4">Jamath / Declaration Letter : </p>
+                                    <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" />
                                 </div>
                             </div>
                         </div>
-                        {/* renewal form data retrive */}
-                        <div className=' ml-80'>
+                        <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-6">
                             <button
                                 onClick={() => handleAccept(selectedUser)}
-                                className={`px-4 py-2 ml-20 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-green-500 text-white hover:bg-black'}`}
                                 disabled={selectedUser.action !== 0}
+                                className={`px-6 py-2 rounded-md font-semibold shadow transition-colors duration-200 ${selectedUser.action !== 0
+                                    ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                    : 'bg-green-600 text-white hover:bg-green-700'
+                                    }`}
                             >
                                 Accept
                             </button>
                             <button
                                 onClick={() => handleReject(selectedUser)}
-                                className={`px-4 py-2 ml-2 rounded-lg ${selectedUser.action !== 0 ? 'bg-gray-400 text-gray-700' : 'bg-red-500 text-white hover:bg-black'}`}
                                 disabled={selectedUser.action !== 0}
+                                className={`px-6 py-2 rounded-md font-semibold shadow transition-colors duration-200 ${selectedUser.action !== 0
+                                    ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                    : 'bg-red-500 text-white hover:bg-red-600'
+                                    }`}
                             >
                                 Reject
                             </button>
                             <button
-                                className="mt-4 px-4 py-2 ml-2 bg-red-500 text-white rounded-lg  hover:bg-black mr-2"
                                 onClick={closeModal}
+                                className="px-6 py-2 rounded-md font-semibold bg-gray-500 text-white hover:bg-gray-600 shadow"
                             >
                                 Close
                             </button>
                         </div>
-                        <div className='mt-2 border p-3 rounded-lg'>
-                        <ApplicationPrint student={selectedUser} />
-                        </div>
+                        <div className="mt-6"> <ApplicationPrint student={selectedUser} /> </div>
                     </div>
                 </div>
             )}
 
             {/* Accept Session */}
             {showModals && selectedUser && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                    <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-                    <div className="bg-red-400 w-3/4 h-3/4 text-black rounded-lg overflow-auto p-6">
-                        <form onSubmit={Submit} className='border border-white gap-1'>
-                            <div className='grid grid-cols-4     mt-10 text-xl w-auto p-4'>
-                                <div className='uppercase font-bold'>
-                                    {/* <label className="block mb-1">Register No.:</label> */}
-                                    {selectedUser.registerNo}
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+                    <Notification
+                        message={notification.message}
+                        type={notification.type}
+                        onClose={() => setNotification({ message: '', type: '' })}
+                    />
+                    <div className="bg-white w-[80%] max-w-6xl h-[70%] rounded-xl overflow-y-auto shadow-lg p-6">
+                        <form onSubmit={Submit} className="space-y-8">
+                            {/* Header Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 bg-gray-100 p-4 rounded-md shadow">
+                                <div className='flex flex-col gap-2'>
+                                    <label className="text-sm text-gray-600">Register No. :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.registerNo}</div>
                                 </div>
-                                <div className='uppercase font-bold'>
-                                    {/* <label className="block mb-1">Name:</label> */}
-                                    {selectedUser.name}
+                                <div className='flex flex-col gap-2'>
+                                    <label className="text-sm text-gray-600">Name :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.name}</div>
                                 </div>
-                                <div className='uppercase font-bold'>
-                                    {/* <label className="block mb-1">Department:</label> */}
-                                    {selectedUser.dept}
+                                <div className='flex flex-col gap-2'>
+                                    <label className="text-sm text-gray-600">Department :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.dept}</div>
                                 </div>
+                                <div className='flex flex-col gap-2'>
+                                    <label className="text-sm text-gray-600">Special Category :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.specialCategory || "—"}</div>
+                                </div>
+                            </div>
 
-                                <div className='uppercase font-bold'>
-                                    <label className="block mb-1"></label>{selectedUser.specialCategory}
-                                </div>
-                                <div className='flex inline-flex'>
-                                    <input
-                                        type="checkbox"
-                                        name="zakkath"
-                                        id="zakkath"
-                                        checked={zakkath}
-                                        onChange={(e) => setZakkath(e.target.checked)}
-                                        className="scale-200"
-                                    />
-                                    <label htmlFor="zakkath" className="ml-3 mt-11 font-bold">Zakkath</label>
-                                </div>
+                            {/* Zakkath */}
+                            <div className="flex items-center mt-2 md:mt-8">
+                                <input
+                                    type="checkbox"
+                                    id="zakkath"
+                                    checked={zakkath}
+                                    onChange={(e) => setZakkath(e.target.checked)}
+                                    className="w-5 h-5 accent-green-600"
+                                />
+                                <label htmlFor="zakkath" className="ml-3 font-semibold text-gray-700">
+                                    Zakkath
+                                </label>
+                            </div>
+
+                            {/* Form Fields Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                                {/* Scholarship Type */}
                                 <div>
-                                    <label className="block mb-1 mt-10">Scholarship Type</label>
+                                    <label className="block mb-1 text-gray-700 font-semibold">Scholarship Type</label>
                                     <select
-                                        name="ScholarshipCategory"
                                         value={scholtype}
                                         onChange={(e) => setScholType(e.target.value)}
-                                        className="w-48 p-2 border rounded-md text-slate-950 lg:w-48"
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
                                     >
                                         <option value="">Select</option>
                                         {scholtypes.map((type, index) => (
-                                            <option key={index} value={type}>
-                                                {type}
-                                            </option>
+                                            <option key={index} value={type}>{type}</option>
                                         ))}
                                     </select>
                                 </div>
+
+                                {/* Donor */}
                                 <div>
-                                    <label className="block mb-1 mt-10">Donor</label>
+                                    <label className="block mb-1 text-gray-700 font-semibold">Donor</label>
                                     <select
-                                        name="ScholarshipCategory"
                                         value={scholdonar}
                                         onChange={(e) => setScholdonar(e.target.value)}
-                                        className=" w-48 p-2 border rounded-md text-slate-950 lg:w-48"
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
                                     >
                                         <option value="">Select Donor</option>
-                                        {Array.isArray(filteredDonars) && filteredDonars.map((donar) => (
-                                            <option key={donar._id} value={donar._id}>
-                                                {donar.name}
-                                            </option>
-                                        ))}
+                                        {Array.isArray(filteredDonars) &&
+                                            filteredDonars.map((donar) => (
+                                                <option key={donar._id} value={donar._id}>
+                                                    {donar.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 </div>
+
+                                {/* Amount */}
                                 <div>
-                                    <label className="block mt-10">Scholarship Amount</label>
+                                    <label className="block mb-1 text-gray-700 font-semibold">Scholarship Amount</label>
                                     <input
-                                        type="text" name="amount"
-                                        className="border p-2 rounded w-48 text-black"
+                                        type="text"
+                                        name="amount"
                                         value={scholamt}
                                         onChange={(e) => setScholamt(e.target.value)}
-
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
                                     />
                                 </div>
                             </div>
-                            <div className="block relative">
-                                <button
-                                    type="submit"
-                                    onClick={ScholSubmit}
-                                    className="absolute right-0 bg-sky-500 text-white py-2 px-6 text-lg ml-4 mb-4 mr-12 rounded-lg hover:bg-black"
+
+                            {/* Confirm Button */}
+                            <div className="text-right mt-6">
+                                <button type="button" onClick={ScholSubmit}
+                                    className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 transition"
                                 >
                                     Confirm
                                 </button>
                             </div>
 
-
+                            {/* Submitted List */}
                             {submittedData.length > 0 && (
-                                <div>
-
-                                    {submittedData.map((submission, index) => (
-                                        <div key={index} className=' grid grid-cols-4'>
-                                            <div className=''> {index + 1}:</div>
-                                            <div className=' w-auto '>  {submission.scholtype}</div>
-                                            <div className=' w-auto '>  {submission.scholamt}</div>
-
-                                        </div>
-                                    ))}
+                                <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
+                                    <h3 className="text-lg font-bold mb-2 text-gray-700">Submitted Scholarships:</h3>
+                                    <div className="space-y-2">
+                                        {submittedData.map((submission, index) => (
+                                            <div key={index} className="grid grid-cols-4 gap-4 text-gray-800">
+                                                <div>{index + 1}.</div>
+                                                <div>{submission.scholtype}</div>
+                                                <div>{formatCurrency(submission.scholamt)}</div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
 
-
-                            <div className="mt-32 mr-12 mb-5 flex justify-end">
-
-                                <button
-                                    type="submit"
+                            {/* Final Buttons */}
+                            <div className="flex justify-end items-center gap-6 mt-10">
+                                <button type="submit"
                                     disabled={!isSubmitEnabled}
-                                    className={`bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black ${!isSubmitEnabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-                                // className="bg-green-500 text-white py-2 px-6 text-lg rounded-lg hover:bg-black"
+                                    className={`bg-green-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-700 transition ${!isSubmitEnabled ? "opacity-70 cursor-not-allowed" : ""}`}
                                 >
                                     Submit
                                 </button>
                                 <button
                                     type="button"
-                                    className="bg-red-600 text-white py-2 px-6 text-lg ml-4 rounded-lg hover:bg-black"
                                     onClick={closeModal}
+                                    className="bg-red-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-red-600 transition"
                                 >
                                     Close
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div >
-            )
-            }
+                </div>
+            )}
 
             {/* Reject Session */}
-            {
-                showModalReject && selectedUser && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <Notification message={notification.message} type={notification.type} onClose={() => setNotification({ message: '', type: '' })} />
-                        <div className="bg-red-400 w-3/4 text-black rounded-lg overflow-auto p-6">
-                            <form onSubmit={submitReject} className='border border-white gap-1 p-3'>
-                                <div className='grid grid-cols-4 w-auto p-4 text-xl text-center'>
-                                    <div className='uppercase font-bold'>
-                                        {/* <label className="block mb-1">Register No.:</label> */}
-                                        {selectedUser.registerNo}
-                                    </div>
-                                    <div className='uppercase font-bold'>
-                                        {/* <label className="block mb-1">Name:</label> */}
-                                        {selectedUser.name}
-                                    </div>
-                                    <div className='uppercase font-bold'>
-                                        {/* <label className="block mb-1">Department:</label> */}
-                                        {selectedUser.dept}
-                                    </div>
-                                    <div className='uppercase font-bold'>
-                                        <label className="block mb-1"></label>{selectedUser.specialCategory}
-                                    </div>
-                                    <div className='ml-20 mt-10 font-bold flex items-center'>
-                                        <label>Reason</label>
-                                        <select
-                                            name="ScholarshipCategory"
-                                            value={reason}
-                                            onChange={(e) => setReason(e.target.value)}
-                                            className="ml-3 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                            required
-                                        >
-                                            <option value="">Select</option>
-                                            <option value="Reappear">Reappear</option>
-                                            <option value="Low Percentage of Marks">Low Percentage of Marks</option>
-                                            <option value="Missing Document">Missing Document</option>
-                                            <option value="Redo">Redo</option>
-                                            <option value="Shortage of Attendance">Shortage of Attendance</option>
-                                            <option value="Shortage of Deeniyath Attendance">Shortage of Deeniyath Attendance</option>
-                                            <option value="Shortage of the moralAttendance">Shortage of the moralAttendance</option>
-                                            <option value="others">others</option>
-
-                                        </select>
-                                        {reason === 'others' && (
-                                            <input
-                                                type="text"
-                                                placeholder="Enter custom reason"
-                                                onChange={otherReason}
-                                                className="ml-3 mt-3 w-72 p-2 border rounded-md text-slate-950 lg:w-48"
-                                            />
-                                        )}
-                                    </div>
+            {showModalReject && selectedUser && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+                    <Notification
+                        message={notification.message}
+                        type={notification.type}
+                        onClose={() => setNotification({ message: '', type: '' })}
+                    />
+                    <div className="bg-white w-[80%] max-w-4xl rounded-xl overflow-y-auto shadow-lg p-6">
+                        <form onSubmit={submitReject} className="space-y-8">
+                            {/* Header Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 bg-gray-100 p-4 rounded-md shadow">
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-sm text-gray-600">Register No. :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.registerNo}</div>
                                 </div>
-                                <div>
-                                    <div className="flex justify-end">
-                                        <button
-                                            type="submit"
-                                            className="bg-green-500 text-white py-1 px-4 rounded-lg hover:bg-black"
-                                        >
-                                            Submit
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            className=" bg-red-600 text-white py-2 px-5 ml-4 rounded-lg hover:bg-black"
-                                            onClick={closeModal}
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-sm text-gray-600">Name :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.name}</div>
                                 </div>
-                            </form>
-                        </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-sm text-gray-600">Department :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.dept}</div>
+                                </div>
+                                <div className="flex flex-col gap-1">
+                                    <label className="text-sm text-gray-600">Special Category :</label>
+                                    <div className="text-lg font-semibold uppercase">{selectedUser.specialCategory || "—"}</div>
+                                </div>
+                            </div>
+                            {/* Reason Section */}
+                            <div className="bg-gray-50 border border-gray-200 rounded-md p-4">
+                                <label className="block text-gray-700 font-semibold mb-2">Rejection Reason</label>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <select
+                                        value={reason}
+                                        onChange={(e) => setReason(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                                        required
+                                    >
+                                        <option value="">Select Reason</option>
+                                        <option value="Re Appear">Re Appear</option>
+                                        <option value="Low Percentage of Marks">Low Percentage of Marks</option>
+                                        <option value="Missing Document">Missing Document</option>
+                                        <option value="Redo">Redo</option>
+                                        <option value="Shortage of Attendance">Shortage of Attendance</option>
+                                        <option value="Shortage of Deeniyath Attendance">Shortage of Deeniyath Attendance</option>
+                                        <option value="Shortage of the Moral Attendance">Shortage of the Moral Attendance</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                    {reason === "others" && (
+                                        <input
+                                            type="text"
+                                            placeholder="Enter custom reason"
+                                            onChange={otherReason}
+                                            className="w-full border border-gray-300 rounded-md px-3 py-2 text-gray-800"
+                                        />
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Action Buttons */}
+                            <div className="flex justify-end items-center gap-6 mt-6">
+                                <button type="submit"
+                                    className="bg-green-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-700 transition"
+                                >
+                                    Submit
+                                </button>
+                                <button type="button" onClick={closeModal}
+                                    className="bg-red-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-red-600 transition"
+                                >
+                                    Close
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                )
-            }
+                </div>
+            )}
+
         </div >
-    );
+    )
 }
+
+const Detail = ({ label, value }) => (
+    <div className="text-base space-y-1">
+        <p className="text-slate-700 font-lightbold">{label}</p>
+        <p className="uppercase font-bold text-slate-900">{value || '-'}</p>
+    </div>
+)
 
 export default Action;

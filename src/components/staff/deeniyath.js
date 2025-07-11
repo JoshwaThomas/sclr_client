@@ -154,7 +154,7 @@ function AttendDeeniyath() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}

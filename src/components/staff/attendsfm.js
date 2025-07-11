@@ -36,6 +36,12 @@ function AttendSfm() {
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
+        const numericValue = parseFloat(value);
+        if (type === 'currAttendance') {
+            const selectedUser = users.find(user => user.registerNo === registerNo);
+            const total = parseFloat(currAttendancetot);
+            if (numericValue > total) { return }
+        }
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
         ))
@@ -49,7 +55,7 @@ function AttendSfm() {
                 if (totalCurrAttendance > 0) {
                     const percentage = (currAttendance / totalCurrAttendance) * 100;
                     acc[user.registerNo] = percentage.toFixed(2);
-                } else { acc[user.registerNo] = '0'}
+                } else { acc[user.registerNo] = '0' }
                 return acc;
             }, {});
             setClassAttendancePer(updatedAttendancePer);
@@ -72,7 +78,8 @@ function AttendSfm() {
             const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
-            } else { alert('Something went wrong');
+            } else {
+                alert('Something went wrong');
             }
         } catch (err) {
             console.error('Error : ', err);
@@ -142,7 +149,7 @@ function AttendSfm() {
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
                                     <td className="px-4 py-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-20 border p-2 rounded text-right"
                                             value={user.prevAttendance || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
@@ -150,9 +157,10 @@ function AttendSfm() {
                                     </td>
                                     <td className="px-4 py-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-20 border p-2 rounded text-right"
                                             value={user.currAttendance || ''}
+                                            max={currAttendancetot}
                                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                                         />
                                     </td>

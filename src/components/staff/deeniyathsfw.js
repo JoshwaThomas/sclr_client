@@ -148,8 +148,11 @@ function AttendDeeniyathSFW() {
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700 sticky top-0 z-10">
                         <tr className='h-[70px]'>
+                            <th className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300 w-[6%]">
+                                S.No
+                            </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
@@ -165,6 +168,7 @@ function AttendDeeniyathSFW() {
                         ) : (
                             users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
                                 <tr key={`${user._id}-${index}`} className="hover:bg-gray-50 transition-colors h-[80px] border-t border-gray-300">
+                                    <td className="px-4 py-3 text-center font-semibold border-r">{index + 1}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>

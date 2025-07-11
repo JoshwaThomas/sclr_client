@@ -46,6 +46,12 @@ function AttendSfw() {
 
     const handleInputChange = (registerNo, type, value) => {
         if ((type === 'currAttendance' || type === 'prevAttendance') && !/^\d*\.?\d*$/.test(value)) return;
+        const numericValue = parseFloat(value);
+        if (type === 'currAttendance') {
+            const selectedUser = users.find(user => user.registerNo === registerNo);
+            const total = parseFloat(currAttendancetot);
+            if (numericValue > total) { return }
+        }
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
         ));
@@ -158,6 +164,7 @@ function AttendSfw() {
                                             type="text"
                                             className="w-20 border p-2 rounded text-right"
                                             value={user.currAttendance || ''}
+                                            max={currAttendancetot}
                                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
                                         />
                                     </td>

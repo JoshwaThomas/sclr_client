@@ -16,10 +16,16 @@ function StudentFirst() {
 	useEffect(() => {
 		const fetchDates = async () => {
 			const response = await axios.get(`${apiUrl}/api/admin/dates`);
-			setData(response.data);
+			setData(response.data); 
 			const { startDate, endDate } = response.data;
 			const today = new Date();
-			setIsOpen(today >= new Date(startDate) && today <= new Date(endDate));
+			today.setHours(0, 0, 0, 0);
+			const start = new Date(startDate);
+			const end = new Date(endDate);
+			start.setHours(0, 0, 0, 0);
+			end.setHours(0, 0, 0, 0);
+			const open = today >= start && today <= end;
+			setIsOpen(open);
 		};
 		fetchDates();
 	}, [apiUrl]);
@@ -79,7 +85,7 @@ function StudentFirst() {
 				</div>
 				{/* Message for Closed Registration */}
 				{!isOpen && (
-					<p className="text-xl lg:text-2xl text-red-600 font-bold text-center mt-6 animate-bounce">
+					<p className="text-lg lg:text-lg font-bold text-center mt-6 px-4 py-3 rounded-md max-w-3xl text-red-700 animate-bounce">
 						Fresher Applications are Closed
 					</p>
 				)}
