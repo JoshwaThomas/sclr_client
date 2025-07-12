@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 
 function AttendDeeniyath() {
@@ -53,17 +53,44 @@ function AttendDeeniyath() {
                 setTotaldata(totalsfm);
                 const combinedUsers = [...freshPending, ...renewalPending];
                 setUsers(combinedUsers);
-            } catch (error) { console.log(error) }
+            } catch (error) {console.log(error)}
         }
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
-        if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
-        setUsers(users.map(user =>
-            user.registerNo === registerNo ? { ...user, [type]: value } : user
-        ));
-    };
+    // Allow only valid decimal numbers for attendance fields
+    if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
+
+    const numericValue = parseFloat(value);
+
+    // Handle attendance fields
+    if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
+        const total = type === 'currAttendancedee'
+            ? parseFloat(currAttendancetot)
+            : parseFloat(prevAttendancetot);
+
+        const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
+                               (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
+
+        // If working days is not set or invalid, clear the input
+        if (isTotalInvalid) {
+            setUsers(users.map(user =>
+                user.registerNo === registerNo ? { ...user, [type]: '' } : user
+            ));
+            return;
+        }
+
+        // If value exceeds total, ignore the input
+        if (numericValue > total) return;
+    }
+
+    // Valid input or other type: update user
+    setUsers(users.map(user =>
+        user.registerNo === registerNo ? { ...user, [type]: value } : user
+    ));
+};
+
 
     useEffect(() => {
         const calculatePercentage = () => {
@@ -94,10 +121,10 @@ function AttendDeeniyath() {
             remarks[user.registerNo] = user.deeniyathRem;
         })
         try {
-            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, {updates, remarks});
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
-            } else { alert('Something went wrong') }
+            } else {alert('Something went wrong')}
         } catch (err) {
             console.error('Error', err);
             window.alert("Something Went Wrong with the server");
@@ -154,7 +181,7 @@ function AttendDeeniyath() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{width: i < 3 ? '12%' : i === 7 ? '20%' : '10%'}} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
@@ -212,11 +239,9 @@ function AttendDeeniyath() {
             <div className="text-right mt-6">
                 <button
                     onClick={updateAttendance}
-                    disabled={!currAttendancetot || users.length === 0}
-                    className={`px-6 py-2 rounded-md font-semibold text-white ${!currAttendancetot || users.length === 0
-                        ? 'bg-gray-400 cursor-not-allowed'
-                        : 'bg-blue-600 hover:bg-blue-700'
-                        }`}
+                    // disabled={!currAttendancetot || users.length === 0}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
+
                 >
                     Submit
                 </button>

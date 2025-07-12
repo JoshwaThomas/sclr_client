@@ -60,6 +60,29 @@ function AttendMoralSFW() {
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
+
+        const numericValue = parseFloat(value);
+
+        // Handle attendance fields
+        if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
+            const total = type === 'currAttendancedee'
+                ? parseFloat(currAttendancetot)
+                : parseFloat(prevAttendancetot);
+
+            const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
+                (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
+
+            // If working days is not set or invalid, clear the input
+            if (isTotalInvalid) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? {...user, [type]: ''} : user
+                ));
+                return;
+            }
+
+            // If value exceeds total, ignore the input
+            if (numericValue > total) return;
+        }
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
         ));

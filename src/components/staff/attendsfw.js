@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 
 function AttendSfw() {
@@ -39,23 +39,40 @@ function AttendSfw() {
                 setTotaldata(totalsfw);
                 const combinedUsers = [...freshSFW, ...renewalSFW];
                 setUsers(combinedUsers);
-            } catch (error) { console.error(error) }
+            } catch (error) {console.error(error)}
         }
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
+        // Allow only valid decimal numbers for attendance fields
         if ((type === 'currAttendance' || type === 'prevAttendance') && !/^\d*\.?\d*$/.test(value)) return;
+
         const numericValue = parseFloat(value);
+
         if (type === 'currAttendance') {
-            const selectedUser = users.find(user => user.registerNo === registerNo);
             const total = parseFloat(currAttendancetot);
-            if (numericValue > total) { return }
+
+            // If total working days is not set or invalid, clear the input
+            if (!currAttendancetot || isNaN(total)) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? {...user, [type]: ''} : user
+                ));
+                return;
+            }
+
+            // If value exceeds total, do nothing (ignore input)
+            if (numericValue > total) {
+                return;
+            }
         }
+
+        // Valid input or other type: update user
         setUsers(users.map(user =>
-            user.registerNo === registerNo ? { ...user, [type]: value } : user
+            user.registerNo === registerNo ? {...user, [type]: value} : user
         ));
     };
+
 
     useEffect(() => {
         const calculatePercentage = () => {
@@ -82,9 +99,9 @@ function AttendSfw() {
             remarks[user.registerNo] = user.classAttendanceRem;
         });
         try {
-            const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, { updates, remarks });
-            if (response.data.success) { window.alert("Updates Submitted Successfully") }
-            else { alert("Something went wrong") }
+            const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, {updates, remarks});
+            if (response.data.success) {window.alert("Updates Submitted Successfully")}
+            else {alert("Something went wrong")}
         } catch (err) {
             console.error("Error:", err);
             window.alert("Something went wrong with the server");
@@ -189,12 +206,9 @@ function AttendSfw() {
             <div className="text-right mt-6">
                 <button
                     onClick={updateAttendance}
-                    disabled={!currAttendancetot || users.length === 0}
-                    className={`px-6 py-2 rounded-md font-semibold text-white 
-                        ${!currAttendancetot || users.length === 0
-                            ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-blue-600 hover:bg-blue-700'
-                        }`}
+                    // disabled={!currAttendancetot || users.length === 0}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
+
                 >
                     Submit
                 </button>

@@ -37,9 +37,19 @@ function AttendSfm() {
 
     const handleInputChange = (registerNo, type, value) => {
         const numericValue = parseFloat(value);
+
         if (type === 'currAttendance') {
+            
             const selectedUser = users.find(user => user.registerNo === registerNo);
             const total = parseFloat(currAttendancetot);
+
+            // If total working days is not set or invalid, clear the input
+            if (!currAttendancetot || isNaN(total)) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? {...user, [type]: ''} : user
+                ));
+                return;
+            }
             if (numericValue > total) { return }
         }
         setUsers(users.map(user =>

@@ -130,7 +130,7 @@ function COE() {
                     <tbody className="bg-white">
                         {users.length === 0 ? (
                             <tr>
-                                <td colSpan={8} className="text-center py-6 text-gray-500 font-semibold">
+                                <td colSpan={9} className="text-center py-6 text-gray-500 font-semibold">
                                     No data found.
                                 </td>
                             </tr>
@@ -143,7 +143,7 @@ function COE() {
                                     <td className="px-4 py-3 text-center text-md font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
                                     <td className="p-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.markSecure || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'markSecure', e.target.value)}
@@ -151,7 +151,7 @@ function COE() {
                                     </td>
                                     <td className="p-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.maxMark || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'maxMark', e.target.value)}
@@ -169,7 +169,7 @@ function COE() {
                                     </td>
                                     <td className="p-3 text-center border-r">
                                         <input
-                                            type="text"
+                                            type="number"
                                             className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.semarrear || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'semarrear', e.target.value)}

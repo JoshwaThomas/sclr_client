@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 
 function AttendDeeniyathSFW() {
@@ -52,15 +52,39 @@ function AttendDeeniyathSFW() {
                 setTotaldata(totalsfm);
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
-            } catch (error) { console.log(error) }
+            } catch (error) {console.log(error)}
         };
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
         if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
+
+        const numericValue = parseFloat(value);
+
+        // Handle attendance fields
+        if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
+            const total = type === 'currAttendancedee'
+                ? parseFloat(currAttendancetot)
+                : parseFloat(prevAttendancetot);
+
+            const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
+                (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
+
+            // If working days is not set or invalid, clear the input
+            if (isTotalInvalid) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? {...user, [type]: ''} : user
+                ));
+                return;
+            }
+
+            // If value exceeds total, ignore the input
+            if (numericValue > total) return;
+        }
+
         setUsers(users.map(user =>
-            user.registerNo === registerNo ? { ...user, [type]: value } : user
+            user.registerNo === registerNo ? {...user, [type]: value} : user
         ));
     };
 
@@ -93,9 +117,9 @@ function AttendDeeniyathSFW() {
             remarks[user.registerNo] = user.deeniyathRem;
         });
         try {
-            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
-            if (response.data.success) { window.alert("Updates Submitted Successfully") }
-            else { alert('Something went wrong') }
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, {updates, remarks});
+            if (response.data.success) {window.alert("Updates Submitted Successfully")}
+            else {alert('Something went wrong')}
         } catch (err) {
             console.error('Error', err);
             window.alert("Something Went Wrong with the server");
@@ -124,7 +148,7 @@ function AttendDeeniyathSFW() {
                 <div className="flex items-center gap-4">
                     <label className="font-semibold text-lg">Previous Year Working Days :</label>
                     <input
-                        type="text"
+                        type="number"
                         className="w-20 border border-black px-2 py-1.5 rounded text-right"
                         value={prevAttendancetot}
                         onChange={(e) => setPrevattendancetot(e.target.value)}
@@ -133,7 +157,7 @@ function AttendDeeniyathSFW() {
                 <div className="flex items-center gap-4">
                     <label className="font-semibold text-lg">Current Year Working Days :</label>
                     <input
-                        type="text"
+                        type="number"
                         className="w-20 border border-black px-2 py-1.5 rounded text-right"
                         value={currAttendancetot}
                         onChange={(e) => setCurrattendancetot(e.target.value)}
@@ -152,7 +176,7 @@ function AttendDeeniyathSFW() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{width: i < 3 ? '12%' : i === 7 ? '20%' : '10%'}} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
