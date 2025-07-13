@@ -45,34 +45,22 @@ function AttendSfw() {
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
-        // Allow only valid decimal numbers for attendance fields
         if ((type === 'currAttendance' || type === 'prevAttendance') && !/^\d*\.?\d*$/.test(value)) return;
-
         const numericValue = parseFloat(value);
-
         if (type === 'currAttendance') {
             const total = parseFloat(currAttendancetot);
-
-            // If total working days is not set or invalid, clear the input
             if (!currAttendancetot || isNaN(total)) {
                 setUsers(users.map(user =>
                     user.registerNo === registerNo ? {...user, [type]: ''} : user
                 ));
                 return;
             }
-
-            // If value exceeds total, do nothing (ignore input)
-            if (numericValue > total) {
-                return;
-            }
+            if (numericValue > total) { return }
         }
-
-        // Valid input or other type: update user
         setUsers(users.map(user =>
             user.registerNo === registerNo ? {...user, [type]: value} : user
         ));
     };
-
 
     useEffect(() => {
         const calculatePercentage = () => {
@@ -206,9 +194,7 @@ function AttendSfw() {
             <div className="text-right mt-6">
                 <button
                     onClick={updateAttendance}
-                    // disabled={!currAttendancetot || users.length === 0}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
-
                 >
                     Submit
                 </button>

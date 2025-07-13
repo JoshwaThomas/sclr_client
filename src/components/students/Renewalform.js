@@ -16,7 +16,9 @@ const ScholarshipForm = () => {
 	});
 
 	useEffect(() => {
+
 		const fetchDataAndDates = async () => {
+
 			if (!staffId) return;
 
 			try {
@@ -25,7 +27,7 @@ const ScholarshipForm = () => {
 				const today = new Date();
 
 				let endDateObj = null;
-				if (endDate) { endDateObj = new Date(endDate)}
+				if (endDate) { endDateObj = new Date(endDate) }
 
 				const studentResponse = await axios.get(`${apiUrl}/api/admin/students`, {
 					params: { registerNo: staffId.toUpperCase() }
@@ -42,7 +44,8 @@ const ScholarshipForm = () => {
 					siblingsNo: data.siblingsNo || '', siblingsOccupation: data.siblingsOccupation || '', siblingsIncome: data.siblingsIncome || '', jamath: ''
 				});
 
-				const isWithinDate = endDateObj ? today <= endDateObj : false;
+				const stripTime = (date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+				const isWithinDate = endDateObj ? stripTime(today) <= stripTime(endDateObj) : false;
 				const isStudentAllowed = data.showOrBlock === "show";
 				setIsEditable(isWithinDate && isStudentAllowed);
 

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 
 function AttendDeeniyath() {
@@ -20,77 +20,67 @@ function AttendDeeniyath() {
                 ]);
                 const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`);
                 const curacyear = acyear.data.acyear;
+
                 const fresh = freshResponse.data.filter(user =>
-                    user.deeniyath === 'Yes' &&
+                    user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const renewal = renewalResponse.data.filter(user =>
-                    user.deeniyath === 'Yes' &&
+                    user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const totalsfm = fresh.length + renewal.length;
+
                 const freshPending = freshResponse.data.filter(user =>
-                    user.deeniyath === 'Yes' &&
-                    user.deeniyathPer === 0 &&
+                    user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const renewalPending = renewalResponse.data.filter(user =>
-                    user.deeniyath === 'Yes' &&
-                    user.deeniyathPer === 0 &&
+                    user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const totalfilter = freshPending.length + renewalPending.length;
                 const work = totalsfm - totalfilter;
                 setTotalwork(work);
                 setTotaldata(totalsfm);
                 const combinedUsers = [...freshPending, ...renewalPending];
                 setUsers(combinedUsers);
-            } catch (error) {console.log(error)}
+
+            } catch (error) {
+                console.log(error);
+                alert("Error in Fetching Data");
+            }
         }
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
-    // Allow only valid decimal numbers for attendance fields
-    if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
-
-    const numericValue = parseFloat(value);
-
-    // Handle attendance fields
-    if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
-        const total = type === 'currAttendancedee'
-            ? parseFloat(currAttendancetot)
-            : parseFloat(prevAttendancetot);
-
-        const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
-                               (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
-
-        // If working days is not set or invalid, clear the input
-        if (isTotalInvalid) {
-            setUsers(users.map(user =>
-                user.registerNo === registerNo ? { ...user, [type]: '' } : user
-            ));
-            return;
+        if ((type === 'prevAttendancedee' || type === 'currAttendancedee') && !/^\d*\.?\d*$/.test(value)) return;
+        const numericValue = parseFloat(value);
+        if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
+            const total = type === 'currAttendancedee' ? parseFloat(currAttendancetot) : parseFloat(prevAttendancetot);
+            const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
+                (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
+            if (isTotalInvalid) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? { ...user, [type]: '' } : user
+                ));
+                return;
+            }
+            if (numericValue > total) return;
         }
-
-        // If value exceeds total, ignore the input
-        if (numericValue > total) return;
+        setUsers(users.map(user =>
+            user.registerNo === registerNo ? { ...user, [type]: value } : user
+        ))
     }
-
-    // Valid input or other type: update user
-    setUsers(users.map(user =>
-        user.registerNo === registerNo ? { ...user, [type]: value } : user
-    ));
-};
-
 
     useEffect(() => {
         const calculatePercentage = () => {
@@ -121,10 +111,10 @@ function AttendDeeniyath() {
             remarks[user.registerNo] = user.deeniyathRem;
         })
         try {
-            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, {updates, remarks});
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
-            } else {alert('Something went wrong')}
+            } else { alert('Something went wrong') }
         } catch (err) {
             console.error('Error', err);
             window.alert("Something Went Wrong with the server");
@@ -181,7 +171,7 @@ function AttendDeeniyath() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} style={{width: i < 3 ? '12%' : i === 7 ? '20%' : '10%'}} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
@@ -239,9 +229,7 @@ function AttendDeeniyath() {
             <div className="text-right mt-6">
                 <button
                     onClick={updateAttendance}
-                    // disabled={!currAttendancetot || users.length === 0}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
-
                 >
                     Submit
                 </button>

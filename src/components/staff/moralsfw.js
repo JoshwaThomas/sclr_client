@@ -22,71 +22,64 @@ function AttendMoralSFW() {
                 const curacyear = acyear.data.acyear;
 
                 const SFM1 = freshResponse.data.filter(user =>
-                    user.deeniyath === 'No' &&
+                    user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const SFM2 = renewalResponse.data.filter(user =>
-                    user.deeniyath === 'No' &&
+                    user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const totalsfm = SFM1.length + SFM2.length;
+
                 const freshAided = freshResponse.data.filter(user =>
-                    user.deeniyath === 'No' &&
-                    user.deeniyathPer === 0 &&
+                    user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
-                );
+                )
+
                 const renewalAided = renewalResponse.data.filter(user =>
-                    user.deeniyath === 'No' &&
-                    user.deeniyathPer === 0 &&
+                    user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
-                    user.action === 0 &&
                     user.acyear === curacyear.acyear
                 );
+
                 const totalfilter = freshAided.length + renewalAided.length;
                 const work = totalsfm - totalfilter;
                 setTotalwork(work);
                 setTotaldata(totalsfm);
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
-            } catch (error) { console.log(error) }
+
+            } catch (error) {
+                console.log(error);
+                alert("Error in Fetching Data");
+            }
         }
         fetchUsers();
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
-
         const numericValue = parseFloat(value);
-
-        // Handle attendance fields
         if (type === 'prevAttendancedee' || type === 'currAttendancedee') {
             const total = type === 'currAttendancedee'
                 ? parseFloat(currAttendancetot)
                 : parseFloat(prevAttendancetot);
-
             const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
                 (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
-
-            // If working days is not set or invalid, clear the input
             if (isTotalInvalid) {
-                setUsers(users.map(user =>
-                    user.registerNo === registerNo ? {...user, [type]: ''} : user
-                ));
+                setUsers(users.map(user => user.registerNo === registerNo ? { ...user, [type]: '' } : user));
                 return;
             }
-
-            // If value exceeds total, ignore the input
             if (numericValue > total) return;
         }
         setUsers(users.map(user =>
             user.registerNo === registerNo ? { ...user, [type]: value } : user
-        ));
-    };
+        ))
+    }
 
     useEffect(() => {
         const calculatePercentage = () => {

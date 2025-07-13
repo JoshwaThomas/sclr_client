@@ -36,35 +36,21 @@ function Attendaided() {
     }, [apiUrl]);
 
     const handleInputChange = (registerNo, type, value) => {
-    const numericValue = parseFloat(value);
-
-    // If trying to update 'currAttendance'
-    if (type === 'currAttendance') {
-        const total = parseFloat(currAttendancetot);
-
-        // If total working days is not set or invalid, clear the value
-        if (!currAttendancetot || isNaN(total)) {
-            setUsers(users.map(user =>
-                user.registerNo === registerNo ? { ...user, [type]: '' } : user
-            ));
-            return;
+        const numericValue = parseFloat(value);
+        if (type === 'currAttendance') {
+            const total = parseFloat(currAttendancetot);
+            if (!currAttendancetot || isNaN(total)) {
+                setUsers(users.map(user =>
+                    user.registerNo === registerNo ? { ...user, [type]: '' } : user
+                ));
+                return;
+            }
+            if (numericValue > total) { return }
         }
-
-        // If value exceeds total, clear the input
-        if (numericValue > total) {
-            // setUsers(users.map(user =>
-            //     user.registerNo === registerNo ? { ...user, [type]: '' } : user
-            // ));
-            return;
-        }
-    }
-
-    // Valid input, update user data
-    setUsers(users.map(user =>
-        user.registerNo === registerNo ? { ...user, [type]: value } : user
-    ));
-};
-
+        setUsers(users.map(user =>
+            user.registerNo === registerNo ? { ...user, [type]: value } : user
+        ));
+    };
 
     useEffect(() => {
         const calculatePercentage = () => {
