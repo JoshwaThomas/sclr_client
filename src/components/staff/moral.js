@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 
 function AttendMoral() {
+    
     const [users, setUsers] = useState([]);
     const [prevAttendancetot, setPrevattendancetot] = useState('');
     const [currAttendancetot, setCurrattendancetot] = useState('');
@@ -11,9 +12,7 @@ function AttendMoral() {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        
         const fetchUsers = async () => {
-
             try {
 
                 const [freshResponse, renewalResponse] = await Promise.all([

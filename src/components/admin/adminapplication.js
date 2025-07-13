@@ -455,187 +455,12 @@ function Action() {
         setSelectedUser(null);
 
     };
-
-    // const handleSearch = (e) => {
-    //     const searchText = e.target.value.toLowerCase();
-    //     const allUsers = [...users, ...rusers];
-    //     const filteredUsers = allUsers.filter(user =>
-    //         user.dept.toLowerCase().includes(searchText) ||
-    //         user.registerNo.toLowerCase().includes(searchText) ||
-    //         user.name.toLowerCase().includes(searchText) ||
-    //         user.fresherOrRenewal.toLowerCase().includes(searchText)
-    //     );
-    //     setFilterUsers(filteredUsers);
-    // };
-    // const handleRadioChange = (e) => {
-    //     const radioValue = e.target.value.toLowerCase();
-    //     const allUsers = [...users, ...rusers];
-
-    //     if (radioValue === 'all') {
-    //         setFilterUsers(allUsers);
-    //     } else {
-    //         const filteredUsers = allUsers.filter(user =>
-    //             user.fresherOrRenewal.toLowerCase() === radioValue
-    //         );
-    //         setFilterUsers(filteredUsers);
-    //     }
-    // };
-    // const handleScholarshipChange = (index, event) => {
-    //     const { name, value } = event.target;
-    //     const updatedRows = [...scholarshipRows];
-    //     updatedRows[index][name] = value;
-    //     setScholarshipRows(updatedRows);
-    // };
-
-    // const addRow = () => {
-    //     setScholarshipRows([...scholarshipRows, { scholtype: '', scholdonar: '', scholamt: '' }]);
-    // };
-
-    // const Submit = (e) => {
-    //     e.preventDefault();
-    //     axios.get('http://localhost:3001/api/admin/current-acyear')
-    //         .then(response => {
-    //             if (response.data.success) {
-    //                 const acyear = response.data.acyear.acyear;
-
-    //                 Promise.all(scholarshipRows.map(row => (
-    //                     axios.put(`http://localhost:3001/api/admin/donar/${row.scholdonar}`, { amount: row.scholamt })
-    //                         .then(result => ({ success: true, message: `Updated balance for donor: ${row.scholdonar}` }))
-    //                         .catch(err => ({ success: false, message: `Failed to update balance for donor: ${row.scholdonar}` }))
-    //                 )))
-    //                     .then(results => {
-    //                         const allDonorUpdatesSuccess = results.every(result => result.success);
-    //                         const updatedBalance = results.data.updatedBalance;
-
-    //                         if (allDonorUpdatesSuccess) {
-    //                             Promise.all(scholarshipRows.map(row => (
-    //                                 axios.post('http://localhost:3001/api/admin/freshamt', {
-    //                                     fresherOrRenewal: selectedUser.fresherOrRenewal,
-    //                                     registerNo: selectedUser.registerNo,
-    //                                     name: selectedUser.name,
-    //                                     dept: selectedUser.dept,
-    //                                     scholtype: row.scholtype,
-    //                                     scholdonar: row.scholdonar,
-    //                                     scholamt: row.scholamt,
-    //                                     acyear
-    //                                 })
-    //                             )))
-    //                                 .then(results => {
-    //                                     const allFreshAmtInsertsSuccess = results.every(result => !!result.data);
-
-    //                                     if (allFreshAmtInsertsSuccess) {
-    //                                         console.log('Scholarship details saved successfully');
-    //                                         return axios.post('http://localhost:3001/api/admin/action', {
-    //                                             registerNo: selectedUser.registerNo
-    //                                         });
-    //                                     } else {
-    //                                         console.error('Failed to save scholarship details');
-    //                                         window.alert('Failed to save scholarship details');
-    //                                     }
-    //                                 })
-    //                                 .then(result => {
-    //                                     if (result) {
-    //                                         console.log('Action updated successfully');
-    //                                         window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
-    //                                         window.location.reload();
-    //                                     }
-    //                                 })
-    //                                 .catch(err => {
-    //                                     console.error('Error saving scholarship details:', err);
-    //                                     if (err.response && err.response.status === 400) {
-    //                                         if (err.response.data.message === 'Insufficient balance') {
-    //                                             window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
-    //                                         } else {
-    //                                             window.alert('Server Not Response!');
-    //                                         }
-    //                                     } else {
-    //                                         window.alert('An error occurred. Please try again later.');
-    //                                     }
-    //                                 });
-    //                         } else {
-    //                             console.error('Failed to update donor balances');
-    //                             window.alert('Failed to update donor balances');
-    //                         }
-    //                     })
-    //                     .catch(error => {
-    //                         console.error('Error updating donor balances:', error);
-    //                         window.alert('An error occurred while updating donor balances');
-    //                     });
-    //             } else {
-    //                 console.error('Failed to fetch current academic year');
-    //                 window.alert('Failed to fetch current academic year');
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching current academic year:', error);
-    //             window.alert('Error fetching current academic year');
-    //         });
-    // };
-
     const refreshInputs = () => {
         setScholamt('');
         setScholType('');
         setScholdonar('');
     };
-    // it worked
-    // const ScholSubmit = (e) => {
-    //     e.preventDefault();
-    //     axios.get('http://localhost:3001/api/admin/current-acyear')
-    //         .then(response => {
-    //             if (response.data.success) {
-    //                 const acyear = response.data.acyear.acyear;
 
-    //                 const balanceField = zakkath ? 'zakkathbal' : 'balance';
-
-    //                 // Check the donor details and balance amount before saving to freshamt
-    //                 axios.put(`http://localhost:3001/api/admin/donar/${scholdonar}`, {
-    //                     amount: scholamt,
-    //                     balanceField: balanceField
-    //                 })
-    //                     .then(result => {
-    //                         console.log(result);
-    //                         const updatedBalance = result.data.updatedBalance;
-    //                         window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
-
-    //                         return axios.post('http://localhost:3001/api/admin/freshamt', {
-    //                             fresherOrRenewal, registerNo, name, dept, scholtype, scholdonar, scholamt, acyear
-    //                         });
-    //                     })
-    //                     .then(result => {
-    //                         const newSubmission = { scholtype, scholdonar, scholamt };
-    //                         setSubmittedData(prevData => [...prevData, newSubmission]);
-    //                         refreshInputs();
-
-    //                         console.log(result);
-
-    //                     })
-
-    //                     .catch(err => {
-    //                         console.log(err);
-    //                         if (err.response && err.response.status === 400) {
-    //                             if (err.response.data.message === 'Insufficient balance') {
-    //                                 window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
-    //                             } else {
-    //                                 window.alert("Server Not Response!");
-    //                             }
-    //                         } else {
-    //                             window.alert("I am Dull Try Later");
-    //                         }
-
-    //                     });
-    //             }
-    //             else {
-    //                 console.error('Failed to fetch current academic year');
-    //                 window.alert('Failed to fetch current academic year');
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching current academic year:', error);
-    //             window.alert('Error fetching current academic year');
-    //         });
-    // };
-
-    //checked
     const ScholSubmit = async (e) => {
         e.preventDefault();
 
@@ -657,12 +482,7 @@ function Action() {
             console.log(donorResponse);
             const updatedBalance = donorResponse.data.updatedBalance;
             showNotification(`Submitted Successfully. Available balance for donor: ${updatedBalance}`, "success");
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 10000);
-            // window.alert(`Submitted Successfully. Available balance for donor: ${updatedBalance}`);
 
-            // Save scholarship amount in AmountModel
             const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
                 registerNo, name, dept, scholtype, scholdonar, scholamt, acyear, fresherOrRenewal,
             });
@@ -877,7 +697,6 @@ function Action() {
 
     return (
         <div className='p-6'>
-
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 {/* Search Box */}
                 <div className="flex items-center gap-3">
@@ -897,7 +716,6 @@ function Action() {
                     </button>
                 </div>
             </div>
-
             {quickRejectMode ? (
                 <div className="">
                     <h3 className="text-[19px] mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
@@ -1043,7 +861,6 @@ function Action() {
                 <div >
                     {/* Filter Section */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
-
                         {/* Search Mode */}
                         <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
                             <h2 className="text-lg font-semibold text-gray-800 mb-5">Search Mode</h2>
@@ -1063,7 +880,6 @@ function Action() {
                                 ))}
                             </div>
                         </div>
-
                         {/* Application Status */}
                         {radioValue === "all" && (
                             <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
@@ -1089,7 +905,6 @@ function Action() {
                                 </div>
                             </div>
                         )}
-
                         {/* Progress Type */}
                         {radioValue === "in-progress" && (
                             <div className="bg-white border-l-4 border-indigo-600 p-6 rounded-lg shadow-md">
@@ -1111,7 +926,6 @@ function Action() {
                                 </div>
                             </div>
                         )}
-
                         {/* Progress Status */}
                         {radioValue === "in-progress" && (
                             <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
@@ -1132,7 +946,6 @@ function Action() {
                                 </div>
                             </div>
                         )}
-
                         {/* Special Categories */}
                         {radioValue === "in-progress" && (
                             <div className="bg-white border-l-4 border-yellow-600 p-6 rounded-lg shadow-md lg:col-span-3">
@@ -1145,13 +958,13 @@ function Action() {
                                         { id: "fatherExpired", label: "Father Expired" },
                                         { id: "singleparent", label: "Single Parent" },
                                     ].map(({ id, label }) => (
-                                        <label key={id} className="flex items-center gap-3 text-gray-700 text-sm">
+                                        <label key={id} className="flex items-center gap-3 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
                                                 id={id}
                                                 name={id}
                                                 onChange={handleSpecialCategoryChange}
-                                                className="accent-yellow-600 w-5 h-5"
+                                                className="accent-yellow-500 w-5 h-5"
                                             />
                                             {label}
                                         </label>
@@ -1160,7 +973,6 @@ function Action() {
                             </div>
                         )}
                     </div>
-
                     {/* Student List Table */}
                     <div>
                         <div className="text-right font-semibold text-lg mb-3">
@@ -1186,66 +998,76 @@ function Action() {
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white">
-                                    {filterUsers.map((user, index) => (
-                                        <tr
-                                            key={`${user._id}-${index}`}
-                                            className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
-                                        >
-                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
-                                                {user.registerNo}
-                                            </td>
-                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
-                                                {user.name}
-                                            </td>
-                                            <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
-                                                {user.dept}
-                                            </td>
-                                            <td className="px-6 py-3 text-center text-md text-gray-700">
-                                                <div className="flex justify-center gap-2">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleViewClick(user)}
-                                                        className="bg-blue-500 text-white hover:bg-blue-700 py-1 h-[35px] w-24 rounded-md"
-                                                    >
-                                                        View
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleAccept(user)}
-                                                        className={`py-1 h-[35px] w-24 rounded-md ${user.action === 1
-                                                            ? 'bg-green-400 text-green-700'
-                                                            : user.action === 0
-                                                                ? 'bg-green-600 text-white hover:bg-green-700'
-                                                                : 'bg-gray-300 text-gray-500'
-                                                            }`}
-                                                        disabled={user.action !== 0}
-                                                    >
-                                                        Accept
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => handleReject(user)}
-                                                        className={`py-1 h-[35] w-24 rounded-md ${user.action === 2
-                                                            ? 'bg-red-400 text-red-700'
-                                                            : user.action === 0
-                                                                ? 'bg-red-500 text-white hover:bg-red-600'
-                                                                : 'bg-gray-300 text-gray-500'
-                                                            }`}
-                                                        disabled={user.action !== 0}
-                                                    >
-                                                        Reject
-                                                    </button>
-                                                </div>
+                                    {filterUsers.length > 0 ? (
+                                        filterUsers.map((user, index) => (
+                                            <tr
+                                                key={`${user._id}-${index}`}
+                                                className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
+                                            >
+                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                    {user.registerNo}
+                                                </td>
+                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                    {user.name}
+                                                </td>
+                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                    {user.dept}
+                                                </td>
+                                                <td className="px-6 py-3 text-center text-md text-gray-700">
+                                                    <div className="flex justify-center gap-2">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleViewClick(user)}
+                                                            className="bg-blue-500 text-white hover:bg-blue-700 py-1 h-[35px] w-24 rounded-md"
+                                                        >
+                                                            View
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleAccept(user)}
+                                                            className={`py-1 h-[35px] w-24 rounded-md ${user.action === 1
+                                                                    ? 'bg-green-400 text-green-700'
+                                                                    : user.action === 0
+                                                                        ? 'bg-green-600 text-white hover:bg-green-700'
+                                                                        : 'bg-gray-300 text-gray-500'
+                                                                }`}
+                                                            disabled={user.action !== 0}
+                                                        >
+                                                            Accept
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => handleReject(user)}
+                                                            className={`py-1 h-[35px] w-24 rounded-md ${user.action === 2
+                                                                    ? 'bg-red-400 text-red-700'
+                                                                    : user.action === 0
+                                                                        ? 'bg-red-500 text-white hover:bg-red-600'
+                                                                        : 'bg-gray-300 text-gray-500'
+                                                                }`}
+                                                            disabled={user.action !== 0}
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td
+                                                colSpan={4}
+                                                className="text-center text-gray-500 py-4 text-md font-medium"
+                                            >
+                                                No records found.
                                             </td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             )}
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-gray-800">
                 {/* Application Summary */}
                 <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
@@ -1276,7 +1098,6 @@ function Action() {
                     </div>
                 </div>
             </div>
-
             {/* Application View Modal */}
             {showModal && selectedUser && (
                 <div className="fixed inset-0 left-8 flex items-center justify-center">
@@ -1451,7 +1272,6 @@ function Action() {
                     </div>
                 </div>
             )}
-
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
@@ -1590,7 +1410,6 @@ function Action() {
                     </div>
                 </div>
             )}
-
             {/* Reject Session */}
             {showModalReject && selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
@@ -1668,7 +1487,6 @@ function Action() {
                     </div>
                 </div>
             )}
-
         </div >
     )
 }
