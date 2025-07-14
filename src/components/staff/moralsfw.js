@@ -38,12 +38,16 @@ function AttendMoralSFW() {
                 const freshAided = freshResponse.data.filter(user =>
                     user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
+                    user.deeniyathPer === 0 &&
+
                     user.acyear === curacyear.acyear
                 )
 
                 const renewalAided = renewalResponse.data.filter(user =>
                     user.religion !== 'ISLAM' &&
                     user.procategory === 'SFW' &&
+                    user.deeniyathPer === 0 &&
+
                     user.acyear === curacyear.acyear
                 );
 

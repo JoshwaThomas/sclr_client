@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import axios from "axios";
 
 function AttendDeeniyath() {
@@ -38,12 +38,14 @@ function AttendDeeniyath() {
                 const freshPending = freshResponse.data.filter(user =>
                     user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
+                    user.deeniyathPer === 0 &&
                     user.acyear === curacyear.acyear
                 );
 
                 const renewalPending = renewalResponse.data.filter(user =>
                     user.religion === 'ISLAM' &&
                     user.procategory !== 'SFW' &&
+                    user.deeniyathPer === 0 &&
                     user.acyear === curacyear.acyear
                 );
 
@@ -71,14 +73,14 @@ function AttendDeeniyath() {
                 (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
             if (isTotalInvalid) {
                 setUsers(users.map(user =>
-                    user.registerNo === registerNo ? { ...user, [type]: '' } : user
+                    user.registerNo === registerNo ? {...user, [type]: ''} : user
                 ));
                 return;
             }
             if (numericValue > total) return;
         }
         setUsers(users.map(user =>
-            user.registerNo === registerNo ? { ...user, [type]: value } : user
+            user.registerNo === registerNo ? {...user, [type]: value} : user
         ))
     }
 
@@ -111,10 +113,10 @@ function AttendDeeniyath() {
             remarks[user.registerNo] = user.deeniyathRem;
         })
         try {
-            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, {updates, remarks});
             if (response.data.success) {
                 window.alert("Updates Submitted Successfully");
-            } else { alert('Something went wrong') }
+            } else {alert('Something went wrong')}
         } catch (err) {
             console.error('Error', err);
             window.alert("Something Went Wrong with the server");
@@ -171,7 +173,7 @@ function AttendDeeniyath() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{width: i < 3 ? '12%' : i === 7 ? '20%' : '10%'}} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
