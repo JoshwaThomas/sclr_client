@@ -39,7 +39,6 @@ function AttendDeeniyathSFW() {
                     user.religion === 'ISLAM' &&
                     user.procategory === 'SFW' &&
                     user.deeniyathPer === 0 &&
-
                     user.acyear === curacyear.acyear
                 );
 
@@ -47,7 +46,6 @@ function AttendDeeniyathSFW() {
                     user.religion === 'ISLAM' &&
                     user.procategory === 'SFW' &&
                     user.deeniyathPer === 0 &&
-
                     user.acyear === curacyear.acyear
                 );
                 const totalfilter = freshAided.length + renewalAided.length;

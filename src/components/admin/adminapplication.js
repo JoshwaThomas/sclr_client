@@ -1026,10 +1026,10 @@ function Action() {
                                                             type="button"
                                                             onClick={() => handleAccept(user)}
                                                             className={`py-1 h-[35px] w-24 rounded-md ${user.action === 1
-                                                                    ? 'bg-green-400 text-green-700'
-                                                                    : user.action === 0
-                                                                        ? 'bg-green-600 text-white hover:bg-green-700'
-                                                                        : 'bg-gray-300 text-gray-500'
+                                                                ? 'bg-green-400 text-green-700'
+                                                                : user.action === 0
+                                                                    ? 'bg-green-600 text-white hover:bg-green-700'
+                                                                    : 'bg-gray-300 text-gray-500'
                                                                 }`}
                                                             disabled={user.action !== 0}
                                                         >
@@ -1039,10 +1039,10 @@ function Action() {
                                                             type="button"
                                                             onClick={() => handleReject(user)}
                                                             className={`py-1 h-[35px] w-24 rounded-md ${user.action === 2
-                                                                    ? 'bg-red-400 text-red-700'
-                                                                    : user.action === 0
-                                                                        ? 'bg-red-500 text-white hover:bg-red-600'
-                                                                        : 'bg-gray-300 text-gray-500'
+                                                                ? 'bg-red-400 text-red-700'
+                                                                : user.action === 0
+                                                                    ? 'bg-red-500 text-white hover:bg-red-600'
+                                                                    : 'bg-gray-300 text-gray-500'
                                                                 }`}
                                                             disabled={user.action !== 0}
                                                         >
@@ -1189,7 +1189,7 @@ function Action() {
                                                 Percentage of Mark
                                             </div>
                                             <div className="flex justify-center border-b border-gray-600 p-3">
-                                                {selectedUser.percentageOfMarkSchool || 'N/A'}
+                                                {"Not Applicable"}
                                             </div>
                                         </>
                                     ) : (
@@ -1198,7 +1198,9 @@ function Action() {
                                                 Percentage of Mark
                                             </div>
                                             <div className="flex justify-center border-b border-gray-600 p-3">
-                                                {selectedUser.semPercentage === 0 ? 'Pending' : selectedUser.semPercentage}
+                                                {selectedUser.semPercentage === 0
+                                                    ? 'Pending'
+                                                    : `${selectedUser.semPercentage}% - Grade : ${selectedUser.semRem}`}
                                             </div>
                                         </>
                                     )}
@@ -1215,22 +1217,22 @@ function Action() {
                                     <div className="flex justify-center p-3 border-b border-gray-600">
                                         {selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}
                                     </div>
-                                    {selectedUser.arrear !== 0 && (
-                                        <>
-                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
-                                                No. of Arrear
-                                            </div>
-                                            <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.arrear} </div>
-                                        </>
-                                    )}
-                                    {selectedUser.fresherOrRenewal === 'Renewal' && (
-                                        <>
-                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
-                                                Last Time Credited Amount
-                                            </div>
-                                            <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.lastCreditedAmt} </div>
-                                        </>
-                                    )}
+                                    {/* {selectedUser.arrear !== 0 && ( */}
+                                    {/* <> */}
+                                    <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                        No. of Arrear
+                                    </div>
+                                    <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.arrear !== 0 ? selectedUser.arrear : "No Arrear"} </div>
+                                    {/* </> */}
+                                    {/* )} */}
+                                    {/* {selectedUser.fresherOrRenewal === 'Renewal' && ( */}
+                                    <>
+                                        <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                            Last Time Credited Amount
+                                        </div>
+                                        <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.lastCreditedAmt || 0} </div>
+                                    </>
+                                    {/* )} */}
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-6">
@@ -1377,7 +1379,7 @@ function Action() {
                             {/* Submitted List */}
                             {submittedData.length > 0 && (
                                 <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
-                                    <h3 className="text-lg font-bold mb-2 text-gray-700">Submitted Scholarships:</h3>
+                                    <h3 className="text-lg font-bold mb-2 text-gray-700">Submitted Scholarships :</h3>
                                     <div className="space-y-2">
                                         {submittedData.map((submission, index) => (
                                             <div key={index} className="grid grid-cols-4 gap-4 text-gray-800">

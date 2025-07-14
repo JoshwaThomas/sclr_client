@@ -41,7 +41,6 @@ function AttendMoral() {
                     user.religion !== 'ISLAM' &&
                     user.procategory !== 'SFW' &&
                     user.deeniyathPer === 0 &&
-
                     user.acyear === curacyear.acyear
                 );
 
@@ -49,7 +48,6 @@ function AttendMoral() {
                     user.religion !== 'ISLAM' &&
                     user.procategory !== 'SFW' &&
                     user.deeniyathPer === 0 &&
-
                     user.acyear === curacyear.acyear
                 );
 
