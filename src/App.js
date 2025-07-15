@@ -25,6 +25,7 @@ import AdminApplication from './components/admin/adminapplication';
 import DonorMenu from './components/admin/donormenu';
 import DonorForm from './components/admin/Donor/donar';
 import DonorExisting from './components/admin/Donor/existing';
+import ProgressReport from './components/admin/progressreport';
 import DonarModify from './components/admin/Donor/modify';
 import GetLetter from './components/admin/Donor/donarletter';
 import DonorFundStatement from './components/admin/Donor/fundstatement';
@@ -81,6 +82,7 @@ function App() {
 						<Route path='/admin/getLetter' element={<GetLetter />} />
 						<Route path='/admin/distribution_statement' element={<Distribute />} />
 						<Route path='/admin/status' element={<Adstatus />} />
+						<Route path='/admin/progress_report' element={<ProgressReport />} />
 						<Route path='/admin/report/allreport' element={<Allreport />} />
 						<Route path='/admin/report/stureport' element={<Stureport />} />
 						<Route path='/admin/report/studawardreport' element={<Catreport />} />
