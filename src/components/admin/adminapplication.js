@@ -1076,7 +1076,7 @@ function Action() {
                     </h3>
                     <div className="flex justify-between text-gray-700">
                         <span>Number of Students Applied :</span>
-                        <span className="font-bold">{data.totalApplication}</span>
+                        <span className="font-bold">{data.totalApplicants}</span>
                     </div>
                     <div className="flex justify-between text-gray-700 mt-2">
                         <span>Number of Students Benefitted :</span>

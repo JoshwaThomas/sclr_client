@@ -21,7 +21,7 @@ function Distribution() {
                     axios.get(`${apiUrl}/api/admin/freshamt`),
                     axios.get(`${apiUrl}/api/admin/donors`)
                 ]);
-                const donorMap = donorsRes.data.reduce((map, donor) => {
+                const donorMap = donorsRes.data.reduce((map, donor) => { 
                     map[donor._id] = donor.name;
                     return map;
                 }, {});
@@ -162,7 +162,7 @@ function Distribution() {
                     </h3>
                     <div className="flex justify-between text-gray-700">
                         <span>Applied Students :</span>
-                        <span className="font-bold">{data.totalApplication}</span>
+                        <span className="font-bold">{data.totalApplicants}</span>
                     </div>
                     <div className="flex justify-between text-gray-700 mt-2">
                         <span>Benefitted Students :</span>

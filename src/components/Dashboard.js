@@ -19,11 +19,13 @@ const Dashboard = () => {
     const [columnBarData, setColumnBarData] = useState(null);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => {
+    useEffect(() => { 
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data);
+                // console.log("tftfty",response.data)
                 const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
+                // console.log(total)
                 setTotalAmount(total);
             })
             .catch(err => console.log('Error fetching data:', err));
@@ -79,10 +81,11 @@ const Dashboard = () => {
         },
     };
 
+        console.log("data",data)
     const pieData = {
-        labels: [`FRESHERS (${data.ugCount})`, `RENEWALS (${data.pgCount})`],
+        labels: [`FRESHERS (${data.totalFresher})`, `RENEWALS (${data.totalRenewal})`],
         datasets: [{
-            data: [data.ugPercent, data.pgPercent],
+            data: [data.freshPer, data.renewalPer],
             backgroundColor: ['rgb(251,79,20)', 'rgb(6,95,70)'],
         }],
     };
@@ -155,6 +158,8 @@ const Dashboard = () => {
             },
         ],
     };
+    // console.log(,data)
+ 
 
     const barColors = ['bg-fuchsia-500', 'bg-green-900', 'bg-blue-500', 'bg-teal-500', 'bg-orange-500'];
 
@@ -163,7 +168,7 @@ const Dashboard = () => {
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 2xl:mb-12 2xl:gap-12">
                 {[
-                    { icon: faUsers, label: 'Total Applicants', value: data.totalApplication },
+                    { icon: faUsers, label: 'Total Applicants', value: data.totalApplicants },
                     { icon: faGraduationCap, label: 'Students Benefitted', value: data.totalBenefit },
                     { icon: faMoneyCheckAlt, label: 'Scholarship Awarded', value: formatCurrency(totalamount) },
                     { icon: faHandsHelping, label: 'Generous Donors', value: data.totalDonars },
