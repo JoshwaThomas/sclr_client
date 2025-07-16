@@ -21,21 +21,19 @@ function Distribution() {
                     axios.get(`${apiUrl}/api/admin/freshamt`),
                     axios.get(`${apiUrl}/api/admin/donors`)
                 ]);
-                const donorMap = donorsRes.data.reduce((map, donor) => { 
+                const donorMap = donorsRes.data.reduce((map, donor) => {
                     map[donor._id] = donor.name;
                     return map;
                 }, {});
                 setUsers(usersRes.data);
                 setFilterUsers(usersRes.data);
                 setDonorMapping(donorMap);
-            } catch (err) {
-                console.error(err);
-            }
+            } catch (err) { console.error(err) }
         };
         fetchData();
     }, [apiUrl]);
 
-    useEffect(() => { 
+    useEffect(() => {
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(res => {
                 setData(res.data);
@@ -127,31 +125,42 @@ function Distribution() {
                         </tr>
                     </thead>
                     <tbody className="bg-white">
-                        {filterUsers.map((user, index) => (
-                            <tr
-                                key={user.registerNo}
-                                className="hover:bg-gray-50 font-semibold transition-colors border-t border-gray-300 h-20"
-                            >
-                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
-                                    {user.registerNo}
-                                </td>
-                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
-                                    {user.name}
-                                </td>
-                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
-                                    {user.dept}
-                                </td>
-                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
-                                    {user.scholtype}
-                                </td>
-                                <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
-                                    {donorMapping[user.scholdonar] || user.scholdonar}
-                                </td>
-                                <td className="px-6 py-3 text-center text-sm text-gray-700">
-                                    {formatCurrency(user.scholamt)}
+                        {filterUsers.length > 0 ? (
+                            filterUsers.map((user, index) => (
+                                <tr
+                                    key={user.registerNo}
+                                    className="hover:bg-gray-50 font-semibold transition-colors border-t border-gray-300 h-20"
+                                >
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {user.registerNo}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {user.name}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {user.dept}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {user.scholtype}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {donorMapping[user.scholdonar] || user.scholdonar}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700">
+                                        {formatCurrency(user.scholamt)}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan={6}
+                                    className="text-center py-6 text-gray-500 font-semibold tracking-wide"
+                                >
+                                    No record found.
                                 </td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>

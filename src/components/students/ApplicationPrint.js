@@ -15,7 +15,7 @@ function ApplicationPrint({ student }) {
     }
 
     return (
-        <div className='mt-6'>
+        <div className=''>
             <style>
                 {`@media print {
                         body { margin: 0; -webkit-print-color-adjust: exact; }
@@ -23,16 +23,8 @@ function ApplicationPrint({ student }) {
                     }
                 `}
             </style>
-            <div className='flex justify-end mb-6'>
-                <button
-                    type='button'
-                    onClick={handlePrint}
-                    className="bg-blue-500 text-white px-10 py-2 text-lg rounded hover:bg-blue-600"
-                >
-                    Print Application
-                </button>
-            </div>
-            <div className='p-2 border mt-3 w-[730px] mx-auto'>
+            <hr className='mt-6 border-black' />
+            <div className='p-2 border mt-16 w-[730px] mx-auto'>
                 <div id="print-section" ref={printRef} className='w-[700px] h-[1130px] p-3'>
                     <div className='bg-green-500'>
                         <img src={PrintHeader} alt="Header" className="w-full h-[110px] object-cover mb-2" />
@@ -94,6 +86,15 @@ function ApplicationPrint({ student }) {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='flex justify-end mt-6'>
+                <button
+                    type='button'
+                    onClick={handlePrint}
+                    className="bg-blue-500 text-white px-10 py-2 text-lg rounded hover:bg-blue-600"
+                >
+                    Print Application
+                </button>
             </div>
         </div>
     )

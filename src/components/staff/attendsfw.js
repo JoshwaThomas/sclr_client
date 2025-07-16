@@ -88,7 +88,10 @@ function AttendSfw() {
         });
         try {
             const response = await axios.put(`${apiUrl}/freshattSfmUpdate`, {updates, remarks});
-            if (response.data.success) {window.alert("Updates Submitted Successfully")}
+            if (response.data.success) {
+                window.alert("Updates Submitted Successfully")
+                window.location.reload();
+            }
             else {alert("Something went wrong")}
         } catch (err) {
             console.error("Error:", err);

@@ -77,7 +77,7 @@ function AdminLayout() {
 						</NavLink>
 					))}
 					<button
-						onClick={handleLogout} 
+						onClick={handleLogout}
 						className="w-full flex items-center space-x-3 px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30"
 					>
 						<FontAwesomeIcon icon={faSignOutAlt} className="text-base w-4" />

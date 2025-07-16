@@ -1202,6 +1202,10 @@ function Action() {
                                                     ? 'Pending'
                                                     : `${selectedUser.semPercentage}% - Grade : ${selectedUser.semRem}`}
                                             </div>
+                                            <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
+                                                No. of Arrear
+                                            </div>
+                                            <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.arrear !== 0 ? selectedUser.arrear : "No Arrear"} </div>
                                         </>
                                     )}
                                     {/* Common Fields - continue the same grid here */}
@@ -1217,15 +1221,6 @@ function Action() {
                                     <div className="flex justify-center p-3 border-b border-gray-600">
                                         {selectedUser.deeniyathPer === 0 ? 'Pending' : selectedUser.deeniyathPer}
                                     </div>
-                                    {/* {selectedUser.arrear !== 0 && ( */}
-                                    {/* <> */}
-                                    <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
-                                        No. of Arrear
-                                    </div>
-                                    <div className="flex justify-center p-3 border-b border-gray-600"> {selectedUser.arrear !== 0 ? selectedUser.arrear : "No Arrear"} </div>
-                                    {/* </> */}
-                                    {/* )} */}
-                                    {/* {selectedUser.fresherOrRenewal === 'Renewal' && ( */}
                                     <>
                                         <div className="flex justify-center border-r border-b border-gray-600 p-3 font-semibold bg-gray-100">
                                             Last Time Credited Amount
@@ -1242,7 +1237,7 @@ function Action() {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-6">
+                        <div className="flex flex-wrap justify-center md:justify-end gap-4 mt-6">
                             <button
                                 onClick={() => handleAccept(selectedUser)}
                                 disabled={selectedUser.action !== 0}

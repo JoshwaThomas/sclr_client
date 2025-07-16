@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 
 function AttendDeeniyathSFW() {
@@ -53,7 +53,7 @@ function AttendDeeniyathSFW() {
                 setTotaldata(totalsfm);
                 const combinedUsers = [...freshAided, ...renewalAided];
                 setUsers(combinedUsers);
-            } catch (error) {console.log(error)}
+            } catch (error) { console.log(error) }
         };
         fetchUsers();
     }, [apiUrl]);
@@ -68,12 +68,12 @@ function AttendDeeniyathSFW() {
             const isTotalInvalid = (type === 'currAttendancedee' && (!currAttendancetot || isNaN(total))) ||
                 (type === 'prevAttendancedee' && (!prevAttendancetot || isNaN(total)));
             if (isTotalInvalid) {
-                setUsers(users.map(user => user.registerNo === registerNo ? {...user, [type]: ''} : user));
+                setUsers(users.map(user => user.registerNo === registerNo ? { ...user, [type]: '' } : user));
                 return;
             }
             if (numericValue > total) return;
         }
-        setUsers(users.map(user => user.registerNo === registerNo ? {...user, [type]: value} : user));
+        setUsers(users.map(user => user.registerNo === registerNo ? { ...user, [type]: value } : user));
     };
 
     useEffect(() => {
@@ -105,9 +105,12 @@ function AttendDeeniyathSFW() {
             remarks[user.registerNo] = user.deeniyathRem;
         });
         try {
-            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, {updates, remarks});
-            if (response.data.success) {window.alert("Updates Submitted Successfully")}
-            else {alert('Something went wrong')}
+            const response = await axios.put(`${apiUrl}/freshdeeniyathUpdate`, { updates, remarks });
+            if (response.data.success) {
+                window.alert("Updates Submitted Successfully")
+                window.location.reload();
+            }
+            else { alert('Something went wrong') }
         } catch (err) {
             console.error('Error', err);
             window.alert("Something Went Wrong with the server");
@@ -164,7 +167,7 @@ function AttendDeeniyathSFW() {
                                 S.No
                             </th>
                             {['Reg No', 'Name', 'Department', 'Prev Year', 'Curr Year', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} style={{width: i < 3 ? '12%' : i === 7 ? '20%' : '10%'}} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
