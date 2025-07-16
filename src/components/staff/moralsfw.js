@@ -135,14 +135,14 @@ function AttendMoralSFW() {
             </h1>
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-lg font-semibold">
-                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
-                    Total Applicants : <span className="float-right">{totaldata}</span>
-                </div>
                 <div className="bg-white border-l-4 border-green-600 p-4 rounded shadow-md">
                     Completed : <span className="float-right">{totalwork}</span>
                 </div>
                 <div className="bg-white border-l-4 border-red-600 p-4 rounded shadow-md">
                     Pending : <span className="float-right">{users.length}</span>
+                </div>
+                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
+                    Total Applicants : <span className="float-right">{totaldata}</span>
                 </div>
             </div>
             {/* Working Days Input */}
@@ -200,7 +200,7 @@ function AttendMoralSFW() {
                                         <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
                                         <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
                                         <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
-                                        <td className="px-4 py-3 text-center border-r">
+                                        <td className="p-3 text-center border-r">
                                             <input
                                                 type="text"
                                                 className="w-20 border p-2 rounded text-right"
@@ -209,7 +209,7 @@ function AttendMoralSFW() {
                                                 onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
                                             />
                                         </td>
-                                        <td className="px-4 py-3 text-center border-r">
+                                        <td className="p-3 text-center border-r">
                                             <input
                                                 type="text"
                                                 className="w-20 border p-2 rounded text-right"
@@ -220,7 +220,7 @@ function AttendMoralSFW() {
                                         <td className="px-4 py-3 text-center border-r font-semibold text-sm text-gray-800">
                                             {deeniyathPer[user.registerNo] || '0.00'}
                                         </td>
-                                        <td className="px-4 py-3 text-center">
+                                        <td className="p-3 text-center">
                                             <input
                                                 type="text"
                                                 className="w-full border p-2 rounded"

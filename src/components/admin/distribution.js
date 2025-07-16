@@ -85,7 +85,7 @@ function Distribution() {
             <div className="flex justify-center items-center min-h-[50vh]">
                 <img src={Loading} alt="Loading..." className="w-28" />
             </div>
-        );
+        )
     }
 
     return (
@@ -97,7 +97,7 @@ function Distribution() {
                 <input
                     type="text"
                     placeholder="Search ..."
-                    className="p-2 border border-gray-400 rounded-md w-72"
+                    className="p-2 border border-gray-400 rounded-md w-72 uppercase"
                     onChange={handleSearch}
                 />
                 <button

@@ -98,14 +98,14 @@ function Attendaided() {
             </h1>
             {/* Status Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-lg font-semibold">
-                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
-                    Total Applicants : <span className="float-right">{totaldata}</span>
-                </div>
                 <div className="bg-white border-l-4 border-green-600 p-4 rounded shadow-md">
                     Completed : <span className="float-right">{totalwork}</span>
                 </div>
                 <div className="bg-white border-l-4 border-red-600 p-4 rounded shadow-md">
                     Pending : <span className="float-right">{users.length}</span>
+                </div>
+                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
+                    Total Applicants : <span className="float-right">{totaldata}</span>
                 </div>
             </div>
             {/* Working Days Input */}
@@ -128,8 +128,11 @@ function Attendaided() {
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700 sticky top-0 z-10">
                         <tr>
+                            <th className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300 w-[6%]">
+                                S.No
+                            </th>
                             {['Reg No', 'Name', 'Department', 'Prev Sem (%)', 'Curr Sem', 'Percentage', 'Remarks'].map((heading, i) => (
-                                <th key={i} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
+                                <th key={i} style={{ width: i < 3 ? '12%' : i === 7 ? '20%' : '10%' }} className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300">
                                     {heading}
                                 </th>
                             ))}
@@ -138,28 +141,29 @@ function Attendaided() {
                     <tbody className="bg-white">
                         {users.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="text-center py-6 text-gray-500 font-semibold">
+                                <td colSpan={8} className="text-center py-6 text-gray-500 font-semibold">
                                     No data found.
                                 </td>
                             </tr>
                         ) : (
                             users.sort((a, b) => a.registerNo.localeCompare(b.registerNo)).map((user, index) => (
                                 <tr key={`${user._id}-${index}`} className="hover:bg-gray-50 transition-colors  h-[80px] border-t border-gray-300">
+                                    <td className="px-4 py-3 text-center font-semibold border-r">{index + 1}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
-                                    <td className="px-4 py-3 text-center border-r">
+                                    <td className="p-3 text-center border-r">
                                         <input
                                             type="number"
-                                            className="w-20 border p-2 rounded text-right"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.prevAttendance || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendance', e.target.value)}
                                         />
                                     </td>
-                                    <td className="px-4 py-3 text-center border-r">
+                                    <td className="p-3 text-center border-r">
                                         <input
                                             type="number"
-                                            className="w-20 border p-2 rounded text-right"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.currAttendance || ''}
                                             max={currAttendancetot}
                                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendance', e.target.value)}
@@ -168,10 +172,10 @@ function Attendaided() {
                                     <td className="px-4 py-3 text-center border-r font-semibold text-sm text-gray-800">
                                         {classAttendancePer[user.registerNo] || '0.00'}
                                     </td>
-                                    <td className="px-4 py-3 text-center">
+                                    <td className="p-3 text-center">
                                         <input
                                             type="text"
-                                            className="w-full border p-2 rounded"
+                                            className="w-full border p-3 rounded"
                                             value={user.classAttendanceRem || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'classAttendanceRem', e.target.value)}
                                         />

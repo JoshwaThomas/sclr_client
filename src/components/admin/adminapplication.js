@@ -702,7 +702,7 @@ function Action() {
                 <div className="flex items-center gap-3">
                     <input type="text"
                         placeholder="Search ...."
-                        className="py-2 px-4 w-72 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-emerald-600"
+                        className="uppercase py-2 px-4 w-72 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-black"
                         onChange={handleSearch}
                     />
                 </div>
@@ -984,7 +984,10 @@ function Action() {
                                 <thead className="bg-emerald-700">
                                     <tr>
                                         <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
-                                            Register No
+                                            S. No.
+                                        </th>
+                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                            Register No.
                                         </th>
                                         <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             Name
@@ -1004,6 +1007,9 @@ function Action() {
                                                 key={`${user._id}-${index}`}
                                                 className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
                                             >
+                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                    {index+1}
+                                                </td>
                                                 <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.registerNo}
                                                 </td>
@@ -1055,7 +1061,7 @@ function Action() {
                                     ) : (
                                         <tr>
                                             <td
-                                                colSpan={4}
+                                                colSpan={5}
                                                 className="text-center text-gray-500 py-4 text-md font-medium"
                                             >
                                                 No records found.
@@ -1179,7 +1185,7 @@ function Action() {
                         </div>
                         <div>
                             <h3 className="text-xl font-semibold bg-gray-600 p-3 text-white mt-6 rounded-t-md">
-                                Personal Details
+                                Education Details
                             </h3>
                             <div className="overflow-x-auto border border-black p-8 rounded-b-xl bg-white">
                                 <div className="grid grid-cols-2 border-r border-l border-t border-gray-600 rounded-md overflow-hidden">

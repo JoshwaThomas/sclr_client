@@ -124,14 +124,14 @@ function AttendDeeniyathSFW() {
             </h1>
             {/* Status Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-lg font-semibold">
-                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
-                    Total Applicants : <span className="float-right">{totaldata}</span>
-                </div>
                 <div className="bg-white border-l-4 border-green-600 p-4 rounded shadow-md">
                     Completed : <span className="float-right">{totalwork}</span>
                 </div>
                 <div className="bg-white border-l-4 border-red-600 p-4 rounded shadow-md">
                     Pending : <span className="float-right">{users.length}</span>
+                </div>
+                <div className="bg-white border-l-4 border-blue-600 p-4 rounded shadow-md">
+                    Total Applicants : <span className="float-right">{totaldata}</span>
                 </div>
             </div>
             {/* Working Days */}
@@ -187,19 +187,19 @@ function AttendDeeniyathSFW() {
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.registerNo}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.name}</td>
                                     <td className="px-4 py-3 text-center font-semibold text-gray-700 uppercase border-r">{user.dept}</td>
-                                    <td className="px-4 py-3 text-center border-r">
+                                    <td className="p-3 text-center border-r">
                                         <input
                                             type="text"
-                                            className="w-20 border p-2 rounded text-right"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             disabled={user.semester === "I" || user.semester === "II"}
                                             value={user.prevAttendancedee || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'prevAttendancedee', e.target.value)}
                                         />
                                     </td>
-                                    <td className="px-4 py-3 text-center border-r">
+                                    <td className="p-3 text-center border-r">
                                         <input
                                             type="text"
-                                            className="w-20 border p-2 rounded text-right"
+                                            className="w-full border border-gray-300 p-3 rounded text-center"
                                             value={user.currAttendancedee || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'currAttendancedee', e.target.value)}
                                         />
@@ -207,10 +207,10 @@ function AttendDeeniyathSFW() {
                                     <td className="px-4 py-3 text-center border-r font-semibold text-sm text-gray-800">
                                         {deeniyathPer[user.registerNo] || '0.00'}
                                     </td>
-                                    <td className="px-4 py-3 text-center">
+                                    <td className="p-3 text-center">
                                         <input
                                             type="text"
-                                            className="w-full border p-2 rounded"
+                                            className="w-full border p-3 rounded"
                                             value={user.deeniyathRem || ''}
                                             onChange={(e) => handleInputChange(user.registerNo, 'deeniyathRem', e.target.value)}
                                         />
@@ -225,13 +225,7 @@ function AttendDeeniyathSFW() {
             <div className="text-right mt-6">
                 <button
                     onClick={updateAttendance}
-                    // disabled={!currAttendancetot || users.length === 0}
-                    // className={`px-6 py-2 rounded-md font-semibold text-white ${!currAttendancetot || users.length === 0
-                    //     ? 'bg-gray-400 cursor-not-allowed'
-                    //     : 'bg-blue-600 hover:bg-blue-700'
-                    //     }`}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold"
-
                 >
                     Submit
                 </button>

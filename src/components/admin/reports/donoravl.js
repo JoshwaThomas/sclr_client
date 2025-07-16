@@ -139,97 +139,118 @@ function Donoravl() {
     const totalZakat = filterUsers.reduce((sum, user) => sum + (user.zakkathbal || 0), 0);
 
     return (
-        <div>
-            <h1 className="text-xl mb-2 font-bold bg-gray-600 p-2 mt-7 text-white" >Funds Available Reports</h1>
-            <div>
-                <div className='end-px '>
+        <div className="p-6">
+            {/* Title */}
+            <h1 className="text-xl mb-6 font-semibold bg-gray-600 p-3 rounded text-white">
+                Funds Available Reports
+            </h1>
+
+            {/* Search Controls */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+                <div className="flex flex-wrap gap-3">
                     <input
-                        type='text'
-                        placeholder='Search text here'
-                        className='uppercase py-1 border border-black rounded-md mr-2'
+                        type="text"
+                        placeholder="Search..."
+                        className="uppercase p-2 border border-gray-400 rounded-md w-64 focus:outline-none focus:ring-1 focus:ring-black"
                         onChange={handleSearch}
                     />
-                    <button
-                        type="button"
-                        className="bg-blue-500 text-white py-1 px-3 hover:bg-black rounded-lg mt-1"
-                    >
-                        Search
-                    </button>
-                    {/* <select
-                        className='uppercase py-1 rounded-md ml-4 w-20'
-                        onChange={handleDepartmentChange}
-                        value={selectedDepartment}
-                    >
-                        {departments.map((dept, index) => (
-                            <option key={index} value={dept}>{dept}</option>
-                        ))}
-                    </select> */}
-                    {/* <div className='end-px text-white border border-white w-72 mt-4'>
-                        <input
-                            type="radio"
-                            id="all"
-                            name="search"
-                            value="All"
-                            className='scale-200 ml-8'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
-
-                        <input
-                            type="radio"
-                            id="fresher"
-                            name="search"
-                            value="Fresh"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
-
-                        <input
-                            type="radio"
-                            id="renewal"
-                            name="search"
-                            value="Renewal"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
-                    </div> */}
                 </div>
 
                 <button
                     type="button"
-                    className="bg-green-500 text-white py-3 px-3 mt-5 hover:bg-black rounded-lg "
                     onClick={handleDownload}
+                    className="bg-green-600 text-lg hover:bg-green-700 text-white px-6 py-2 rounded-md"
                 >
                     Download Excel
                 </button>
-                <div className=' justify-end flex flex-col'>
-                    <div className="text-lg font-bold mb-4  text-right ">Overall Fund:</div>
-                    <div className='text-lg font-bold mb-4  text-right'>General: {formatCurrency(totalGeneral)} | Zakat: {formatCurrency(totalZakat)}</div>
+            </div>
+
+            {/* Summary Section */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                {/* Overall Fund */}
+                <div className="bg-white border-l-4 border-indigo-600 p-5 rounded-xl shadow-md space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        💼 Overall Fund
+                    </h3>
+                    <div className='flex gap-10 items-end'>
+                        <p className="text-gray-800 font-medium text-lg">
+                            General : <span className="font-bold">{formatCurrency(totalGeneral)}</span>
+                        </p>
+                        <p className="text-gray-800 font-medium text-lg">
+                            Zakat : <span className="font-bold">{formatCurrency(totalZakat)}</span>
+                        </p>
+                    </div>
+
                 </div>
-                <div className="text-right font-bold text-xl ml-28 ">No of Donors:  {filterUsers.length}</div>
-                <div className='mt-6 grid grid-cols-5 w-auto bg-emerald-500 sticky top-0'>
-                    <div className="font-bold border border-black text-center py-3">Donor ID</div>
-                    <div className="font-bold border border-black text-center py-3">Scholar Type</div>
-                    <div className="font-bold border border-black text-center py-3">NAME</div>
-                    <div className="font-bold border border-black text-center py-3">General</div>
-                    <div className="font-bold border border-black text-center py-3">Zakat</div>
-                    {/* <div className="font-bold border border-white text-center">Pan</div> */}
-                </div>
-                <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
-                    {filterUsers.map((user, index) => (
-                        <div key={index} className={`grid grid-cols-5 ${index % 2 === 0 ? "bg-emerald-200" : "bg-emerald-200"}`}>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.did}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.scholtype}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.balance)}</div>
-                            <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.zakkathbal || 0)}</div>
-                            {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
-                        </div>
-                    ))}
+
+                {/* Donor Count */}
+                <div className="bg-white border-l-4 border-green-600 p-5 rounded-xl shadow-md md:col-span-1 space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        👥 Donor Summary
+                    </h3>
+                    <p className="text-gray-800 font-medium text-lg">
+                        No. of Donors : <span className="font-bold text-xl">{filterUsers.length}</span>
+                    </p>
                 </div>
             </div>
+
+
+            {/* Table Header */}
+            <div className="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+                <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
+                    {/* Table Header */}
+                    <thead className="bg-emerald-700 text-white font-semibold">
+                        <tr>
+                            {['Donor ID', 'Scholar Type', 'Name', 'General', 'Zakat'].map((title, i) => (
+                                <th
+                                    key={i}
+                                    className="px-6 py-3 text-center text-md font-semibold border-r border-emerald-800"
+                                >
+                                    {title}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+
+                    {/* Table Body */}
+                    <tbody className="bg-white divide-y divide-gray-100 text-gray-800 text-md font-medium">
+                        {filterUsers.length > 0 ? (
+                            filterUsers.map((user, index) => (
+                                <tr
+                                    key={index}
+                                    className="hover:bg-gray-50 transition-colors h-[60px]"
+                                >
+                                    <td className="px-6 py-3 text-center uppercase border-r border-gray-300">
+                                        {user.did}
+                                    </td>
+                                    <td className="px-6 py-3 text-center uppercase border-r border-gray-300">
+                                        {user.scholtype}
+                                    </td>
+                                    <td className="px-6 py-3 text-center uppercase border-r border-gray-300">
+                                        {user.name}
+                                    </td>
+                                    <td className="px-6 py-3 text-center border-r border-gray-300">
+                                        {formatCurrency(user.balance || 0)}
+                                    </td>
+                                    <td className="px-6 py-3 text-center">
+                                        {formatCurrency(user.zakkathbal || 0)}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan={5}
+                                    className="text-center py-6 text-gray-500 font-semibold tracking-wide"
+                                >
+                                    No records found.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     );
 }
