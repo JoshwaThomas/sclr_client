@@ -52,7 +52,7 @@ const Dashboard = () => {
     };
 
     const barData = {
-        labels: [`First Year UG ${data.firstYear + data.rfirstYear} / ${data.totalApplication}`, `Second Year UG ${data.secYear + data.rsecYear} / ${data.totalApplication}`, `Third Year UG ${data.thirdYear + data.rthirdYear} / ${data.totalApplication}`, `First Year PG ${data.pgfirstYear + data.rpgfirstYear} / ${data.totalApplication}`, `Second Year PG ${data.pgsecYear + data.rpgsecYear} / ${data.totalApplication}`],
+        labels: [`First Year UG ${data.firstYear + data.rfirstYear} / ${data.totalApplicants}`, `Second Year UG ${data.secYear + data.rsecYear} / ${data.totalApplicants}`, `Third Year UG ${data.thirdYear + data.rthirdYear} / ${data.totalApplicants}`, `First Year PG ${data.pgfirstYear + data.rpgfirstYear} / ${data.totalApplicants}`, `Second Year PG ${data.pgsecYear + data.rpgsecYear} / ${data.totalApplicants}`],
         datasets: [
             {
                 label: `'Applicants'`,
@@ -98,9 +98,9 @@ const Dashboard = () => {
         ],
         datasets: [{
             data: [
-                ((data.amCount + data.ramCount) / data.totalApplication) * 100,
-                ((data.sfmCount + data.rsfmCount) / data.totalApplication) * 100,
-                ((data.sfwCount + data.rsfwCount) / data.totalApplication) * 100,
+                ((data.amCount + data.ramCount) / data.totalApplicants) * 100,
+                ((data.sfmCount + data.rsfmCount) / data.totalApplicants) * 100,
+                ((data.sfwCount + data.rsfwCount) / data.totalApplicants) * 100,
             ],
             backgroundColor: ['rgb(6,95,70)', 'rgb(99,102,241)', 'rgb(251,79,20)'],
         }],
@@ -113,8 +113,8 @@ const Dashboard = () => {
         ],
         datasets: [{
             data: [
-                (data.amCount + data.ramCount + data.sfmCount + data.rsfmCount) / data.totalApplication * 100,
-                (data.sfwCount + data.rsfwCount) / data.totalApplication * 100,
+                (data.amCount + data.ramCount + data.sfmCount + data.rsfmCount) / data.totalApplicants * 100,
+                (data.sfwCount + data.rsfwCount) / data.totalApplicants * 100,
             ],
             backgroundColor: ['rgb(99,102,241)', 'rgb(251,79,20)'],
         }],

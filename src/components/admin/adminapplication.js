@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg';
 import ApplicationPrint from '../students/ApplicationPrint';
 
-const Notification = ({ message, type, onClose }) => {
+const Notification = ({message, type, onClose}) => {
     if (!message) return null;
 
     return (
@@ -51,14 +51,14 @@ function Action() {
     //variable declare
     const [staffverify, setStaffverify] = useState({
         All: false,
-        Aided: false,
-        SFM: false,
-        SFW: false,
-        DM: false,
-        DW: false,
-        MM: false,
-        MW: false,
-        COE: false,
+        // Aided: false,
+        // SFM: false,
+        // SFW: false,
+        // DM: false,
+        // DW: false,
+        // MM: false,
+        // MW: false,
+        // COE: false,
     })
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
@@ -71,12 +71,12 @@ function Action() {
     const [siblingsIncome, setSiblingsIncome] = useState('');
     const [isSubmitEnabled, setSubmitEnabled] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [notification, setNotification] = useState({ message: '', type: '' });
+    const [notification, setNotification] = useState({message: '', type: ''});
 
     const showNotification = (message, type) => {
-        setNotification({ message, type });
+        setNotification({message, type});
         setTimeout(() => {
-            setNotification({ message: '', type: '' });
+            setNotification({message: '', type: ''});
         }, 5000);
     };
 
@@ -90,7 +90,7 @@ function Action() {
             try {
                 const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
                 const curacyear = acyear.data.acyear;
-                console.log('academic Year:', curacyear.acyear)
+                // console.log('academic Year:', curacyear.acyear)
                 const fetchFreshUsers = async () => {
                     try {
                         const response = await axios.get(`${apiUrl}/fresh`);
@@ -106,7 +106,7 @@ function Action() {
                 const fetchRenewalUsers = async () => {
                     try {
                         const response = await axios.get(`${apiUrl}/renewal`);
-                        console.log('Renewal Users:', response.data);
+                        // console.log('Renewal Users:', response.data);
                         const renewalUsers = response.data.filter(user => user.acyear === curacyear.acyear);
                         setRusers(renewalUsers);
                         setFilterUsers(prev => [...prev, ...renewalUsers]);
@@ -116,7 +116,7 @@ function Action() {
                 };
                 fetchFreshUsers();
                 fetchRenewalUsers();
-                console.log("filterUsers:", filterUsers)
+                // console.log("filterUsers:", filterUsers)
             }
             catch (error) {
                 console.log('Academic Year:', error)
@@ -129,7 +129,7 @@ function Action() {
     // Use Effect to Filter Users
     useEffect(() => {
         let combinedUsers = [...users, ...rusers];
-        console.log('Combined Users:', combinedUsers);
+        // console.log('Combined Users:', combinedUsers);
 
         let filteredUsers = combinedUsers;
 
@@ -140,6 +140,20 @@ function Action() {
                     const userAction = String(user.action || '').trim();
                     const selectedAccept = acceptreject.trim();
                     return userAction === selectedAccept;
+                });
+            }
+
+            if (Object.values(specialCategories).some(value => value)) {
+                filteredUsers = filteredUsers.filter(user => {
+                    const specialCategory = (user.specialCategory || '').toLowerCase();
+                    return (
+                        (specialCategories.fathermotherseparated && specialCategory.includes('father mother separated')) ||
+                        (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                        (specialCategories.singleparent && specialCategory.includes('single parent')) ||
+                        (specialCategories.general && specialCategory.includes('general')) ||
+                        (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
+                        (specialCategories.muaddin && specialCategory.includes('muaddin'))
+                    );
                 });
             }
 
@@ -159,11 +173,12 @@ function Action() {
                 filteredUsers = filteredUsers.filter(user => {
                     const specialCategory = (user.specialCategory || '').toLowerCase();
                     return (
-                        (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                        (specialCategories.fathermotherseparated && specialCategory.includes('father mother separated')) ||
+                        (specialCategories.fatherexpired && specialCategory.includes('father expired')) ||
+                        (specialCategories.singleparent && specialCategory.includes('single parent')) ||
+                        (specialCategories.general && specialCategory.includes('general')) ||
                         (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                        (specialCategories.fathermotherseparated && specialCategory.includes('fathermotherseparated')) ||
-                        (specialCategories.fatherexpired && specialCategory.includes('fatherexpired')) ||
-                        (specialCategories.singleparent && specialCategory.includes('singleparent'))
+                        (specialCategories.muaddin && specialCategory.includes('muaddin'))
                     );
                 });
             }
@@ -173,24 +188,25 @@ function Action() {
                     const classper = user.classAttendancePer || 0;
                     const deeniyathper = user.deeniyathPer || 0;
                     const semper = user.semPercentage || 0;
+                    const schoolMark=user.percentageOfMarkSchool
 
                     return (
-                        (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0)) ||
-                        (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
-                        (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
-                        (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
-                        (staffverify.DM && (user.procategory === 'SFM' || user.procategory === 'Aided') && user.deeniyath === 'Yes' && deeniyathper !== 0) ||
-                        (staffverify.DW && user.deeniyath === 'Yes' && deeniyathper !== 0 && user.procategory === 'SFW') ||
-                        (staffverify.MM && user.deeniyath === 'No' && (user.procategory === 'SFM' || user.procategory === 'Aided') && deeniyathper !== 0) ||
-                        (staffverify.MW && user.deeniyath === 'No' && deeniyathper !== 0 && user.procategory === 'SFW') ||
-                        (staffverify.COE && semper !== 0)
+                        (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0 || schoolMark !==0)) 
+                        // (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
+                        // (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
+                        // (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
+                        // (staffverify.DM && (user.procategory === 'SFM' || user.procategory === 'Aided') && user.deeniyath === 'Yes' && deeniyathper !== 0) ||
+                        // (staffverify.DW && user.deeniyath === 'Yes' && deeniyathper !== 0 && user.procategory === 'SFW') ||
+                        // (staffverify.MM && user.deeniyath === 'No' && (user.procategory === 'SFM' || user.procategory === 'Aided') && deeniyathper !== 0) ||
+                        // (staffverify.MW && user.deeniyath === 'No' && deeniyathper !== 0 && user.procategory === 'SFW') ||
+                        // (staffverify.COE && semper !== 0)
                     )
                 })
             }
         }
 
         setFilterUsers(filteredUsers);
-        console.log(filteredUsers)
+        // console.log("Filetrr user", filteredUsers)
 
         // if (classAttendance) {
         //     filteredUsers = filteredUsers.filter(user => user.classAttendancePer <= Number(classAttendance));
@@ -245,7 +261,7 @@ function Action() {
     }, []);
 
     useEffect(() => {
-        handleRadioChange({ target: { value: 'all' } });
+        handleRadioChange({target: {value: 'all'}});
     }, []);
 
     const handleSearch = (e) => {
@@ -281,13 +297,14 @@ function Action() {
     };
 
     const handleSpecialCategoryChange = (e) => {
-        const { name, checked } = e.target;
-        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
+        const {name, checked} = e.target;
+        setSpecialCategories(prevState => ({...prevState, [name.toLowerCase()]: checked}));
     };
     //get the value
     const handleStaffverifyChange = (e) => {
-        const { name, checked } = e.target;
-        setStaffverify(prevState => ({ ...prevState, [name]: checked }))
+        const {name, checked} = e.target;
+        console.log(name,checked)
+        setStaffverify(prevState => ({...prevState, [name]: checked}))
         // console.log("staff",staffverify)
     }
 
@@ -464,8 +481,49 @@ function Action() {
     const ScholSubmit = async (e) => {
         e.preventDefault();
 
+        // try {
+        // Fetch current academic year
+
+        // Update state and clear inputs only if everything succeeded
+        const newSubmission = {scholtype, scholdonar, scholamt};
+        setSubmittedData(prevData => [...prevData, newSubmission]);
+        refreshInputs();
+        setSubmitEnabled(true);
+
+        // } catch (err) {
+        //     console.error('Error during submission:', err);
+
+        //     // Specific error handling
+        //     if (err.response && err.response.status === 400) {
+        //         if (err.response.data.message === 'Insufficient balance') {
+        //             showNotification(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`, "error");
+        //             // setTimeout(() => {
+        //             //   window.location.reload();
+        //             // }, 10000);
+        //             // window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
+        //         } else {
+        //             showNotification("I am Dull Try Later", "error");
+        //             // setTimeout(() => {
+        //             //   window.location.reload();
+        //             // }, 10000);
+        //             // window.alert("Server Not Response!");
+        //         }
+        //     } else {
+        //         showNotification("Server Not Response!", "error");
+        //         // setTimeout(() => {
+        //         //   window.location.reload();
+        //         // }, 10000);
+        //         // window.alert("I am Dull Try Later");
+        //     }
+
+        //     // Optionally, you could add additional logging or actions here
+        //     console.error('Data was not saved due to an error.');
+        // }
+    };
+
+    const Submit = async (e) => {
+        e.preventDefault();
         try {
-            // Fetch current academic year
             const acYearResponse = await axios.get(`${apiUrl}/api/admin/current-acyear`);
             if (!acYearResponse.data.success) {
                 throw new Error('Failed to fetch current academic year');
@@ -486,48 +544,13 @@ function Action() {
             const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
                 registerNo, name, dept, scholtype, scholdonar, scholamt, acyear, fresherOrRenewal,
             });
+            console.log("save amount", saveAmountResponse)
 
             console.log('Amount saved in AmountModel:', saveAmountResponse);
 
-            // Update state and clear inputs only if everything succeeded
-            const newSubmission = { scholtype, scholdonar, scholamt };
-            setSubmittedData(prevData => [...prevData, newSubmission]);
-            refreshInputs();
-            setSubmitEnabled(true);
-
         } catch (err) {
-            console.error('Error during submission:', err);
-
-            // Specific error handling
-            if (err.response && err.response.status === 400) {
-                if (err.response.data.message === 'Insufficient balance') {
-                    showNotification(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`, "error");
-                    // setTimeout(() => {
-                    //   window.location.reload();
-                    // }, 10000);
-                    // window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
-                } else {
-                    showNotification("I am Dull Try Later", "error");
-                    // setTimeout(() => {
-                    //   window.location.reload();
-                    // }, 10000);
-                    // window.alert("Server Not Response!");
-                }
-            } else {
-                showNotification("Server Not Response!", "error");
-                // setTimeout(() => {
-                //   window.location.reload();
-                // }, 10000);
-                // window.alert("I am Dull Try Later");
-            }
-
-            // Optionally, you could add additional logging or actions here
-            console.error('Data was not saved due to an error.');
+            console.log("error")
         }
-    };
-
-    const Submit = (e) => {
-        e.preventDefault();
         axios.post(`${apiUrl}/api/admin/action`, {
             registerNo
         })
@@ -633,7 +656,7 @@ function Action() {
 
     const handleQuickRejectReasonChange = (e, userId) => {
         setQuickRejectList(prevState => prevState.map(user =>
-            user._id === userId ? { ...user, rejectReason: e.target.value } : user
+            user._id === userId ? {...user, rejectReason: e.target.value} : user
         ));
     };
 
@@ -886,10 +909,10 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Application Status</h2>
                                 <div className="flex gap-4">
                                     {[
-                                        { value: "allar", label: "All" },
-                                        { value: "1", label: "Accepted" },
-                                        { value: "2", label: "Rejected" },
-                                    ].map(({ value, label }) => (
+                                        {value: "allar", label: "All"},
+                                        {value: "1", label: "Accepted"},
+                                        {value: "2", label: "Rejected"},
+                                    ].map(({value, label}) => (
                                         <label key={value} className="flex items-center gap-2 text-gray-700 text-base">
                                             <input
                                                 type="radio"
@@ -930,8 +953,8 @@ function Action() {
                         {radioValue === "in-progress" && (
                             <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Staff Progress Status</h2>
-                                <div className="grid grid-cols-3 gap-3">
-                                    {["All", "Aided", "SFM", "SFW", "DM", "DW", "MM", "MW", "COE"].map((status) => (
+                                <div className=" gap-3">
+                                    {["All"].map((status) => (
                                         <label key={status} className="flex items-center gap-2 text-gray-700 text-sm uppercase">
                                             <input
                                                 type="checkbox"
@@ -940,24 +963,25 @@ function Action() {
                                                 onChange={handleStaffverifyChange}
                                                 className="accent-emerald-600 w-5 h-5"
                                             />
-                                            {status}
+                                            Staff Completed Status
                                         </label>
                                     ))}
                                 </div>
                             </div>
                         )}
                         {/* Special Categories */}
-                        {radioValue === "in-progress" && (
+                        {(radioValue === "in-progress" || radioValue === "all") && (
                             <div className="bg-white border-l-4 border-yellow-600 p-6 rounded-lg shadow-md lg:col-span-3">
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                                     {[
-                                        { id: "muaddin", label: "Mu-addin" },
-                                        { id: "hazrath", label: "Hazrath" },
-                                        { id: "fathermotherseparated", label: "Parent Separated" },
-                                        { id: "fatherExpired", label: "Father Expired" },
-                                        { id: "singleparent", label: "Single Parent" },
-                                    ].map(({ id, label }) => (
+                                        {id: "muaddin", label: "Mu-addin"},
+                                        {id: "hazrath", label: "Hazrath"},
+                                        {id: "fathermotherseparated", label: "Parent Separated"},
+                                        {id: "fatherExpired", label: "Father Expired"},
+                                        {id: "singleparent", label: "Single Parent"},
+                                        {id: "general", label: "General"},
+                                    ].map(({id, label}) => (
                                         <label key={id} className="flex items-center gap-3 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
@@ -1008,7 +1032,7 @@ function Action() {
                                                 className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
                                             >
                                                 <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
-                                                    {index+1}
+                                                    {index + 1}
                                                 </td>
                                                 <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.registerNo}
@@ -1281,7 +1305,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({ message: '', type: '' })}
+                        onClose={() => setNotification({message: '', type: ''})}
                     />
                     <div className="bg-white w-[80%] max-w-6xl h-[70%] rounded-xl overflow-y-auto shadow-lg p-6">
                         <form onSubmit={Submit} className="space-y-8">
@@ -1419,7 +1443,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({ message: '', type: '' })}
+                        onClose={() => setNotification({message: '', type: ''})}
                     />
                     <div className="bg-white w-[80%] max-w-4xl rounded-xl overflow-y-auto shadow-lg p-6">
                         <form onSubmit={submitReject} className="space-y-8">
@@ -1494,7 +1518,7 @@ function Action() {
     )
 }
 
-const Detail = ({ label, value }) => (
+const Detail = ({label, value}) => (
     <div className="text-base space-y-1">
         <p className="text-slate-700 font-lightbold">{label}</p>
         <p className="uppercase font-bold text-slate-900">{value || '-'}</p>
