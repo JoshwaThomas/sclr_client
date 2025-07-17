@@ -166,7 +166,8 @@ function Action() {
                         (specialCategories.singleparent && specialCategory.includes('single parent')) ||
                         (specialCategories.general && specialCategory.includes('general')) ||
                         (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                        (specialCategories.muaddin && specialCategory.includes('muaddin'))
+                        (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                        (specialCategories.orphan && specialCategory.includes('orphan'))
                     );
                 });
             }
@@ -192,7 +193,8 @@ function Action() {
                         (specialCategories.singleparent && specialCategory.includes('single parent')) ||
                         (specialCategories.general && specialCategory.includes('general')) ||
                         (specialCategories.hazrath && specialCategory.includes('hazrath')) ||
-                        (specialCategories.muaddin && specialCategory.includes('muaddin'))
+                        (specialCategories.muaddin && specialCategory.includes('muaddin')) ||
+                        (specialCategories.orphan && specialCategory.includes('orphan'))
                     );
                 });
             }
@@ -577,99 +579,66 @@ function Action() {
     };
 
     if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+
     const ScholSubmit = async (e) => {
         e.preventDefault();
-
         const newSubmission = { scholtype, scholdonar, scholamt };
-
-        if (!scholdonar || !scholamt) {
-            showNotification("Please select donor and enter amount.", "error");
-            return;
-        }
-
+        if (!scholdonar || !scholamt) { alert("Please select donor and enter amount."); return }
         setSubmittedData(prev => [...prev, newSubmission]);
-        refreshInputs(); // Clear input fields
+        refreshInputs();
         setSubmitEnabled(true);
-    };
+    }
 
     const acceptSubmit = async (e) => {
+
         e.preventDefault();
 
-        if (submittedData.length === 0) {
-            alert("⚠️ No scholarship data to submit.");
-            return;
-        }
+        if (submittedData.length === 0) { alert("No scholarship data to submit."); return }
 
         try {
-            // Step 1: Get academic year
+
             const acYearResponse = await axios.get(`${apiUrl}/api/admin/current-acyear`);
             if (!acYearResponse.data.success) throw new Error("Failed to fetch academic year");
-
             const acyear = acYearResponse.data.acyear.acyear;
             const balanceField = zakkath ? 'zakkathbal' : 'balance';
-
-            // Step 2: Prepare donor deduction data
             const donorUpdates = submittedData.map(entry => ({
                 donorId: entry.scholdonar,
-                amount: entry.scholamt,
-                balanceField
+                amount: entry.scholamt, balanceField
             }));
 
-            // Step 3: Deduct from all donors
-            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, {
-                donors: donorUpdates
-            });
+            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, { donors: donorUpdates });
 
             if (!donorRes.data.success) {
                 const failedList = donorRes.data.insufficient || [];
                 const errorDetails = failedList.map(d =>
-                    `❌ Donor ID: ${d.donorId} (Available: ₹${d.available}, Required: ₹${d.required})`
+                    `Donor ID : ${d.donorId} ( Available : ₹${d.available}, Required : ₹${d.required})`
                 ).join('\n');
-
-                alert("⚠️ Donor deduction failed:\n" + errorDetails);
-                return;
+                alert("Donor Deduction Failed :\n" + errorDetails); return;
             }
 
-            // Step 4: Save all scholarship entries
             for (const entry of submittedData) {
                 const { scholdonar, scholamt, scholtype } = entry;
-
                 const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
-                    registerNo,
-                    name,
-                    dept,
-                    scholtype,
-                    scholdonar,
-                    scholamt,
-                    acyear,
-                    fresherOrRenewal
-                });
-
-                if (!saveAmountResponse.data.success) {
-                    alert(`❌ Failed to save scholarship for Donor ID ${scholdonar}`);
-                    return;
-                }
+                    registerNo, name, dept, scholtype, scholdonar,
+                    scholamt, acyear, fresherOrRenewal
+                })
+                if (!saveAmountResponse.data.success) { alert(`Failed to save scholarship for Donor ID ${scholdonar}`); return }
             }
 
-            // Step 5: Final update
             await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
-
-            alert("✅ All scholarships submitted successfully.");
-            setSubmittedData([]);
-            closeModal();
+            alert("All scholarships submitted successfully.");
+            setSubmittedData([]); closeModal();
+            window.location.reload()
 
         } catch (err) {
-            console.error("Error in acceptSubmit:", err);
-            alert("❌ Something went wrong during submission. Please try again.");
+            console.error("Error in Sumitting Accept : ", err);
+            alert("Something went wrong during submission. Please try again.");
         }
-    };
-
-
-
-
+    }
 
     return (
         <div className='p-6'>
+
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 {/* Search Box */}
                 <div className="flex items-center gap-3">
@@ -689,6 +658,7 @@ function Action() {
                     </button>
                 </div>
             </div>
+
             {quickRejectMode ? (
                 <div className="">
                     <h3 className="text-[19px] mb-6 font-semibold bg-gray-600 text-white p-3 rounded">
@@ -833,7 +803,7 @@ function Action() {
             ) : (
                 <div >
                     {/* Filter Section */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                         {/* Search Mode */}
                         <div className="bg-white border-l-4 border-emerald-600 p-6 rounded-lg shadow-md">
                             <h2 className="text-lg font-semibold text-gray-800 mb-5">Search Mode</h2>
@@ -905,7 +875,7 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Staff Progress Status</h2>
                                 <div className=" gap-3">
                                     {["All"].map((status) => (
-                                        <label key={status} className="flex items-center gap-2 text-gray-700 text-sm uppercase">
+                                        <label key={status} className="flex items-center gap-2 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
                                                 id={status}
@@ -913,7 +883,7 @@ function Action() {
                                                 onChange={handleStaffverifyChange}
                                                 className="accent-emerald-600 w-5 h-5"
                                             />
-                                            Staff Completed Status
+                                            <p className=''>Verified Application</p>
                                         </label>
                                     ))}
                                 </div>
@@ -923,8 +893,9 @@ function Action() {
                         {(radioValue === "in-progress" || radioValue === "all") && (
                             <div className="bg-white border-l-4 border-yellow-600 p-6 rounded-lg shadow-md lg:col-span-3">
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                                     {[
+                                        { id: "orphan", label: "Orphan" },
                                         { id: "muaddin", label: "Mu-addin" },
                                         { id: "hazrath", label: "Hazrath" },
                                         { id: "fathermotherseparated", label: "Parent Separated" },
@@ -938,7 +909,7 @@ function Action() {
                                                 id={id}
                                                 name={id}
                                                 onChange={handleSpecialCategoryChange}
-                                                className="accent-yellow-500 w-5 h-5"
+                                                className="accent-yellow-400 w-5 h-5"
                                             />
                                             {label}
                                         </label>
@@ -1048,6 +1019,7 @@ function Action() {
                     </div>
                 </div>
             )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-gray-800">
                 {/* Application Summary */}
                 <div className="bg-white border-l-4 border-blue-600 p-6 rounded-lg shadow-md">
@@ -1078,6 +1050,7 @@ function Action() {
                     </div>
                 </div>
             </div>
+
             {/* Application View Modal */}
             {showModal && selectedUser && (
                 <div className="fixed inset-0 left-8 flex items-center justify-center">
@@ -1250,20 +1223,6 @@ function Action() {
                 </div>
             )}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* Accept Session */}
             {showModals && selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
@@ -1390,24 +1349,6 @@ function Action() {
                 </div>
             )}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {/* Reject Session */}
             {showModalReject && selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
@@ -1467,7 +1408,6 @@ function Action() {
                                     )}
                                 </div>
                             </div>
-
                             {/* Action Buttons */}
                             <div className="flex justify-end items-center gap-6 mt-6">
                                 <button type="submit"
@@ -1485,6 +1425,7 @@ function Action() {
                     </div>
                 </div>
             )}
+
         </div >
     )
 }

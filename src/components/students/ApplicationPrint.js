@@ -93,7 +93,7 @@ function ApplicationPrint({ student }) {
                     onClick={handlePrint}
                     className="bg-blue-500 text-white px-10 py-2 text-lg rounded hover:bg-blue-600"
                 >
-                    Print Application
+                    Print
                 </button>
             </div>
         </div>
