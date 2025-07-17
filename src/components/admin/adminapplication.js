@@ -581,78 +581,90 @@ function Action() {
         e.preventDefault();
 
         const newSubmission = { scholtype, scholdonar, scholamt };
-        setSubmittedData(prevData => [...prevData, newSubmission]);
-        refreshInputs();
+
+        if (!scholdonar || !scholamt) {
+            showNotification("Please select donor and enter amount.", "error");
+            return;
+        }
+
+        setSubmittedData(prev => [...prev, newSubmission]);
+        refreshInputs(); // Clear input fields
         setSubmitEnabled(true);
     };
-
 
     const acceptSubmit = async (e) => {
         e.preventDefault();
 
         if (submittedData.length === 0) {
-            showNotification("No scholarship data to submit.", "error");
+            alert("⚠️ No scholarship data to submit.");
             return;
         }
 
         try {
+            // Step 1: Get academic year
             const acYearResponse = await axios.get(`${apiUrl}/api/admin/current-acyear`);
-            if (!acYearResponse.data.success) throw new Error('Failed to fetch current academic year');
+            if (!acYearResponse.data.success) throw new Error("Failed to fetch academic year");
 
             const acyear = acYearResponse.data.acyear.acyear;
             const balanceField = zakkath ? 'zakkathbal' : 'balance';
 
-            // Step 1: Deduct from all donors in one go
+            // Step 2: Prepare donor deduction data
             const donorUpdates = submittedData.map(entry => ({
                 donorId: entry.scholdonar,
                 amount: entry.scholamt,
                 balanceField
             }));
 
-            console.log(donorUpdates)
-
+            // Step 3: Deduct from all donors
             const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, {
                 donors: donorUpdates
             });
 
-            // if (!donorRes.data.success) {
-            //     showNotification("Donor deduction failed.", "error");
-            //     return;
-            // }
+            if (!donorRes.data.success) {
+                const failedList = donorRes.data.insufficient || [];
+                const errorDetails = failedList.map(d =>
+                    `❌ Donor ID: ${d.donorId} (Available: ₹${d.available}, Required: ₹${d.required})`
+                ).join('\n');
 
-            // // Step 2: Save each scholarship entry
-            // for (const entry of submittedData) {
-            //     const { scholdonar, scholamt, scholtype } = entry;
+                alert("⚠️ Donor deduction failed:\n" + errorDetails);
+                return;
+            }
 
-            //     const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
-            //         registerNo,
-            //         name,
-            //         dept,
-            //         scholtype,
-            //         scholdonar,
-            //         scholamt,
-            //         acyear,
-            //         fresherOrRenewal
-            //     });
+            // Step 4: Save all scholarship entries
+            for (const entry of submittedData) {
+                const { scholdonar, scholamt, scholtype } = entry;
 
-            //     if (!saveAmountResponse.data.success) {
-            //         showNotification(`Failed to save scholarship for donor ID ${scholdonar}`, "error");
-            //         return;
-            //     }
-            // }
+                const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
+                    registerNo,
+                    name,
+                    dept,
+                    scholtype,
+                    scholdonar,
+                    scholamt,
+                    acyear,
+                    fresherOrRenewal
+                });
 
-            // // Step 3: Finalize acceptance
-            // await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
+                if (!saveAmountResponse.data.success) {
+                    alert(`❌ Failed to save scholarship for Donor ID ${scholdonar}`);
+                    return;
+                }
+            }
 
-            // showNotification("All scholarships submitted successfully.", "success");
-            // setSubmittedData([]);
-            // closeModal();
+            // Step 5: Final update
+            await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
+
+            alert("✅ All scholarships submitted successfully.");
+            setSubmittedData([]);
+            closeModal();
 
         } catch (err) {
             console.error("Error in acceptSubmit:", err);
-            showNotification("Something went wrong during submission.", "error");
+            alert("❌ Something went wrong during submission. Please try again.");
         }
     };
+
+
 
 
 
@@ -1263,7 +1275,7 @@ function Action() {
                     <div className="bg-white w-[90%] max-w-6xl max-h-[90vh] rounded-2xl overflow-y-auto shadow-2xl p-8">
                         <form onSubmit={acceptSubmit} className="space-y-10">
                             {/* Header Info */}
-                            <div className="bg-gray-50 rounded-xl p-6 shadow-inner">
+                            <div className="bg-gray-100 rounded-xl p-6 shadow-inner">
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                                     <Field label="Register No. :" value={selectedUser.registerNo} />
                                     <Field label="Name :" value={selectedUser.name} />
