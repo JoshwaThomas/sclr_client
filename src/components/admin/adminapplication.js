@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg';
 import ApplicationPrint from '../students/ApplicationPrint';
 
-const Notification = ({message, type, onClose}) => {
+const Notification = ({ message, type, onClose }) => {
     if (!message) return null;
 
     return (
@@ -71,12 +71,12 @@ function Action() {
     const [siblingsIncome, setSiblingsIncome] = useState('');
     const [isSubmitEnabled, setSubmitEnabled] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [notification, setNotification] = useState({message: '', type: ''});
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
     const showNotification = (message, type) => {
-        setNotification({message, type});
+        setNotification({ message, type });
         setTimeout(() => {
-            setNotification({message: '', type: ''});
+            setNotification({ message: '', type: '' });
         }, 5000);
     };
 
@@ -124,6 +124,20 @@ function Action() {
         }
         fetchYear();
     }, [apiUrl]);
+
+
+    // To Fetch Donars based on the Donar Type and Input Amount
+    useEffect(() => {
+        let filtered = Array.isArray(donars) ? donars : [];
+        if (zakkath) { filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype) }
+        if (scholtype && scholamt) {
+            const amount = parseFloat(scholamt);
+            // console.log(amount)
+            filtered = filtered.filter((donar) => donar.scholtype === scholtype && donar.balance >= amount)
+            // console.log("Filtered Lenght : ", filtered.length)
+        }
+        setFilteredDonars(filtered);
+    }, [scholtype, zakkath, donars, scholamt]);
 
 
     // Use Effect to Filter Users
@@ -188,10 +202,10 @@ function Action() {
                     const classper = user.classAttendancePer || 0;
                     const deeniyathper = user.deeniyathPer || 0;
                     const semper = user.semPercentage || 0;
-                    const schoolMark=user.percentageOfMarkSchool
+                    const schoolMark = user.percentageOfMarkSchool
 
                     return (
-                        (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0 || schoolMark !==0)) 
+                        (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0 || schoolMark !== 0))
                         // (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
                         // (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
                         // (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
@@ -261,7 +275,7 @@ function Action() {
     }, []);
 
     useEffect(() => {
-        handleRadioChange({target: {value: 'all'}});
+        handleRadioChange({ target: { value: 'all' } });
     }, []);
 
     const handleSearch = (e) => {
@@ -297,14 +311,14 @@ function Action() {
     };
 
     const handleSpecialCategoryChange = (e) => {
-        const {name, checked} = e.target;
-        setSpecialCategories(prevState => ({...prevState, [name.toLowerCase()]: checked}));
+        const { name, checked } = e.target;
+        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
     //get the value
     const handleStaffverifyChange = (e) => {
-        const {name, checked} = e.target;
-        console.log(name,checked)
-        setStaffverify(prevState => ({...prevState, [name]: checked}))
+        const { name, checked } = e.target;
+        console.log(name, checked)
+        setStaffverify(prevState => ({ ...prevState, [name]: checked }))
         // console.log("staff",staffverify)
     }
 
@@ -347,51 +361,6 @@ function Action() {
         setShowModalReject(true);
     }
 
-    // useEffect(() => {
-    //     if (showModals) {
-    //       const fetchDonars = () => {
-    //         return axios.get(`${apiUrl}/api/admin/donars`)
-    //           .then(response => {
-    //             console.log('Fetched Donors:', response.data); // Debugging log
-    //             return response.data;
-    //           })
-    //           .catch(err => {
-    //             console.error('Error fetching donors:', err);
-    //             return [];
-    //           });
-    //       };
-
-    //       const fetchScholtypes = () => {
-    //         return axios.get(`${apiUrl}/api/admin/scholtypes`)
-    //           .then(response => {
-    //             console.log('Fetched Scholarship Types:', response.data); // Debugging log
-    //             return response.data;
-    //           })
-    //           .catch(err => {
-    //             console.error('Error fetching scholarship types:', err);
-    //             return [];
-    //           });
-    //       };
-
-    //       fetchDonars()
-    //         .then(data => {
-    //           console.log('Fetched Donors:', data); // Debugging log
-    //           setDonars(data);
-    //         })
-    //         .catch(error => {
-    //           console.error('Error fetching donors:', error);
-    //         });
-
-    //       fetchScholtypes()
-    //         .then(data => {
-    //           setScholtypes(data);
-    //         })
-    //         .catch(error => {
-    //           console.error('Error fetching scholarship types:', error);
-    //         });
-    //     }
-    //   }, [showModals, apiUrl]);
-
     //11/09/2024
     const fetchDonars = () => {
         return axios.get(`${apiUrl}/api/admin/donar`)
@@ -418,7 +387,6 @@ function Action() {
         if (showModals) {
             fetchDonars()
                 .then(data => {
-                    console.log('Fetched Donors:', data); // Debugging log
                     setDonars(data);
                 })
                 .catch(error => {
@@ -435,34 +403,8 @@ function Action() {
         }
     }, [showModals, apiUrl]);
 
-    useEffect(() => {
-        let filtered = Array.isArray(donars) ? donars : [];
-        if (zakkath) {
-            filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype);
-            console.log('Zakkath list:', filtered);
-        }
-        if (scholtype) {
-            filtered = filtered.filter(donar => donar.scholtype === scholtype);
-        }
-
-        setFilteredDonars(filtered);
-    }, [scholtype, zakkath, donars]);
 
 
-    // useEffect(() => {
-    //     if (scholtype) {
-    //         const filtered = donars.filter(donar => donar.scholtype === scholtype);
-    //         setFilteredDonars(filtered);
-    //     } 
-    //     if (zakkath) {
-    //         const filtered = donars.filter(donar => donar.zakkathamt);
-    //         setFilteredDonars(filtered);
-    //     }    
-
-    //     else {
-    //         setFilteredDonars(donars);
-    //     }
-    // }, [scholtype, donars, zakkath]);
 
 
     const closeModal = () => {
@@ -478,91 +420,10 @@ function Action() {
         setScholdonar('');
     };
 
-    const ScholSubmit = async (e) => {
-        e.preventDefault();
 
-        // try {
-        // Fetch current academic year
 
-        // Update state and clear inputs only if everything succeeded
-        const newSubmission = {scholtype, scholdonar, scholamt};
-        setSubmittedData(prevData => [...prevData, newSubmission]);
-        refreshInputs();
-        setSubmitEnabled(true);
 
-        // } catch (err) {
-        //     console.error('Error during submission:', err);
 
-        //     // Specific error handling
-        //     if (err.response && err.response.status === 400) {
-        //         if (err.response.data.message === 'Insufficient balance') {
-        //             showNotification(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`, "error");
-        //             // setTimeout(() => {
-        //             //   window.location.reload();
-        //             // }, 10000);
-        //             // window.alert(`Insufficient balance. Available balance for donor: ${err.response.data.availableBalance}`);
-        //         } else {
-        //             showNotification("I am Dull Try Later", "error");
-        //             // setTimeout(() => {
-        //             //   window.location.reload();
-        //             // }, 10000);
-        //             // window.alert("Server Not Response!");
-        //         }
-        //     } else {
-        //         showNotification("Server Not Response!", "error");
-        //         // setTimeout(() => {
-        //         //   window.location.reload();
-        //         // }, 10000);
-        //         // window.alert("I am Dull Try Later");
-        //     }
-
-        //     // Optionally, you could add additional logging or actions here
-        //     console.error('Data was not saved due to an error.');
-        // }
-    };
-
-    const Submit = async (e) => {
-        e.preventDefault();
-        try {
-            const acYearResponse = await axios.get(`${apiUrl}/api/admin/current-acyear`);
-            if (!acYearResponse.data.success) {
-                throw new Error('Failed to fetch current academic year');
-            }
-            const acyear = acYearResponse.data.acyear.acyear;
-            const balanceField = zakkath ? 'zakkathbal' : 'balance';
-
-            // Update donor's balance
-            const donorResponse = await axios.put(`${apiUrl}/api/admin/donar/${scholdonar}`, {
-                amount: scholamt,
-                balanceField: balanceField
-            });
-
-            console.log(donorResponse);
-            const updatedBalance = donorResponse.data.updatedBalance;
-            showNotification(`Submitted Successfully. Available balance for donor: ${updatedBalance}`, "success");
-
-            const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
-                registerNo, name, dept, scholtype, scholdonar, scholamt, acyear, fresherOrRenewal,
-            });
-            console.log("save amount", saveAmountResponse)
-
-            console.log('Amount saved in AmountModel:', saveAmountResponse);
-
-        } catch (err) {
-            console.log("error")
-        }
-        axios.post(`${apiUrl}/api/admin/action`, {
-            registerNo
-        })
-            .then(result => {
-                console.log(result);
-                window.location.reload();
-            })
-            .catch(err => {
-                console.log(err);
-                // Handle error appropriately
-            });
-    };
 
 
 
@@ -656,7 +517,7 @@ function Action() {
 
     const handleQuickRejectReasonChange = (e, userId) => {
         setQuickRejectList(prevState => prevState.map(user =>
-            user._id === userId ? {...user, rejectReason: e.target.value} : user
+            user._id === userId ? { ...user, rejectReason: e.target.value } : user
         ));
     };
 
@@ -716,6 +577,83 @@ function Action() {
     };
 
     if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
+    const ScholSubmit = async (e) => {
+        e.preventDefault();
+
+        const newSubmission = { scholtype, scholdonar, scholamt };
+        setSubmittedData(prevData => [...prevData, newSubmission]);
+        refreshInputs();
+        setSubmitEnabled(true);
+    };
+
+
+    const acceptSubmit = async (e) => {
+        e.preventDefault();
+
+        if (submittedData.length === 0) {
+            showNotification("No scholarship data to submit.", "error");
+            return;
+        }
+
+        try {
+            const acYearResponse = await axios.get(`${apiUrl}/api/admin/current-acyear`);
+            if (!acYearResponse.data.success) throw new Error('Failed to fetch current academic year');
+
+            const acyear = acYearResponse.data.acyear.acyear;
+            const balanceField = zakkath ? 'zakkathbal' : 'balance';
+
+            // Step 1: Deduct from all donors in one go
+            const donorUpdates = submittedData.map(entry => ({
+                donorId: entry.scholdonar,
+                amount: entry.scholamt,
+                balanceField
+            }));
+
+            console.log(donorUpdates)
+
+            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, {
+                donors: donorUpdates
+            });
+
+            // if (!donorRes.data.success) {
+            //     showNotification("Donor deduction failed.", "error");
+            //     return;
+            // }
+
+            // // Step 2: Save each scholarship entry
+            // for (const entry of submittedData) {
+            //     const { scholdonar, scholamt, scholtype } = entry;
+
+            //     const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
+            //         registerNo,
+            //         name,
+            //         dept,
+            //         scholtype,
+            //         scholdonar,
+            //         scholamt,
+            //         acyear,
+            //         fresherOrRenewal
+            //     });
+
+            //     if (!saveAmountResponse.data.success) {
+            //         showNotification(`Failed to save scholarship for donor ID ${scholdonar}`, "error");
+            //         return;
+            //     }
+            // }
+
+            // // Step 3: Finalize acceptance
+            // await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
+
+            // showNotification("All scholarships submitted successfully.", "success");
+            // setSubmittedData([]);
+            // closeModal();
+
+        } catch (err) {
+            console.error("Error in acceptSubmit:", err);
+            showNotification("Something went wrong during submission.", "error");
+        }
+    };
+
 
 
     return (
@@ -909,10 +847,10 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Application Status</h2>
                                 <div className="flex gap-4">
                                     {[
-                                        {value: "allar", label: "All"},
-                                        {value: "1", label: "Accepted"},
-                                        {value: "2", label: "Rejected"},
-                                    ].map(({value, label}) => (
+                                        { value: "allar", label: "All" },
+                                        { value: "1", label: "Accepted" },
+                                        { value: "2", label: "Rejected" },
+                                    ].map(({ value, label }) => (
                                         <label key={value} className="flex items-center gap-2 text-gray-700 text-base">
                                             <input
                                                 type="radio"
@@ -975,13 +913,13 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                                     {[
-                                        {id: "muaddin", label: "Mu-addin"},
-                                        {id: "hazrath", label: "Hazrath"},
-                                        {id: "fathermotherseparated", label: "Parent Separated"},
-                                        {id: "fatherExpired", label: "Father Expired"},
-                                        {id: "singleparent", label: "Single Parent"},
-                                        {id: "general", label: "General"},
-                                    ].map(({id, label}) => (
+                                        { id: "muaddin", label: "Mu-addin" },
+                                        { id: "hazrath", label: "Hazrath" },
+                                        { id: "fathermotherseparated", label: "Parent Separated" },
+                                        { id: "fatherExpired", label: "Father Expired" },
+                                        { id: "singleparent", label: "Single Parent" },
+                                        { id: "general", label: "General" },
+                                    ].map(({ id, label }) => (
                                         <label key={id} className="flex items-center gap-3 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
@@ -1299,38 +1237,42 @@ function Action() {
                     </div>
                 </div>
             )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* Accept Session */}
             {showModals && selectedUser && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80">
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({message: '', type: ''})}
+                        onClose={() => setNotification({ message: '', type: '' })}
                     />
-                    <div className="bg-white w-[80%] max-w-6xl h-[70%] rounded-xl overflow-y-auto shadow-lg p-6">
-                        <form onSubmit={Submit} className="space-y-8">
-                            {/* Header Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 bg-gray-100 p-4 rounded-md shadow">
-                                <div className='flex flex-col gap-2'>
-                                    <label className="text-sm text-gray-600">Register No. :</label>
-                                    <div className="text-lg font-semibold uppercase">{selectedUser.registerNo}</div>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                    <label className="text-sm text-gray-600">Name :</label>
-                                    <div className="text-lg font-semibold uppercase">{selectedUser.name}</div>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                    <label className="text-sm text-gray-600">Department :</label>
-                                    <div className="text-lg font-semibold uppercase">{selectedUser.dept}</div>
-                                </div>
-                                <div className='flex flex-col gap-2'>
-                                    <label className="text-sm text-gray-600">Special Category :</label>
-                                    <div className="text-lg font-semibold uppercase">{selectedUser.specialCategory || "—"}</div>
+                    <div className="bg-white w-[90%] max-w-6xl max-h-[90vh] rounded-2xl overflow-y-auto shadow-2xl p-8">
+                        <form onSubmit={acceptSubmit} className="space-y-10">
+                            {/* Header Info */}
+                            <div className="bg-gray-50 rounded-xl p-6 shadow-inner">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    <Field label="Register No. :" value={selectedUser.registerNo} />
+                                    <Field label="Name :" value={selectedUser.name} />
+                                    <Field label="Department :" value={selectedUser.dept} />
+                                    <Field label="Special Category :" value={selectedUser.specialCategory || "—"} />
                                 </div>
                             </div>
-
                             {/* Zakkath */}
-                            <div className="flex items-center mt-2 md:mt-8">
+                            <div className="flex items-center">
                                 <input
                                     type="checkbox"
                                     id="zakkath"
@@ -1338,21 +1280,28 @@ function Action() {
                                     onChange={(e) => setZakkath(e.target.checked)}
                                     className="w-5 h-5 accent-green-600"
                                 />
-                                <label htmlFor="zakkath" className="ml-3 font-semibold text-gray-700">
-                                    Zakkath
+                                <label htmlFor="zakkath" className="ml-3 text-md font-medium text-gray-700">
+                                    Mark as Zakkath Scholarship
                                 </label>
                             </div>
-
-                            {/* Form Fields Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                                {/* Scholarship Type */}
+                            {/* Scholarship Input Fields */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block mb-1 text-gray-700 font-semibold">Scholarship Type</label>
+                                    <label className="block text-gray-700 font-semibold mb-3">Scholarship Amount</label>
+                                    <input
+                                        type="text"
+                                        name="amount"
+                                        value={scholamt}
+                                        onChange={(e) => setScholamt(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-700 font-semibold mb-3">Scholarship Type</label>
                                     <select
                                         value={scholtype}
                                         onChange={(e) => setScholType(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
+                                        className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     >
                                         <option value="">Select</option>
                                         {scholtypes.map((type, index) => (
@@ -1360,75 +1309,66 @@ function Action() {
                                         ))}
                                     </select>
                                 </div>
-
-                                {/* Donor */}
-                                <div>
-                                    <label className="block mb-1 text-gray-700 font-semibold">Donor</label>
-                                    <select
-                                        value={scholdonar}
-                                        onChange={(e) => setScholdonar(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
-                                    >
-                                        <option value="">Select Donor</option>
-                                        {Array.isArray(filteredDonars) &&
-                                            filteredDonars.map((donar) => (
-                                                <option key={donar._id} value={donar._id}>
-                                                    {donar.name}
-                                                </option>
-                                            ))}
-                                    </select>
-                                </div>
-
-                                {/* Amount */}
-                                <div>
-                                    <label className="block mb-1 text-gray-700 font-semibold">Scholarship Amount</label>
-                                    <input
-                                        type="text"
-                                        name="amount"
-                                        value={scholamt}
-                                        onChange={(e) => setScholamt(e.target.value)}
-                                        className="w-full border border-gray-300 rounded-md px-3 py-2 mt-2 text-gray-800"
-                                    />
-                                </div>
                             </div>
-
-                            {/* Confirm Button */}
-                            <div className="text-right mt-6">
-                                <button type="button" onClick={ScholSubmit}
-                                    className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-700 transition"
+                            <div>
+                                <label className="block text-gray-700 font-semibold mb-3">Donor</label>
+                                <select
+                                    value={scholdonar}
+                                    onChange={(e) => setScholdonar(e.target.value)}
+                                    className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 >
-                                    Confirm
+                                    <option value="">Select Donor</option>
+                                    {Array.isArray(filteredDonars) &&
+                                        filteredDonars.map((donar) => (
+                                            <option key={donar._id} value={donar._id}>
+                                                {donar.name}
+                                            </option>
+                                        ))}
+                                </select>
+
+                            </div>
+                            {/* Confirm Button */}
+                            <div className="flex justify-end">
+                                <button
+                                    type="button"
+                                    onClick={ScholSubmit}
+                                    className="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold px-6 py-2 rounded-lg"
+                                >
+                                    Add to List
                                 </button>
                             </div>
-
-                            {/* Submitted List */}
+                            {/* Submitted Scholarships List */}
                             {submittedData.length > 0 && (
-                                <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
-                                    <h3 className="text-lg font-bold mb-2 text-gray-700">Submitted Scholarships :</h3>
-                                    <div className="space-y-2">
+                                <div className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
+                                    <h3 className="text-lg font-bold text-gray-800 mb-4">Submitted Scholarships</h3>
+                                    <div className="space-y-3">
                                         {submittedData.map((submission, index) => (
-                                            <div key={index} className="grid grid-cols-4 gap-4 text-gray-800">
+                                            <div key={index} className="grid grid-cols-4 text-md text-gray-700 gap-4 items-center bg-white rounded-md px-4 py-2 border">
                                                 <div>{index + 1}.</div>
-                                                <div>{submission.scholtype}</div>
-                                                <div>{formatCurrency(submission.scholamt)}</div>
+                                                <div className="font-semibold">{submission.scholtype}</div>
+                                                <div>{donars.find(d => d._id === submission.scholdonar)?.name || 'Unknown Donor'}</div>
+                                                <div className="text-right font-medium">{formatCurrency(submission.scholamt)}</div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             )}
-
-                            {/* Final Buttons */}
-                            <div className="flex justify-end items-center gap-6 mt-10">
-                                <button type="submit"
+                            {/* Action Buttons */}
+                            <div className="flex justify-end gap-4 pt-8 border-t border-gray-200">
+                                <button
+                                    type="submit"
                                     disabled={!isSubmitEnabled}
-                                    className={`bg-green-600 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-700 transition ${!isSubmitEnabled ? "opacity-70 cursor-not-allowed" : ""}`}
+                                    className={`px-6 py-2 rounded-lg font-semibold transition ${isSubmitEnabled
+                                        ? "bg-green-600 hover:bg-green-700 text-white"
+                                        : "bg-green-400 text-white opacity-70 cursor-not-allowed"
+                                        }`}
                                 >
-                                    Submit
+                                    Final Submit
                                 </button>
                                 <button
                                     type="button"
                                     onClick={closeModal}
-                                    className="bg-red-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-red-600 transition"
+                                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition"
                                 >
                                     Close
                                 </button>
@@ -1437,13 +1377,32 @@ function Action() {
                     </div>
                 </div>
             )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             {/* Reject Session */}
             {showModalReject && selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({message: '', type: ''})}
+                        onClose={() => setNotification({ message: '', type: '' })}
                     />
                     <div className="bg-white w-[80%] max-w-4xl rounded-xl overflow-y-auto shadow-lg p-6">
                         <form onSubmit={submitReject} className="space-y-8">
@@ -1518,10 +1477,17 @@ function Action() {
     )
 }
 
-const Detail = ({label, value}) => (
+const Detail = ({ label, value }) => (
     <div className="text-base space-y-1">
         <p className="text-slate-700 font-lightbold">{label}</p>
         <p className="uppercase font-bold text-slate-900">{value || '-'}</p>
+    </div>
+)
+
+const Field = ({ label, value }) => (
+    <div className="flex flex-col gap-2">
+        <label className="text-md text-gray-500">{label}</label>
+        <div className="text-md font-semibold text-gray-800 uppercase">{value}</div>
     </div>
 )
 
