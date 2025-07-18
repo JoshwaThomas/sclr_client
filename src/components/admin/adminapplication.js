@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg';
 import ApplicationPrint from '../students/ApplicationPrint';
 
-const Notification = ({message, type, onClose}) => {
+const Notification = ({ message, type, onClose }) => {
     if (!message) return null;
 
     return (
@@ -71,12 +71,12 @@ function Action() {
     const [siblingsIncome, setSiblingsIncome] = useState('');
     const [isSubmitEnabled, setSubmitEnabled] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [notification, setNotification] = useState({message: '', type: ''});
+    const [notification, setNotification] = useState({ message: '', type: '' });
 
     const showNotification = (message, type) => {
-        setNotification({message, type});
+        setNotification({ message, type });
         setTimeout(() => {
-            setNotification({message: '', type: ''});
+            setNotification({ message: '', type: '' });
         }, 5000);
     };
 
@@ -129,7 +129,7 @@ function Action() {
     // To Fetch Donars based on the Donar Type and Input Amount
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
-        if (zakkath) {filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype)}
+        if (zakkath) { filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype) }
         if (scholtype && scholamt) {
             const amount = parseFloat(scholamt);
             // console.log(amount)
@@ -277,7 +277,7 @@ function Action() {
     }, []);
 
     useEffect(() => {
-        handleRadioChange({target: {value: 'all'}});
+        handleRadioChange({ target: { value: 'all' } });
     }, []);
 
     const handleSearch = (e) => {
@@ -313,14 +313,14 @@ function Action() {
     };
 
     const handleSpecialCategoryChange = (e) => {
-        const {name, checked} = e.target;
-        setSpecialCategories(prevState => ({...prevState, [name.toLowerCase()]: checked}));
+        const { name, checked } = e.target;
+        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
     //get the value
     const handleStaffverifyChange = (e) => {
-        const {name, checked} = e.target;
+        const { name, checked } = e.target;
         console.log(name, checked)
-        setStaffverify(prevState => ({...prevState, [name]: checked}))
+        setStaffverify(prevState => ({ ...prevState, [name]: checked }))
         // console.log("staff",staffverify)
     }
 
@@ -519,7 +519,7 @@ function Action() {
 
     const handleQuickRejectReasonChange = (e, userId) => {
         setQuickRejectList(prevState => prevState.map(user =>
-            user._id === userId ? {...user, rejectReason: e.target.value} : user
+            user._id === userId ? { ...user, rejectReason: e.target.value } : user
         ));
     };
 
@@ -582,8 +582,8 @@ function Action() {
 
     const ScholSubmit = async (e) => {
         e.preventDefault();
-        const newSubmission = {scholtype, scholdonar, scholamt};
-        if (!scholdonar || !scholamt) {alert("Please select donor and enter amount."); return }
+        const newSubmission = { scholtype, scholdonar, scholamt };
+        if (!scholdonar || !scholamt) { alert("Please select donor and enter amount."); return }
         setSubmittedData(prev => [...prev, newSubmission]);
         refreshInputs();
         setSubmitEnabled(true);
@@ -593,7 +593,7 @@ function Action() {
 
         e.preventDefault();
 
-        if (submittedData.length === 0) {alert("No scholarship data to submit."); return }
+        if (submittedData.length === 0) { alert("No scholarship data to submit."); return }
 
         try {
 
@@ -606,7 +606,7 @@ function Action() {
                 amount: entry.scholamt, balanceField
             }));
 
-            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, {donors: donorUpdates});
+            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, { donors: donorUpdates });
 
             if (!donorRes.data.success) {
                 const failedList = donorRes.data.insufficient || [];
@@ -617,15 +617,15 @@ function Action() {
             }
 
             for (const entry of submittedData) {
-                const {scholdonar, scholamt, scholtype} = entry;
+                const { scholdonar, scholamt, scholtype } = entry;
                 const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
                     registerNo, name, dept, scholtype, scholdonar,
                     scholamt, acyear, fresherOrRenewal
                 })
-                if (!saveAmountResponse.data.success) {alert(`Failed to save scholarship for Donor ID ${scholdonar}`); return }
+                if (!saveAmountResponse.data.success) { alert(`Failed to save scholarship for Donor ID ${scholdonar}`); return }
             }
 
-            await axios.post(`${apiUrl}/api/admin/action`, {registerNo});
+            await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
             alert("All scholarships submitted successfully.");
             setSubmittedData([]); closeModal();
             window.location.reload()
@@ -829,10 +829,10 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Application Status</h2>
                                 <div className="flex gap-4">
                                     {[
-                                        {value: "allar", label: "All"},
-                                        {value: "1", label: "Accepted"},
-                                        {value: "2", label: "Rejected"},
-                                    ].map(({value, label}) => (
+                                        { value: "allar", label: "All" },
+                                        { value: "1", label: "Accepted" },
+                                        { value: "2", label: "Rejected" },
+                                    ].map(({ value, label }) => (
                                         <label key={value} className="flex items-center gap-2 text-gray-700 text-base">
                                             <input
                                                 type="radio"
@@ -895,14 +895,14 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                                     {[
-                                        {id: "orphan", label: "Orphan"},
-                                        {id: "muaddin", label: "Mu-addin"},
-                                        {id: "hazrath", label: "Hazrath"},
-                                        {id: "fathermotherseparated", label: "Parent Separated"},
-                                        {id: "fatherExpired", label: "Father Expired"},
-                                        {id: "singleparent", label: "Single Parent"},
-                                        {id: "general", label: "General"},
-                                    ].map(({id, label}) => (
+                                        { id: "orphan", label: "Orphan" },
+                                        { id: "muaddin", label: "Mu-addin" },
+                                        { id: "hazrath", label: "Hazrath" },
+                                        { id: "fathermotherseparated", label: "Parent Separated" },
+                                        { id: "fatherExpired", label: "Father Expired" },
+                                        { id: "singleparent", label: "Single Parent" },
+                                        { id: "general", label: "General" },
+                                    ].map(({ id, label }) => (
                                         <label key={id} className="flex items-center gap-3 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
@@ -925,45 +925,55 @@ function Action() {
                         </div>
                         {/* Header Grid */}
                         <div className="overflow-x-auto rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
-                            <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
-                                <thead className="bg-emerald-700">
+                            <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-fixed">
+                                <thead className="bg-emerald-700 sticky top-0 z-10">
                                     <tr>
-                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                        <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             S. No.
                                         </th>
-                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                        <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             Register No.
                                         </th>
                                         <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             Name
                                         </th>
-                                        <th className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
-                                            Department
+                                        <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                            Dept
                                         </th>
+                                        {radioValue === 'in-progress' && (
+                                            <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
+                                                Last Time Credited Amt
+                                            </th>
+                                        )}
                                         <th className="px-6 py-4 text-center text-md font-semibold text-white">
                                             Action
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody className="bg-white">
+                                <tbody className="bg-white max-h-[400px]">
                                     {filterUsers.length > 0 ? (
                                         filterUsers.map((user, index) => (
                                             <tr
                                                 key={`${user._id}-${index}`}
                                                 className="hover:bg-gray-50 font-semibold h-[60px] transition-colors border-t border-gray-300"
                                             >
-                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {index + 1}
                                                 </td>
-                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.registerNo}
                                                 </td>
                                                 <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.name}
                                                 </td>
-                                                <td className="px-6 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.dept}
                                                 </td>
+                                                {radioValue === 'in-progress' && (
+                                                    <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
+                                                        {user.lastCreditedAmt || 0}
+                                                    </td>
+                                                )}
                                                 <td className="px-6 py-3 text-center text-md text-gray-700">
                                                     <div className="flex justify-center gap-2">
                                                         <button
@@ -1229,7 +1239,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({message: '', type: ''})}
+                        onClose={() => setNotification({ message: '', type: '' })}
                     />
                     <div className="bg-white w-[90%] max-w-6xl max-h-[90vh] rounded-2xl overflow-y-auto shadow-2xl p-8">
                         <form onSubmit={acceptSubmit} className="space-y-10">
@@ -1358,7 +1368,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({message: '', type: ''})}
+                        onClose={() => setNotification({ message: '', type: '' })}
                     />
                     <div className="bg-white w-[80%] max-w-4xl rounded-xl overflow-y-auto shadow-lg p-6">
                         <form onSubmit={submitReject} className="space-y-8">
@@ -1433,14 +1443,14 @@ function Action() {
     )
 }
 
-const Detail = ({label, value}) => (
+const Detail = ({ label, value }) => (
     <div className="text-base space-y-1">
         <p className="text-slate-700 font-lightbold">{label}</p>
         <p className="uppercase font-bold text-slate-900">{value || '-'}</p>
     </div>
 )
 
-const Field = ({label, value}) => (
+const Field = ({ label, value }) => (
     <div className="flex flex-col gap-2">
         <label className="text-md text-gray-500">{label}</label>
         <div className="text-md font-semibold text-gray-800 uppercase">{value}</div>
