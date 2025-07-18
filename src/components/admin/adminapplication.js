@@ -1243,7 +1243,7 @@ function Action() {
                                 </div>
                             </div>
                             {/* Zakkath */}
-                            <div className="flex items-center">
+                            {/* <div className="flex items-center">
                                 <input
                                     type="checkbox"
                                     id="zakkath"
@@ -1254,7 +1254,7 @@ function Action() {
                                 <label htmlFor="zakkath" className="ml-3 text-md font-medium text-gray-700">
                                     Mark as Zakkath Scholarship
                                 </label>
-                            </div>
+                            </div> */}
                             {/* Scholarship Input Fields */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
@@ -1308,7 +1308,7 @@ function Action() {
                                     onClick={ScholSubmit}
                                     className="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold px-6 py-2 rounded-lg"
                                 >
-                                    Add to List
+                                    Add More
                                 </button>
                             </div>
                             {/* Submitted Scholarships List */}
