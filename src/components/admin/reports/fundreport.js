@@ -165,37 +165,6 @@ function FundReport() {
                             <option key={index} value={acyear}>{acyear}</option>
                         ))}
                     </select>
-                    {/* <div className='end-px text-white border border-white w-72 mt-4'>
-                        <input
-                            type="radio"
-                            id="all"
-                            name="search"
-                            value="All"
-                            className='scale-200 ml-8'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="all" className='form-radio ml-2 text-lg'>All</label>
-
-                        <input
-                            type="radio"
-                            id="fresher"
-                            name="search"
-                            value="Fresh"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="fresher" className='form-radio ml-2 text-lg'>Fresher</label>
-
-                        <input
-                            type="radio"
-                            id="renewal"
-                            name="search"
-                            value="Renewal"
-                            className='scale-200 ml-4'
-                            onChange={handleRadioChange}
-                        />
-                        <label htmlFor="renewal" className='form-radio ml-2 text-lg'>Renewal</label>
-                    </div> */}
                 </div>
 
                 <button
@@ -215,7 +184,6 @@ function FundReport() {
                     <div className="font-bold border border-black text-center py-3">NAME</div>
                     <div className="font-bold border border-black text-center py-3">General</div>
                     <div className="font-bold border border-black text-center py-3">Zakat</div>
-                    {/* <div className="font-bold border border-white text-center py-3">Pan</div> */}
                 </div>
                 <div className="overflow-y-auto max-h-[500px] scrollbar-hide">
                     {filterUsers.map((user, index) => (
@@ -226,13 +194,12 @@ function FundReport() {
                             <div className="font-bold border border-black text-center uppercase py-3">{user.name}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.amount || 0)}</div>
                             <div className="font-bold border border-black text-center uppercase py-3">{formatCurrency(user.zakkathamt || 0)}</div>
-                            {/* <div className="font-bold border border-white text-center uppercase py-3">{user.pan}</div> */}
                         </div>
                     ))}
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
 

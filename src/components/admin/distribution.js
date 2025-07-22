@@ -26,8 +26,12 @@ function Distribution() {
                     return map;
                 }, {});
                 setUsers(usersRes.data);
+                console.log('Users :', users)
                 setFilterUsers(usersRes.data);
+                console.log('Filters :', users)
                 setDonorMapping(donorMap);
+                console.log('DonarMap :', users)
+
             } catch (err) { console.error(err) }
         };
         fetchData();
@@ -45,14 +49,20 @@ function Distribution() {
 
     const handleSearch = (e) => {
         const searchText = e.target.value.toLowerCase();
-        const filtered = users.filter(user =>
-            user.dept.toLowerCase().includes(searchText) ||
-            user.registerNo.toLowerCase().includes(searchText) ||
-            user.name.toLowerCase().includes(searchText) ||
-            user.scholdonar.toLowerCase().includes(searchText)
-        );
+        const filtered = users.filter(user => {
+            const dept = typeof user.dept === 'string' ? user.dept.toLowerCase() : '';
+            const regNo = typeof user.registerNo === 'string' ? user.registerNo.toLowerCase() : '';
+            const name = typeof user.name === 'string' ? user.name.toLowerCase() : '';
+            const donorName = typeof donorMapping[user.scholdonar] === 'string' ? donorMapping[user.scholdonar].toLowerCase() : '';
+            return (
+                dept.includes(searchText) ||
+                regNo.includes(searchText) ||
+                name.includes(searchText) ||
+                donorName.includes(searchText)
+            )
+        })
         setFilterUsers(filtered);
-    };
+    }
 
     const formatCurrency = (amount) => new Intl.NumberFormat('en-IN', {
         style: 'currency',
@@ -78,7 +88,7 @@ function Distribution() {
             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
         });
         saveAs(data, 'Distribution_Statement.xlsx');
-    };
+    }
 
     if (!data) {
         return (
@@ -114,6 +124,9 @@ function Distribution() {
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700">
                         <tr>
+                            <th className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300 w-[6%]">
+                                S.No
+                            </th>
                             {['Reg No', 'Name', 'Department', 'Type', 'Donor Name', 'Amount'].map((heading) => (
                                 <th
                                     key={heading}
@@ -128,9 +141,10 @@ function Distribution() {
                         {filterUsers.length > 0 ? (
                             filterUsers.map((user, index) => (
                                 <tr
-                                    key={user.registerNo}
+                                    key={user.index}
                                     className="hover:bg-gray-50 font-semibold transition-colors border-t border-gray-300 h-20"
                                 >
+                                    <td className="px-4 py-3 text-center text-sm text-gray-700 uppercase border-r">{index + 1}</td>
                                     <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
                                         {user.registerNo}
                                     </td>
