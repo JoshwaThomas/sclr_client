@@ -33,6 +33,7 @@ function Action() {
     const [registerNo, setRegisterNo] = useState('');
     const [name, setName] = useState('');
     const [dept, setDept] = useState('');
+    const [allDonars, setAllDonars] = useState(false)
     const [fresherOrRenewal, setFresherOrRenewal] = useState('');
     const [data, setData] = useState(null);
     const [totalamount, setTotalAmount] = useState(0);
@@ -42,24 +43,10 @@ function Action() {
     const [progressRadioValue, setProgressRadioValue] = useState('all');
     const [acceptreject, setAcceptreject] = useState('all');
     const [specialCategories, setSpecialCategories] = useState({
-        muaddin: false,
-        hazrath: false,
-        fatherMotherSeparated: false,
-        fatherExpired: false,
-        singleparent: false,
+        muaddin: false, hazrath: false, fatherMotherSeparated: false,
+        fatherExpired: false, singleparent: false,
     });
-    //variable declare
-    const [staffverify, setStaffverify] = useState({
-        All: false,
-        // Aided: false,
-        // SFM: false,
-        // SFW: false,
-        // DM: false,
-        // DW: false,
-        // MM: false,
-        // MW: false,
-        // COE: false,
-    })
+    const [staffverify, setStaffverify] = useState({ All: false })
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
     const [quickRejectMode, setQuickRejectMode] = useState(false);
@@ -80,17 +67,11 @@ function Action() {
         }, 5000);
     };
 
-
-    // const [donorMapping, setDonorMapping] = useState({});
-    // const [scholarshipRows, setScholarshipRows] = useState([{ scholtype: '', scholdonar: '', scholamt: '' }]);
-
     useEffect(() => {
-        // console.log('useEffect triggered');
         const fetchYear = async () => {
             try {
                 const acyear = await axios.get(`${apiUrl}/api/admin/current-acyear`)
                 const curacyear = acyear.data.acyear;
-                // console.log('academic Year:', curacyear.acyear)
                 const fetchFreshUsers = async () => {
                     try {
                         const response = await axios.get(`${apiUrl}/fresh`);
@@ -106,7 +87,6 @@ function Action() {
                 const fetchRenewalUsers = async () => {
                     try {
                         const response = await axios.get(`${apiUrl}/renewal`);
-                        // console.log('Renewal Users:', response.data);
                         const renewalUsers = response.data.filter(user => user.acyear === curacyear.acyear);
                         setRusers(renewalUsers);
                         setFilterUsers(prev => [...prev, ...renewalUsers]);
@@ -116,7 +96,6 @@ function Action() {
                 };
                 fetchFreshUsers();
                 fetchRenewalUsers();
-                // console.log("filterUsers:", filterUsers)
             }
             catch (error) {
                 console.log('Academic Year:', error)
@@ -130,6 +109,7 @@ function Action() {
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
         if (zakkath) { filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype) }
+        if (scholtype && scholamt && allDonars) { filtered = filtered.filter((donar) => donar.scholtype === scholtype); return; }
         if (scholtype && scholamt) {
             const amount = parseFloat(scholamt);
             // console.log(amount)
@@ -137,13 +117,12 @@ function Action() {
             // console.log("Filtered Lenght : ", filtered.length)
         }
         setFilteredDonars(filtered);
-    }, [scholtype, zakkath, donars, scholamt]);
+    }, [scholtype, zakkath, donars, scholamt, allDonars]);
 
 
     // Use Effect to Filter Users
     useEffect(() => {
         let combinedUsers = [...users, ...rusers];
-        // console.log('Combined Users:', combinedUsers);
 
         let filteredUsers = combinedUsers;
 
@@ -174,7 +153,6 @@ function Action() {
 
         } else if (radioValue === 'in-progress') {
             filteredUsers = combinedUsers.filter(user => user.action === 0);
-            // console.log('Filtered Users after action check:', filteredUsers);
 
             if (progressRadioValue !== 'all') {
                 filteredUsers = filteredUsers.filter(user => {
@@ -208,41 +186,13 @@ function Action() {
 
                     return (
                         (staffverify.All && (classper !== 0) && (deeniyathper !== 0) && (semper !== 0 || schoolMark !== 0))
-                        // (staffverify.Aided && user.procategory === 'Aided' && classper !== 0) ||
-                        // (staffverify.SFM && user.procategory === 'SFM' && classper !== 0) ||
-                        // (staffverify.SFW && user.procategory === 'SFW' && classper !== 0) ||
-                        // (staffverify.DM && (user.procategory === 'SFM' || user.procategory === 'Aided') && user.deeniyath === 'Yes' && deeniyathper !== 0) ||
-                        // (staffverify.DW && user.deeniyath === 'Yes' && deeniyathper !== 0 && user.procategory === 'SFW') ||
-                        // (staffverify.MM && user.deeniyath === 'No' && (user.procategory === 'SFM' || user.procategory === 'Aided') && deeniyathper !== 0) ||
-                        // (staffverify.MW && user.deeniyath === 'No' && deeniyathper !== 0 && user.procategory === 'SFW') ||
-                        // (staffverify.COE && semper !== 0)
+
                     )
                 })
             }
         }
 
         setFilterUsers(filteredUsers);
-        // console.log("Filetrr user", filteredUsers)
-
-        // if (classAttendance) {
-        //     filteredUsers = filteredUsers.filter(user => user.classAttendancePer <= Number(classAttendance));
-        // }
-        // if (moralAttendance) {
-        //     filteredUsers = filteredUsers.filter(user => user.deeniyathPer <= Number(moralAttendance));
-        // }
-        // if (mark) {
-        //     filteredUsers = filteredUsers.filter(user => user.semPercentage <= Number(mark));
-        // }
-        // if (arrear) {
-        //     filteredUsers = filteredUsers.filter(user => user.arrear >= Number(arrear));
-        // }
-        // if (siblingsIncome) {
-        //     console.log(siblingsIncome)
-        //     filteredUsers = filteredUsers.filter(user => user.siblingsIncome >= Number(siblingsIncome));
-        //     console.log(filteredUsers)
-        // }
-
-        // const quickRejectUsers = filteredUsers.filter(user => user.action === 0);
         let quickRejectUsers = filteredUsers.filter(user =>
             user.action === 0 && (
                 (classAttendance && user.classAttendancePer <= Number(classAttendance)) ||
@@ -253,9 +203,9 @@ function Action() {
             )
         );
         setQuickRejectList(quickRejectUsers);
-        // console.log('Filtered Users:', filteredUsers);
 
     }, [radioValue, progressRadioValue, acceptreject, specialCategories, users, rusers, staffverify, classAttendance, moralAttendance, mark, arrear, siblingsIncome]);
+
     const handleFilter = () => {
         let quickRejectUsers = filterUsers.filter(user =>
             user.action === 0 && user.semester !== 'I' && (
@@ -316,7 +266,6 @@ function Action() {
         const { name, checked } = e.target;
         setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
-    //get the value
     const handleStaffverifyChange = (e) => {
         const { name, checked } = e.target;
         console.log(name, checked)
@@ -328,12 +277,6 @@ function Action() {
         const value = e.target.value ? e.target.value.toLowerCase() : '';
         setAcceptreject(value);
     }
-
-    // const handleProgressRadioChange = (e) => {
-    //     // Ensure e.target.value is a string before calling .toLowerCase()
-    //     const value = e.target.value ? e.target.value.toLowerCase() : '';
-    //     setProgressRadioValue(value);
-    // };
 
     const otherReason = (e) => {
         setReason(e.target.value)
@@ -580,6 +523,7 @@ function Action() {
 
     if (!data) return <div ><center> <img src={Loading} alt="" className=" w-36 h-80  " /></center></div>;
 
+    // Save Button
     const ScholSubmit = async (e) => {
         e.preventDefault();
         const newSubmission = { scholtype, scholdonar, scholamt };
@@ -589,11 +533,14 @@ function Action() {
         setSubmitEnabled(true);
     }
 
+    // Final Submit
     const acceptSubmit = async (e) => {
 
         e.preventDefault();
-
-        if (submittedData.length === 0) { alert("No scholarship data to submit."); return }
+        if (submittedData.length === 0) {
+            alert("No scholarship data to submit.");
+            return
+        }
 
         try {
 
@@ -626,7 +573,7 @@ function Action() {
             }
 
             await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
-            alert("All scholarships submitted successfully.");
+            alert("All Scholarships Submitted Successfully.");
             setSubmittedData([]); closeModal();
             window.location.reload()
 
@@ -926,7 +873,7 @@ function Action() {
                         {/* Header Grid */}
                         <div className="overflow-x-auto rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
                             <table className="min-w-full divide-y divide-gray-200 border border-gray-300 table-fixed">
-                                <thead className="bg-emerald-700 sticky top-0 z-10">
+                                <thead className="bg-emerald-700">
                                     <tr>
                                         <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             S. No.
@@ -1196,7 +1143,7 @@ function Action() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border border-black p-10 rounded-xl mt-6">
                                 <div>
                                     <p className="font-semibold mb-4">Jamath / Declaration Letter : </p>
-                                    <img src={`${apiUrl}/${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" />
+                                    <img src={`${selectedUser.jamath}`} alt="Jamath" className="max-w-full h-auto rounded-lg" />
                                 </div>
                             </div>
                         </div>
@@ -1307,7 +1254,6 @@ function Action() {
                                                     {donar.name}
                                                 </option>
                                             ))}
-
                                 </select>
 
                             </div>
@@ -1318,7 +1264,7 @@ function Action() {
                                     onClick={ScholSubmit}
                                     className="bg-blue-600 hover:bg-blue-700 transition text-white font-semibold px-6 py-2 rounded-lg"
                                 >
-                                    Add More
+                                    Save
                                 </button>
                             </div>
                             {/* Submitted Scholarships List */}
@@ -1338,24 +1284,38 @@ function Action() {
                                 </div>
                             )}
                             {/* Action Buttons */}
-                            <div className="flex justify-end gap-4 pt-8 border-t border-gray-200">
-                                <button
-                                    type="submit"
-                                    disabled={!isSubmitEnabled}
-                                    className={`px-6 py-2 rounded-lg font-semibold transition ${isSubmitEnabled
-                                        ? "bg-green-600 hover:bg-green-700 text-white"
-                                        : "bg-green-400 text-white opacity-70 cursor-not-allowed"
-                                        }`}
-                                >
-                                    Final Submit
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition"
-                                >
-                                    Close
-                                </button>
+                            <div className="flex justify-between gap-4 pt-8 border-t border-gray-200">
+                                {/* Negative Donars */}
+                                {/* <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id="allDonars"
+                                        checked={allDonars}
+                                        onChange={(e) => setAllDonars(e.target.checked)}
+                                        className="w-5 h-5 accent-green-600"
+                                    />
+                                    <label htmlFor="zakkath" className="ml-3 text-md font-medium text-gray-700">
+                                        Allow Negative Values
+                                    </label>
+                                </div> */}
+                                <div className='space-x-4'>
+                                    <button
+                                        type="submit"
+                                        disabled={!isSubmitEnabled}
+                                        className={`px-6 py-2 rounded-lg font-semibold transition ${isSubmitEnabled
+                                            ? "bg-green-600 hover:bg-green-700 text-white"
+                                            : "bg-green-400 text-white opacity-70 cursor-not-allowed"}`}
+                                    >
+                                        Final Submit
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={closeModal}
+                                        className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-semibold transition"
+                                    >
+                                        Close
+                                    </button>
+                                </div>
                             </div>
                         </form>
                     </div>

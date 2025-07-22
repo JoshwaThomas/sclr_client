@@ -61,9 +61,7 @@ function Renewal() {
 							key={index}
 							to={item.path}
 							onClick={handleMenuClick}
-							className={({ isActive }) =>
-								`flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''}`
-							}
+							className={({ isActive }) => `flex items-center space-x-3 px-4 py-2.5 rounded-md text-sm font-medium transition-all duration-300 hover:bg-black hover:bg-opacity-30 ${isActive ? 'bg-black bg-opacity-30' : ''}`}
 						>
 							<FontAwesomeIcon icon={item.icon} className="text-base w-4" />
 							<span className='text-md'>{item.name}</span>

@@ -18,8 +18,7 @@ function AdminLayout() {
 
 	const menus = [
 		{ icon: faChalkboard, name: 'Dashboard', path: 'dashboard', show: role !== 3 },
-		{ icon: faHandHoldingHeart, name: 'Donor', show: role !== 3 },
-		// { icon: faHandHoldingHeart, name: 'Donor', path: '/admin/donormenu', show: role !== 3 },
+		{ icon: faHandHoldingHeart, name: 'Donor', path: '/admin/donormenu', show: role !== 3 },
 		{ icon: faClipboard, name: 'Application', path: '/admin/application', show: role !== 3 },
 		{ icon: faIdCard, name: 'Status', path: '/admin/status', show: role === 1 || role === 3 },
 		{ icon: faTools, name: 'Settings', path: '/admin/action', show: role === 1 || role === 3 },
