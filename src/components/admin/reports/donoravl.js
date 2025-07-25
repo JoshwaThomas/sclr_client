@@ -97,7 +97,7 @@ function Donoravl() {
             {/* Summary Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 mb-8">
                 {/* Opening Balance */}
-                <div className="bg-white border-l-4 border-indigo-600 p-5 rounded-xl shadow-md space-y-4">
+                <div className="bg-white border-l-4 border-orange-600 p-5 rounded-xl shadow-md space-y-4">
                     <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
                         💼 Opening Balance
                     </h3>
