@@ -6,6 +6,8 @@ import { saveAs } from 'file-saver';
 function Donoravl() {
 
     const [users, setUsers] = useState([]);
+    const [data, setData] = useState(null);
+    const [totalamount, setTotalAmount] = useState(0);
     const [filterUsers, setFilterUsers] = useState([]);
     const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -27,6 +29,18 @@ function Donoravl() {
                 setFilterUsers(response.data);
             })
             .catch(err => console.log(err));
+    }, [apiUrl]);
+
+    useEffect(() => {
+        axios.get(`${apiUrl}/api/dashboard/counts`)
+            .then(response => {
+                setData(response.data);
+                // console.log("tftfty",response.data)
+                const total = response.data.scholamt.reduce((add, amount) => add + amount, 0);
+                // console.log(total)
+                setTotalAmount(total);
+            })
+            .catch(err => console.log('Error fetching data:', err));
     }, [apiUrl]);
 
     const handleDownload = () => {
@@ -81,7 +95,7 @@ function Donoravl() {
                 </button>
             </div>
             {/* Summary Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 mb-8">
                 {/* Opening Balance */}
                 <div className="bg-white border-l-4 border-indigo-600 p-5 rounded-xl shadow-md space-y-4">
                     <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
@@ -96,10 +110,21 @@ function Donoravl() {
                         </p>
                     </div>
                 </div>
+                {/* Students Benefitted */}
+                <div className="bg-white border-l-4 border-indigo-600 p-5 rounded-xl shadow-md space-y-4">
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
+                        💼 Student Benefitted
+                    </h3>
+                    <div className='flex gap-10 items-end'>
+                        <p className="text-gray-800 font-medium text-lg">
+                            Amount : <span className="font-bold">{formatCurrency(totalamount)}</span>
+                        </p>
+                    </div>
+                </div>
                 {/* Overall Fund */}
                 <div className="bg-white border-l-4 border-green-600 p-5 rounded-xl shadow-md space-y-4">
                     <h3 className="text-lg font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                        👥 Overall Fund
+                        👥 Fund Available
                     </h3>
                     <div className='flex gap-10 items-end'>
                         <p className="text-gray-800 font-medium text-lg">

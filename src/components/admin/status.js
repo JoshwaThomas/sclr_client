@@ -420,6 +420,21 @@ function Status() {
                                 </Grid>
                             </Section>
 
+                            {/* Section: Scholarship Details */}
+                            <Section title="Scholarship Details">
+                                <Grid cols={3}>
+                                    <Field label="Total Scholarship Amount :" value={studentData.totalScholamt} />
+                                </Grid>
+                            </Section>
+
+                            {/* Rejected Reason */}
+                            {studentData.reason && (
+                                <div className="bg-red-50 border border-red-300 text-red-800 rounded-xl p-4 shadow-sm">
+                                    <strong className="block mb-1">Rejected Reason : </strong>
+                                    <span>{studentData.reason}</span>
+                                </div>
+                            )}
+
                             {/* Section: Academic Info */}
                             <Section title="Academic Info">
                                 <Grid cols={3}>
@@ -469,20 +484,6 @@ function Status() {
                                 </Grid>
                             </Section>
 
-                            {/* Section: Scholarship Details */}
-                            <Section title="Scholarship Details">
-                                <Grid cols={3}>
-                                    <Field label="Total Scholarship Amount :" value={studentData.totalScholamt} />
-                                </Grid>
-                            </Section>
-
-                            {/* Rejected Reason */}
-                            {studentData.reason && (
-                                <div className="bg-red-50 border border-red-300 text-red-800 rounded-xl p-4 shadow-sm">
-                                    <strong className="block mb-1">Rejected Reason : </strong>
-                                    <span>{studentData.reason}</span>
-                                </div>
-                            )}
                         </div>
 
                         {/* Footer Buttons */}

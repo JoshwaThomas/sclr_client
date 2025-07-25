@@ -19,7 +19,7 @@ const Dashboard = () => {
     const [columnBarData, setColumnBarData] = useState(null);
     const apiUrl = process.env.REACT_APP_API_URL;
 
-    useEffect(() => { 
+    useEffect(() => {
         axios.get(`${apiUrl}/api/dashboard/counts`)
             .then(response => {
                 setData(response.data);
@@ -81,7 +81,7 @@ const Dashboard = () => {
         },
     };
 
-        console.log("data",data)
+    console.log("data", data)
     const pieData = {
         labels: [`FRESHERS (${data.totalFresher})`, `RENEWALS (${data.totalRenewal})`],
         datasets: [{
@@ -159,7 +159,7 @@ const Dashboard = () => {
         ],
     };
     // console.log(,data)
- 
+
 
     const barColors = ['bg-fuchsia-500', 'bg-green-900', 'bg-blue-500', 'bg-teal-500', 'bg-orange-500'];
 
