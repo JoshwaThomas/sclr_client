@@ -106,19 +106,19 @@ function Action() {
 
 
     // To Fetch Donars based on the Donar Type and Input Amount
+
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
-        if (zakkath) { filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype) }
-        if (scholtype && scholamt && allDonars) { filtered = filtered.filter((donar) => donar.scholtype === scholtype); return; }
-        if (scholtype && scholamt) {
+        if (allDonars) { setFilteredDonars(filtered) }
+        else if (scholtype && scholamt) {
             const amount = parseFloat(scholamt);
-            // console.log(amount)
-            filtered = filtered.filter((donar) => donar.scholtype === scholtype && donar.balance >= amount)
-            // console.log("Filtered Lenght : ", filtered.length)
+            filtered = filtered.filter((donar) =>
+                donar.scholtype === scholtype && donar.balance >= amount
+            );
+            setFilteredDonars(filtered);
         }
-        setFilteredDonars(filtered);
+        else { setFilteredDonars(filtered) }
     }, [scholtype, zakkath, donars, scholamt, allDonars]);
-
 
     // Use Effect to Filter Users
     useEffect(() => {
@@ -266,6 +266,7 @@ function Action() {
         const { name, checked } = e.target;
         setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
     };
+
     const handleStaffverifyChange = (e) => {
         const { name, checked } = e.target;
         console.log(name, checked)
@@ -453,7 +454,7 @@ function Action() {
     }, [apiUrl]);
 
 
-    //Quick rejection
+    // Quick rejection
     const handleQuickRejection = () => {
         setQuickRejectMode(true);
         const quickRejectUsers = filterUsers.filter(user => user.action === 0);
@@ -1286,7 +1287,7 @@ function Action() {
                             {/* Action Buttons */}
                             <div className="flex justify-between gap-4 pt-8 border-t border-gray-200">
                                 {/* Negative Donars */}
-                                {/* <div className="flex items-center">
+                                <div className="flex items-center">
                                     <input
                                         type="checkbox"
                                         id="allDonars"
@@ -1297,7 +1298,7 @@ function Action() {
                                     <label htmlFor="zakkath" className="ml-3 text-md font-medium text-gray-700">
                                         Allow Negative Values
                                     </label>
-                                </div> */}
+                                </div>
                                 <div className='space-x-4'>
                                     <button
                                         type="submit"

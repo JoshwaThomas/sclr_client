@@ -129,26 +129,19 @@ function Status() {
     }, [showAcceptModal]);
 
     // To Fetch Donars based on the Donar Type and Input Amount
+
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
-        if (zakkath) { filtered = filtered.filter(donar => donar.zakkathamt && donar.scholtype === scholtype) }
-        if (scholtype && scholamt && allDonars) { filtered = filtered.filter((donar) => donar.scholtype === scholtype); return; }
-        if (scholtype && scholamt) {
+        if (allDonars) { setFilteredDonars(filtered) }
+        else if (scholtype && scholamt) {
             const amount = parseFloat(scholamt);
-            // console.log(amount)
-            filtered = filtered.filter((donar) => donar.scholtype === scholtype && donar.balance >= amount)
-            // console.log("Filtered Lenght : ", filtered.length)
+            filtered = filtered.filter((donar) =>
+                donar.scholtype === scholtype && donar.balance >= amount
+            );
+            setFilteredDonars(filtered);
         }
-        setFilteredDonars(filtered);
+        else { setFilteredDonars(filtered) }
     }, [scholtype, zakkath, donars, scholamt, allDonars]);
-
-
-
-
-
-
-
-
 
     const handleAccept = () => {
         setShowModal(false);
@@ -243,7 +236,7 @@ function Status() {
 
     const closeModifyModal = () => { setShowModifyModal(false) }
     const closeModal = () => { setShowModal(false); setShowAcceptModal(false) }
-    const closeAcceptModal = () => { setShowAcceptModal(false);}
+    const closeAcceptModal = () => { setShowAcceptModal(false); }
 
 
 
@@ -740,7 +733,7 @@ function Status() {
                             {/* Action Buttons */}
                             <div className="flex justify-end gap-4 pt-8 border-t border-gray-200">
                                 {/* Negative Donars */}
-                                {/* <div className="flex items-center">
+                                <div className="flex items-center">
                                     <input
                                         type="checkbox"
                                         id="allDonars"
@@ -751,7 +744,7 @@ function Status() {
                                     <label htmlFor="zakkath" className="ml-3 text-md font-medium text-gray-700">
                                         Allow Negative Values
                                     </label>
-                                </div> */}
+                                </div>
                                 <div className='space-x-4 flex flex-end'>
                                     <button
                                         type="submit"
