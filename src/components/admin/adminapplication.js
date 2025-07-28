@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState,useRef} from 'react';
 import axios from "axios";
 import Loading from '../../assets/Pulse.svg';
 import ApplicationPrint from '../students/ApplicationPrint';
 
-const Notification = ({ message, type, onClose }) => {
+const Notification = ({message, type, onClose}) => {
     if (!message) return null;
 
     return (
@@ -29,7 +29,7 @@ function Action() {
     const [reason, setReason] = useState('');
     const [scholamt, setScholamt] = useState('');
     const [scholtype, setScholType] = useState('');
-    const [scholdonar, setScholdonar] = useState([]);
+    // const [scholdonar, setScholdonar] = useState([]);
     const [registerNo, setRegisterNo] = useState('');
     const [name, setName] = useState('');
     const [dept, setDept] = useState('');
@@ -46,7 +46,7 @@ function Action() {
         muaddin: false, hazrath: false, fatherMotherSeparated: false,
         fatherExpired: false, singleparent: false,
     });
-    const [staffverify, setStaffverify] = useState({ All: false })
+    const [staffverify, setStaffverify] = useState({All: false})
     const [filteredDonars, setFilteredDonars] = useState([]);
     const [zakkath, setZakkath] = useState(false);
     const [quickRejectMode, setQuickRejectMode] = useState(false);
@@ -58,14 +58,57 @@ function Action() {
     const [siblingsIncome, setSiblingsIncome] = useState('');
     const [isSubmitEnabled, setSubmitEnabled] = useState(false);
     const apiUrl = process.env.REACT_APP_API_URL;
-    const [notification, setNotification] = useState({ message: '', type: '' });
+    const [notification, setNotification] = useState({message: '', type: ''});
 
     const showNotification = (message, type) => {
-        setNotification({ message, type });
+        setNotification({message, type});
         setTimeout(() => {
-            setNotification({ message: '', type: '' });
+            setNotification({message: '', type: ''});
         }, 5000);
     };
+
+
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [scholdonar, setScholdonar] = useState('');
+    const [showDropdown, setShowDropdown] = useState(false);
+    const wrapperRef = useRef(null);
+
+    // const filteredOptions = Array.isArray(filteredDonars)
+    //     ? filteredDonars.filter(
+    //         (donar) =>
+    //             donar.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    //             donar.did.toLowerCase().includes(searchTerm.toLowerCase())
+    //     ).sort((a, b) => a.name.localeCompare(b.name))
+    //     : [];
+
+
+    const filteredOptions = Array.isArray(filteredDonars)
+        ? filteredDonars.filter(
+            (donar) =>
+                donar.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                donar.did.toLowerCase().includes(searchTerm.toLowerCase())
+        ).sort((a, b) => a.name.localeCompare(b.name))
+        : [];
+
+    const handleSelect = (donar) => {
+        setScholdonar(donar._id);
+        setSearchTerm(`${donar.name} (${donar.did})`);
+        setShowDropdown(false);
+    };
+
+    // Hide dropdown if clicked outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+
 
     useEffect(() => {
         const fetchYear = async () => {
@@ -109,7 +152,7 @@ function Action() {
 
     useEffect(() => {
         let filtered = Array.isArray(donars) ? donars : [];
-        if (allDonars) { setFilteredDonars(filtered) }
+        if (allDonars) {setFilteredDonars(filtered)}
         else if (scholtype && scholamt) {
             const amount = parseFloat(scholamt);
             filtered = filtered.filter((donar) =>
@@ -117,7 +160,7 @@ function Action() {
             );
             setFilteredDonars(filtered);
         }
-        else { setFilteredDonars(filtered) }
+        else {setFilteredDonars(filtered)}
     }, [scholtype, zakkath, donars, scholamt, allDonars]);
 
     // Use Effect to Filter Users
@@ -227,7 +270,7 @@ function Action() {
     }, []);
 
     useEffect(() => {
-        handleRadioChange({ target: { value: 'all' } });
+        handleRadioChange({target: {value: 'all'}});
     }, []);
 
     const handleSearch = (e) => {
@@ -263,14 +306,14 @@ function Action() {
     };
 
     const handleSpecialCategoryChange = (e) => {
-        const { name, checked } = e.target;
-        setSpecialCategories(prevState => ({ ...prevState, [name.toLowerCase()]: checked }));
+        const {name, checked} = e.target;
+        setSpecialCategories(prevState => ({...prevState, [name.toLowerCase()]: checked}));
     };
 
     const handleStaffverifyChange = (e) => {
-        const { name, checked } = e.target;
+        const {name, checked} = e.target;
         console.log(name, checked)
-        setStaffverify(prevState => ({ ...prevState, [name]: checked }))
+        setStaffverify(prevState => ({...prevState, [name]: checked}))
         // console.log("staff",staffverify)
     }
 
@@ -463,7 +506,7 @@ function Action() {
 
     const handleQuickRejectReasonChange = (e, userId) => {
         setQuickRejectList(prevState => prevState.map(user =>
-            user._id === userId ? { ...user, rejectReason: e.target.value } : user
+            user._id === userId ? {...user, rejectReason: e.target.value} : user
         ));
     };
 
@@ -527,8 +570,8 @@ function Action() {
     // Save Button
     const ScholSubmit = async (e) => {
         e.preventDefault();
-        const newSubmission = { scholtype, scholdonar, scholamt };
-        if (!scholdonar || !scholamt) { alert("Please select donor and enter amount."); return }
+        const newSubmission = {scholtype, scholdonar, scholamt};
+        if (!scholdonar || !scholamt) {alert("Please select donor and enter amount."); return }
         setSubmittedData(prev => [...prev, newSubmission]);
         refreshInputs();
         setSubmitEnabled(true);
@@ -542,6 +585,7 @@ function Action() {
             alert("No scholarship data to submit.");
             return
         }
+        console.log("oanr",scholdonar)
 
         try {
 
@@ -554,7 +598,7 @@ function Action() {
                 amount: entry.scholamt, balanceField
             }));
 
-            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, { donors: donorUpdates });
+            const donorRes = await axios.put(`${apiUrl}/api/admin/donar/multiple`, {donors: donorUpdates});
 
             if (!donorRes.data.success) {
                 const failedList = donorRes.data.insufficient || [];
@@ -565,15 +609,15 @@ function Action() {
             }
 
             for (const entry of submittedData) {
-                const { scholdonar, scholamt, scholtype } = entry;
+                const {scholdonar, scholamt, scholtype} = entry;
                 const saveAmountResponse = await axios.post(`${apiUrl}/api/admin/freshamt`, {
                     registerNo, name, dept, scholtype, scholdonar,
                     scholamt, acyear, fresherOrRenewal
                 })
-                if (!saveAmountResponse.data.success) { alert(`Failed to save scholarship for Donor ID ${scholdonar}`); return }
+                if (!saveAmountResponse.data.success) {alert(`Failed to save scholarship for Donor ID ${scholdonar}`); return }
             }
 
-            await axios.post(`${apiUrl}/api/admin/action`, { registerNo });
+            await axios.post(`${apiUrl}/api/admin/action`, {registerNo});
             alert("All Scholarships Submitted Successfully.");
             setSubmittedData([]); closeModal();
             window.location.reload()
@@ -777,10 +821,10 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Application Status</h2>
                                 <div className="flex gap-4">
                                     {[
-                                        { value: "allar", label: "All" },
-                                        { value: "1", label: "Accepted" },
-                                        { value: "2", label: "Rejected" },
-                                    ].map(({ value, label }) => (
+                                        {value: "allar", label: "All"},
+                                        {value: "1", label: "Accepted"},
+                                        {value: "2", label: "Rejected"},
+                                    ].map(({value, label}) => (
                                         <label key={value} className="flex items-center gap-2 text-gray-700 text-base">
                                             <input
                                                 type="radio"
@@ -843,14 +887,14 @@ function Action() {
                                 <h2 className="text-lg font-semibold text-gray-800 mb-5">Student Special Categories</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                                     {[
-                                        { id: "orphan", label: "Orphan" },
-                                        { id: "muaddin", label: "Mu-addin" },
-                                        { id: "hazrath", label: "Hazrath" },
-                                        { id: "fathermotherseparated", label: "Parent Separated" },
-                                        { id: "fatherExpired", label: "Father Expired" },
-                                        { id: "singleparent", label: "Single Parent" },
-                                        { id: "general", label: "General" },
-                                    ].map(({ id, label }) => (
+                                        {id: "orphan", label: "Orphan"},
+                                        {id: "muaddin", label: "Mu-addin"},
+                                        {id: "hazrath", label: "Hazrath"},
+                                        {id: "fathermotherseparated", label: "Parent Separated"},
+                                        {id: "fatherExpired", label: "Father Expired"},
+                                        {id: "singleparent", label: "Single Parent"},
+                                        {id: "general", label: "General"},
+                                    ].map(({id, label}) => (
                                         <label key={id} className="flex items-center gap-3 text-gray-700 text-md">
                                             <input
                                                 type="checkbox"
@@ -888,7 +932,7 @@ function Action() {
                                         <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                             Dept
                                         </th>
-                                        {radioValue === 'in-progress' && (
+                                        {(radioValue === 'in-progress' && progressRadioValue === 'renewal') &&(
                                             <th className="px-3 py-4 text-center text-md font-semibold text-white border-r border-gray-300">
                                                 Last Time Credited Amt
                                             </th>
@@ -917,7 +961,7 @@ function Action() {
                                                 <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                     {user.dept}
                                                 </td>
-                                                {radioValue === 'in-progress' && (
+                                                {(radioValue === 'in-progress' && progressRadioValue === 'renewal') && (
                                                     <td className="px-3 py-3 text-center text-md text-gray-700 uppercase border-r">
                                                         {user.lastCreditedAmt || 0}
                                                     </td>
@@ -1187,7 +1231,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({ message: '', type: '' })}
+                        onClose={() => setNotification({message: '', type: ''})}
                     />
                     <div className="bg-white w-[90%] max-w-6xl max-h-[90vh] rounded-2xl overflow-y-auto shadow-2xl p-8">
                         <form onSubmit={acceptSubmit} className="space-y-10">
@@ -1240,22 +1284,30 @@ function Action() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-gray-700 font-semibold mb-3">Donor</label>
-                                <select
-                                    value={scholdonar}
-                                    onChange={(e) => setScholdonar(e.target.value)}
+                                <input
+                                    type="text"
+                                    placeholder="Enter donor name or ID"
+                                    value={searchTerm}
+                                    onChange={(e) => {
+                                        setSearchTerm(e.target.value);
+                                        setShowDropdown(true);
+                                    }}
                                     className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                >
-                                    <option value="">Select Donor</option>
-                                    {Array.isArray(filteredDonars) &&
-                                        filteredDonars
-                                            .sort((a, b) => a.name.localeCompare(b.name)) // Sort by name in ascending order
-                                            .map((donar) => (
-                                                <option key={donar._id} value={donar._id}>
-                                                    {donar.name}
-                                                </option>
-                                            ))}
-                                </select>
+                                />
+
+                                {showDropdown && filteredOptions.length > 0 && (
+                                    <div className="absolute z-10  bg-white border border-gray-300 rounded-lg mt-1 max-h-60 overflow-y-auto shadow-lg">
+                                        {filteredOptions.map((donar) => (
+                                            <div
+                                                key={donar.did}
+                                                onClick={() => handleSelect(donar)}
+                                                className="px-4 py-2 cursor-pointer hover:bg-blue-100"
+                                            >
+                                                {donar.name} ({donar.did})
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
 
                             </div>
                             {/* Confirm Button */}
@@ -1329,7 +1381,7 @@ function Action() {
                     <Notification
                         message={notification.message}
                         type={notification.type}
-                        onClose={() => setNotification({ message: '', type: '' })}
+                        onClose={() => setNotification({message: '', type: ''})}
                     />
                     <div className="bg-white w-[80%] max-w-4xl rounded-xl overflow-y-auto shadow-lg p-6">
                         <form onSubmit={submitReject} className="space-y-8">
@@ -1404,14 +1456,14 @@ function Action() {
     )
 }
 
-const Detail = ({ label, value }) => (
+const Detail = ({label, value}) => (
     <div className="text-base space-y-1">
         <p className="text-slate-700 font-lightbold">{label}</p>
         <p className="uppercase font-bold text-slate-900">{value || '-'}</p>
     </div>
 )
 
-const Field = ({ label, value }) => (
+const Field = ({label, value}) => (
     <div className="flex flex-col gap-2">
         <label className="text-md text-gray-500">{label}</label>
         <div className="text-md font-semibold text-gray-800 uppercase">{value}</div>
