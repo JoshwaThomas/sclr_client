@@ -66,18 +66,19 @@ const Donar = () => {
 		printWindow.print();
 	};
 
+	// Submit Buttion for Adding Donar
 	const Submit = async (e) => {
 		e.preventDefault();
 		try {
-
 			const { data: yearRes } = await axios.get(`${apiUrl}/api/admin/current-acyear`);
 			if (!yearRes?.success) return alert("Failed to fetch academic year");
 			const acyear = yearRes.acyear?.acyear;
-
 			const payload = { ...formData, acyear };
 			const { data: donorRes } = await axios.post(`${apiUrl}/api/admin/donardata`, payload);
-
-			if (donorRes?.success) { alert("New Donar Added Successfully") }
+			if (donorRes?.success) {
+				alert("New Donar Added Successfully")
+				window.location.reload();
+			}
 			else if (donorRes.message === 'Donor Already Existing') { alert("Donor ID Already Exists") }
 			else { alert("Something went wrong. Please try again.") }
 		} catch (err) { alert("Submission Failed!") }
@@ -306,9 +307,9 @@ const Donar = () => {
 					<button type="submit" className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md font-semibold">
 						Submit
 					</button>
-					<button type="button" onClick={handlePrint} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold">
+					{/* <button type="button" onClick={handlePrint} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-semibold">
 						Print
-					</button>
+					</button> */}
 				</div>
 			</form>
 			{/* Hidden Print Section */}

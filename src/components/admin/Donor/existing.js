@@ -733,7 +733,10 @@ function Existing() {
                     ...(zakkathamt && { zakkathamt }), ...(zakkathbal && { zakkathbal })
                 };
                 const result = await axios.post(`${apiUrl}/api/admin/donar`, postData);
-                if (result) { window.alert("Your Application Updated Successfully") }
+                if (result) { 
+                    window.alert("Donar Amount has been Updated Successfully");
+                    window.location.reload();
+                }
             }
         } catch (err) {
             console.error(err);
