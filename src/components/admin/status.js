@@ -731,7 +731,7 @@ function Status() {
                                 </div>
                             )}
                             {/* Action Buttons */}
-                            <div className="flex justify-end gap-4 pt-8 border-t border-gray-200">
+                            <div className="flex justify-between gap-4 pt-8 border-t border-gray-200">
                                 {/* Negative Donars */}
                                 <div className="flex items-center">
                                     <input

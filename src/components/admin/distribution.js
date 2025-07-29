@@ -15,27 +15,26 @@ function Distribution() {
     const apiUrl = process.env.REACT_APP_API_URL;
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [usersRes, donorsRes] = await Promise.all([
-                    axios.get(`${apiUrl}/api/admin/freshamt`),
-                    axios.get(`${apiUrl}/api/admin/donors`)
-                ]);
-                const donorMap = donorsRes.data.reduce((map, donor) => {
-                    map[donor._id] = donor.name;
-                    return map;
-                }, {});
-                setUsers(usersRes.data);
-                console.log('Users :', users)
-                setFilterUsers(usersRes.data);
-                console.log('Filters :', users)
-                setDonorMapping(donorMap);
-                console.log('DonarMap :', users)
+    const fetchData = async () => {
+        try {
+            const [usersRes, donorsRes] = await Promise.all([
+                axios.get(`${apiUrl}/api/admin/freshamt`),
+                axios.get(`${apiUrl}/api/admin/donors`)
+            ]);
+            const donorMap = donorsRes.data.reduce((map, donor) => {
+                map[donor._id] = donor.name;
+                return map;
+            }, {});
+            setUsers(usersRes.data);
+            setFilterUsers(usersRes.data);
+            setDonorMapping(donorMap);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    fetchData();
+}, [apiUrl]);
 
-            } catch (err) { console.error(err) }
-        };
-        fetchData();
-    }, [apiUrl]);
 
     useEffect(() => {
         axios.get(`${apiUrl}/api/dashboard/counts`)
@@ -71,11 +70,12 @@ function Distribution() {
     }).format(amount);
 
     const handleDownload = () => {
-        const headers = ['REG NO', 'NAME', 'DEPARTMENT', 'TYPE', 'DONOR NAME', 'AMOUNT'];
+        const headers = ['REG NO', 'NAME', 'DEPARTMENT','CATEGORY', 'TYPE', 'DONOR NAME', 'AMOUNT'];
         const sheetData = [headers, ...users.map(u => [
             u.registerNo,
             u.name,
             u.dept,
+            u.procategory,
             u.scholtype,
             donorMapping[u.scholdonar] || u.scholdonar,
             formatCurrency(u.scholamt)
@@ -87,7 +87,7 @@ function Distribution() {
         const data = new Blob([excelBuffer], {
             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
         });
-        saveAs(data, 'Distribution_Statement.xlsx');
+        saveAs(data, 'Distribution Statement.xlsx');
     }
 
     if (!data) {
@@ -120,14 +120,14 @@ function Distribution() {
             <div className="text-right font-semibold mb-3 text-lg">
                 Total Students : {filterUsers.length}
             </div>
-            <div className="overflow-x-auto rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
+            <div className="rounded-lg shadow ring-1 font-semibold ring-black ring-opacity-5">
                 <table className="min-w-full divide-y divide-gray-200 border border-gray-300">
                     <thead className="bg-emerald-700">
                         <tr>
                             <th className="px-4 py-3 text-center text-md font-semibold text-white border-r border-gray-300 w-[6%]">
                                 S.No
                             </th>
-                            {['Reg No', 'Name', 'Department', 'Type', 'Donor Name', 'Amount'].map((heading) => (
+                            {['Reg No', 'Name', 'Department','Category', 'Type', 'Donor Name', 'Amount'].map((heading) => (
                                 <th
                                     key={heading}
                                     className="px-6 py-4 text-center text-md font-semibold text-white border-r border-gray-300"
@@ -153,6 +153,9 @@ function Distribution() {
                                     </td>
                                     <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
                                         {user.dept}
+                                    </td>
+                                    <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
+                                        {user.procategory}
                                     </td>
                                     <td className="px-6 py-3 text-center text-sm text-gray-700 uppercase border-r">
                                         {user.scholtype}
